@@ -23,6 +23,13 @@ export function AuthShell({
       </div>
       {children}
       <p className="text-muted text-center text-sm">{footer}</p>
+      <p className="text-muted text-center text-xs">
+        Ao continuar, você concorda com a nossa{" "}
+        <Link href="/privacidade" className="underline">
+          Política de Privacidade
+        </Link>
+        .
+      </p>
     </main>
   );
 }

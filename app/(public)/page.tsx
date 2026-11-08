@@ -28,6 +28,11 @@ export default function LandingPage() {
           Já tenho conta
         </Link>
       </div>
+      <footer className="text-muted mt-6 text-sm">
+        <Link href="/privacidade" className="underline">
+          Política de Privacidade
+        </Link>
+      </footer>
     </main>
   );
 }
