@@ -77,7 +77,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 ### Fase 1 — Disciplinas e catálogo (10–12/11)
 - [ ] Migrações: catálogo, `subjects`, `chapters`, `topics`, `calibrations`
 - [ ] Seed do catálogo (`supabase/seed/catalog/*.json`) com os livros do `DESIGN.md` §7, todos `verified = false`
-- [ ] Gerar `docs/catalogo-revisao.md`: lista de livros/edições/capítulos para a dupla conferir as páginas
+- [x] Gerar `docs/catalogo-revisao.md`: lista de livros/edições/capítulos para a dupla conferir as páginas
 - [ ] Criar disciplina pelo catálogo (escolher livro → selecionar capítulos/tópicos → copiar estrutura)
 - [ ] Criar disciplina manual (capítulos, tópicos, páginas inicial/final)
 - [ ] Página da disciplina: lista com checkboxes; marcar tópico soma as páginas; editar/reordenar/excluir
