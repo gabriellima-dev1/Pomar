@@ -1,3 +1,8 @@
+# ATENÇÃO: este arquivo vale só para o Supabase LOCAL (supabase start).
+# NÃO rode `supabase config push` com ele: a config de Auth do projeto remoto
+# (Site URL, Redirect URLs, Google) é gerenciada no painel do Supabase e seria
+# sobrescrita. Ver docs/DECISOES.md.
+
 # For detailed configuration reference documentation, visit:
 # https://supabase.com/docs/guides/local-development/cli/config
 # A string used to distinguish different Supabase projects on the same host. Defaults to the
