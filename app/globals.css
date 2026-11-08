@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/*
+ * Tokens neutros provisórios. Serão substituídos pelos tokens aprovados
+ * em docs/design/tokens.json (design system "Pomar").
+ */
+:root {
+  --background: #fbfaf7;
+  --surface: #ffffff;
+  --foreground: #1f2421;
+  --muted: #5c645f;
+  --border: #dcdfd8;
+  --primary: #2f6b3f;
+  --primary-foreground: #ffffff;
+  --accent: #c8432f;
+  --danger: #b42318;
+  --ring: #1f5ea8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #121513;
+    --surface: #1b1f1c;
+    --foreground: #eef1ec;
+    --muted: #a7b0aa;
+    --border: #333a35;
+    --primary: #6fbf82;
+    --primary-foreground: #0e1a12;
+    --accent: #ef7a63;
+    --danger: #f97066;
+    --ring: #84b6f4;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Foco de teclado sempre visível (CLAUDE.md › Interface). */
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
