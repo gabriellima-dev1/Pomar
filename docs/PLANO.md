@@ -63,12 +63,12 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 ## 4. Fases
 
 ### Fase 0 — Fundação (08–09/11)
-- [ ] Next.js (App Router) + TypeScript estrito + Tailwind + ESLint/Prettier
-- [ ] Supabase: cliente browser/servidor (`@supabase/ssr`), migrações versionadas em `supabase/migrations/`
-- [ ] Auth: e-mail/senha + Google, páginas de login/cadastro, middleware de rotas protegidas
-- [ ] Tabela `profiles` criada por trigger no cadastro; RLS ligada
-- [ ] Helper de telemetria `track(name, props)` + tabela `telemetry_events` (instrumentar desde já)
-- [ ] Vitest configurado; CI (GitHub Actions) com lint + typecheck + test
+- [x] Next.js (App Router) + TypeScript estrito + Tailwind + ESLint/Prettier
+- [x] Supabase: cliente browser/servidor (`@supabase/ssr`), migrações versionadas em `supabase/migrations/`
+- [x] Auth: e-mail/senha + Google, páginas de login/cadastro, middleware de rotas protegidas
+- [x] Tabela `profiles` criada por trigger no cadastro; RLS ligada
+- [x] Helper de telemetria `track(name, props)` + tabela `telemetry_events` (instrumentar desde já)
+- [x] Vitest configurado; CI (GitHub Actions) com lint + typecheck + test
 - [ ] Push da estrutura; **avisar a dupla** para importar o projeto na Vercel e configurar as URLs de retorno (tutorial, 5.2 e 5.3)
 - [ ] Deploy na Vercel funcionando com login
 

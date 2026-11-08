@@ -78,10 +78,11 @@ docs/
 ```
 npm run dev          # servidor local
 npm run lint
-npm run typecheck
+npm run typecheck    # next typegen + tsc
 npm test             # Vitest
 npm run test:e2e     # Playwright
-npx supabase db push # aplicar migrações
+npm run db:push      # aplicar migrações (supabase db push --remote; carregar .env.local antes)
+npm run db:types     # regenerar lib/supabase/database.types.ts
 ```
 (Ajuste esta seção se os scripts mudarem.)
 
