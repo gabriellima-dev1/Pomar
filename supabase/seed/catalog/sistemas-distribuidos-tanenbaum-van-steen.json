@@ -1,0 +1,449 @@
+{
+  "slug": "sistemas-distribuidos-tanenbaum-van-steen",
+  "title": "Sistemas Distribuídos: Princípios e Paradigmas",
+  "authors": ["Andrew S. Tanenbaum", "Maarten van Steen"],
+  "edition": "2ª ed.",
+  "publisher": "Pearson Prentice Hall",
+  "year": 2007,
+  "isbn": null,
+  "total_pages": 402,
+  "verified": false,
+  "source_note": "Estrutura e páginas do sumário da 2ª ed. em inglês (Prentice Hall, 2007), publicado em catálogo de livraria (eCampus). Páginas convertidas proporcionalmente para as 402 p. da edição em português; títulos traduzidos por nós (podem diferir da tradução oficial). Total de páginas e ISBN a confirmar.",
+  "chapters": [
+    {
+      "title": "1. Introdução",
+      "topics": [
+        {
+          "title": "1.1 Definição de sistema distribuído",
+          "page_start": 1,
+          "page_end": 1
+        },
+        {
+          "title": "1.2 Metas",
+          "page_start": 2,
+          "page_end": 10
+        },
+        {
+          "title": "1.3 Tipos de sistemas distribuídos",
+          "page_start": 11,
+          "page_end": 20
+        }
+      ]
+    },
+    {
+      "title": "2. Arquiteturas",
+      "topics": [
+        {
+          "title": "2.1 Estilos arquitetônicos",
+          "page_start": 21,
+          "page_end": 21
+        },
+        {
+          "title": "2.2 Arquiteturas de sistemas",
+          "page_start": 22,
+          "page_end": 33
+        },
+        {
+          "title": "2.3 Arquiteturas versus middleware",
+          "page_start": 34,
+          "page_end": 36
+        },
+        {
+          "title": "2.4 Autogerenciamento em sistemas distribuídos",
+          "page_start": 37,
+          "page_end": 43
+        }
+      ]
+    },
+    {
+      "title": "3. Processos",
+      "topics": [
+        {
+          "title": "3.1 Threads",
+          "page_start": 44,
+          "page_end": 48
+        },
+        {
+          "title": "3.2 Virtualização",
+          "page_start": 49,
+          "page_end": 50
+        },
+        {
+          "title": "3.3 Clientes",
+          "page_start": 51,
+          "page_end": 54
+        },
+        {
+          "title": "3.4 Servidores",
+          "page_start": 55,
+          "page_end": 63
+        },
+        {
+          "title": "3.5 Migração de código",
+          "page_start": 64,
+          "page_end": 72
+        }
+      ]
+    },
+    {
+      "title": "4. Comunicação",
+      "topics": [
+        {
+          "title": "4.1 Fundamentos",
+          "page_start": 73,
+          "page_end": 77
+        },
+        {
+          "title": "4.2 Chamada de procedimento remoto",
+          "page_start": 78,
+          "page_end": 87
+        },
+        {
+          "title": "4.3 Comunicação orientada a mensagens",
+          "page_start": 88,
+          "page_end": 97
+        },
+        {
+          "title": "4.4 Comunicação orientada a fluxo",
+          "page_start": 98,
+          "page_end": 103
+        },
+        {
+          "title": "4.5 Comunicação multicast",
+          "page_start": 104,
+          "page_end": 112
+        }
+      ]
+    },
+    {
+      "title": "5. Nomeação",
+      "topics": [
+        {
+          "title": "5.1 Nomes, identificadores e endereços",
+          "page_start": 113,
+          "page_end": 113
+        },
+        {
+          "title": "5.2 Nomeação simples",
+          "page_start": 114,
+          "page_end": 121
+        },
+        {
+          "title": "5.3 Nomeação estruturada",
+          "page_start": 122,
+          "page_end": 135
+        },
+        {
+          "title": "5.4 Nomeação baseada em atributos",
+          "page_start": 136,
+          "page_end": 144
+        }
+      ]
+    },
+    {
+      "title": "6. Sincronização",
+      "topics": [
+        {
+          "title": "6.1 Sincronização de relógios",
+          "page_start": 145,
+          "page_end": 152
+        },
+        {
+          "title": "6.2 Relógios lógicos",
+          "page_start": 153,
+          "page_end": 157
+        },
+        {
+          "title": "6.3 Exclusão mútua",
+          "page_start": 158,
+          "page_end": 162
+        },
+        {
+          "title": "6.4 Posicionamento global de nós",
+          "page_start": 163,
+          "page_end": 164
+        },
+        {
+          "title": "6.5 Algoritmos de eleição",
+          "page_start": 165,
+          "page_end": 171
+        }
+      ]
+    },
+    {
+      "title": "7. Consistência e replicação",
+      "topics": [
+        {
+          "title": "7.1 Introdução",
+          "page_start": 172,
+          "page_end": 172
+        },
+        {
+          "title": "7.2 Modelos de consistência centrados em dados",
+          "page_start": 173,
+          "page_end": 179
+        },
+        {
+          "title": "7.3 Modelos de consistência centrados no cliente",
+          "page_start": 180,
+          "page_end": 184
+        },
+        {
+          "title": "7.4 Gerenciamento de réplicas",
+          "page_start": 185,
+          "page_end": 191
+        },
+        {
+          "title": "7.5 Protocolos de consistência",
+          "page_start": 192,
+          "page_end": 201
+        }
+      ]
+    },
+    {
+      "title": "8. Tolerância a falha",
+      "topics": [
+        {
+          "title": "8.1 Introdução à tolerância a falha",
+          "page_start": 202,
+          "page_end": 204
+        },
+        {
+          "title": "8.2 Resiliência de processo",
+          "page_start": 205,
+          "page_end": 209
+        },
+        {
+          "title": "8.3 Comunicação confiável cliente-servidor",
+          "page_start": 210,
+          "page_end": 214
+        },
+        {
+          "title": "8.4 Comunicação confiável de grupo",
+          "page_start": 215,
+          "page_end": 221
+        },
+        {
+          "title": "8.5 Comprometimento distribuído",
+          "page_start": 222,
+          "page_end": 226
+        },
+        {
+          "title": "8.6 Recuperação",
+          "page_start": 227,
+          "page_end": 236
+        }
+      ]
+    },
+    {
+      "title": "9. Segurança",
+      "topics": [
+        {
+          "title": "9.1 Introdução à segurança",
+          "page_start": 237,
+          "page_end": 247
+        },
+        {
+          "title": "9.2 Canais seguros",
+          "page_start": 248,
+          "page_end": 258
+        },
+        {
+          "title": "9.3 Controle de acesso",
+          "page_start": 259,
+          "page_end": 267
+        },
+        {
+          "title": "9.4 Gerenciamento da segurança",
+          "page_start": 268,
+          "page_end": 276
+        }
+      ]
+    },
+    {
+      "title": "10. Sistemas distribuídos baseados em objetos",
+      "topics": [
+        {
+          "title": "10.1 Arquitetura",
+          "page_start": 277,
+          "page_end": 281
+        },
+        {
+          "title": "10.2 Processos",
+          "page_start": 282,
+          "page_end": 285
+        },
+        {
+          "title": "10.3 Comunicação",
+          "page_start": 286,
+          "page_end": 291
+        },
+        {
+          "title": "10.4 Nomeação",
+          "page_start": 292,
+          "page_end": 293
+        },
+        {
+          "title": "10.5 Sincronização",
+          "page_start": 294,
+          "page_end": 295
+        },
+        {
+          "title": "10.6 Consistência e replicação",
+          "page_start": 296,
+          "page_end": 298
+        },
+        {
+          "title": "10.7 Tolerância a falha",
+          "page_start": 299,
+          "page_end": 300
+        },
+        {
+          "title": "10.8 Segurança",
+          "page_start": 301,
+          "page_end": 306
+        }
+      ]
+    },
+    {
+      "title": "11. Sistemas de arquivos distribuídos",
+      "topics": [
+        {
+          "title": "11.1 Arquitetura",
+          "page_start": 307,
+          "page_end": 313
+        },
+        {
+          "title": "11.2 Processos",
+          "page_start": 314,
+          "page_end": 314
+        },
+        {
+          "title": "11.3 Comunicação",
+          "page_start": 315,
+          "page_end": 316
+        },
+        {
+          "title": "11.4 Nomeação",
+          "page_start": 317,
+          "page_end": 320
+        },
+        {
+          "title": "11.5 Sincronização",
+          "page_start": 321,
+          "page_end": 324
+        },
+        {
+          "title": "11.6 Consistência e replicação",
+          "page_start": 325,
+          "page_end": 330
+        },
+        {
+          "title": "11.7 Tolerância a falha",
+          "page_start": 331,
+          "page_end": 332
+        },
+        {
+          "title": "11.8 Segurança",
+          "page_start": 333,
+          "page_end": 341
+        }
+      ]
+    },
+    {
+      "title": "12. Sistemas distribuídos baseados na Web",
+      "topics": [
+        {
+          "title": "12.1 Arquitetura",
+          "page_start": 342,
+          "page_end": 346
+        },
+        {
+          "title": "12.2 Processos",
+          "page_start": 347,
+          "page_end": 350
+        },
+        {
+          "title": "12.3 Comunicação",
+          "page_start": 351,
+          "page_end": 354
+        },
+        {
+          "title": "12.4 Nomeação",
+          "page_start": 355,
+          "page_end": 355
+        },
+        {
+          "title": "12.5 Sincronização",
+          "page_start": 356,
+          "page_end": 356
+        },
+        {
+          "title": "12.6 Consistência e replicação",
+          "page_start": 357,
+          "page_end": 363
+        },
+        {
+          "title": "12.7 Tolerância a falha",
+          "page_start": 364,
+          "page_end": 365
+        },
+        {
+          "title": "12.8 Segurança",
+          "page_start": 366,
+          "page_end": 368
+        }
+      ]
+    },
+    {
+      "title": "13. Sistemas distribuídos baseados em coordenação",
+      "topics": [
+        {
+          "title": "13.1 Introdução a modelos de coordenação",
+          "page_start": 369,
+          "page_end": 369
+        },
+        {
+          "title": "13.2 Arquiteturas",
+          "page_start": 370,
+          "page_end": 375
+        },
+        {
+          "title": "13.3 Processos",
+          "page_start": 376,
+          "page_end": 376
+        },
+        {
+          "title": "13.4 Comunicação",
+          "page_start": 377,
+          "page_end": 377
+        },
+        {
+          "title": "13.5 Nomeação",
+          "page_start": 378,
+          "page_end": 379
+        },
+        {
+          "title": "13.6 Sincronização",
+          "page_start": 380,
+          "page_end": 380
+        },
+        {
+          "title": "13.7 Consistência e replicação",
+          "page_start": 381,
+          "page_end": 383
+        },
+        {
+          "title": "13.8 Tolerância a falha",
+          "page_start": 384,
+          "page_end": 385
+        },
+        {
+          "title": "13.9 Segurança",
+          "page_start": 386,
+          "page_end": 390
+        }
+      ]
+    }
+  ]
+}
