@@ -70,7 +70,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [x] Helper de telemetria `track(name, props)` + tabela `telemetry_events` (instrumentar desde já)
 - [x] Vitest configurado; CI (GitHub Actions) com lint + typecheck + test
 - [x] Push da estrutura; **avisar a dupla** para importar o projeto na Vercel e configurar as URLs de retorno (tutorial, 5.2 e 5.3)
-- [ ] Deploy na Vercel funcionando com login
+- [x] Deploy na Vercel funcionando com login — produção: https://pomar-neon.vercel.app (aceite em 08/11)
 
 **Aceite:** criar conta por e-mail e por Google no link de produção; usuário aparece em `profiles`; evento `signup_completed` registrado.
 
