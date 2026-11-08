@@ -44,6 +44,8 @@ npm test             # Vitest
 npm run format       # Prettier
 npm run db:push      # aplica migrações no Supabase remoto (supabase db push)
 npm run db:types     # regenera lib/supabase/database.types.ts
+npm run db:seed:catalog  # carrega o catálogo (supabase/seed/catalog/*.json) no Supabase
+npm run catalog:review   # regenera docs/catalogo-revisao.md
 ```
 
 Para os comandos do Supabase, carregue a senha do banco antes: `set -a; source .env.local; set +a`.
