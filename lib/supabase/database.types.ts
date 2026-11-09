@@ -14,6 +14,115 @@ export type Database = {
   }
   public: {
     Tables: {
+      catalog_books: {
+        Row: {
+          authors: string
+          created_at: string
+          edition: string
+          id: string
+          publisher: string | null
+          slug: string
+          source_note: string | null
+          title: string
+          total_pages: number | null
+          updated_at: string
+          verified: boolean
+          year: number | null
+        }
+        Insert: {
+          authors: string
+          created_at?: string
+          edition: string
+          id?: string
+          publisher?: string | null
+          slug: string
+          source_note?: string | null
+          title: string
+          total_pages?: number | null
+          updated_at?: string
+          verified?: boolean
+          year?: number | null
+        }
+        Update: {
+          authors?: string
+          created_at?: string
+          edition?: string
+          id?: string
+          publisher?: string | null
+          slug?: string
+          source_note?: string | null
+          title?: string
+          total_pages?: number | null
+          updated_at?: string
+          verified?: boolean
+          year?: number | null
+        }
+        Relationships: []
+      }
+      catalog_chapters: {
+        Row: {
+          book_id: string
+          id: string
+          position: number
+          title: string
+        }
+        Insert: {
+          book_id: string
+          id?: string
+          position: number
+          title: string
+        }
+        Update: {
+          book_id?: string
+          id?: string
+          position?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_chapters_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      catalog_topics: {
+        Row: {
+          chapter_id: string
+          id: string
+          page_end: number
+          page_start: number
+          position: number
+          title: string
+        }
+        Insert: {
+          chapter_id: string
+          id?: string
+          page_end: number
+          page_start: number
+          position: number
+          title: string
+        }
+        Update: {
+          chapter_id?: string
+          id?: string
+          page_end?: number
+          page_start?: number
+          position?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_topics_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_chapters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
