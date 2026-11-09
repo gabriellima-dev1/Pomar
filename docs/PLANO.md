@@ -78,13 +78,13 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [x] Migrações: catálogo, `subjects`, `chapters`, `topics`, `calibrations`
 - [x] Seed do catálogo (`supabase/seed/catalog/*.json`) com os livros do `DESIGN.md` §7, todos `verified = false` (8 livros; Szwarcfiter pendente)
 - [x] Gerar `docs/catalogo-revisao.md`: lista de livros/edições/capítulos para a dupla conferir as páginas
-- [ ] Criar disciplina pelo catálogo (escolher livro → selecionar capítulos/tópicos → copiar estrutura)
-- [ ] Criar disciplina manual (capítulos, tópicos, páginas inicial/final)
-- [ ] Página da disciplina: lista com checkboxes; marcar tópico soma as páginas; editar/reordenar/excluir
-- [ ] Calibração: entrada direta + mini cronômetro; ritmo por disciplina e padrão global
+- [x] Criar disciplina pelo catálogo (escolher livro → selecionar capítulos/tópicos → copiar estrutura)
+- [x] Criar disciplina manual (capítulos, tópicos, páginas inicial/final)
+- [x] Página da disciplina: lista com checkboxes; marcar tópico soma as páginas; editar/reordenar/excluir
+- [x] Calibração: entrada direta + mini cronômetro; ritmo por disciplina e padrão global
 - [x] Funções puras de estimativa (`lib/estimates.ts`) com testes
 
-**Aceite:** criar uma disciplina a partir do Cormen escolhendo 3 capítulos; criar outra manual; calibrar com o cronômetro; marcar tópicos e ver o progresso e as estimativas mudarem.
+**Aceite:** criar uma disciplina a partir do Cormen escolhendo 3 capítulos; criar outra manual; calibrar com o cronômetro; marcar tópicos e ver o progresso e as estimativas mudarem. — **feito pela dupla em produção em 09/11; RLS verificada com `supabase/tests/rls_fase1.sql`.**
 
 ### Fase 2 — Pomodoro e tela inicial (12–14/11)
 - [ ] Motor do timer baseado em timestamps (`lib/timer.ts`), com testes: continua fora da aba, sobrevive a recarregar
