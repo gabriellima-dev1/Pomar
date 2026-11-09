@@ -3,6 +3,7 @@ export const PROTECTED_PREFIXES = [
   "/inicio",
   "/onboarding",
   "/disciplinas",
+  "/calibrar",
   "/pomodoro",
   "/conquistas",
   "/liga",

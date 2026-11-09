@@ -75,14 +75,14 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Aceite:** criar conta por e-mail e por Google no link de produção; usuário aparece em `profiles`; evento `signup_completed` registrado.
 
 ### Fase 1 — Disciplinas e catálogo (10–12/11)
-- [ ] Migrações: catálogo, `subjects`, `chapters`, `topics`, `calibrations`
-- [ ] Seed do catálogo (`supabase/seed/catalog/*.json`) com os livros do `DESIGN.md` §7, todos `verified = false`
-- [ ] Gerar `docs/catalogo-revisao.md`: lista de livros/edições/capítulos para a dupla conferir as páginas
+- [x] Migrações: catálogo, `subjects`, `chapters`, `topics`, `calibrations`
+- [x] Seed do catálogo (`supabase/seed/catalog/*.json`) com os livros do `DESIGN.md` §7, todos `verified = false` (8 livros; Szwarcfiter pendente)
+- [x] Gerar `docs/catalogo-revisao.md`: lista de livros/edições/capítulos para a dupla conferir as páginas
 - [ ] Criar disciplina pelo catálogo (escolher livro → selecionar capítulos/tópicos → copiar estrutura)
 - [ ] Criar disciplina manual (capítulos, tópicos, páginas inicial/final)
 - [ ] Página da disciplina: lista com checkboxes; marcar tópico soma as páginas; editar/reordenar/excluir
 - [ ] Calibração: entrada direta + mini cronômetro; ritmo por disciplina e padrão global
-- [ ] Funções puras de estimativa (`lib/estimates.ts`) com testes
+- [x] Funções puras de estimativa (`lib/estimates.ts`) com testes
 
 **Aceite:** criar uma disciplina a partir do Cormen escolhendo 3 capítulos; criar outra manual; calibrar com o cronômetro; marcar tópicos e ver o progresso e as estimativas mudarem.
 

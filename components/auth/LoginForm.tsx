@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { login, type AuthFormState } from "@/app/(public)/auth-actions";
-import { FormMessage, SubmitButton, TextField } from "./fields";
+import { FormMessage, SubmitButton, TextField } from "@/components/forms/fields";
 
 export function LoginForm({ next, initialError }: { next?: string; initialError?: string }) {
   const [state, action] = useActionState<AuthFormState, FormData>(login, {
