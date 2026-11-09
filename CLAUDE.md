@@ -83,6 +83,8 @@ npm test             # Vitest
 npm run test:e2e     # Playwright
 npm run db:push      # aplicar migrações (supabase db push --remote; carregar .env.local antes)
 npm run db:types     # regenerar lib/supabase/database.types.ts
+npm run db:seed:catalog  # carregar supabase/seed/catalog/*.json (lê .env.local, chave secreta)
+npm run catalog:review   # regenerar docs/catalogo-revisao.md a partir dos JSONs
 ```
 (Ajuste esta seção se os scripts mudarem.)
 

@@ -1,0 +1,469 @@
+{
+  "slug": "processamento-imagens-gonzalez-woods",
+  "title": "Processamento Digital de Imagens",
+  "authors": ["Rafael C. Gonzalez", "Richard E. Woods"],
+  "edition": "3ª ed.",
+  "publisher": "Pearson Prentice Hall",
+  "year": 2010,
+  "isbn": "978-85-7605-401-6",
+  "total_pages": 624,
+  "verified": false,
+  "source_note": "Estrutura e páginas do sumário da 3ª ed. em inglês (Pearson Prentice Hall, 2008), publicado pelos autores (páginas iniciais do livro). Páginas convertidas proporcionalmente para as 624 p. da edição em português; títulos traduzidos por nós (podem diferir da tradução oficial).",
+  "chapters": [
+    {
+      "title": "1. Introdução",
+      "topics": [
+        {
+          "title": "1.1 O que é processamento digital de imagens?",
+          "page_start": 1,
+          "page_end": 1
+        },
+        {
+          "title": "1.2 As origens do processamento digital de imagens",
+          "page_start": 2,
+          "page_end": 3
+        },
+        {
+          "title": "1.3 Exemplos de áreas que usam o processamento digital de imagens",
+          "page_start": 4,
+          "page_end": 15
+        },
+        {
+          "title": "1.4 Passos fundamentais em processamento digital de imagens",
+          "page_start": 16,
+          "page_end": 17
+        },
+        {
+          "title": "1.5 Componentes de um sistema de processamento de imagens",
+          "page_start": 18,
+          "page_end": 23
+        }
+      ]
+    },
+    {
+      "title": "2. Fundamentos da imagem digital",
+      "topics": [
+        {
+          "title": "2.1 Elementos da percepção visual",
+          "page_start": 24,
+          "page_end": 27
+        },
+        {
+          "title": "2.2 Luz e o espectro eletromagnético",
+          "page_start": 28,
+          "page_end": 29
+        },
+        {
+          "title": "2.3 Sensoriamento e aquisição de imagens",
+          "page_start": 30,
+          "page_end": 33
+        },
+        {
+          "title": "2.4 Amostragem e quantização de imagens",
+          "page_start": 34,
+          "page_end": 44
+        },
+        {
+          "title": "2.5 Alguns relacionamentos básicos entre pixels",
+          "page_start": 45,
+          "page_end": 46
+        },
+        {
+          "title": "2.6 Introdução às ferramentas matemáticas usadas no processamento digital de imagens",
+          "page_start": 47,
+          "page_end": 68
+        }
+      ]
+    },
+    {
+      "title": "3. Transformações de intensidade e filtragem espacial",
+      "topics": [
+        {
+          "title": "3.1 Conceitos básicos",
+          "page_start": 69,
+          "page_end": 69
+        },
+        {
+          "title": "3.2 Algumas funções básicas de transformação de intensidade",
+          "page_start": 70,
+          "page_end": 78
+        },
+        {
+          "title": "3.3 Processamento de histograma",
+          "page_start": 79,
+          "page_end": 94
+        },
+        {
+          "title": "3.4 Fundamentos da filtragem espacial",
+          "page_start": 95,
+          "page_end": 99
+        },
+        {
+          "title": "3.5 Filtros espaciais de suavização",
+          "page_start": 100,
+          "page_end": 102
+        },
+        {
+          "title": "3.6 Filtros espaciais de aguçamento",
+          "page_start": 103,
+          "page_end": 110
+        },
+        {
+          "title": "3.7 Combinando métodos de realce espacial",
+          "page_start": 111,
+          "page_end": 113
+        },
+        {
+          "title": "3.8 Técnicas fuzzy para transformações de intensidade e filtragem espacial",
+          "page_start": 114,
+          "page_end": 131
+        }
+      ]
+    },
+    {
+      "title": "4. Filtragem no domínio da frequência",
+      "topics": [
+        {
+          "title": "4.1 Conceitos básicos",
+          "page_start": 132,
+          "page_end": 132
+        },
+        {
+          "title": "4.2 Conceitos preliminares",
+          "page_start": 133,
+          "page_end": 138
+        },
+        {
+          "title": "4.3 Amostragem e a transformada de Fourier de funções amostradas",
+          "page_start": 139,
+          "page_end": 144
+        },
+        {
+          "title": "4.4 A transformada discreta de Fourier (DFT) de uma variável",
+          "page_start": 145,
+          "page_end": 147
+        },
+        {
+          "title": "4.5 Extensão para funções de duas variáveis",
+          "page_start": 148,
+          "page_end": 155
+        },
+        {
+          "title": "4.6 Algumas propriedades da DFT 2-D",
+          "page_start": 156,
+          "page_end": 167
+        },
+        {
+          "title": "4.7 Fundamentos da filtragem no domínio da frequência",
+          "page_start": 168,
+          "page_end": 176
+        },
+        {
+          "title": "4.8 Suavização de imagens usando filtros no domínio da frequência",
+          "page_start": 177,
+          "page_end": 184
+        },
+        {
+          "title": "4.9 Aguçamento de imagens usando filtros no domínio da frequência",
+          "page_start": 185,
+          "page_end": 193
+        },
+        {
+          "title": "4.10 Filtragem seletiva",
+          "page_start": 194,
+          "page_end": 195
+        },
+        {
+          "title": "4.11 Implementação",
+          "page_start": 196,
+          "page_end": 205
+        }
+      ]
+    },
+    {
+      "title": "5. Restauração e reconstrução de imagens",
+      "topics": [
+        {
+          "title": "5.1 Modelo do processo de degradação/restauração de imagens",
+          "page_start": 206,
+          "page_end": 206
+        },
+        {
+          "title": "5.2 Modelos de ruído",
+          "page_start": 207,
+          "page_end": 211
+        },
+        {
+          "title": "5.3 Restauração na presença somente de ruído: filtragem espacial",
+          "page_start": 212,
+          "page_end": 220
+        },
+        {
+          "title": "5.4 Redução de ruído periódico por filtragem no domínio da frequência",
+          "page_start": 221,
+          "page_end": 225
+        },
+        {
+          "title": "5.5 Degradações lineares e invariantes no espaço",
+          "page_start": 226,
+          "page_end": 227
+        },
+        {
+          "title": "5.6 Estimativa da função de degradação",
+          "page_start": 228,
+          "page_end": 230
+        },
+        {
+          "title": "5.7 Filtragem inversa",
+          "page_start": 231,
+          "page_end": 231
+        },
+        {
+          "title": "5.8 Filtragem por mínimos quadrados médios (Wiener)",
+          "page_start": 232,
+          "page_end": 234
+        },
+        {
+          "title": "5.9 Filtragem por mínimos quadrados com restrição",
+          "page_start": 235,
+          "page_end": 237
+        },
+        {
+          "title": "5.10 Filtro de média geométrica",
+          "page_start": 238,
+          "page_end": 238
+        },
+        {
+          "title": "5.11 Reconstrução de imagens a partir de projeções",
+          "page_start": 239,
+          "page_end": 259
+        }
+      ]
+    },
+    {
+      "title": "6. Processamento de imagens coloridas",
+      "topics": [
+        {
+          "title": "6.1 Fundamentos das cores",
+          "page_start": 260,
+          "page_end": 263
+        },
+        {
+          "title": "6.2 Modelos de cores",
+          "page_start": 264,
+          "page_end": 272
+        },
+        {
+          "title": "6.3 Processamento de imagens em pseudocores",
+          "page_start": 273,
+          "page_end": 279
+        },
+        {
+          "title": "6.4 Fundamentos do processamento de imagens coloridas",
+          "page_start": 280,
+          "page_end": 280
+        },
+        {
+          "title": "6.5 Transformações de cores",
+          "page_start": 281,
+          "page_end": 288
+        },
+        {
+          "title": "6.6 Suavização e aguçamento",
+          "page_start": 289,
+          "page_end": 291
+        },
+        {
+          "title": "6.7 Segmentação de imagens baseada em cores",
+          "page_start": 292,
+          "page_end": 296
+        },
+        {
+          "title": "6.8 Ruído em imagens coloridas",
+          "page_start": 297,
+          "page_end": 298
+        },
+        {
+          "title": "6.9 Compressão de imagens coloridas",
+          "page_start": 299,
+          "page_end": 304
+        }
+      ]
+    },
+    {
+      "title": "7. Wavelets e processamento em multirresolução",
+      "topics": [
+        {
+          "title": "7.1 Conceitos básicos",
+          "page_start": 305,
+          "page_end": 314
+        },
+        {
+          "title": "7.2 Expansões em multirresolução",
+          "page_start": 315,
+          "page_end": 319
+        },
+        {
+          "title": "7.3 Transformadas wavelet em uma dimensão",
+          "page_start": 320,
+          "page_end": 324
+        },
+        {
+          "title": "7.4 A transformada wavelet rápida",
+          "page_start": 325,
+          "page_end": 329
+        },
+        {
+          "title": "7.5 Transformadas wavelet em duas dimensões",
+          "page_start": 330,
+          "page_end": 335
+        },
+        {
+          "title": "7.6 Pacotes wavelet",
+          "page_start": 336,
+          "page_end": 346
+        }
+      ]
+    },
+    {
+      "title": "8. Compressão de imagens",
+      "topics": [
+        {
+          "title": "8.1 Fundamentos",
+          "page_start": 347,
+          "page_end": 356
+        },
+        {
+          "title": "8.2 Alguns métodos básicos de compressão",
+          "page_start": 357,
+          "page_end": 404
+        },
+        {
+          "title": "8.3 Marca d'água em imagens digitais",
+          "page_start": 405,
+          "page_end": 413
+        }
+      ]
+    },
+    {
+      "title": "9. Processamento morfológico de imagens",
+      "topics": [
+        {
+          "title": "9.1 Preliminares",
+          "page_start": 414,
+          "page_end": 414
+        },
+        {
+          "title": "9.2 Erosão e dilatação",
+          "page_start": 415,
+          "page_end": 418
+        },
+        {
+          "title": "9.3 Abertura e fechamento",
+          "page_start": 419,
+          "page_end": 421
+        },
+        {
+          "title": "9.4 A transformada hit-or-miss",
+          "page_start": 422,
+          "page_end": 422
+        },
+        {
+          "title": "9.5 Alguns algoritmos morfológicos básicos",
+          "page_start": 423,
+          "page_end": 438
+        },
+        {
+          "title": "9.6 Morfologia em níveis de cinza",
+          "page_start": 439,
+          "page_end": 454
+        }
+      ]
+    },
+    {
+      "title": "10. Segmentação de imagens",
+      "topics": [
+        {
+          "title": "10.1 Fundamentos",
+          "page_start": 455,
+          "page_end": 455
+        },
+        {
+          "title": "10.2 Detecção de pontos, linhas e bordas",
+          "page_start": 456,
+          "page_end": 486
+        },
+        {
+          "title": "10.3 Limiarização",
+          "page_start": 487,
+          "page_end": 502
+        },
+        {
+          "title": "10.4 Segmentação baseada em regiões",
+          "page_start": 503,
+          "page_end": 506
+        },
+        {
+          "title": "10.5 Segmentação usando watersheds morfológicos",
+          "page_start": 507,
+          "page_end": 512
+        },
+        {
+          "title": "10.6 O uso do movimento na segmentação",
+          "page_start": 513,
+          "page_end": 524
+        }
+      ]
+    },
+    {
+      "title": "11. Representação e descrição",
+      "topics": [
+        {
+          "title": "11.1 Representação",
+          "page_start": 525,
+          "page_end": 536
+        },
+        {
+          "title": "11.2 Descritores de fronteira",
+          "page_start": 537,
+          "page_end": 541
+        },
+        {
+          "title": "11.3 Descritores regionais",
+          "page_start": 542,
+          "page_end": 554
+        },
+        {
+          "title": "11.4 Uso de componentes principais para descrição",
+          "page_start": 555,
+          "page_end": 561
+        },
+        {
+          "title": "11.5 Descritores relacionais",
+          "page_start": 562,
+          "page_end": 567
+        }
+      ]
+    },
+    {
+      "title": "12. Reconhecimento de objetos",
+      "topics": [
+        {
+          "title": "12.1 Padrões e classes de padrões",
+          "page_start": 568,
+          "page_end": 570
+        },
+        {
+          "title": "12.2 Reconhecimento baseado em métodos de decisão teórica",
+          "page_start": 571,
+          "page_end": 595
+        },
+        {
+          "title": "12.3 Métodos estruturais",
+          "page_start": 596,
+          "page_end": 600
+        }
+      ]
+    }
+  ]
+}

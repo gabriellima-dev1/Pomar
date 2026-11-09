@@ -1,0 +1,374 @@
+{
+  "slug": "redes-tanenbaum-feamster-wetherall",
+  "title": "Redes de Computadores",
+  "authors": ["Andrew S. Tanenbaum", "Nick Feamster", "David J. Wetherall"],
+  "edition": "6ª ed.",
+  "publisher": "Bookman",
+  "year": 2021,
+  "isbn": null,
+  "total_pages": null,
+  "verified": false,
+  "source_note": "Capítulos e seções da 6ª ed. em inglês (Pearson, 2021) vêm do nosso conhecimento do livro, conferidos em parte com a descrição da Pearson. Nenhuma página foi encontrada: a página inicial de cada capítulo foi estimada por proporção (cerca de 600 p. de conteúdo) e as seções foram distribuídas igualmente dentro de cada capítulo (estimativa grosseira, conferir tudo). Total de páginas e ISBN da edição em português a confirmar. Títulos traduzidos por nós (podem diferir da tradução oficial).",
+  "chapters": [
+    {
+      "title": "1. Introdução",
+      "topics": [
+        {
+          "title": "1.1 Usos das redes de computadores",
+          "page_start": 1,
+          "page_end": 7
+        },
+        {
+          "title": "1.2 Tipos de redes de computadores",
+          "page_start": 8,
+          "page_end": 14
+        },
+        {
+          "title": "1.3 Tecnologia de redes, do local ao global",
+          "page_start": 15,
+          "page_end": 22
+        },
+        {
+          "title": "1.4 Exemplos de redes",
+          "page_start": 23,
+          "page_end": 29
+        },
+        {
+          "title": "1.5 Protocolos de rede",
+          "page_start": 30,
+          "page_end": 36
+        },
+        {
+          "title": "1.6 Modelos de referência",
+          "page_start": 37,
+          "page_end": 44
+        },
+        {
+          "title": "1.7 Padronização",
+          "page_start": 45,
+          "page_end": 51
+        },
+        {
+          "title": "1.8 Questões políticas, legais e sociais",
+          "page_start": 52,
+          "page_end": 58
+        },
+        {
+          "title": "1.9 Unidades métricas",
+          "page_start": 59,
+          "page_end": 66
+        }
+      ]
+    },
+    {
+      "title": "2. A camada física",
+      "topics": [
+        {
+          "title": "2.1 Meios de transmissão guiados",
+          "page_start": 67,
+          "page_end": 73
+        },
+        {
+          "title": "2.2 Transmissão sem fio",
+          "page_start": 74,
+          "page_end": 81
+        },
+        {
+          "title": "2.3 Uso do espectro para transmissão",
+          "page_start": 82,
+          "page_end": 89
+        },
+        {
+          "title": "2.4 De formas de onda a bits",
+          "page_start": 90,
+          "page_end": 97
+        },
+        {
+          "title": "2.5 A rede pública de telefonia comutada",
+          "page_start": 98,
+          "page_end": 105
+        },
+        {
+          "title": "2.6 Redes celulares",
+          "page_start": 106,
+          "page_end": 112
+        },
+        {
+          "title": "2.7 Redes a cabo",
+          "page_start": 113,
+          "page_end": 120
+        },
+        {
+          "title": "2.8 Satélites de comunicação",
+          "page_start": 121,
+          "page_end": 128
+        },
+        {
+          "title": "2.9 Comparação entre redes de acesso",
+          "page_start": 129,
+          "page_end": 136
+        },
+        {
+          "title": "2.10 Políticas na camada física",
+          "page_start": 137,
+          "page_end": 144
+        }
+      ]
+    },
+    {
+      "title": "3. A camada de enlace de dados",
+      "topics": [
+        {
+          "title": "3.1 Questões de projeto da camada de enlace de dados",
+          "page_start": 145,
+          "page_end": 153
+        },
+        {
+          "title": "3.2 Detecção e correção de erros",
+          "page_start": 154,
+          "page_end": 163
+        },
+        {
+          "title": "3.3 Protocolos elementares de enlace de dados",
+          "page_start": 164,
+          "page_end": 172
+        },
+        {
+          "title": "3.4 Melhorando a eficiência",
+          "page_start": 173,
+          "page_end": 182
+        },
+        {
+          "title": "3.5 Protocolos de enlace de dados na prática",
+          "page_start": 183,
+          "page_end": 192
+        }
+      ]
+    },
+    {
+      "title": "4. A subcamada de controle de acesso ao meio",
+      "topics": [
+        {
+          "title": "4.1 O problema da alocação de canais",
+          "page_start": 193,
+          "page_end": 200
+        },
+        {
+          "title": "4.2 Protocolos de acesso múltiplo",
+          "page_start": 201,
+          "page_end": 209
+        },
+        {
+          "title": "4.3 Ethernet",
+          "page_start": 210,
+          "page_end": 217
+        },
+        {
+          "title": "4.4 Redes locais sem fio",
+          "page_start": 218,
+          "page_end": 226
+        },
+        {
+          "title": "4.5 Bluetooth",
+          "page_start": 227,
+          "page_end": 234
+        },
+        {
+          "title": "4.6 DOCSIS",
+          "page_start": 235,
+          "page_end": 243
+        },
+        {
+          "title": "4.7 Comutação na camada de enlace de dados",
+          "page_start": 244,
+          "page_end": 252
+        }
+      ]
+    },
+    {
+      "title": "5. A camada de rede",
+      "topics": [
+        {
+          "title": "5.1 Questões de projeto da camada de rede",
+          "page_start": 253,
+          "page_end": 264
+        },
+        {
+          "title": "5.2 Algoritmos de roteamento em uma única rede",
+          "page_start": 265,
+          "page_end": 276
+        },
+        {
+          "title": "5.3 Gerenciamento de tráfego na camada de rede",
+          "page_start": 277,
+          "page_end": 288
+        },
+        {
+          "title": "5.4 Qualidade de serviço e qualidade de experiência das aplicações",
+          "page_start": 289,
+          "page_end": 300
+        },
+        {
+          "title": "5.5 Interligação de redes",
+          "page_start": 301,
+          "page_end": 312
+        },
+        {
+          "title": "5.6 Redes definidas por software",
+          "page_start": 313,
+          "page_end": 324
+        },
+        {
+          "title": "5.7 A camada de rede na Internet",
+          "page_start": 325,
+          "page_end": 336
+        },
+        {
+          "title": "5.8 Políticas na camada de rede",
+          "page_start": 337,
+          "page_end": 348
+        }
+      ]
+    },
+    {
+      "title": "6. A camada de transporte",
+      "topics": [
+        {
+          "title": "6.1 O serviço de transporte",
+          "page_start": 349,
+          "page_end": 359
+        },
+        {
+          "title": "6.2 Elementos dos protocolos de transporte",
+          "page_start": 360,
+          "page_end": 370
+        },
+        {
+          "title": "6.3 Controle de congestionamento",
+          "page_start": 371,
+          "page_end": 381
+        },
+        {
+          "title": "6.4 Os protocolos de transporte da Internet: UDP",
+          "page_start": 382,
+          "page_end": 392
+        },
+        {
+          "title": "6.5 Os protocolos de transporte da Internet: TCP",
+          "page_start": 393,
+          "page_end": 403
+        },
+        {
+          "title": "6.6 Protocolos de transporte e controle de congestionamento",
+          "page_start": 404,
+          "page_end": 414
+        },
+        {
+          "title": "6.7 Questões de desempenho",
+          "page_start": 415,
+          "page_end": 426
+        }
+      ]
+    },
+    {
+      "title": "7. A camada de aplicação",
+      "topics": [
+        {
+          "title": "7.1 O sistema de nomes de domínio (DNS)",
+          "page_start": 427,
+          "page_end": 441
+        },
+        {
+          "title": "7.2 Correio eletrônico",
+          "page_start": 442,
+          "page_end": 457
+        },
+        {
+          "title": "7.3 A World Wide Web",
+          "page_start": 458,
+          "page_end": 472
+        },
+        {
+          "title": "7.4 Streaming de áudio e vídeo",
+          "page_start": 473,
+          "page_end": 488
+        },
+        {
+          "title": "7.5 Entrega de conteúdo",
+          "page_start": 489,
+          "page_end": 504
+        }
+      ]
+    },
+    {
+      "title": "8. Segurança de redes",
+      "topics": [
+        {
+          "title": "8.1 Fundamentos de segurança de redes",
+          "page_start": 505,
+          "page_end": 511
+        },
+        {
+          "title": "8.2 Os ingredientes principais de um ataque",
+          "page_start": 512,
+          "page_end": 518
+        },
+        {
+          "title": "8.3 Firewalls e sistemas de detecção de intrusão",
+          "page_start": 519,
+          "page_end": 526
+        },
+        {
+          "title": "8.4 Criptografia",
+          "page_start": 527,
+          "page_end": 533
+        },
+        {
+          "title": "8.5 Algoritmos de chave simétrica",
+          "page_start": 534,
+          "page_end": 540
+        },
+        {
+          "title": "8.6 Algoritmos de chave pública",
+          "page_start": 541,
+          "page_end": 548
+        },
+        {
+          "title": "8.7 Assinaturas digitais",
+          "page_start": 549,
+          "page_end": 555
+        },
+        {
+          "title": "8.8 Gerenciamento de chaves públicas",
+          "page_start": 556,
+          "page_end": 563
+        },
+        {
+          "title": "8.9 Protocolos de autenticação",
+          "page_start": 564,
+          "page_end": 570
+        },
+        {
+          "title": "8.10 Segurança da comunicação",
+          "page_start": 571,
+          "page_end": 577
+        },
+        {
+          "title": "8.11 Segurança de e-mail",
+          "page_start": 578,
+          "page_end": 585
+        },
+        {
+          "title": "8.12 Segurança da Web",
+          "page_start": 586,
+          "page_end": 592
+        },
+        {
+          "title": "8.13 Questões sociais",
+          "page_start": 593,
+          "page_end": 600
+        }
+      ]
+    }
+  ]
+}
