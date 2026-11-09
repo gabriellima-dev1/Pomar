@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      calibrations: {
+        Row: {
+          created_at: string
+          id: string
+          pages: number
+          seconds: number
+          source: string
+          subject_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pages: number
+          seconds: number
+          source: string
+          subject_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pages?: number
+          seconds?: number
+          source?: string
+          subject_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calibrations_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       catalog_books: {
         Row: {
           authors: string
@@ -123,6 +161,35 @@ export type Database = {
           },
         ]
       }
+      chapters: {
+        Row: {
+          id: string
+          position: number
+          subject_id: string
+          title: string
+        }
+        Insert: {
+          id?: string
+          position: number
+          subject_id: string
+          title: string
+        }
+        Update: {
+          id?: string
+          position?: number
+          subject_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chapters_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -204,6 +271,62 @@ export type Database = {
         }
         Relationships: []
       }
+      subjects: {
+        Row: {
+          archived: boolean
+          catalog_book_id: string | null
+          color: string
+          created_at: string
+          daily_goal: number | null
+          goal_date: string | null
+          id: string
+          min_per_page: number | null
+          source: string
+          title: string
+          user_id: string
+          video_speed: number
+          youtube_playlist_id: string | null
+        }
+        Insert: {
+          archived?: boolean
+          catalog_book_id?: string | null
+          color?: string
+          created_at?: string
+          daily_goal?: number | null
+          goal_date?: string | null
+          id?: string
+          min_per_page?: number | null
+          source: string
+          title: string
+          user_id?: string
+          video_speed?: number
+          youtube_playlist_id?: string | null
+        }
+        Update: {
+          archived?: boolean
+          catalog_book_id?: string | null
+          color?: string
+          created_at?: string
+          daily_goal?: number | null
+          goal_date?: string | null
+          id?: string
+          min_per_page?: number | null
+          source?: string
+          title?: string
+          user_id?: string
+          video_speed?: number
+          youtube_playlist_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subjects_catalog_book_id_fkey"
+            columns: ["catalog_book_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       telemetry_events: {
         Row: {
           anon_id: string | null
@@ -231,13 +354,96 @@ export type Database = {
         }
         Relationships: []
       }
+      topics: {
+        Row: {
+          chapter_id: string
+          done_at: string | null
+          duration_sec: number | null
+          id: string
+          page_end: number | null
+          page_start: number | null
+          position: number
+          title: string
+          youtube_video_id: string | null
+        }
+        Insert: {
+          chapter_id: string
+          done_at?: string | null
+          duration_sec?: number | null
+          id?: string
+          page_end?: number | null
+          page_start?: number | null
+          position: number
+          title: string
+          youtube_video_id?: string | null
+        }
+        Update: {
+          chapter_id?: string
+          done_at?: string | null
+          duration_sec?: number | null
+          id?: string
+          page_end?: number | null
+          page_start?: number | null
+          position?: number
+          title?: string
+          youtube_video_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topics_chapter_id_fkey"
+            columns: ["chapter_id"]
+            isOneToOne: false
+            referencedRelation: "chapters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      create_manual_subject: {
+        Args: {
+          p_chapters: Json
+          p_color: string
+          p_daily_goal?: number
+          p_goal_date?: string
+          p_title: string
+        }
+        Returns: string
+      }
+      create_subject_from_catalog: {
+        Args: {
+          p_book_id: string
+          p_color: string
+          p_daily_goal?: number
+          p_goal_date?: string
+          p_title: string
+          p_topic_ids: string[]
+        }
+        Returns: string
+      }
       is_admin: { Args: never; Returns: boolean }
       is_valid_timezone: { Args: { tz: string }; Returns: boolean }
+      move_chapter: {
+        Args: { p_chapter_id: string; p_direction: number }
+        Returns: undefined
+      }
+      move_topic: {
+        Args: { p_direction: number; p_topic_id: string }
+        Returns: undefined
+      }
+      record_calibration: {
+        Args: {
+          p_pages: number
+          p_seconds: number
+          p_set_default?: boolean
+          p_source: string
+          p_subject_id?: string
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never

@@ -42,10 +42,10 @@ create policy "calibrações: dono cria"
 -- p_set_default = true, quando a calibração não é de uma disciplina ou quando
 -- o usuário ainda não tem ritmo global. Devolve o ritmo em min/página.
 create function public.record_calibration(
-  p_subject_id uuid,
   p_pages int,
   p_seconds int,
   p_source text,
+  p_subject_id uuid default null,
   p_set_default boolean default false
 )
 returns numeric
@@ -83,7 +83,7 @@ begin
 end;
 $$;
 
-revoke execute on function public.record_calibration(uuid, int, int, text, boolean)
+revoke execute on function public.record_calibration(int, int, text, uuid, boolean)
   from public, anon;
-grant execute on function public.record_calibration(uuid, int, int, text, boolean)
+grant execute on function public.record_calibration(int, int, text, uuid, boolean)
   to authenticated;
