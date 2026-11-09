@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import { signup, type AuthFormState } from "@/app/(public)/auth-actions";
 import { PASSWORD_MIN_LENGTH } from "@/lib/auth/validation";
-import { FormMessage, SubmitButton, TextField } from "./fields";
+import { FormMessage, SubmitButton, TextField } from "@/components/forms/fields";
 import { useBrowserContext } from "./useBrowserContext";
 
 export function SignupForm({ next }: { next?: string }) {
