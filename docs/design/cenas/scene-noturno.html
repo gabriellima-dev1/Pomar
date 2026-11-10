@@ -1,0 +1,141 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&amp;family=Nunito:wght@600;800&amp;display=swap">
+<style>
+
+@keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(14px)}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes sway{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+@keyframes bob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes float{0%,100%{transform:translate(0,0)}33%{transform:translate(10px,-14px)}66%{transform:translate(-8px,-6px)}}
+@keyframes ripen{from{opacity:0}to{opacity:1}}
+.drift{animation:drift 24s ease-in-out infinite alternate}
+.star{animation:twinkle 3s ease-in-out infinite}
+.sway{transform-box:fill-box;transform-origin:50% 100%;animation:sway 6s ease-in-out infinite}
+.sway-b{transform-box:fill-box;transform-origin:50% 100%;animation:sway 7.5s ease-in-out -3s infinite}
+.bob{transform-box:fill-box;transform-origin:50% 100%;animation:bob 4.2s ease-in-out infinite}
+.bob-b{transform-box:fill-box;transform-origin:50% 100%;animation:bob 5s ease-in-out -2s infinite}
+.ff{animation:float 6s ease-in-out infinite}
+.ff circle{animation:twinkle 2.4s ease-in-out infinite}
+.ripen{animation:ripen 10s linear infinite}
+@media (prefers-reduced-motion: reduce){.drift,.star,.sway,.sway-b,.bob,.bob-b,.ff,.ff circle,.ripen{animation:none}}
+</style>
+<style>body{margin:0;background:#fbf6ec} .stage{padding:16px;display:flex;justify-content:center}</style></head><body>
+<div class="stage">
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; border-radius: 32px; font-family: Nunito, system-ui, sans-serif; color: #f2eee4; background: #18264a;">
+<svg viewBox="0 0 390 844" width="390" height="844" style="position: absolute; inset: 0;" aria-hidden="true">
+<defs>
+<linearGradient id="cn-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101a38"></stop><stop offset="0.6" stop-color="#1f3264"></stop><stop offset="1" stop-color="#34508a"></stop></linearGradient>
+<radialGradient id="cn-moonglow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff6d8" stop-opacity="0.35"></stop><stop offset="1" stop-color="#fff6d8" stop-opacity="0"></stop></radialGradient>
+</defs>
+<rect width="390" height="844" fill="url(#cn-sky)"></rect>
+<g fill="#ffffff">
+<circle class="star" cx="30" cy="40" r="1.6"></circle><circle class="star" cx="90" cy="70" r="1.2" style="animation-delay:-1s"></circle><circle class="star" cx="350" cy="50" r="1.8" style="animation-delay:-2s"></circle><circle class="star" cx="300" cy="120" r="1.2" style="animation-delay:-.5s"></circle>
+<circle class="star" cx="40" cy="270" r="1.4" style="animation-delay:-1.6s"></circle><circle class="star" cx="180" cy="300" r="1.2" style="animation-delay:-2.4s"></circle><circle class="star" cx="220" cy="350" r="1.6" style="animation-delay:-.8s"></circle><circle class="star" cx="120" cy="250" r="1" style="animation-delay:-2.8s"></circle><circle class="star" cx="370" cy="380" r="1.2" style="animation-delay:-1.2s"></circle>
+</g>
+<circle cx="310" cy="300" r="90" fill="url(#cn-moonglow)"></circle>
+<circle cx="310" cy="300" r="40" fill="#f4ecd2"></circle>
+<circle cx="296" cy="288" r="6" fill="#e2d8b8"></circle><circle cx="322" cy="314" r="8" fill="#e2d8b8"></circle><circle cx="324" cy="286" r="4" fill="#e2d8b8"></circle>
+<g class="drift">
+<g fill="#2b4178" opacity="0.85"><circle cx="-6" cy="240" r="50"></circle><circle cx="40" cy="282" r="34"></circle><circle cx="4" cy="320" r="38"></circle></g>
+<g fill="#2b4178" opacity="0.8"><circle cx="146" cy="390" r="22"></circle><circle cx="174" cy="400" r="18"></circle><circle cx="200" cy="410" r="16"></circle><rect x="128" y="400" width="90" height="22"></rect></g>
+<g fill="#2b4178" opacity="0.75"><circle cx="250" cy="352" r="16"></circle><circle cx="272" cy="344" r="20"></circle><circle cx="296" cy="356" r="14"></circle><rect x="236" y="356" width="72" height="16"></rect></g>
+</g>
+
+<path d="M-50 480 L92 330 L270 480Z" fill="#2f5a78"></path>
+<path d="M-50 480 L92 330 L80 362 L108 378 L34 418 L150 426 L196 480Z" fill="#244a66"></path>
+<path d="M150 490 L300 380 L450 490Z" fill="#2f5a78"></path>
+<path d="M300 380 L290 402 L332 420 L292 440 L360 450 L390 490 L450 490Z" fill="#234863"></path>
+<path d="M92 330 L80 362 L96 356 Z M300 380 L290 402 L304 396Z" fill="#9fb8d6" opacity="0.6"></path>
+
+<path d="M0 474 C100 482 220 488 390 470 V580 H0Z" fill="#284a2c"></path>
+<path d="M0 474 C100 482 220 488 390 470 V480 C220 498 100 492 0 484Z" fill="#37603a"></path>
+
+<g transform="translate(32 528) scale(0.9)"><g class="sway-b">
+<circle cx="6" cy="-78" r="22" fill="#2c4d33"></circle><circle cx="18" cy="-60" r="18" fill="#2c4d33"></circle><circle cx="-2" cy="-98" r="16" fill="#2c4d33"></circle>
+<circle cx="-2" cy="-72" r="22" fill="#1d3825"></circle><circle cx="-14" cy="-56" r="18" fill="#1d3825"></circle><circle cx="10" cy="-54" r="17" fill="#1d3825"></circle><circle cx="-8" cy="-92" r="15" fill="#1d3825"></circle><circle cx="0" cy="-42" r="15" fill="#1d3825"></circle>
+<path d="M-2 0 L-1 -82 L1 -82 L2 0Z" fill="#3a2418"></path>
+</g></g>
+<g transform="translate(110 508) scale(0.7)">
+<circle cx="6" cy="-78" r="22" fill="#2c4d33"></circle><circle cx="18" cy="-60" r="18" fill="#2c4d33"></circle>
+<circle cx="-2" cy="-72" r="22" fill="#1d3825"></circle><circle cx="-14" cy="-56" r="18" fill="#1d3825"></circle><circle cx="10" cy="-54" r="17" fill="#1d3825"></circle><circle cx="-8" cy="-92" r="15" fill="#1d3825"></circle><circle cx="0" cy="-42" r="15" fill="#1d3825"></circle>
+<path d="M-2 0 L-1 -82 L1 -82 L2 0Z" fill="#3a2418"></path>
+</g>
+<g transform="translate(160 490) scale(0.38)"><circle cx="-2" cy="-72" r="22" fill="#1d3825"></circle><circle cx="-12" cy="-56" r="18" fill="#1d3825"></circle><circle cx="10" cy="-56" r="17" fill="#1d3825"></circle><circle cx="-4" cy="-92" r="15" fill="#1d3825"></circle><path d="M-2 0 L-1 -82 L1 -82 L2 0Z" fill="#3a2418"></path></g>
+<g transform="translate(184 492) scale(0.34)"><circle cx="-2" cy="-72" r="22" fill="#1d3825"></circle><circle cx="-12" cy="-56" r="18" fill="#1d3825"></circle><circle cx="10" cy="-56" r="17" fill="#1d3825"></circle><circle cx="-4" cy="-92" r="15" fill="#1d3825"></circle><path d="M-2 0 L-1 -82 L1 -82 L2 0Z" fill="#3a2418"></path></g>
+<g transform="translate(214 498) scale(0.5)"><circle cx="-2" cy="-72" r="22" fill="#1d3825"></circle><circle cx="-12" cy="-56" r="18" fill="#1d3825"></circle><circle cx="10" cy="-56" r="17" fill="#1d3825"></circle><circle cx="-4" cy="-92" r="15" fill="#1d3825"></circle><path d="M-2 0 L-1 -82 L1 -82 L2 0Z" fill="#3a2418"></path></g>
+<path d="M60 540 q10 -14 22 -8 q10 -10 22 -2 q8 -2 10 10 h-54z" fill="#1d3825"></path>
+
+<path d="M0 568 C120 556 260 546 390 534 V844 H0Z" fill="#355c34"></path>
+<path d="M0 568 C120 556 260 546 390 534 V552 C260 562 120 572 0 586Z" fill="#4a7440"></path>
+
+<g transform="translate(296 572) scale(2.1)"><g class="sway">
+<ellipse cx="0" cy="0" rx="34" ry="5" fill="#2c4d2c"></ellipse>
+<circle cx="8" cy="-80" r="24" fill="#2f5236"></circle><circle cx="22" cy="-60" r="20" fill="#2f5236"></circle><circle cx="0" cy="-104" r="18" fill="#2f5236"></circle><circle cx="18" cy="-96" r="16" fill="#2f5236"></circle>
+<circle cx="-2" cy="-74" r="24" fill="#1f3a27"></circle><circle cx="-16" cy="-58" r="20" fill="#1f3a27"></circle><circle cx="12" cy="-56" r="19" fill="#1f3a27"></circle><circle cx="-8" cy="-96" r="17" fill="#1f3a27"></circle><circle cx="6" cy="-92" r="16" fill="#1f3a27"></circle><circle cx="0" cy="-42" r="16" fill="#1f3a27"></circle><circle cx="-22" cy="-80" r="12" fill="#1f3a27"></circle>
+<path d="M-3 0 L-1 -86 L1 -86 L3 0Z" fill="#3a2418"></path>
+<path d="M0 -38 L-14 -50 M0 -46 L12 -60 M0 -64 L-10 -76" stroke="#3a2418" stroke-width="2" stroke-linecap="round"></path>
+<circle cx="-18" cy="-62" r="4" fill="#ff6a4a"></circle>
+<circle cx="14" cy="-84" r="4" fill="#ff6a4a"></circle>
+<circle cx="-6" cy="-100" r="3.6" fill="#ff6a4a"></circle>
+<circle cx="16" cy="-52" r="4.4" fill="#dbe98e"></circle>
+<circle class="ripen" cx="16" cy="-52" r="4.4" fill="#ff6a4a"></circle>
+<ellipse cx="14.6" cy="-53.4" rx="1.2" ry="0.8" fill="#ffffff" opacity="0.7"></ellipse>
+</g></g>
+
+<g transform="translate(46 640)"><g class="bob">
+<path d="M0 0 C-2 -24 2 -44 0 -62" fill="none" stroke="#1d3825" stroke-width="3"></path>
+<path d="M0 -24 C-18 -30 -30 -24 -34 -12 C-20 -10 -8 -14 0 -24Z" fill="#1d3825"></path>
+<path d="M-14 -62 C-16 -78 -8 -88 0 -92 C8 -88 16 -78 14 -62Z" fill="#c9b8f0"></path>
+<path d="M-8 -62 C-10 -74 -4 -82 0 -84 C4 -82 10 -74 8 -62Z" fill="#a993e0"></path>
+</g></g>
+<g transform="translate(118 650)"><g class="bob-b">
+<path d="M0 0 C2 -20 -2 -36 0 -52" fill="none" stroke="#1d3825" stroke-width="3"></path>
+<g transform="translate(0 -64)">
+<ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff" transform="rotate(72)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff" transform="rotate(144)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff" transform="rotate(216)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff" transform="rotate(288)"></ellipse>
+<circle r="6" fill="#ffe08a"></circle>
+</g>
+</g></g>
+<g transform="translate(300 652)"><g class="bob">
+<path d="M0 0 C2 -22 -2 -40 0 -58" fill="none" stroke="#1d3825" stroke-width="3"></path>
+<g transform="translate(0 -70)">
+<ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff" transform="rotate(72)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff" transform="rotate(144)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff" transform="rotate(216)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#f0f2ff" transform="rotate(288)"></ellipse>
+<circle r="6" fill="#ffe08a"></circle>
+</g>
+</g></g>
+<g transform="translate(356 646)"><g class="bob-b">
+<path d="M0 0 C-2 -22 2 -40 0 -56" fill="none" stroke="#1d3825" stroke-width="3"></path>
+<path d="M-14 -56 C-16 -72 -8 -82 0 -86 C8 -82 16 -72 14 -56Z" fill="#c9b8f0"></path>
+<path d="M-8 -56 C-10 -68 -4 -76 0 -78 C4 -76 10 -68 8 -56Z" fill="#a993e0"></path>
+</g></g>
+
+<g class="ff">
+<g><circle cx="70" cy="560" r="7" fill="#fff07a" opacity="0.3"></circle><circle cx="70" cy="560" r="2.4" fill="#fff6a8"></circle></g>
+<g><circle cx="150" cy="520" r="6" fill="#fff07a" opacity="0.3" style="animation-delay:-.8s"></circle><circle cx="150" cy="520" r="2" fill="#fff6a8" style="animation-delay:-.8s"></circle></g>
+<g><circle cx="230" cy="590" r="7" fill="#fff07a" opacity="0.3" style="animation-delay:-1.6s"></circle><circle cx="230" cy="590" r="2.4" fill="#fff6a8" style="animation-delay:-1.6s"></circle></g>
+</g>
+<g class="ff" style="animation-delay:-3s; animation-duration: 8s;">
+<g><circle cx="260" cy="500" r="6" fill="#fff07a" opacity="0.3" style="animation-delay:-.4s"></circle><circle cx="260" cy="500" r="2" fill="#fff6a8" style="animation-delay:-.4s"></circle></g>
+<g><circle cx="110" cy="610" r="7" fill="#fff07a" opacity="0.3" style="animation-delay:-2s"></circle><circle cx="110" cy="610" r="2.4" fill="#fff6a8" style="animation-delay:-2s"></circle></g>
+<g><circle cx="350" cy="580" r="6" fill="#fff07a" opacity="0.3" style="animation-delay:-1.2s"></circle><circle cx="350" cy="580" r="2" fill="#fff6a8" style="animation-delay:-1.2s"></circle></g>
+<g><circle cx="190" cy="460" r="5" fill="#fff07a" opacity="0.3" style="animation-delay:-2.6s"></circle><circle cx="190" cy="460" r="1.8" fill="#fff6a8" style="animation-delay:-2.6s"></circle></g>
+</g>
+
+<g fill="#162e1e">
+<circle cx="0" cy="666" r="30"></circle><circle cx="40" cy="676" r="28"></circle><circle cx="80" cy="672" r="24"></circle><circle cx="120" cy="682" r="22"></circle><circle cx="170" cy="684" r="20"></circle><circle cx="206" cy="676" r="24"></circle><circle cx="244" cy="686" r="20"></circle><circle cx="296" cy="682" r="24"></circle><circle cx="336" cy="672" r="28"></circle><circle cx="376" cy="664" r="32"></circle>
+</g>
+<g fill="#22402a"><circle cx="-4" cy="658" r="16"></circle><circle cx="38" cy="668" r="14"></circle><circle cx="204" cy="668" r="12"></circle><circle cx="334" cy="664" r="14"></circle><circle cx="378" cy="654" r="16"></circle></g>
+</svg>
+<div style="position: absolute; left: 50%; top: 160px; transform: translate(-50%, -50%); width: 270px; box-sizing: border-box; padding: 18px 24px 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; border-radius: 28px; background: rgba(18, 28, 58, 0.45); backdrop-filter: blur(18px) saturate(1.5); -webkit-backdrop-filter: blur(18px) saturate(1.5); border: 1.5px solid rgba(255, 255, 255, 0.22); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);">
+<span style="font-size: 12px; line-height: 16px; font-weight: 800; letter-spacing: 0.6px; color: #10203f; background: #dbe98e; padding: 4px 12px; border-radius: 999px;">FOCO</span>
+<div style="font-family: Fredoka, Nunito, sans-serif; font-weight: 600; font-size: 64px; line-height: 1; letter-spacing: -1px; color: #f6f1e6; font-variant-numeric: tabular-nums;" role="timer" aria-label="18 minutos e 42 segundos restantes">18:42</div>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; background: #131c33; border-radius: 28px 28px 0 0; padding: 18px 16px 28px; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+<p style="margin: 0; font-weight: 800; font-size: 16px; line-height: 24px; text-align: center;">Algoritmos · 4.1 O problema do subarranjo máximo</p>
+<div style="display: flex; gap: 8px; width: 100%;">
+<button style="flex-grow: 1; min-height: 48px; border-radius: 16px; border: 2px solid #73819a; background: transparent; color: #8fd6a6; font: 800 16px Nunito, sans-serif;">Pausar</button>
+<button style="min-height: 48px; padding: 0 20px; border-radius: 16px; border: 0; background: transparent; color: #8fd6a6; font: 800 16px Nunito, sans-serif;">Encerrar</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

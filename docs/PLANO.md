@@ -46,7 +46,7 @@
 
 ---
 
-## 3. Design antes do código (08–10/11)
+## 3. Design antes do código (08–10/11) — primeira onda entregue em 09/11
 
 Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 
@@ -57,6 +57,8 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 3. Depois da aprovação, pedir ao Claude no chat para **exportar** tokens e especificações para arquivos (`docs/design/tokens.json`, `docs/design/telas.md` e imagens de referência em `docs/design/`). Colocar esses arquivos no repositório. O Claude Code implementa a partir deles.
 
 > As telas que não forem desenhadas (estatísticas, configurações, admin, transparência) seguem os componentes do design system, sem mockup próprio.
+
+**Entregue em 09/11 (onda 1):** `docs/design/` com tokens, `telas.md`, imagens das telas da Fase 2 e das 4 cenas, cenas animadas, ícones dos emblemas e Seu Tomás. Próximas ondas: gamificação e onboarding (até 15/11); social e dados (até 18/11).
 
 ---
 
@@ -87,6 +89,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Aceite:** criar uma disciplina a partir do Cormen escolhendo 3 capítulos; criar outra manual; calibrar com o cronômetro; marcar tópicos e ver o progresso e as estimativas mudarem. — **feito pela dupla em produção em 09/11; RLS verificada com `supabase/tests/rls_fase1.sql`.**
 
 ### Fase 2 — Pomodoro e tela inicial (12–14/11)
+- [ ] Aplicar o design: `docs/design/tokens.css` no lugar dos tokens provisórios do `globals.css`, Fredoka + Nunito, BottomNav, e redesenhar as telas da Fase 1 conforme `docs/design/telas.md`
 - [ ] Motor do timer baseado em timestamps (`lib/timer.ts`), com testes: continua fora da aba, sobrevive a recarregar
 - [ ] Botões −5/+5 com os limites do `DESIGN.md` §4.5; ciclo longo a cada 4
 - [ ] Pop-up de nudge na pausa (texto e botões do §4.5); eventos `pause_nudge_shown`/`pause_nudge_choice`
@@ -94,7 +97,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Sessões salvas em `pomodoro_sessions`, com a regra dos 90% validada no servidor
 - [ ] Recalibração automática (média móvel, sugestão quando divergir >20%)
 - [ ] Tela inicial com cards (anel, restante, próximo tópico, previsão, botão Começar)
-- [ ] Cena **Clássico** em SVG animado (fruto amadurecendo durante o foco, colheita no fim), seguindo as regras de leveza do §6.7
+- [ ] Cena **Clássico** em SVG animado a partir de `docs/design/cenas/scene-classico.html` (fruto amadurecendo durante o foco, colheita no fim), com o cronômetro em vidro e as cores da paisagem em tokens
 
 **Aceite:** do card, 1 clique abre o pomodoro no próximo tópico; trocar de aba e voltar mantém o tempo certo; pausar mostra o pop-up; concluir pede as páginas e atualiza o card.
 
@@ -160,7 +163,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 > Fase 1 do docs/PLANO.md. Para o seed do catálogo, monte a estrutura dos livros do DESIGN.md §7 com verified = false e gere docs/catalogo-revisao.md para conferirmos as páginas. Plano primeiro.
 
 **Fase 2**
-> Fase 2 do docs/PLANO.md. Use docs/design/ como referência visual da tela inicial e do pomodoro. O timer precisa de testes unitários cobrindo aba oculta, recarregamento e pausa. Plano primeiro.
+> Fase 2 do docs/PLANO.md. Leia docs/design/telas.md e veja as imagens em docs/design/referencias/. Comece aplicando docs/design/tokens.css e as fontes às telas da Fase 1. As cenas seguem docs/design/cenas/. O timer precisa de testes unitários cobrindo aba oculta, recarregamento e pausa. Plano primeiro.
 
 **Fase 3**
 > Fase 3 do docs/PLANO.md. Toda regra de XP, emblema e colheita fica no servidor, em funções puras com testes. As cenas devem seguir as regras de leveza do DESIGN.md §6.7. Plano primeiro.

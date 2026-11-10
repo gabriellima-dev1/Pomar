@@ -8,7 +8,7 @@ Você (Claude Code) implementa tudo. A dupla toma as decisões de produto e apro
 - `docs/DESIGN.md` — especificação do produto (fonte de verdade): funcionalidades, regras de gamificação, temas, modelo de dados, telemetria, ética.
 - `docs/PLANO.md` — fases, tarefas com checkbox, critérios de aceite. Marque as caixas ao concluir.
 - `docs/DECISOES.md` — registro de decisões novas ou pendentes (crie se não existir). Formato: data · decisão · motivo · status (aprovada/pendente).
-- `docs/design/` — tokens e referências visuais aprovadas pela dupla.
+- `docs/design/` — design aprovado pela dupla: `telas.md` (especificação), `tokens.json`/`tokens.css`, `referencias/*.png`, `cenas/`, `emblemas/`, `ilustracoes/`. Visual: as imagens mandam; regras: o DESIGN.md manda.
 
 ## Regras de trabalho
 - Comece cada fase em **modo de plano** e espere aprovação antes de implementar.
@@ -59,10 +59,11 @@ docs/
 
 ## Cenas e temas (leveza)
 - SVG inline como componente React; animação só com CSS em `transform`/`opacity`.
-- No máximo 3 camadas animadas por cena; partículas ≤ 20.
+- No máximo 5 camadas animadas por cena; partículas ≤ 20.
+- Estilo das cenas: "Campo e montanhas" (`docs/design/cenas/`). Cronômetro em painel de vidro (Liquid Glass) com fundo opaco de reserva.
 - Sem vídeo, canvas, WebGL ou Lottie.
 - Pausar animações com a aba oculta; desativar com `prefers-reduced-motion`.
-- Tema = tokens CSS + cena + preset de layout (grid areas de árvore e cronômetro) + fruto + acessório do mascote.
+- Tema = tokens CSS + cena + fruto + acessório do mascote. Cores da paisagem também viram tokens de cena por tema (nunca hex nos componentes).
 
 ## Banco
 - Toda mudança de schema é uma migração nova em `supabase/migrations/` (nunca editar migração já aplicada).
