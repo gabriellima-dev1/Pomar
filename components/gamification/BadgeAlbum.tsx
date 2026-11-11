@@ -23,7 +23,7 @@ export function BadgeAlbum({ entries }: { entries: AlbumEntry[] }) {
   const found = entries.filter((e) => e.count > 0).length;
 
   return (
-    <section aria-labelledby="album-titulo" className="flex flex-col gap-4">
+    <section aria-labelledby="album-titulo" className="@container flex flex-col gap-4">
       <div className="flex items-baseline justify-between gap-2">
         <h2 id="album-titulo" className="text-caption text-ink-muted">
           Seu álbum
@@ -32,7 +32,9 @@ export function BadgeAlbum({ entries }: { entries: AlbumEntry[] }) {
           {found} de {entries.length} encontrados
         </p>
       </div>
-      <ul className="grid grid-cols-3 gap-3 lg:grid-cols-5 xl:grid-cols-6">
+      {/* Colunas pela largura do álbum (não da janela): 3 na coluna de 480px, mais quando
+          o conteúdo alargar (layout de computador, Fase 4). */}
+      <ul className="grid grid-cols-3 gap-3 @2xl:grid-cols-4 @4xl:grid-cols-6">
         {entries.map((e) => {
           const obtained = e.count > 0;
           const secret = !obtained && e.hidden;
@@ -41,7 +43,7 @@ export function BadgeAlbum({ entries }: { entries: AlbumEntry[] }) {
               <button
                 type="button"
                 onClick={() => setOpen(e)}
-                className={`flex h-full w-full flex-col items-center gap-2 rounded-lg px-2 py-4 text-center ${
+                className={`flex h-full w-full min-w-0 flex-col items-center gap-2 rounded-lg px-1.5 py-4 text-center ${
                   obtained
                     ? "bg-surface-200 shadow-card"
                     : "bg-surface-100 border-line border-2 border-dashed"
@@ -53,12 +55,12 @@ export function BadgeAlbum({ entries }: { entries: AlbumEntry[] }) {
                   state={obtained ? "obtained" : secret ? "secret" : "missing"}
                 />
                 <span
-                  className={`leading-5 font-extrabold ${obtained ? "text-ink" : "text-ink-muted"}`}
+                  className={`w-full text-[15px] leading-5 font-extrabold text-balance [overflow-wrap:anywhere] hyphens-auto ${obtained ? "text-ink" : "text-ink-muted"}`}
                 >
                   {secret ? "???" : e.name}
                 </span>
                 <span
-                  className={`text-small ${obtained ? RARITY_TEXT[e.rarity] : "text-ink-muted"}`}
+                  className={`text-small w-full text-balance ${obtained ? RARITY_TEXT[e.rarity] : "text-ink-muted"}`}
                 >
                   {obtained
                     ? `${RARITY_LABEL[e.rarity]} · ×${e.count}`
