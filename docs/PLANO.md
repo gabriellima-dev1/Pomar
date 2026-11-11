@@ -90,16 +90,16 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 
 ### Fase 2 — Pomodoro e tela inicial (12–14/11)
 - [x] Aplicar o design: `docs/design/tokens.css` no lugar dos tokens provisórios do `globals.css`, Fredoka + Nunito, BottomNav, e redesenhar as telas da Fase 1 conforme `docs/design/telas.md`
-- [ ] Motor do timer baseado em timestamps (`lib/timer.ts`), com testes: continua fora da aba, sobrevive a recarregar
-- [ ] Botões −5/+5 com os limites do `DESIGN.md` §4.5; ciclo longo a cada 4
-- [ ] Pop-up de nudge na pausa (texto e botões do §4.5); eventos `pause_nudge_shown`/`pause_nudge_choice`
-- [ ] Fim do ciclo: som, notificação do navegador (com pedido de permissão contextual), modal de páginas lidas
-- [ ] Sessões salvas em `pomodoro_sessions`, com a regra dos 90% validada no servidor
-- [ ] Recalibração automática (média móvel, sugestão quando divergir >20%)
-- [ ] Tela inicial com cards (anel, restante, próximo tópico, previsão, botão Começar)
-- [ ] Cena **Clássico** em SVG animado a partir de `docs/design/cenas/scene-classico.html` (fruto amadurecendo durante o foco, colheita no fim), com o cronômetro em vidro e as cores da paisagem em tokens
+- [x] Motor do timer baseado em timestamps (`lib/timer.ts`), com testes: continua fora da aba, sobrevive a recarregar
+- [x] Botões −5/+5 com os limites do `DESIGN.md` §4.5; ciclo longo a cada 4
+- [x] Pop-up de nudge na pausa (texto e botões do §4.5); eventos `pause_nudge_shown`/`pause_nudge_choice`
+- [x] Fim do ciclo: som, notificação do navegador (com pedido de permissão contextual), modal de páginas lidas
+- [x] Sessões salvas em `pomodoro_sessions`, com a regra dos 90% validada no servidor
+- [x] Recalibração automática (média móvel, sugestão quando divergir >20%)
+- [x] Tela inicial com cards (anel, restante, próximo tópico, previsão, botão Começar)
+- [x] Cena **Clássico** em SVG animado a partir de `docs/design/cenas/scene-classico.html` (fruto amadurecendo durante o foco, colheita no fim), com o cronômetro em vidro e as cores da paisagem em tokens
 
-**Aceite:** do card, 1 clique abre o pomodoro no próximo tópico; trocar de aba e voltar mantém o tempo certo; pausar mostra o pop-up; concluir pede as páginas e atualiza o card.
+**Aceite:** do card, 1 clique abre o pomodoro no próximo tópico; trocar de aba e voltar mantém o tempo certo; pausar mostra o pop-up; concluir pede as páginas e atualiza o card. — **implementado em 10/11 (PRs #11 e fase-2-pomodoro); aguardando o aceite da dupla no preview. RLS e regras verificadas com `supabase/tests/rls_fase2.sql` (20 testes, com rollback).**
 
 ### Fase 3 — Gamificação (15–17/11)
 - [ ] XP calculado no servidor (`lib/gamification/xp.ts`) e tabela `xp_events`
