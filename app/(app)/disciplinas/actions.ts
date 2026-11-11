@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth/session";
 import { parseCalibration } from "@/lib/calibration";
 import { topicPages } from "@/lib/estimates";
+import { awardCompletion } from "@/lib/gamification/service";
 import {
   isUuid,
   parseItemTitle,
@@ -62,6 +63,7 @@ function revalidateSubject(subjectId: string) {
   revalidatePath(`/disciplinas/${subjectId}`);
   revalidatePath(`/disciplinas/${subjectId}/editar`);
   revalidatePath("/inicio");
+  revalidatePath("/conquistas");
 }
 
 // Criação ---------------------------------------------------------------------
@@ -163,7 +165,7 @@ export async function toggleTopic(
   topicId: string,
   done: boolean,
 ): Promise<{ error?: string }> {
-  await requireUser();
+  const user = await requireUser();
   if (!isUuid(subjectId) || !isUuid(topicId)) return { error: "Tópico inválido." };
 
   const supabase = await createClient();
@@ -175,7 +177,15 @@ export async function toggleTopic(
     .maybeSingle();
   if (error || !data) return { error: "Não foi possível atualizar o tópico." };
 
-  if (done) await trackServer("topic_completed", { pages: topicPages(data) });
+  if (done) {
+    await trackServer("topic_completed", { pages: topicPages(data) });
+    // XP no servidor (1× por tópico; só com pomodoro na disciplina). Falhar não desfaz a marca.
+    try {
+      await awardCompletion(user.id, topicId);
+    } catch (e) {
+      console.error("[gamificação] XP do tópico", e);
+    }
+  }
   revalidateSubject(subjectId);
   return {};
 }

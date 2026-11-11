@@ -1,9 +1,18 @@
 import { TrackOnMount } from "@/components/telemetry/TrackOnMount";
 import { BottomNav } from "@/components/ui/BottomNav";
 import { requireUser } from "@/lib/auth/session";
+import { ensureDaysClosed } from "@/lib/gamification/service";
 
 export default async function AppLayout({ children }: LayoutProps<"/">) {
-  await requireUser();
+  const user = await requireUser();
+
+  // Fechamento "preguiçoso" dos dias anteriores ao abrir o app (DESIGN §6.4).
+  // Idempotente e barato quando ontem já foi fechado; uma falha nunca bloqueia o app.
+  try {
+    await ensureDaysClosed(user.id);
+  } catch (error) {
+    console.error("[gamificação] fechamento do dia", error);
+  }
 
   return (
     <div className="flex flex-1 flex-col">
