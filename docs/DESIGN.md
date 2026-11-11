@@ -208,11 +208,11 @@ escolher tópico → pomodoro (foco) → registrar páginas/aula → recompensa 
 | `explorador` | Explorador | Iniciou um capítulo ou disciplina nova | incomum |
 | `finalizador` | Finalizador | Concluiu um capítulo | incomum |
 | `constante` | Constante | Cumpriu a meta diária | comum |
-| `pontual` | Pontual | Começou até 15 min após o lembrete (Kairos). **Sem lembrete nesta versão: regra a redefinir ou emblema retirado (DECISOES, 11/11)** | incomum |
 | `retorno` | Bom Retorno | Voltou após 3+ dias sem estudar | incomum |
 | `fruto_dourado` | Fruto Dourado | Qualquer dia com pomodoro | **raro, oculto** |
 | `lua_cheia` | Lua Cheia | Estudou numa noite de lua cheia | **raro, oculto** |
 
+- O emblema `pontual` (começar até 15 min após o lembrete) saiu junto com o lembrete diário (§12); ficam 11 emblemas.
 - Pesos sugeridos: comum = 10, incomum = 5, raro = 1.
 - A imprevisibilidade está só em **qual** emblema sai, nunca em **se** sai.
 
@@ -394,4 +394,4 @@ Restrito a `is_admin = true`. Mostra cartões de DAU, MAU, stickiness, gráfico 
 
 ## 12. Fora desta versão (possível implementação real)
 
-- **Lembrete diário** no horário escolhido (por e-mail ou push do navegador), opcional, só em dias sem estudo, com teto de 2 avisos não solicitados por dia e descadastro em 1 clique. Retirado do projeto da disciplina em 11/11/2026 (DECISOES).
+- **Lembrete diário** no horário escolhido (por e-mail ou push do navegador), opcional, só em dias sem estudo, com teto de 2 avisos não solicitados por dia e descadastro em 1 clique. Retirado do projeto da disciplina em 11/11/2026 (DECISOES). Junto com ele saiu o emblema **Pontual** (começar até 15 min depois do lembrete).

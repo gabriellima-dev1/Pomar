@@ -114,6 +114,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Aceite:** com dados de teste, um dia com pomodoro gera exatamente 1 emblema no dia seguinte; 5 dias geram Colheita de Prata e desbloqueiam Halloween; trocar o tema muda cenário e posições. — **implementado em 11/11 (branch `fase-3-gamificacao`); falta aplicar a migração (`npm run db:push`), rodar `supabase/tests/rls_fase3.sql` e o aceite da dupla no preview (dados de teste: `npm run demo:week -- <email> 5 --confirmo`). As falas do onboarding ficam prontas para a Fase 4.**
 
 ### Fase 4 — Onboarding, landing e beta (17–18/11)
+- [ ] Retirar o emblema **Pontual** (decisão de 11/11): nova migração removendo `pontual` do catálogo de emblemas, tirar a regra e os testes de `lib/gamification/badges.ts`, o item de `catalog.ts` e o ícone de `BadgeIcon.tsx`; o álbum passa a ter 11 emblemas. `profiles.reminder_time` deixa de ser usado
 - [ ] Landing page com contadores reais
 - [ ] Onboarding completo: quiz Bartle (8 perguntas) → opt-in de liga (sem pré-marcação) → 1ª disciplina → calibração → 1º pomodoro
 - [ ] Painel adaptado ao perfil de Bartle (§6.8) + opção de trocar/refazer

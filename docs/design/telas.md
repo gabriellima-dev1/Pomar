@@ -10,7 +10,7 @@ Fonte aprovada pela dupla em 09/11/2026. Referências no Claude: design system *
 | `tokens.css` | Gerado do `tokens.json`: variáveis CSS por tema (`[data-theme]`), Noturno automático no modo escuro, classes `.text-*`. Substitui os tokens provisórios do `app/globals.css`. |
 | `referencias/*.png` | Imagens das telas aprovadas (390×844, 2x) e das 4 cenas do pomodoro. |
 | `cenas/scene-*.html` | As 4 cenas do pomodoro funcionando (SVG + CSS animado). Referência exata de desenho e animação. |
-| `emblemas/*.svg` | Ícones dos 12 emblemas (24px, traço 2px, `currentColor`). Nome do arquivo = código do emblema do DESIGN §6.4. |
+| `emblemas/*.svg` | Ícones dos 11 emblemas (24px, traço 2px, `currentColor`). Nome do arquivo = código do emblema do DESIGN §6.4. |
 | `ilustracoes/seu-tomas*.svg` | Seu Tomás básico e com os acessórios de cada tema. Cores por variável CSS com valor padrão. |
 | `quiz-bartle.json` | Texto das 8 perguntas do quiz de Bartle, alternativas por perfil e regras de pontuação (Fase 4). |
 | `colheitas/*.svg` | Medalhas da colheita semanal (bronze, prata, ouro) e a marca de semana sem colheita. Cores pelos tokens `medal-*`. |
@@ -124,7 +124,7 @@ A raridade sempre vai escrita, nunca só pela cor. Raridades conforme DESIGN §6
 ### 09 · Conquistas › Emblemas (`referencias/09-conquistas-emblemas.png`)
 - Título "Conquistas". Card de nível: mini-árvore do estágio atual (64×72, céu `--scene-sky`), "Nível N · {estágio}" (§6.2), XP total em `--reward-mark`, barra até o próximo nível e "Faltam X XP para o nível N+1".
 - `SegmentedControl` Emblemas · Colheitas · Temas (`role="tablist"`). Abre em Emblemas.
-- "SEU ÁLBUM" + "N de 12 encontrados". Grade de 3 colunas com os 12 emblemas na ordem do §6.4; ×N = quantas vezes saiu. Tocar num emblema abre uma folha com nome, regra de elegibilidade, raridade e datas em que saiu (oculto não obtido: "Continue estudando para descobrir").
+- "SEU ÁLBUM" + "N de 11 encontrados". Grade de 3 colunas com os 11 emblemas na ordem do §6.4; ×N = quantas vezes saiu. Tocar num emblema abre uma folha com nome, regra de elegibilidade, raridade e datas em que saiu (oculto não obtido: "Continue estudando para descobrir").
 - `BottomNav` com Conquistas ativa.
 
 ### 10 · Conquistas › Colheitas (`referencias/10-conquistas-colheitas.png`)
@@ -215,7 +215,7 @@ Depois do cadastro (e do 1º login com Google): **boas-vindas (16) → quiz (17)
 - No Início, entre os chips e "Suas disciplinas", entra **um card de destaque** conforme o perfil (DESIGN §4.4 e §6.8). O resto do Início não muda.
   - **Conquistador:** "Rumo ao nível N" + barra de XP + META DE HOJE (se a disciplina tiver meta) + COLHEITA N de 7.
   - **Competidor:** divisão da Feira, selo da zona (subida/descida), 3 linhas do ranking em volta da pessoa (ela em `--fruit-soft`) e "Faltam X XP para passar {apelido}". Sem Feira (opt-out ou antes da Fase 5): card convidando para a Feira, sem insistir (some depois de recusar 1 vez).
-  - **Explorador:** "Seu álbum: N de 12" + 4 emblemas (obtidos e cadeados) + uma estatística curiosa (melhor horário de foco; antes das estatísticas da Fase 5, "minutos de foco nesta semana").
+  - **Explorador:** "Seu álbum: N de 11" + 4 emblemas (obtidos e cadeados) + uma estatística curiosa (melhor horário de foco; antes das estatísticas da Fase 5, "minutos de foco nesta semana").
   - **Socializador:** "Quem você segue" com 2 conquistas recentes e botão "Parabéns"; "N parabéns para você". Antes da Fase 5: card "Em breve você poderá seguir colegas" com o fruto de ontem.
 - Coorte B (`rewards_enabled = false`): o card de Conquistador/Explorador vira o resumo neutro (minutos de foco hoje e na semana).
 
