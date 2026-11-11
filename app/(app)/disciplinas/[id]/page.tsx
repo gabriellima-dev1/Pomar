@@ -1,40 +1,50 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Pencil, Play, Timer } from "lucide-react";
 import { ApproxPagesNotice } from "@/components/subjects/ApproxPagesNotice";
-import { BackLink } from "@/components/subjects/BackLink";
-import { ProgressBar } from "@/components/subjects/ProgressBar";
-import { TopicCheckbox } from "@/components/subjects/TopicCheckbox";
+import { pomodoroHref } from "@/components/subjects/SubjectCard";
+import { TopicItem } from "@/components/subjects/TopicItem";
+import { buttonClasses } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { Notice } from "@/components/ui/Notice";
+import { ProgressRing } from "@/components/ui/Progress";
+import { StickyFooter } from "@/components/ui/StickyFooter";
+import { TopBar, iconButtonClasses } from "@/components/ui/TopBar";
 import { requireUser } from "@/lib/auth/session";
 import {
   effectivePace,
-  formatDuration,
-  paceLabel,
+  formatPace,
   pomodorosFor,
-  remainingMinutes,
   subjectProgress,
   topicMinutes,
   topicPages,
 } from "@/lib/estimates";
-import { colorHex } from "@/lib/subjects/colors";
+import { subjectColorVar } from "@/lib/subjects/colors";
 import { getPreferences, getSubject } from "@/lib/subjects/queries";
+import { nextTopic, shortAuthors, shortDate } from "@/lib/subjects/summary";
 import { isUuid } from "@/lib/subjects/validation";
 
 export const metadata: Metadata = { title: "Disciplina" };
 
-function formatDate(iso: string): string {
-  const [y, m, d] = iso.split("-");
-  return `${d}/${m}/${y}`;
+function MiniStat({ label, value }: { label: string; value: string }) {
+  return (
+    <Card className="flex flex-col gap-1 px-3 py-3">
+      <dt className="text-caption text-ink-muted">{label}</dt>
+      <dd className="text-body-strong">{value}</dd>
+    </Card>
+  );
 }
 
-function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
-  return (
-    <div className="border-border bg-surface flex flex-col gap-0.5 rounded-xl border p-3">
-      <dt className="text-muted text-xs font-medium tracking-wide uppercase">{label}</dt>
-      <dd className="text-lg font-semibold">{value}</dd>
-      {hint && <dd className="text-muted text-xs">{hint}</dd>}
-    </div>
-  );
+function pageRange(start: number | null, end: number | null): string {
+  if (start == null || end == null) return "";
+  return start === end ? `p. ${start}` : `p. ${start}–${end}`;
+}
+
+/** "4.1 O problema…" → "4.1" (rodapé); sem número, o título inteiro. */
+function topicLabel(title: string): string {
+  const match = /^(\d+(?:\.\d+)*)\s/.exec(title);
+  return match?.[1] ?? title;
 }
 
 export default async function DisciplinaPage({
@@ -55,137 +65,151 @@ export default async function DisciplinaPage({
   const unit = subject.source === "youtube" ? "minutos" : "paginas";
   const progress = subjectProgress(topics, unit);
   const pace = effectivePace(subject.min_per_page, prefs.globalPace);
-  const leftMin = remainingMinutes(topics, pace.minPerPage, subject.video_speed);
+  const next = nextTopic(subject.chapters);
   const approx = subject.catalog_book && !subject.catalog_book.verified;
+  const book = subject.catalog_book
+    ? `${shortAuthors(subject.catalog_book.authors, true)} · ${subject.catalog_book.edition}`
+    : null;
+
+  const nextMinutes = next ? topicMinutes(next, pace.minPerPage, subject.video_speed) : 0;
+  const nextPomodoros = Math.max(1, pomodorosFor(nextMinutes, prefs.focusMin));
+  const nextPages = next ? topicPages(next) : 0;
+  const footerSummary = next
+    ? [
+        topicLabel(next.title),
+        nextPages > 0 && `${nextPages} ${nextPages === 1 ? "página" : "páginas"}`,
+        `cerca de ${nextPomodoros} ${nextPomodoros === 1 ? "pomodoro" : "pomodoros"}`,
+      ]
+        .filter(Boolean)
+        .join(" · ")
+    : null;
 
   return (
-    <section className="flex flex-col gap-6">
-      <BackLink href="/disciplinas">Disciplinas</BackLink>
-
-      <header className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span
-              aria-hidden
-              className="size-4 shrink-0 rounded-full"
-              style={{ backgroundColor: colorHex(subject.color) }}
-            />
-            <h1 className="text-3xl font-bold">{subject.title}</h1>
-          </div>
+    <section className="flex flex-col gap-5">
+      <TopBar backHref="/inicio" backLabel="Voltar para o início">
+        {unit === "paginas" && (
           <Link
-            href={`/disciplinas/${subject.id}/editar`}
-            className="border-border inline-flex min-h-11 items-center rounded-lg border px-4 text-sm font-semibold"
+            href={`/disciplinas/${subject.id}/calibrar`}
+            className={iconButtonClasses}
+            aria-label="Calibrar ritmo"
           >
-            Editar
+            <Timer size={24} aria-hidden />
           </Link>
-        </div>
-        {(subject.catalog_book || subject.goal_date || subject.daily_goal) && (
-          <p className="text-muted text-sm">
-            {[
-              subject.catalog_book &&
-                `${subject.catalog_book.title} · ${subject.catalog_book.edition}`,
-              subject.goal_date && `Prova/meta em ${formatDate(subject.goal_date)}`,
-              subject.daily_goal &&
-                `Meta: ${subject.daily_goal} ${subject.daily_goal === 1 ? "pomodoro" : "pomodoros"} por dia`,
-            ]
-              .filter(Boolean)
-              .join(" · ")}
-          </p>
         )}
-        <ProgressBar
+        <Link
+          href={`/disciplinas/${subject.id}/editar`}
+          className={iconButtonClasses}
+          aria-label="Editar disciplina"
+        >
+          <Pencil size={22} aria-hidden />
+        </Link>
+      </TopBar>
+
+      <header className="flex items-center gap-4">
+        <ProgressRing
           percent={progress.percent}
-          color={subject.color}
+          color={subjectColorVar(subject.color)}
+          size={88}
+          stroke={10}
           label={`Progresso de ${subject.title}`}
-        />
+        >
+          <span className="font-display text-xl font-semibold">{progress.percent}%</span>
+        </ProgressRing>
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <h1 className="font-display text-[26px] leading-8 font-semibold">{subject.title}</h1>
+          {book && <p className="text-ink-muted font-semibold">{book}</p>}
+        </div>
       </header>
 
-      {query.calibrado && (
-        <p role="status" className="border-border bg-surface rounded-lg border px-3 py-2 text-sm">
-          Ritmo calibrado! 🍅 As estimativas abaixo já usam o novo valor.
+      {query.calibrado && <Notice>Ritmo calibrado! As estimativas já usam o novo valor.</Notice>}
+
+      <dl className="grid grid-cols-3 gap-2">
+        <MiniStat
+          label={unit === "paginas" ? "Páginas" : "Minutos"}
+          value={`${progress.done} / ${progress.total}`}
+        />
+        <MiniStat
+          label="Seu ritmo"
+          value={
+            unit === "paginas"
+              ? `${formatPace(pace.minPerPage).replace(" min", "")} min/pág`
+              : `${subject.video_speed.toLocaleString("pt-BR")}×`
+          }
+        />
+        <MiniStat label="Término" value="—" />
+      </dl>
+
+      {unit === "paginas" && pace.source === "padrao" && (
+        <p className="text-small text-ink-muted">
+          Estimativa padrão de 3 min por página.{" "}
+          <Link
+            href={`/disciplinas/${subject.id}/calibrar`}
+            className="text-primary font-extrabold underline underline-offset-4"
+          >
+            Calibre seu ritmo
+          </Link>{" "}
+          para eu acertar as contas.
+        </p>
+      )}
+      {subject.goal_date && (
+        <p className="text-small text-ink-muted">
+          Prova em {shortDate(subject.goal_date)}. A previsão de término aparece depois dos seus
+          primeiros pomodoros.
         </p>
       )}
       {approx && <ApproxPagesNotice />}
 
-      <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat
-          label="Progresso"
-          value={`${progress.percent}%`}
-          hint={`${progress.topicsDone} de ${progress.topicsTotal} tópicos`}
-        />
-        <Stat
-          label={unit === "paginas" ? "Páginas restantes" : "Minutos restantes"}
-          value={String(progress.remaining)}
-          hint={`de ${progress.total}`}
-        />
-        <Stat
-          label="Tempo estimado"
-          value={formatDuration(leftMin)}
-          hint={`${pomodorosFor(leftMin, prefs.focusMin)} pomodoros de ${prefs.focusMin} min`}
-        />
-        <Stat
-          label="Previsão de término"
-          value="—"
-          hint="Aparece depois dos seus primeiros pomodoros."
-        />
-      </dl>
-
-      {unit === "paginas" && (
-        <p className="text-muted text-sm">
-          Ritmo: {paceLabel(pace)}.{" "}
-          <Link
-            href={`/disciplinas/${subject.id}/calibrar`}
-            className="text-primary font-medium underline underline-offset-4"
-          >
-            {pace.source === "disciplina" ? "Calibrar de novo" : "Calibrar meu ritmo"}
-          </Link>
-        </p>
-      )}
-
-      <ol className="flex flex-col gap-4">
+      <ol className="flex flex-col gap-5">
         {subject.chapters.map((chapter) => {
           const done = chapter.topics.filter((t) => t.done_at).length;
+          const complete = chapter.topics.length > 0 && done === chapter.topics.length;
           return (
-            <li key={chapter.id} className="border-border bg-surface rounded-xl border p-4">
-              <h2 className="flex flex-wrap items-baseline justify-between gap-2 font-semibold">
-                <span>{chapter.title}</span>
-                <span className="text-muted text-sm font-normal">
-                  {done}/{chapter.topics.length}
-                </span>
-              </h2>
-              {chapter.topics.length === 0 ? (
-                <p className="text-muted mt-2 text-sm">Nenhum tópico neste capítulo.</p>
-              ) : (
-                <ul className="mt-2 flex flex-col">
-                  {chapter.topics.map((t) => {
-                    const pages = topicPages(t);
-                    const minutes = topicMinutes(t, pace.minPerPage, subject.video_speed);
-                    const range =
-                      t.page_start != null
-                        ? t.page_start === t.page_end
-                          ? `p. ${t.page_start}`
-                          : `pp. ${t.page_start}–${t.page_end}`
-                        : "";
-                    const detail = [range, minutes > 0 ? `~${formatDuration(minutes)}` : ""]
-                      .filter(Boolean)
-                      .join(" · ");
-                    return (
+            <li key={chapter.id}>
+              <Card className="flex flex-col gap-2 px-3 pt-4 pb-3">
+                <h2 className="flex items-center justify-between gap-2 px-1">
+                  <span className="text-heading">{chapter.title}</span>
+                  {complete ? (
+                    <span className="bg-primary-soft text-primary-strong text-small shrink-0 rounded-full px-3 py-0.5 font-extrabold">
+                      Concluído
+                    </span>
+                  ) : (
+                    <span className="text-small text-ink-muted shrink-0">
+                      {done} de {chapter.topics.length}
+                    </span>
+                  )}
+                </h2>
+                {chapter.topics.length === 0 ? (
+                  <p className="text-small text-ink-muted px-1">Nenhum tópico neste capítulo.</p>
+                ) : (
+                  <ul className="flex flex-col gap-1">
+                    {chapter.topics.map((t) => (
                       <li key={t.id}>
-                        <TopicCheckbox
+                        <TopicItem
                           subjectId={subject.id}
                           topicId={t.id}
                           title={t.title}
                           done={Boolean(t.done_at)}
-                          detail={detail || `${pages} p.`}
+                          isNext={next?.id === t.id}
+                          detail={pageRange(t.page_start, t.page_end)}
                         />
                       </li>
-                    );
-                  })}
-                </ul>
-              )}
+                    ))}
+                  </ul>
+                )}
+              </Card>
             </li>
           );
         })}
       </ol>
+
+      {next && (
+        <StickyFooter summary={footerSummary}>
+          <Link href={pomodoroHref(subject.id, next.id)} className={buttonClasses("primary", "lg")}>
+            <Play size={20} aria-hidden fill="currentColor" strokeWidth={0} />
+            Começar pomodoro
+          </Link>
+        </StickyFooter>
+      )}
     </section>
   );
 }

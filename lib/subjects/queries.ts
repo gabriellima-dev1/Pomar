@@ -25,7 +25,7 @@ export type SubjectDetail = {
   daily_goal: number | null;
   min_per_page: number | null;
   video_speed: number;
-  catalog_book: { title: string; edition: string; verified: boolean } | null;
+  catalog_book: { title: string; authors: string; edition: string; verified: boolean } | null;
   chapters: ChapterRow[];
 };
 
@@ -43,18 +43,37 @@ export const getPreferences = cache(async (userId: string) => {
   return { focusMin: data?.focus_min ?? 25, globalPace: data?.min_per_page ?? null };
 });
 
+export const getHomeProfile = cache(async (userId: string) => {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("display_name, timezone, xp_total, level, streak_current")
+    .eq("id", userId)
+    .maybeSingle();
+  return {
+    name: data?.display_name?.split(/\s+/)[0] ?? null,
+    timezone: data?.timezone ?? "America/Maceio",
+    xp: data?.xp_total ?? 0,
+    level: data?.level ?? 1,
+    streak: data?.streak_current ?? 0,
+  };
+});
+
+export type SubjectListItem = Awaited<ReturnType<typeof listSubjects>>[number];
+
 export async function listSubjects() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("subjects")
     .select(
-      "id, title, color, source, goal_date, min_per_page, video_speed, created_at, chapters(topics(page_start, page_end, duration_sec, done_at))",
+      "id, title, color, source, goal_date, min_per_page, video_speed, created_at, catalog_books(authors, edition), chapters(position, topics(id, position, title, page_start, page_end, duration_sec, done_at))",
     )
     .eq("archived", false)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
   if (error) throw new Error(`Não foi possível carregar as disciplinas: ${error.message}`);
-  return (data ?? []).map((s) => ({
+  return (data ?? []).map(({ catalog_books: book, ...s }) => ({
     ...s,
+    catalog_book: book ?? null,
     topics: s.chapters.flatMap((c) => c.topics),
   }));
 }
@@ -64,7 +83,7 @@ export async function getSubject(id: string): Promise<SubjectDetail | null> {
   const { data, error } = await supabase
     .from("subjects")
     .select(
-      "id, title, source, color, goal_date, daily_goal, min_per_page, video_speed, catalog_books(title, edition, verified), chapters(id, position, title, topics(id, position, title, page_start, page_end, duration_sec, done_at))",
+      "id, title, source, color, goal_date, daily_goal, min_per_page, video_speed, catalog_books(title, authors, edition, verified), chapters(id, position, title, topics(id, position, title, page_start, page_end, duration_sec, done_at))",
     )
     .eq("id", id)
     .maybeSingle();
