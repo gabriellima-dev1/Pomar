@@ -31,15 +31,12 @@ export type BadgeContext = {
   finishedChapter: boolean;
   /** Meta diária de pomodoros por disciplina (só as que têm meta). */
   dailyGoals: ReadonlyMap<string, number>;
-  /** Horário do lembrete ("HH:MM" ou "HH:MM:SS"), se houver. */
-  reminderTime: string | null;
 };
 
 const EARLY_HOUR = 7;
 const LATE_HOUR = 22;
 const MARATHON_RUN = 4;
 const NO_PAUSE_COUNT = 3;
-const PUNCTUAL_MIN = 15;
 const RETURN_GAP_DAYS = 3;
 
 function completed(ctx: BadgeContext): DaySession[] {
@@ -48,12 +45,6 @@ function completed(ctx: BadgeContext): DaySession[] {
 
 function startClock(ctx: BadgeContext, s: DaySession) {
   return localClock(s.startedAt, ctx.timeZone);
-}
-
-function toMinutes(time: string): number | null {
-  const m = /^(\d{1,2}):(\d{2})/.exec(time);
-  if (!m) return null;
-  return Number(m[1]) * 60 + Number(m[2]);
 }
 
 const RULES: Record<BadgeCode, (ctx: BadgeContext) => boolean> = {
@@ -89,16 +80,6 @@ const RULES: Record<BadgeCode, (ctx: BadgeContext) => boolean> = {
       if ((perSubject.get(subjectId) ?? 0) >= goal) return true;
     }
     return false;
-  },
-
-  pontual: (ctx) => {
-    const reminder = ctx.reminderTime ? toMinutes(ctx.reminderTime) : null;
-    if (reminder === null) return false;
-    return completed(ctx).some((s) => {
-      const { hour, minute } = startClock(ctx, s);
-      const diff = hour * 60 + minute - reminder;
-      return diff >= 0 && diff <= PUNCTUAL_MIN;
-    });
   },
 
   retorno: (ctx) =>

@@ -32,7 +32,6 @@ function input(partial: Partial<CloseInput>): CloseInput {
     sessions: [],
     chapterCompletions: [],
     dailyGoals: new Map(),
-    reminderTime: null,
     existingBadgeDays: [],
     existingHarvests: [],
     unlockedThemes: new Set(),

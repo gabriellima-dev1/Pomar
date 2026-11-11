@@ -71,7 +71,7 @@ select 'A lê o próprio XP, emblemas, colheita e tema',
 
 insert into resultado (teste, ok, detalhe)
 select 'Logado lê o catálogo de emblemas e temas',
-  (select count(*) from public.badges) = 12 and (select count(*) from public.themes) = 4, null;
+  (select count(*) from public.badges) = 11 and (select count(*) from public.themes) = 4, null;
 
 do $$
 begin

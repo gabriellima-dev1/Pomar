@@ -23,7 +23,6 @@ export const BADGE_CODES = [
   "explorador",
   "finalizador",
   "constante",
-  "pontual",
   "retorno",
   "fruto_dourado",
   "lua_cheia",
@@ -106,14 +105,6 @@ export const BADGES: readonly BadgeInfo[] = [
     hidden: false,
     rule: "Cumprir a meta diária de pomodoros de uma disciplina.",
     reason: "Você cumpriu a meta diária de uma disciplina.",
-  },
-  {
-    code: "pontual",
-    name: "Pontual",
-    rarity: "incomum",
-    hidden: false,
-    rule: "Começar um pomodoro até 15 min depois do seu lembrete diário.",
-    reason: "Você começou a estudar logo depois do lembrete.",
   },
   {
     code: "retorno",

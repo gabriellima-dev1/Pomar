@@ -146,9 +146,7 @@ export async function ensureDaysClosed(userId: string, now = new Date()): Promis
   const admin = createAdminClient();
   const { data: profile } = await admin
     .from("profiles")
-    .select(
-      "timezone, last_closed_day, streak_current, streak_best, freezes, reminder_time, created_at",
-    )
+    .select("timezone, last_closed_day, streak_current, streak_best, freezes, created_at")
     .eq("id", userId)
     .maybeSingle();
   if (!profile) return;
@@ -220,7 +218,6 @@ export async function ensureDaysClosed(userId: string, now = new Date()): Promis
     dailyGoals: new Map(
       subjectList.filter((s) => s.daily_goal).map((s) => [s.id, s.daily_goal as number]),
     ),
-    reminderTime: profile.reminder_time,
     existingBadgeDays: (badgeRows.data ?? []).map((b) => b.day),
     existingHarvests: (harvestRows.data ?? []).map((h): HarvestRecord => ({
       weekStart: h.week_start,

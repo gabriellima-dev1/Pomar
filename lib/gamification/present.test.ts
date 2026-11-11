@@ -18,9 +18,9 @@ const history = [
 ];
 
 describe("álbum", () => {
-  it("lista os 12 na ordem, com contagem e dias (mais novo primeiro)", () => {
+  it("lista os 11 na ordem, com contagem e dias (mais novo primeiro)", () => {
     const album = albumEntries(history);
-    expect(album).toHaveLength(12);
+    expect(album).toHaveLength(11);
     expect(album[0]?.code).toBe("fruto_do_dia");
     const coruja = album.find((a) => a.code === "coruja");
     expect(coruja?.count).toBe(2);

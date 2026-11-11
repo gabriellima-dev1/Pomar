@@ -1,5 +1,5 @@
 /**
- * Ícones dos 12 emblemas (docs/design/emblemas/*.svg): grade 24px, traço 2px,
+ * Ícones dos 11 emblemas (docs/design/emblemas/*.svg): grade 24px, traço 2px,
  * `currentColor`. Gerado a partir dos SVGs do design (sem os metadados).
  */
 
@@ -24,8 +24,6 @@ const PATHS: Record<BadgeCode, string> = {
     '<path d="M2.5 19h19"/><path d="M6.5 19a5.5 5.5 0 0 1 11 0"/><path d="M12 6.5V9M5 9.8l1.7 1.7M19 9.8l-1.7 1.7M2.8 15H4.5M19.5 15h1.7"/><path d="M9 22h6" opacity=".6"/>',
   maratona:
     '<circle cx="7.5" cy="9" r="2.5"/><circle cx="12" cy="7" r="2.5"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3 11.5h18l-2.2 8.5H5.2z"/><path d="M9 14.5v3M12 14.5v3M15 14.5v3" opacity=".6"/>',
-  pontual:
-    '<circle cx="12" cy="13" r="7.5"/><path d="M12 9.5V13l2.5 2"/><path d="M3.5 6.5 6.5 3.5M20.5 6.5l-3-3"/><path d="M7 20.5 5.5 22M17 20.5l1.5 1.5"/>',
   retorno:
     '<path d="M3.5 20.5h17"/><path d="M12 20.5V12"/><path d="M12 14c-.8-3.4-3.6-5-6.5-4.6.2 3.2 3 5.3 6.5 4.6z"/><path d="M12 12c.9-3.6 3.8-5.3 7-4.8-.3 3.4-3.2 5.5-7 4.8z"/>',
   sem_pausa:
