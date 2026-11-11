@@ -1,0 +1,98 @@
+{
+  "versao": 1,
+  "status": "rascunho do design (10/11/2026), pendente de aprovação da dupla em docs/DECISOES.md",
+  "perfis": {
+    "conquistador": { "rotulo": "Conquistador", "bartle": "Achiever" },
+    "competidor": { "rotulo": "Competidor", "bartle": "Killer (Assassino no DESIGN §6.8)" },
+    "explorador": { "rotulo": "Explorador", "bartle": "Explorer" },
+    "socializador": { "rotulo": "Socializador", "bartle": "Socializer" }
+  },
+  "regras": [
+    "8 perguntas, 4 alternativas cada, uma por perfil (DESIGN §6.8).",
+    "Embaralhar a ordem das alternativas em cada pergunta (a ordem abaixo não é a da tela).",
+    "Resultado = perfil com mais respostas + distribuição percentual (arredondar pelo maior resto para somar 100).",
+    "Empate: vence o perfil escolhido por último entre os empatados."
+  ],
+  "perguntas": [
+    {
+      "id": 1,
+      "texto": "Quando você termina uma sessão de estudo, o que te deixa mais satisfeito?",
+      "alternativas": {
+        "conquistador": "Ver minha barra de progresso avançar",
+        "competidor": "Saber que estudei mais do que os outros",
+        "explorador": "Ter descoberto algo curioso no caminho",
+        "socializador": "Contar para alguém o que eu fiz"
+      }
+    },
+    {
+      "id": 2,
+      "texto": "Num jogo, você costuma…",
+      "alternativas": {
+        "conquistador": "Completar tudo até os 100%",
+        "competidor": "Querer ganhar dos outros jogadores",
+        "explorador": "Explorar cada canto do mapa",
+        "socializador": "Jogar junto com os amigos"
+      }
+    },
+    {
+      "id": 3,
+      "texto": "O que te faria abrir o app amanhã?",
+      "alternativas": {
+        "conquistador": "Manter a ofensiva e chegar ao próximo nível",
+        "competidor": "Não deixar ninguém me passar na Feira",
+        "explorador": "Descobrir qual fruto do dia saiu",
+        "socializador": "Ver o que meus amigos estudaram"
+      }
+    },
+    {
+      "id": 4,
+      "texto": "Num trabalho em grupo, você prefere…",
+      "alternativas": {
+        "conquistador": "Organizar as metas e garantir a entrega",
+        "competidor": "Fazer a parte que vai impressionar a turma",
+        "explorador": "Pesquisar o assunto a fundo",
+        "socializador": "Manter o grupo unido e conversando"
+      }
+    },
+    {
+      "id": 5,
+      "texto": "Qual recompensa você acharia mais legal?",
+      "alternativas": {
+        "conquistador": "Uma medalha por cumprir uma meta difícil",
+        "competidor": "Um troféu de primeiro lugar",
+        "explorador": "Um emblema secreto que pouca gente achou",
+        "socializador": "Um parabéns de um amigo"
+      }
+    },
+    {
+      "id": 6,
+      "texto": "Como você escolhe o que estudar primeiro?",
+      "alternativas": {
+        "conquistador": "O que está mais perto de terminar",
+        "competidor": "O que vai me dar vantagem na prova",
+        "explorador": "O assunto que mais me intriga",
+        "socializador": "O que meus colegas também estão estudando"
+      }
+    },
+    {
+      "id": 7,
+      "texto": "Diante de um ranking, você…",
+      "alternativas": {
+        "conquistador": "Olha o quanto você mesmo avançou",
+        "competidor": "Corre atrás de quem está na sua frente",
+        "explorador": "Mal olha, prefere fuçar outras coisas",
+        "socializador": "Procura onde estão os seus amigos"
+      }
+    },
+    {
+      "id": 8,
+      "texto": "Seu jeito de usar um app novo:",
+      "alternativas": {
+        "conquistador": "Sigo o passo a passo até completar tudo",
+        "competidor": "Procuro onde dá para competir",
+        "explorador": "Clico em tudo para ver o que tem",
+        "socializador": "Chamo alguém para usar junto"
+      }
+    }
+  ]
+}

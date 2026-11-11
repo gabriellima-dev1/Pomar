@@ -58,7 +58,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 
 > As telas que não forem desenhadas (estatísticas, configurações, admin, transparência) seguem os componentes do design system, sem mockup próprio.
 
-**Entregue em 09/11 (onda 1):** `docs/design/` com tokens, `telas.md`, imagens das telas da Fase 2 e das 4 cenas, cenas animadas, ícones dos emblemas e Seu Tomás. Próximas ondas: gamificação e onboarding (até 15/11); social e dados (até 18/11).
+**Entregue em 09/11 (onda 1):** `docs/design/` com tokens, `telas.md`, imagens das telas da Fase 2 e das 4 cenas, cenas animadas, ícones dos emblemas e Seu Tomás. **Entregue em 10/11 (onda 2, gamificação):** seção "Fase 3" do `telas.md`, referências `09`–`14` (conquistas, fruto de ontem, subida de nível, tema desbloqueado), medalhas em `docs/design/colheitas/` e tokens `medal-*`. **Entregue em 10/11 (onda 3, landing e onboarding):** seção "Fase 4" e "Computador e tablet" do `telas.md`, referências `15`–`22`, `docs/design/quiz-bartle.json` e tokens `medal-esmeralda*`. Próxima onda: liga, social, estatísticas, configurações, transparência e admin (antes da Fase 5).
 
 ---
 
@@ -120,6 +120,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Lembrete diário (horário escolhido) com teto de 2 notificações/dia
 - [ ] Revisão de todos os eventos de telemetria do §9.1
 - [ ] Atribuição de coorte A/B no cadastro (flag `rewards_enabled`)
+- [ ] Adaptação para computador e tablet (barra lateral, grades, folhas viram diálogos) conforme `docs/design/telas.md` › Computador e tablet
 - [ ] **18/11: link de produção enviado aos colegas**
 
 **Aceite:** uma pessoa que nunca viu o app consegue, sozinha, chegar ao fim do 1º pomodoro; o funil aparece populado na tabela de eventos.
@@ -166,10 +167,10 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 > Fase 2 do docs/PLANO.md. Leia docs/design/telas.md e veja as imagens em docs/design/referencias/. Comece aplicando docs/design/tokens.css e as fontes às telas da Fase 1. As cenas seguem docs/design/cenas/. O timer precisa de testes unitários cobrindo aba oculta, recarregamento e pausa. Plano primeiro.
 
 **Fase 3**
-> Fase 3 do docs/PLANO.md. Toda regra de XP, emblema e colheita fica no servidor, em funções puras com testes. As cenas devem seguir as regras de leveza do DESIGN.md §6.7. Plano primeiro.
+> Fase 3 do docs/PLANO.md. Leia a seção "Fase 3" de docs/design/telas.md e as imagens docs/design/referencias/09 a 14. Toda regra de XP, emblema e colheita fica no servidor, em funções puras com testes. As cenas devem seguir as regras de leveza do DESIGN.md §6.7. Plano primeiro.
 
 **Fase 4**
-> Fase 4 do docs/PLANO.md. Revise se todos os eventos do DESIGN.md §9.1 estão instrumentados e me liste os que faltavam. Plano primeiro.
+> Fase 4 do docs/PLANO.md. Leia as seções "Fase 4" e "Computador e tablet" de docs/design/telas.md, as imagens docs/design/referencias/15 a 22 e docs/design/quiz-bartle.json. Revise se todos os eventos do DESIGN.md §9.1 estão instrumentados e me liste os que faltavam. Plano primeiro.
 
 **Fase 5**
 > Fase 5 do docs/PLANO.md. Comece pelas ligas (mais críticas para a apresentação), depois social, estatísticas e YouTube. Plano primeiro.
