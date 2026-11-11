@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      badges: {
+        Row: {
+          code: string
+          hidden: boolean
+          position: number
+          rarity: string
+          weight: number
+        }
+        Insert: {
+          code: string
+          hidden?: boolean
+          position: number
+          rarity: string
+          weight: number
+        }
+        Update: {
+          code?: string
+          hidden?: boolean
+          position?: number
+          rarity?: string
+          weight?: number
+        }
+        Relationships: []
+      }
       calibrations: {
         Row: {
           created_at: string
@@ -272,13 +296,14 @@ export type Database = {
           last_closed_day: string | null
           league_opt_in: boolean | null
           level: number
+          level_seen: number
           long_break_min: number
           min_per_page: number | null
           public_profile: boolean
           reminder_time: string | null
           streak_best: number
           streak_current: number
-          theme: string
+          theme: string | null
           timezone: string
           username: string | null
           xp_total: number
@@ -298,13 +323,14 @@ export type Database = {
           last_closed_day?: string | null
           league_opt_in?: boolean | null
           level?: number
+          level_seen?: number
           long_break_min?: number
           min_per_page?: number | null
           public_profile?: boolean
           reminder_time?: string | null
           streak_best?: number
           streak_current?: number
-          theme?: string
+          theme?: string | null
           timezone?: string
           username?: string | null
           xp_total?: number
@@ -324,13 +350,14 @@ export type Database = {
           last_closed_day?: string | null
           league_opt_in?: boolean | null
           level?: number
+          level_seen?: number
           long_break_min?: number
           min_per_page?: number | null
           public_profile?: boolean
           reminder_time?: string | null
           streak_best?: number
           streak_current?: number
-          theme?: string
+          theme?: string | null
           timezone?: string
           username?: string | null
           xp_total?: number
@@ -423,6 +450,21 @@ export type Database = {
         }
         Relationships: []
       }
+      themes: {
+        Row: {
+          code: string
+          unlock_rule: string
+        }
+        Insert: {
+          code: string
+          unlock_rule: string
+        }
+        Update: {
+          code?: string
+          unlock_rule?: string
+        }
+        Relationships: []
+      }
       topics: {
         Row: {
           chapter_id: string
@@ -467,6 +509,127 @@ export type Database = {
           },
         ]
       }
+      user_daily_badges: {
+        Row: {
+          badge_code: string
+          created_at: string
+          day: string
+          seen_at: string | null
+          user_id: string
+        }
+        Insert: {
+          badge_code: string
+          created_at?: string
+          day: string
+          seen_at?: string | null
+          user_id: string
+        }
+        Update: {
+          badge_code?: string
+          created_at?: string
+          day?: string
+          seen_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_daily_badges_badge_code_fkey"
+            columns: ["badge_code"]
+            isOneToOne: false
+            referencedRelation: "badges"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      user_themes: {
+        Row: {
+          seen_at: string | null
+          source_week: string | null
+          tab_seen_at: string | null
+          theme_code: string
+          unlocked_at: string
+          user_id: string
+        }
+        Insert: {
+          seen_at?: string | null
+          source_week?: string | null
+          tab_seen_at?: string | null
+          theme_code: string
+          unlocked_at?: string
+          user_id: string
+        }
+        Update: {
+          seen_at?: string | null
+          source_week?: string | null
+          tab_seen_at?: string | null
+          theme_code?: string
+          unlocked_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_themes_theme_code_fkey"
+            columns: ["theme_code"]
+            isOneToOne: false
+            referencedRelation: "themes"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      weekly_harvests: {
+        Row: {
+          days: number
+          tier: string
+          updated_at: string
+          user_id: string
+          week_start: string
+        }
+        Insert: {
+          days: number
+          tier: string
+          updated_at?: string
+          user_id: string
+          week_start: string
+        }
+        Update: {
+          days?: number
+          tier?: string
+          updated_at?: string
+          user_id?: string
+          week_start?: string
+        }
+        Relationships: []
+      }
+      xp_events: {
+        Row: {
+          amount: number
+          created_at: string
+          dedupe_key: string
+          id: number
+          ref_id: string | null
+          source: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          dedupe_key: string
+          id?: number
+          ref_id?: string | null
+          source: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          dedupe_key?: string
+          id?: number
+          ref_id?: string | null
+          source?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -475,6 +638,28 @@ export type Database = {
       accept_pace_suggestion: {
         Args: { p_subject_id: string }
         Returns: number
+      }
+      apply_day_close: {
+        Args: {
+          p_badges: Json
+          p_expected: string
+          p_freezes: number
+          p_harvests: Json
+          p_last_closed: string
+          p_streak: number
+          p_streak_best: number
+          p_themes: Json
+          p_user: string
+        }
+        Returns: boolean
+      }
+      apply_xp: {
+        Args: { p_events: Json; p_user: string }
+        Returns: {
+          inserted: string[]
+          new_total: number
+          old_total: number
+        }[]
       }
       cancel_pomodoro: {
         Args: { p_id: string; p_reason?: string }
