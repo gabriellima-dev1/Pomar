@@ -99,7 +99,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [x] Tela inicial com cards (anel, restante, próximo tópico, previsão, botão Começar)
 - [x] Cena **Clássico** em SVG animado a partir de `docs/design/cenas/scene-classico.html` (fruto amadurecendo durante o foco, colheita no fim), com o cronômetro em vidro e as cores da paisagem em tokens
 
-**Aceite:** do card, 1 clique abre o pomodoro no próximo tópico; trocar de aba e voltar mantém o tempo certo; pausar mostra o pop-up; concluir pede as páginas e atualiza o card. — **implementado em 10/11 (PRs #11 e fase-2-pomodoro); aguardando o aceite da dupla no preview. RLS e regras verificadas com `supabase/tests/rls_fase2.sql` (20 testes, com rollback).**
+**Aceite:** do card, 1 clique abre o pomodoro no próximo tópico; trocar de aba e voltar mantém o tempo certo; pausar mostra o pop-up; concluir pede as páginas e atualiza o card. — **feito pela dupla em 10/11 (PRs #11, #12 e #13); RLS e regras verificadas com `supabase/tests/rls_fase2.sql` (20 testes, com rollback).**
 
 ### Fase 3 — Gamificação (15–17/11)
 - [ ] XP calculado no servidor (`lib/gamification/xp.ts`) e tabela `xp_events`
