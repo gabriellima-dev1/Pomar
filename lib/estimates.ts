@@ -151,3 +151,42 @@ export function formatDuration(minutes: number): string {
   const m = total % 60;
   return m === 0 ? `${h} h` : `${h} h ${m} min`;
 }
+
+/** Janela da média diária de foco (DESIGN §4.3). */
+export const FORECAST_WINDOW_DAYS = 14;
+
+function dayIndex(day: string): number {
+  const [y, m, d] = day.split("-").map(Number);
+  return Math.round(Date.UTC(y ?? 1970, (m ?? 1) - 1, d ?? 1) / 86_400_000);
+}
+
+/**
+ * Média diária de foco (min) numa disciplina: minutos dos últimos 14 dias (com hoje)
+ * ÷ dias desde a 1ª sessão dela, até 14. Assim quem começou ontem não tem a média
+ * diluída por 14 dias que ainda não existiram. Dias no fuso do usuário.
+ */
+export function dailyFocusAverage(
+  sessions: { day: string; minutes: number }[],
+  today: string,
+  firstDay: string | null,
+): number {
+  if (!firstDay) return 0;
+  const t = dayIndex(today);
+  const span = Math.min(FORECAST_WINDOW_DAYS, Math.max(1, t - dayIndex(firstDay) + 1));
+  const total = sessions
+    .filter((s) => {
+      const age = t - dayIndex(s.day);
+      return age >= 0 && age < FORECAST_WINDOW_DAYS;
+    })
+    .reduce((sum, s) => sum + s.minutes, 0);
+  return total / span;
+}
+
+/** "termina 4 dias antes" / "termina 2 dias depois" / "termina na véspera"… comparando com a prova. */
+export function goalComparison(forecastDay: string, goalDay: string): string {
+  const diff = dayIndex(goalDay) - dayIndex(forecastDay);
+  if (diff === 0) return "você termina no dia da prova";
+  const n = Math.abs(diff);
+  const dias = n === 1 ? "1 dia" : `${n} dias`;
+  return diff > 0 ? `você termina ${dias} antes` : `você termina ${dias} depois`;
+}
