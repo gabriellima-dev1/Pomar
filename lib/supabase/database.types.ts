@@ -614,7 +614,7 @@ export type Database = {
           amount: number
           created_at?: string
           dedupe_key: string
-          id?: number
+          id?: never
           ref_id?: string | null
           source: string
           user_id: string
@@ -623,7 +623,7 @@ export type Database = {
           amount?: number
           created_at?: string
           dedupe_key?: string
-          id?: number
+          id?: never
           ref_id?: string | null
           source?: string
           user_id?: string

@@ -45,7 +45,8 @@ export default async function ConquistasPage({ searchParams }: PageProps<"/conqu
     <div className="flex flex-col gap-6">
       <h1 className="text-display pt-2">Conquistas</h1>
 
-      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
+      {/* Card de nível ao lado das abas só no layout de computador (Fase 4). */}
+      <div className="flex flex-col gap-6">
         {tab === "emblemas" && <LevelCard xp={profile.xp} />}
         <SegmentedNav
           label="Conquistas"

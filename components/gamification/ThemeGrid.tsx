@@ -71,8 +71,8 @@ export function ThemeGrid({
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <div role="radiogroup" aria-label="Tema" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <div className="@container flex flex-col gap-5">
+      <div role="radiogroup" aria-label="Tema" className="grid grid-cols-2 gap-3 @4xl:grid-cols-4">
         {THEME_LIST.map((t) => {
           const usable = canUseTheme(t.code, owned, isAdmin);
           const active = usable && inUse === t.code;
@@ -86,7 +86,7 @@ export function ThemeGrid({
               aria-disabled={!usable}
               disabled={pending}
               onClick={() => (usable ? choose(t.code) : setPreview(t.code))}
-              className={`bg-surface-200 flex flex-col gap-3 rounded-lg p-3 text-left ${
+              className={`bg-surface-200 flex min-w-0 flex-col gap-3 rounded-lg p-3 text-left ${
                 active
                   ? "border-primary border-[3px]"
                   : "shadow-card border-[3px] border-transparent"
@@ -103,7 +103,7 @@ export function ThemeGrid({
                 )}
               </span>
               <span className="flex items-start justify-between gap-2">
-                <span className="text-heading">{t.name}</span>
+                <span className="text-heading min-w-0 [overflow-wrap:anywhere]">{t.name}</span>
                 {usable &&
                   (active ? (
                     <span className="bg-primary text-on-primary grid size-7 shrink-0 place-items-center rounded-full">
