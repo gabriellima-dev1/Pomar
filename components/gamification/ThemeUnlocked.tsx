@@ -33,8 +33,10 @@ export function ThemeUnlocked({
     >
       <Scene theme={theme} progress={1} />
       <div className="max-w-app relative mx-auto flex min-h-full flex-col justify-end gap-4 p-4 pb-[max(16px,env(safe-area-inset-bottom))]">
-        <div className={`flex justify-center ${r.discIn}`}>
-          <SeuTomas size={150} accessory={theme === "classico" ? "basico" : theme} />
+        <div className="flex justify-center">
+          <div className={r.discIn}>
+            <SeuTomas size={150} accessory={theme === "classico" ? "basico" : theme} />
+          </div>
         </div>
         <div
           className={`bg-surface-200 text-ink shadow-dialog flex flex-col items-center gap-4 rounded-[32px] px-6 py-7 text-center ${r.rise}`}

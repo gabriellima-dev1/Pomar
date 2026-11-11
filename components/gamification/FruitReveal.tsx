@@ -80,15 +80,17 @@ export function FruitReveal({
 
           <div className="relative grid size-[176px] place-items-center">
             <svg viewBox="-88 -88 176 176" className="absolute inset-0" aria-hidden>
-              <g className={r.rays}>
-                {Array.from({ length: 8 }, (_, i) => (
-                  <path
-                    key={i}
-                    d="M-14 -88 L14 -88 L5 -40 L-5 -40Z"
-                    fill={RAY_COLOR[info.rarity]}
-                    transform={`rotate(${i * 45})`}
-                  />
-                ))}
+              <g className={r.raysIn}>
+                <g className={r.rays}>
+                  {Array.from({ length: 8 }, (_, i) => (
+                    <path
+                      key={i}
+                      d="M-14 -88 L14 -88 L5 -40 L-5 -40Z"
+                      fill={RAY_COLOR[info.rarity]}
+                      transform={`rotate(${i * 45})`}
+                    />
+                  ))}
+                </g>
               </g>
               {PARTICLES.map(([x, y, color], i) => (
                 <circle
@@ -98,7 +100,13 @@ export function FruitReveal({
                   r={i % 2 ? 4 : 5}
                   fill={color}
                   className={r.sparkle}
-                  style={{ animationDelay: `${-i * 0.35}s` }}
+                  style={
+                    {
+                      "--dx": `${-x}px`,
+                      "--dy": `${-y}px`,
+                      animationDelay: `${i * 40}ms, ${600 + i * 350}ms`,
+                    } as React.CSSProperties
+                  }
                 />
               ))}
             </svg>
