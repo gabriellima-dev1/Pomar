@@ -12,16 +12,25 @@ import { ProgressRing } from "@/components/ui/Progress";
 import { StickyFooter } from "@/components/ui/StickyFooter";
 import { TopBar, iconButtonClasses } from "@/components/ui/TopBar";
 import { requireUser } from "@/lib/auth/session";
+import { localDay } from "@/lib/dates";
 import {
   effectivePace,
   formatPace,
+  goalComparison,
   pomodorosFor,
+  remainingMinutes,
   subjectProgress,
   topicMinutes,
   topicPages,
 } from "@/lib/estimates";
+import { forecastDay } from "@/lib/subjects/history";
 import { subjectColorVar } from "@/lib/subjects/colors";
-import { getPreferences, getSubject } from "@/lib/subjects/queries";
+import {
+  getHomeProfile,
+  getPreferences,
+  getStudyHistory,
+  getSubject,
+} from "@/lib/subjects/queries";
 import { nextTopic, shortAuthors, shortDate } from "@/lib/subjects/summary";
 import { isUuid } from "@/lib/subjects/validation";
 
@@ -54,18 +63,26 @@ export default async function DisciplinaPage({
   const user = await requireUser();
   const { id } = await params;
   if (!isUuid(id)) notFound();
-  const [subject, prefs, query] = await Promise.all([
+  const [subject, prefs, profile, query] = await Promise.all([
     getSubject(id),
     getPreferences(user.id),
+    getHomeProfile(user.id),
     searchParams,
   ]);
   if (!subject) notFound();
+  const history = await getStudyHistory(profile.timezone);
+  const today = localDay(new Date(), profile.timezone);
 
   const topics = subject.chapters.flatMap((c) => c.topics);
   const unit = subject.source === "youtube" ? "minutos" : "paginas";
   const progress = subjectProgress(topics, unit);
   const pace = effectivePace(subject.min_per_page, prefs.globalPace);
   const next = nextTopic(subject.chapters);
+  const finishDay = forecastDay(
+    remainingMinutes(topics, pace.minPerPage, subject.video_speed),
+    history.get(subject.id),
+    today,
+  );
   const approx = subject.catalog_book && !subject.catalog_book.verified;
   const book = subject.catalog_book
     ? `${shortAuthors(subject.catalog_book.authors, true)} · ${subject.catalog_book.edition}`
@@ -136,7 +153,7 @@ export default async function DisciplinaPage({
               : `${subject.video_speed.toLocaleString("pt-BR")}×`
           }
         />
-        <MiniStat label="Término" value="—" />
+        <MiniStat label="Término" value={finishDay ? `~${shortDate(finishDay)}` : "—"} />
       </dl>
 
       {unit === "paginas" && pace.source === "padrao" && (
@@ -153,8 +170,10 @@ export default async function DisciplinaPage({
       )}
       {subject.goal_date && (
         <p className="text-small text-ink-muted">
-          Prova em {shortDate(subject.goal_date)}. A previsão de término aparece depois dos seus
-          primeiros pomodoros.
+          Prova em {shortDate(subject.goal_date)}
+          {finishDay
+            ? ` · no seu ritmo atual, ${goalComparison(finishDay, subject.goal_date)}.`
+            : ". A previsão de término aparece depois dos seus primeiros pomodoros."}
         </p>
       )}
       {approx && <ApproxPagesNotice />}
