@@ -111,7 +111,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [x] Desbloqueio de temas por colheita; sugestão sazonal; flag de admin para liberar tudo
 - [x] Mascote Seu Tomás com falas contextuais (onboarding, conquistas, retorno)
 
-**Aceite:** com dados de teste, um dia com pomodoro gera exatamente 1 emblema no dia seguinte; 5 dias geram Colheita de Prata e desbloqueiam Halloween; trocar o tema muda cenário e posições. — **implementado em 11/11 (branch `fase-3-gamificacao`); falta aplicar a migração (`npm run db:push`), rodar `supabase/tests/rls_fase3.sql` e o aceite da dupla no preview (dados de teste: `npm run demo:week -- <email> 5 --confirmo`). As falas do onboarding ficam prontas para a Fase 4.**
+**Aceite:** com dados de teste, um dia com pomodoro gera exatamente 1 emblema no dia seguinte; 5 dias geram Colheita de Prata e desbloqueiam Halloween; trocar o tema muda cenário e posições. — **feito pela dupla em produção em 11/11 (PRs #16, #17 e #18), com a conta de teste `teste.fase3@example.com` (`is_demo`) e `npm run demo:week`: 1 dia → 1 emblema; 5 dias → Colheita de Prata + Halloween; troca de tema muda cena e posições; XP no fim do ciclo. RLS verificada com `supabase/tests/rls_fase3.sql` (19 testes, com rollback). A checagem das animações fica para a Fase 6 (Playwright).**
 
 ### Fase 4 — Onboarding, landing e beta (17–18/11)
 - [ ] Retirar o emblema **Pontual** (decisão de 11/11): nova migração removendo `pontual` do catálogo de emblemas, tirar a regra e os testes de `lib/gamification/badges.ts`, o item de `catalog.ts` e o ícone de `BadgeIcon.tsx`; o álbum passa a ter 11 emblemas. `profiles.reminder_time` deixa de ser usado
@@ -140,7 +140,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Configurações: exportar dados (JSON) e excluir conta (1 clique + confirmação)
 - [ ] Seed de usuários demo (com selo) para popular ligas na apresentação
 - [ ] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular
-- [ ] Teste ponta a ponta do fluxo principal (Playwright)
+- [ ] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11
 - [ ] Correções a partir do uso real dos colegas
 - [ ] **23/11: congelamento de funcionalidades**
 

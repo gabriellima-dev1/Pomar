@@ -4,12 +4,37 @@
  */
 
 @keyframes disc-in {
-  from {
+  0% {
     transform: scale(0.6);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes rays-in {
+  from {
+    transform: scale(0.4);
     opacity: 0;
   }
   to {
     transform: scale(1);
+    opacity: 1;
+  }
+}
+/* Partícula sai do centro (--dx/--dy = posição final invertida) para o seu lugar. */
+@keyframes burst {
+  from {
+    transform: translate(var(--dx), var(--dy)) scale(0.3);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0) scale(1);
     opacity: 1;
   }
 }
@@ -38,9 +63,22 @@
   }
 }
 
-/* Disco do emblema: scale(0.6 → 1) + opacity em 400ms. */
+/* Disco do emblema: scale(0.6 → 1) + opacity em 400ms, com um leve salto no fim.
+   Precisa de elemento de bloco (em `<span>` em linha o transform não vale). */
 .discIn {
+  display: inline-block;
   animation: disc-in 400ms ease-out both;
+}
+svg .discIn,
+g.discIn {
+  display: inline;
+}
+
+/* Raios abrem junto com o disco (o giro fica no grupo de dentro). */
+.raysIn {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rays-in 500ms ease-out both;
 }
 
 /* Raios: 1 volta a cada 60s. */
@@ -50,9 +88,11 @@
   animation: spin 60s linear infinite;
 }
 
-/* Até 7 partículas. */
+/* Até 7 partículas: espalham-se do centro e depois piscam. */
 .sparkle {
-  animation: sparkle 2.4s ease-in-out infinite;
+  animation:
+    burst 600ms ease-out both,
+    sparkle 2.4s ease-in-out 600ms infinite;
 }
 
 .rise {
@@ -61,6 +101,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .discIn,
+  .raysIn,
   .rays,
   .sparkle,
   .rise {
