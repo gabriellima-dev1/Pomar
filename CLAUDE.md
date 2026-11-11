@@ -86,6 +86,7 @@ npm run db:push      # aplicar migrações (supabase db push --remote; carregar 
 npm run db:types     # regenerar lib/supabase/database.types.ts
 npm run db:seed:catalog  # carregar supabase/seed/catalog/*.json (lê .env.local, chave secreta)
 npm run catalog:review   # regenerar docs/catalogo-revisao.md a partir dos JSONs
+npm run tokens           # regenerar app/tokens.css e docs/design/tokens.css a partir do tokens.json
 ```
 (Ajuste esta seção se os scripts mudarem.)
 

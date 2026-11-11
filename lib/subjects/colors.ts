@@ -1,17 +1,18 @@
 /**
  * Paleta das disciplinas. Mesma lista do `check` de subjects.color
  * (supabase/migrations/*_disciplinas.sql): cor nova exige migração nova.
- * Tons escuros o bastante para contraste AA com texto branco.
+ * Os tons vêm dos tokens `--subject-*` (docs/design/tokens.json): escuros nos temas
+ * claros e claros nos escuros, sempre com `--on-subject` por cima (AA).
  */
 export const SUBJECT_COLORS = [
-  { key: "tomate", label: "Tomate", hex: "#c0392b" },
-  { key: "laranja", label: "Laranja", hex: "#b9510f" },
-  { key: "mel", label: "Mel", hex: "#8a6100" },
-  { key: "folha", label: "Folha", hex: "#2f6b3f" },
-  { key: "menta", label: "Menta", hex: "#0f7466" },
-  { key: "ceu", label: "Céu", hex: "#1f5ea8" },
-  { key: "uva", label: "Uva", hex: "#6d3fa0" },
-  { key: "terra", label: "Terra", hex: "#7a4b32" },
+  { key: "tomate", label: "Tomate" },
+  { key: "laranja", label: "Laranja" },
+  { key: "mel", label: "Mel" },
+  { key: "folha", label: "Folha" },
+  { key: "menta", label: "Menta" },
+  { key: "ceu", label: "Céu" },
+  { key: "uva", label: "Uva" },
+  { key: "terra", label: "Terra" },
 ] as const;
 
 export type SubjectColor = (typeof SUBJECT_COLORS)[number]["key"];
@@ -30,6 +31,7 @@ export function suggestColor(existingCount: number): SubjectColor {
   return SUBJECT_COLORS[index]!.key;
 }
 
-export function colorHex(key: string): string {
-  return SUBJECT_COLORS.find((c) => c.key === key)?.hex ?? SUBJECT_COLORS[0].hex;
+/** Valor CSS da cor da disciplina no tema atual (`var(--subject-…)`). */
+export function subjectColorVar(key: string): string {
+  return `var(--subject-${isSubjectColor(key) ? key : SUBJECT_COLORS[0].key})`;
 }

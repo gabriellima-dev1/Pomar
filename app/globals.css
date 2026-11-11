@@ -1,60 +1,85 @@
 @import "tailwindcss";
+/* Tokens do design system "Pomar" — gerado por `npm run tokens` a partir de docs/design/tokens.json. */
+@import "./tokens.css" layer(base);
 
-/*
- * Tokens neutros provisórios. Serão substituídos pelos tokens aprovados
- * em docs/design/tokens.json (design system "Pomar").
- */
+/* As famílias vêm do next/font (app/layout.tsx); os nomes do tokens.json ficam de reserva. */
 :root {
-  --background: #fbfaf7;
-  --surface: #ffffff;
-  --foreground: #1f2421;
-  --muted: #5c645f;
-  --border: #dcdfd8;
-  --primary: #2f6b3f;
-  --primary-foreground: #ffffff;
-  --accent: #c8432f;
-  --danger: #b42318;
-  --ring: #1f5ea8;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #121513;
-    --surface: #1b1f1c;
-    --foreground: #eef1ec;
-    --muted: #a7b0aa;
-    --border: #333a35;
-    --primary: #6fbf82;
-    --primary-foreground: #0e1a12;
-    --accent: #ef7a63;
-    --danger: #f97066;
-    --ring: #84b6f4;
-  }
+  --font-display: var(--font-fredoka), "Nunito", system-ui, sans-serif;
+  --font-sans: var(--font-nunito), system-ui, sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-surface-100: var(--surface-100);
+  --color-surface-200: var(--surface-200);
+  --color-surface-300: var(--surface-300);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-control-border: var(--control-border);
   --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-accent: var(--accent);
+  --color-on-primary: var(--on-primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
+  --color-fruit: var(--fruit);
+  --color-on-fruit: var(--on-fruit);
+  --color-fruit-soft: var(--fruit-soft);
+  --color-reward: var(--reward);
+  --color-on-reward: var(--on-reward);
+  --color-reward-mark: var(--reward-mark);
+  --color-focus-ring: var(--focus-ring);
   --color-danger: var(--danger);
-  --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-scrim: var(--scrim);
+  --color-subject-tomate: var(--subject-tomate);
+  --color-subject-laranja: var(--subject-laranja);
+  --color-subject-mel: var(--subject-mel);
+  --color-subject-folha: var(--subject-folha);
+  --color-subject-menta: var(--subject-menta);
+  --color-subject-ceu: var(--subject-ceu);
+  --color-subject-uva: var(--subject-uva);
+  --color-subject-terra: var(--subject-terra);
+  --color-on-subject: var(--on-subject);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-pill: var(--radius-pill);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-button: var(--shadow-button);
+  --shadow-dialog: var(--shadow-dialog);
+
+  --container-app: var(--screen-max);
+}
+
+html {
+  background: var(--surface-100);
+  color: var(--ink);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    color-scheme: dark;
+  }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--surface-100);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
 }
 
-/* Foco de teclado sempre visível (CLAUDE.md › Interface). */
+/* Foco de teclado sempre visível (docs/design/telas.md › Fundamentos). */
 :focus-visible {
-  outline: 3px solid var(--ring);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -66,5 +91,16 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

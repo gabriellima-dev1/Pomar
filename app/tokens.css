@@ -1,0 +1,280 @@
+/* Pomar — generated from tokens.json (design system "Pomar", 09/11/2026). Não edite à mão: altere o tokens.json. */
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  --tap-min: 44px;
+  --button-lg: 56px;
+  --ring-card: 56px;
+  --screen-max: 480px;
+  --font-display: "Fredoka", "Nunito", system-ui, sans-serif;
+  --font-sans: "Nunito", system-ui, sans-serif;
+}
+
+:root,
+[data-theme="classico"] {
+  --surface-100: #fbf6ec;
+  --surface-200: #ffffff;
+  --surface-300: #f2eadb;
+  --ink: #2a2118;
+  --ink-muted: #6b5c4c;
+  --line: #e6dccb;
+  --control-border: #94806a;
+  --primary: #2e7a47;
+  --on-primary: #ffffff;
+  --primary-strong: #1f5a33;
+  --primary-soft: #e8f4e4;
+  --fruit: #c8402a;
+  --on-fruit: #ffffff;
+  --fruit-soft: #fbe2d9;
+  --reward: #f2b632;
+  --on-reward: #2a2118;
+  --reward-mark: #a87300;
+  --focus-ring: #1f5ea8;
+  --danger: #b42318;
+  --scrim: rgba(42,33,24,0.48);
+  --illo-shine: #ffffff;
+  --illo-blush: #fbc9bb;
+  --scene-sky: #d6ebef;
+  --scene-hill: #bfdcab;
+  --scene-ground: #93c47d;
+  --scene-orb: #f2b632;
+  --on-scene-orb: #2a2118;
+  --scene-silhouette: #3d5a3a;
+  --scene-particle: #ffffff;
+  --fruit-unripe: #c3df86;
+  --glass-fill: rgba(255,255,255,0.52);
+  --glass-edge: rgba(255,255,255,0.85);
+  --glass-shade: rgba(42,33,24,0.14);
+  --glass-fallback: #f4f8f6;
+  --subject-tomate: #c0392b;
+  --subject-laranja: #b9510f;
+  --subject-mel: #8a6100;
+  --subject-folha: #2f6b3f;
+  --subject-menta: #0f7466;
+  --subject-ceu: #1f5ea8;
+  --subject-uva: #6d3fa0;
+  --subject-terra: #7a4b32;
+  --on-subject: #ffffff;
+  --shadow-card: 0 2px 0 rgba(42,33,24,0.08);
+  --shadow-button: 0 4px 0 #1f5a33;
+  --shadow-dialog: 0 12px 32px rgba(42,33,24,0.18);
+}
+
+[data-theme="noturno"] {
+  --surface-100: #131a26;
+  --surface-200: #1c2433;
+  --surface-300: #263043;
+  --ink: #f3eee4;
+  --ink-muted: #a8b1c2;
+  --line: #2e394d;
+  --control-border: #73819a;
+  --primary: #6cc58a;
+  --on-primary: #0e1b13;
+  --primary-strong: #9ad9ae;
+  --primary-soft: #1d3628;
+  --fruit: #ff7f61;
+  --on-fruit: #2a0f08;
+  --fruit-soft: #3a221c;
+  --reward: #f5c85c;
+  --on-reward: #231a08;
+  --reward-mark: #f5c85c;
+  --focus-ring: #8fbaf6;
+  --danger: #ff8b7b;
+  --scrim: rgba(5,8,14,0.64);
+  --illo-shine: #ffffff;
+  --illo-blush: #ffc2b3;
+  --scene-sky: #182238;
+  --scene-hill: #22314a;
+  --scene-ground: #1e3a33;
+  --scene-orb: #f4ecd2;
+  --on-scene-orb: #1b2232;
+  --scene-silhouette: #0e1522;
+  --scene-particle: #f3eee4;
+  --fruit-unripe: #dbe98e;
+  --glass-fill: rgba(19,26,38,0.48);
+  --glass-edge: rgba(255,255,255,0.22);
+  --glass-shade: rgba(0,0,0,0.4);
+  --glass-fallback: #1f2a3d;
+  --subject-tomate: #ff7d6b;
+  --subject-laranja: #f59a52;
+  --subject-mel: #e3b745;
+  --subject-folha: #6cc58a;
+  --subject-menta: #4fc7b4;
+  --subject-ceu: #7fb2f2;
+  --subject-uva: #bf97ee;
+  --subject-terra: #d29a78;
+  --on-subject: #131a26;
+  --shadow-card: 0 2px 0 rgba(0,0,0,0.35);
+  --shadow-button: 0 4px 0 #3f8a5a;
+  --shadow-dialog: 0 12px 32px rgba(0,0,0,0.5);
+}
+
+[data-theme="halloween"] {
+  --surface-100: #19131f;
+  --surface-200: #241b2d;
+  --surface-300: #30253c;
+  --ink: #f6ede1;
+  --ink-muted: #bba9c6;
+  --line: #3b2e48;
+  --control-border: #806d90;
+  --primary: #b993f3;
+  --on-primary: #1c1027;
+  --primary-strong: #d3b8ff;
+  --primary-soft: #33264a;
+  --fruit: #f28a2b;
+  --on-fruit: #2b1405;
+  --fruit-soft: #3d2816;
+  --reward: #f2c14e;
+  --on-reward: #241a06;
+  --reward-mark: #f2c14e;
+  --focus-ring: #9cc2ff;
+  --danger: #ff8f80;
+  --scrim: rgba(8,4,12,0.66);
+  --illo-shine: #ffffff;
+  --illo-blush: #ffd2a6;
+  --scene-sky: #4b3170;
+  --scene-hill: #2e1d45;
+  --scene-ground: #1a1126;
+  --scene-orb: #f6e3a8;
+  --on-scene-orb: #241a06;
+  --scene-silhouette: #0c0812;
+  --scene-particle: #8f7aa8;
+  --fruit-unripe: #8fbf5f;
+  --glass-fill: rgba(25,19,31,0.66);
+  --glass-edge: rgba(255,255,255,0.2);
+  --glass-shade: rgba(0,0,0,0.45);
+  --glass-fallback: #2a2036;
+  --subject-tomate: #ff7d6b;
+  --subject-laranja: #f59a52;
+  --subject-mel: #e3b745;
+  --subject-folha: #6cc58a;
+  --subject-menta: #4fc7b4;
+  --subject-ceu: #7fb2f2;
+  --subject-uva: #bf97ee;
+  --subject-terra: #d29a78;
+  --on-subject: #19131f;
+  --shadow-card: 0 2px 0 rgba(0,0,0,0.4);
+  --shadow-button: 0 4px 0 #7f5cc0;
+  --shadow-dialog: 0 12px 32px rgba(0,0,0,0.55);
+}
+
+[data-theme="natal"] {
+  --surface-100: #f7f5ef;
+  --surface-200: #ffffff;
+  --surface-300: #ece8dd;
+  --ink: #1d2a22;
+  --ink-muted: #56655b;
+  --line: #dfe2d6;
+  --control-border: #7f8d82;
+  --primary: #1f6b45;
+  --on-primary: #ffffff;
+  --primary-strong: #154d31;
+  --primary-soft: #dcefe2;
+  --fruit: #c0282d;
+  --on-fruit: #ffffff;
+  --fruit-soft: #f8dcdc;
+  --reward: #d9a420;
+  --on-reward: #1d2a22;
+  --reward-mark: #94700c;
+  --focus-ring: #1f5ea8;
+  --danger: #b42318;
+  --scrim: rgba(29,42,34,0.48);
+  --illo-shine: #ffffff;
+  --illo-blush: #f9c6c6;
+  --scene-sky: #c9dbe6;
+  --scene-hill: #ffffff;
+  --scene-ground: #eef2f5;
+  --scene-orb: #f2c14e;
+  --on-scene-orb: #1d2a22;
+  --scene-silhouette: #154d31;
+  --scene-particle: #ffffff;
+  --fruit-unripe: #e6ecf0;
+  --glass-fill: rgba(255,255,255,0.55);
+  --glass-edge: rgba(255,255,255,0.9);
+  --glass-shade: rgba(29,42,34,0.14);
+  --glass-fallback: #f4f7f9;
+  --subject-tomate: #c0392b;
+  --subject-laranja: #b9510f;
+  --subject-mel: #8a6100;
+  --subject-folha: #2f6b3f;
+  --subject-menta: #0f7466;
+  --subject-ceu: #1f5ea8;
+  --subject-uva: #6d3fa0;
+  --subject-terra: #7a4b32;
+  --on-subject: #ffffff;
+  --shadow-card: 0 2px 0 rgba(29,42,34,0.08);
+  --shadow-button: 0 4px 0 #154d31;
+  --shadow-dialog: 0 12px 32px rgba(29,42,34,0.18);
+}
+
+/* Sem tema escolhido + sistema em modo escuro → Noturno (DECISOES 09/11) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --surface-100: #131a26;
+    --surface-200: #1c2433;
+    --surface-300: #263043;
+    --ink: #f3eee4;
+    --ink-muted: #a8b1c2;
+    --line: #2e394d;
+    --control-border: #73819a;
+    --primary: #6cc58a;
+    --on-primary: #0e1b13;
+    --primary-strong: #9ad9ae;
+    --primary-soft: #1d3628;
+    --fruit: #ff7f61;
+    --on-fruit: #2a0f08;
+    --fruit-soft: #3a221c;
+    --reward: #f5c85c;
+    --on-reward: #231a08;
+    --reward-mark: #f5c85c;
+    --focus-ring: #8fbaf6;
+    --danger: #ff8b7b;
+    --scrim: rgba(5,8,14,0.64);
+    --illo-shine: #ffffff;
+    --illo-blush: #ffc2b3;
+    --scene-sky: #182238;
+    --scene-hill: #22314a;
+    --scene-ground: #1e3a33;
+    --scene-orb: #f4ecd2;
+    --on-scene-orb: #1b2232;
+    --scene-silhouette: #0e1522;
+    --scene-particle: #f3eee4;
+    --fruit-unripe: #dbe98e;
+    --glass-fill: rgba(19,26,38,0.48);
+    --glass-edge: rgba(255,255,255,0.22);
+    --glass-shade: rgba(0,0,0,0.4);
+    --glass-fallback: #1f2a3d;
+    --subject-tomate: #ff7d6b;
+    --subject-laranja: #f59a52;
+    --subject-mel: #e3b745;
+    --subject-folha: #6cc58a;
+    --subject-menta: #4fc7b4;
+    --subject-ceu: #7fb2f2;
+    --subject-uva: #bf97ee;
+    --subject-terra: #d29a78;
+    --on-subject: #131a26;
+    --shadow-card: 0 2px 0 rgba(0,0,0,0.35);
+    --shadow-button: 0 4px 0 #3f8a5a;
+    --shadow-dialog: 0 12px 32px rgba(0,0,0,0.5);
+  }
+}
+
+/* Estilos de texto */
+.text-timer { font-family: var(--font-display); font-size: 72px; line-height: 72px; font-weight: 600; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+.text-display { font-family: var(--font-display); font-size: 32px; line-height: 38px; font-weight: 600; }
+.text-title { font-family: var(--font-display); font-size: 24px; line-height: 30px; font-weight: 600; }
+.text-heading { font-family: var(--font-sans); font-size: 18px; line-height: 24px; font-weight: 800; }
+.text-body { font-family: var(--font-sans); font-size: 16px; line-height: 24px; font-weight: 400; }
+.text-body-strong { font-family: var(--font-sans); font-size: 16px; line-height: 24px; font-weight: 800; }
+.text-small { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 600; }
+.text-caption { font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; }
