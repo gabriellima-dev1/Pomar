@@ -52,7 +52,7 @@ docs/
 - Emblema diário: 1 por dia com pomodoro, **sorteado no servidor** entre os elegíveis, ponderado pela raridade. Fechamento "preguiçoso" ao abrir o app.
 - Datas de ofensiva, emblemas e semanas usam o **fuso do usuário** (`profiles.timezone`).
 - Ligas e perfil público são **opt-in, sem pré-marcação**.
-- Máximo de **2 notificações não solicitadas por dia**.
+- **Nenhuma notificação não solicitada** nesta versão: só o aviso de fim do foco/descanso, que a pessoa pede ao ligar o cronômetro. Lembrete diário fica fora (DESIGN §12).
 - Temas desbloqueados ficam para sempre. Nada é comprável.
 - Usuários demo têm `is_demo = true`, selo visível e podem ser excluídos das métricas.
 - Todo evento do DESIGN.md §9.1 deve ser registrado com `track()` no momento em que a funcionalidade é criada.

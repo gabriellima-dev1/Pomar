@@ -176,12 +176,12 @@ Prancheta no Claude: **"Pomar — telas da Fase 4"**. Referências `15` a `22`. 
 - Faixa de números (`--surface-200` com bordas `--line`): **pomodoros colhidos esta semana**, **horas de foco esta semana**, **pessoas cultivando um pomar** + "Números reais do app. Contas de demonstração não entram na conta." Calcular no servidor (semana do fuso `America/Sao_Paulo`, sem `is_demo`), com cache curto (ISR). Número zero: esconder aquele contador; todos zero: esconder a faixa.
 - "Como funciona": 3 cards numerados (cadastrar · focar 25 min · colher e ver quanto falta).
 - "Um pomar que cresce com você": texto + 3 emblemas (um de cada raridade) e a medalha de ouro.
-- "Jogo limpo" (fundo `--primary-soft`): pausar não tira nada; ranking e perfil público só se quiser; nada para comprar; no máximo 2 lembretes por dia. Link "Veja cada técnica que usamos e por quê" → `/transparencia`.
+- "Jogo limpo" (fundo `--primary-soft`): pausar não tira nada; ranking e perfil público só se quiser; nada para comprar; nenhum aviso não solicitado. Link "Veja cada técnica que usamos e por quê" → `/transparencia`.
 - CTA final com Seu Tomás 96px + rodapé (disciplina/UFAL, Transparência, Privacidade).
 - Evento: `landing_viewed` (já existe).
 
 ### Fluxo do onboarding
-Depois do cadastro (e do 1º login com Google): **boas-vindas (16) → quiz (17) → perfil (18) → Feira (19) → nova disciplina (03, catálogo por padrão) → calibração (04) → 1º pomodoro (08) → fim do ciclo (07) → primeiro fruto + lembrete (20) → Início**.
+Depois do cadastro (e do 1º login com Google): **boas-vindas (16) → quiz (17) → perfil (18) → Feira (19) → nova disciplina (03, catálogo por padrão) → calibração (04) → 1º pomodoro (08) → fim do ciclo (07) → primeiro fruto (20) → Início**.
 - O progresso fica salvo no perfil (`onboarding_step`); se a pessoa sair, volta de onde parou. Até terminar, `/inicio` redireciona para o passo atual.
 - Nas telas 03 e 04 dentro do onboarding, o rótulo vira "Passo 3 de 5" e "Passo 4 de 5"; o 1º pomodoro é o passo 5.
 - A `BottomNav` fica oculta durante o onboarding.
@@ -207,10 +207,9 @@ Depois do cadastro (e do 1º login com Google): **boas-vindas (16) → quiz (17)
 - Nota: "Nenhuma opção vem marcada. Dá para mudar quando quiser em Configurações."
 - Evento: `league_opt_in_choice` {in|out}. O apelido é pedido só na Fase 5, ao entrar na primeira Feira.
 
-### 20 · Primeiro fruto + lembrete (`referencias/20-primeiro-fruto-lembrete.png`)
+### 20 · Primeiro fruto (`referencias/20-primeiro-fruto.png`)
 - Depois da folha de fim do ciclo (07) do 1º pomodoro: cena com a muda e um tomate maduro, painel de vidro "Primeiro fruto colhido!" / "Seu pomar começou. Amanhã sai o seu primeiro fruto do dia."
-- Folha: Seu Tomás + "Quer que eu te lembre de estudar?", frase com o teto de 2 avisos/dia, seletor de horário (`input type="time"`, sugestão 19:00), "Lembrar às {hora}" (primário, pede a permissão de notificação nesse momento) e "Agora não". Encerra o onboarding e leva ao Início.
-- O lembrete conta no teto de 2 notificações não solicitadas por dia. Eventos: `notification_shown`/`notification_clicked` {type: reminder}.
+- Folha: Seu Tomás + "Prontinho, {nome}!", frase "Volte amanhã para descobrir qual fruto do dia saiu. Cada dia com estudo conta para a colheita da semana." e o botão "Ir para o meu pomar", que encerra o onboarding e leva ao Início.
 
 ### 21 · Destaque do Início por perfil (`referencias/21-destaques-por-perfil.png`)
 - No Início, entre os chips e "Suas disciplinas", entra **um card de destaque** conforme o perfil (DESIGN §4.4 e §6.8). O resto do Início não muda.

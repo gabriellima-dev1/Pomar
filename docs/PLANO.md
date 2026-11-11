@@ -117,7 +117,6 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Landing page com contadores reais
 - [ ] Onboarding completo: quiz Bartle (8 perguntas) → opt-in de liga (sem pré-marcação) → 1ª disciplina → calibração → 1º pomodoro
 - [ ] Painel adaptado ao perfil de Bartle (§6.8) + opção de trocar/refazer
-- [ ] Lembrete diário (horário escolhido) com teto de 2 notificações/dia
 - [ ] Revisão de todos os eventos de telemetria do §9.1
 - [ ] Atribuição de coorte A/B no cadastro (flag `rewards_enabled`)
 - [ ] Adaptação para computador e tablet (barra lateral, grades, folhas viram diálogos) conforme `docs/design/telas.md` › Computador e tablet
