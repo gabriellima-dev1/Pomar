@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  dailyFocusAverage,
+  goalComparison,
   DEFAULT_MIN_PER_PAGE,
   effectivePace,
   forecastFinish,
@@ -165,5 +167,31 @@ describe("formatDuration", () => {
     [200, "3 h 20 min"],
   ])("%s → %s", (min, text) => {
     expect(formatDuration(min)).toBe(text);
+  });
+});
+
+describe("previsão de término (Fase 2)", () => {
+  it("média diária divide pelos dias desde a 1ª sessão, até 14", () => {
+    const sessions = [
+      { day: "2026-11-12", minutes: 50 },
+      { day: "2026-11-11", minutes: 25 },
+    ];
+    expect(dailyFocusAverage(sessions, "2026-11-12", "2026-11-11")).toBe(37.5);
+    expect(dailyFocusAverage(sessions, "2026-11-12", "2026-10-01")).toBeCloseTo(75 / 14);
+    expect(dailyFocusAverage([], "2026-11-12", null)).toBe(0);
+  });
+
+  it("ignora sessões fora da janela de 14 dias", () => {
+    const sessions = [
+      { day: "2026-11-12", minutes: 28 },
+      { day: "2026-10-29", minutes: 999 },
+    ];
+    expect(dailyFocusAverage(sessions, "2026-11-12", "2026-10-01")).toBe(2);
+  });
+
+  it("compara com a data da prova sem tom de alarme", () => {
+    expect(goalComparison("2026-11-28", "2026-12-02")).toBe("você termina 4 dias antes");
+    expect(goalComparison("2026-12-03", "2026-12-02")).toBe("você termina 1 dia depois");
+    expect(goalComparison("2026-12-02", "2026-12-02")).toBe("você termina no dia da prova");
   });
 });

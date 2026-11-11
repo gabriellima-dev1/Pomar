@@ -7,7 +7,14 @@ import { buttonClasses } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { StatChip } from "@/components/ui/StatChip";
 import { requireUser } from "@/lib/auth/session";
-import { getHomeProfile, getPreferences, listSubjects } from "@/lib/subjects/queries";
+import { localDay } from "@/lib/dates";
+import {
+  getHomeProfile,
+  getPreferences,
+  getStudyHistory,
+  listSubjects,
+  sortByLastStudied,
+} from "@/lib/subjects/queries";
 import { greeting, localParts } from "@/lib/subjects/summary";
 import { signOut } from "../actions";
 
@@ -21,11 +28,14 @@ const STEPS = [
 
 export default async function InicioPage() {
   const user = await requireUser();
-  const [profile, prefs, subjects] = await Promise.all([
+  const [profile, prefs, all] = await Promise.all([
     getHomeProfile(user.id),
     getPreferences(user.id),
     listSubjects(),
   ]);
+  const history = await getStudyHistory(profile.timezone);
+  const subjects = sortByLastStudied(all, history);
+  const today = localDay(new Date(), profile.timezone);
 
   const { hour, dateLabel } = localParts(new Date(), profile.timezone);
   const empty = subjects.length === 0;
@@ -103,7 +113,12 @@ export default async function InicioPage() {
           <ul className="flex flex-col gap-6">
             {subjects.map((s) => (
               <li key={s.id}>
-                <SubjectCard subject={s} globalPace={prefs.globalPace} />
+                <SubjectCard
+                  subject={s}
+                  globalPace={prefs.globalPace}
+                  history={history.get(s.id)}
+                  today={today}
+                />
               </li>
             ))}
           </ul>

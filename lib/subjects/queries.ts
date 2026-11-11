@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
+import { summarizeHistory, type SubjectHistory } from "./history";
 
 /** Consultas de disciplinas e catálogo (sessão do usuário: a RLS filtra os dados). */
 
@@ -135,4 +136,26 @@ export async function countSubjects(): Promise<number> {
   const supabase = await createClient();
   const { count } = await supabase.from("subjects").select("id", { count: "exact", head: true });
   return count ?? 0;
+}
+
+/** Pomodoros concluídos agrupados por disciplina (fuso do usuário). */
+export const getStudyHistory = cache(async (timeZone: string) => {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("pomodoro_sessions")
+    .select("subject_id, started_at, ended_at, paused_sec")
+    .eq("status", "completed")
+    .not("subject_id", "is", null)
+    .order("ended_at", { ascending: false })
+    .limit(2000);
+  return summarizeHistory(data ?? [], timeZone);
+});
+
+/** Disciplinas na ordem do Início: a última estudada primeiro; sem estudo, a mais nova. */
+export function sortByLastStudied<T extends { id: string; created_at: string }>(
+  subjects: T[],
+  history: Map<string, SubjectHistory>,
+): T[] {
+  const key = (s: T) => Date.parse(history.get(s.id)?.lastEndedAt ?? s.created_at);
+  return [...subjects].sort((a, b) => key(b) - key(a));
 }
