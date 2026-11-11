@@ -2,9 +2,14 @@ import { describe, expect, it } from "vitest";
 import {
   elapsedSeconds,
   formatClock,
+  IDLE_STOPWATCH,
   paceFromMeasurement,
   parseCalibration,
   parseDecimal,
+  pauseStopwatch,
+  runStopwatch,
+  stopStopwatch,
+  stopwatchSeconds,
 } from "./calibration";
 
 describe("paceFromMeasurement", () => {
@@ -73,5 +78,31 @@ describe("cronômetro", () => {
     expect(formatClock(0)).toBe("00:00");
     expect(formatClock(307)).toBe("05:07");
     expect(formatClock(3723)).toBe("1:02:03");
+  });
+});
+
+describe("cronômetro da calibração", () => {
+  it("soma os trechos e ignora o tempo pausado", () => {
+    let sw = runStopwatch(IDLE_STOPWATCH, 0);
+    expect(stopwatchSeconds(sw, 30_000)).toBe(30);
+    sw = pauseStopwatch(sw, 30_000);
+    expect(stopwatchSeconds(sw, 500_000)).toBe(30);
+    sw = runStopwatch(sw, 500_000);
+    expect(stopwatchSeconds(sw, 512_500)).toBe(42);
+    sw = stopStopwatch(sw, 515_000);
+    expect(sw.status).toBe("stopped");
+    expect(stopwatchSeconds(sw, 9_999_999)).toBe(45);
+  });
+
+  it("continua certo com a aba oculta (sem ticks no meio)", () => {
+    const sw = runStopwatch(IDLE_STOPWATCH, 1_000);
+    expect(stopwatchSeconds(sw, 1_000 + 7 * 60_000)).toBe(420);
+  });
+
+  it("recomeça do zero depois de parado e ignora ações fora de hora", () => {
+    const stopped = stopStopwatch(runStopwatch(IDLE_STOPWATCH, 0), 10_000);
+    expect(stopwatchSeconds(runStopwatch(stopped, 20_000), 21_000)).toBe(1);
+    expect(pauseStopwatch(IDLE_STOPWATCH, 5)).toBe(IDLE_STOPWATCH);
+    expect(stopStopwatch(IDLE_STOPWATCH, 5)).toBe(IDLE_STOPWATCH);
   });
 });
