@@ -3,6 +3,7 @@ import { TrackOnMount } from "@/components/telemetry/TrackOnMount";
 import { themeScript } from "@/components/theme/script";
 import { ThemeSync } from "@/components/theme/ThemeSync";
 import { BottomNav } from "@/components/ui/BottomNav";
+import { getAccount } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
 import { addDays } from "@/lib/dates";
 import { getBadgeHistory, getGameProfile, getUnlockedThemes } from "@/lib/gamification/queries";
@@ -19,17 +20,18 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
     console.error("[gamificação] fechamento do dia", error);
   }
 
-  const [profile, history, themes] = await Promise.all([
+  const [profile, history, themes, account] = await Promise.all([
     getGameProfile(user.id),
     getBadgeHistory(),
     getUnlockedThemes(),
+    getAccount(user.id),
   ]);
   const recent = history.filter((b) => b.day >= addDays(profile.today, -60));
   const unseenBadges = recent.filter((b) => !b.seen);
   const unseenThemes = themes.filter((t) => !t.seen).map((t) => t.code);
   const levelFrom = Math.min(profile.levelSeen, profile.level);
-  // Coorte B (Fase 4, `rewards_enabled = false`): sem as telas 12–14 (telas.md › Fase 3).
-  const rewardsEnabled = true;
+  // Coorte B (DESIGN §9.4): sem as telas 12–14 (telas.md › Fase 3).
+  const rewardsEnabled = account.rewards;
   // Pendências novas (ex.: subir de nível ao marcar um tópico) recriam a fila.
   const queueKey = [
     unseenBadges.map((b) => b.day).join(","),

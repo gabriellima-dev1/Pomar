@@ -1,26 +1,31 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { redirect } from "next/navigation";
+import { Plus, Settings } from "lucide-react";
 import { YesterdayFruitCard } from "@/components/gamification/YesterdayFruitCard";
+import { ProfileHighlight } from "@/components/home/ProfileHighlight";
 import { SeuTomas } from "@/components/mascot/SeuTomas";
 import { SubjectCard } from "@/components/subjects/SubjectCard";
 import { buttonClasses } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { MascotBubble } from "@/components/ui/MascotBubble";
 import { StatChip } from "@/components/ui/StatChip";
+import { getAccount, latestSubjectId } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
+import { focusSummary } from "@/lib/focus-summary";
 import { daysAway } from "@/lib/gamification/present";
 import { getBadgeHistory, getGameProfile } from "@/lib/gamification/queries";
 import { homeLine } from "@/lib/mascot/lines";
+import { isOnboarding, pathForStep } from "@/lib/onboarding";
 import {
   getHomeProfile,
   getPreferences,
+  getRecentFocusSessions,
   getStudyHistory,
   listSubjects,
   sortByLastStudied,
 } from "@/lib/subjects/queries";
 import { greeting, localParts } from "@/lib/subjects/summary";
-import { signOut } from "../actions";
 
 export const metadata: Metadata = { title: "Início" };
 
@@ -32,16 +37,31 @@ const STEPS = [
 
 export default async function InicioPage() {
   const user = await requireUser();
-  const [profile, game, badges, prefs, all] = await Promise.all([
+  const account = await getAccount(user.id);
+  // Até terminar o onboarding, o Início leva ao passo atual (telas.md › Fluxo do onboarding).
+  if (isOnboarding(account.step)) redirect(pathForStep(account.step, await latestSubjectId()));
+
+  const [profile, game, badges, prefs, all, recent] = await Promise.all([
     getHomeProfile(user.id),
     getGameProfile(user.id),
     getBadgeHistory(),
     getPreferences(user.id),
     listSubjects(),
+    getRecentFocusSessions(),
   ]);
   const history = await getStudyHistory(profile.timezone);
   const subjects = sortByLastStudied(all, history);
   const today = game.today;
+  const rewards = account.rewards;
+  const focus = focusSummary(recent, profile.timezone, today);
+  const goalSubject = subjects.find((s) => s.daily_goal);
+  const goal = goalSubject?.daily_goal
+    ? {
+        title: goalSubject.title,
+        target: goalSubject.daily_goal,
+        done: focus.todayBySubject.get(goalSubject.id) ?? 0,
+      }
+    : null;
   const away = daysAway(badges, today);
   const line = game.studiedToday
     ? null
@@ -66,12 +86,25 @@ export default async function InicioPage() {
 
       <div className="flex flex-wrap gap-2">
         <StatChip kind="ofensiva" value={game.streak} freezes={game.freezes} />
-        {game.xp > 0 && <StatChip kind="xp" value={game.xp} />}
-        <StatChip kind="nivel" value={game.level} />
+        {/* Coorte B (DESIGN §9.4): sem XP e nível visíveis. */}
+        {rewards && game.xp > 0 && <StatChip kind="xp" value={game.xp} />}
+        {rewards && <StatChip kind="nivel" value={game.level} />}
       </div>
 
       {line && <MascotBubble>{line}</MascotBubble>}
-      <YesterdayFruitCard history={badges} today={today} />
+      {!empty && (
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+          <ProfileHighlight
+            account={account}
+            xp={game.xp}
+            history={badges}
+            today={today}
+            focus={focus}
+            goal={goal}
+          />
+          {rewards && <YesterdayFruitCard history={badges} today={today} />}
+        </div>
+      )}
 
       {empty ? (
         <>
@@ -138,15 +171,14 @@ export default async function InicioPage() {
         </section>
       )}
 
-      {/* Até existirem as Configurações (Fase 6) — DECISOES 10/11. */}
-      <form action={signOut} className="flex justify-center pt-4">
-        <button
-          type="submit"
-          className="text-small text-ink-muted min-h-11 px-3 underline underline-offset-4"
-        >
-          Sair da conta
-        </button>
-      </form>
+      {/* No celular, as Configurações ficam no fim do Início (no computador, na barra lateral). */}
+      <Link
+        href="/configuracoes"
+        className="text-small text-ink-muted inline-flex min-h-11 items-center justify-center gap-2 self-center px-3 underline underline-offset-4 lg:hidden"
+      >
+        <Settings size={18} aria-hidden />
+        Configurações
+      </Link>
     </div>
   );
 }

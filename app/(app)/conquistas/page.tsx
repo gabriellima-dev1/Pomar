@@ -6,6 +6,7 @@ import { LevelCard } from "@/components/gamification/LevelCard";
 import { ThemesTab } from "@/components/gamification/ThemesTab";
 import { MascotBubble } from "@/components/ui/MascotBubble";
 import { SegmentedNav } from "@/components/ui/SegmentedNav";
+import { getAccount } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
 import { albumEntries, pastWeeks } from "@/lib/gamification/present";
 import {
@@ -34,12 +35,23 @@ function parseTab(value: string | string[] | undefined): Tab {
 export default async function ConquistasPage({ searchParams }: PageProps<"/conquistas">) {
   const user = await requireUser();
   const tab = parseTab((await searchParams).aba);
-  const [profile, history, harvests, themes] = await Promise.all([
+  const [profile, history, harvests, themes, account] = await Promise.all([
     getGameProfile(user.id),
     getBadgeHistory(),
     getHarvests(),
     getUnlockedThemes(),
+    getAccount(user.id),
   ]);
+
+  // Coorte B (DESIGN §9.4): sem XP, emblemas e colheitas visíveis; só os temas.
+  if (!account.rewards) {
+    return (
+      <div className="flex flex-col gap-6">
+        <h1 className="text-display pt-2">Temas</h1>
+        <ThemesTab profile={profile} unlocked={themes} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
