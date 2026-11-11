@@ -73,22 +73,25 @@ export default async function InicioPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <header className="flex items-start justify-between gap-3 pt-2">
-        <div className="flex flex-col gap-1">
-          <p className="text-small text-ink-muted">{dateLabel}</p>
-          <h1 className="font-display text-[28px] leading-9 font-semibold">
-            {hello}
-            {profile.name ? `, ${profile.name}` : ""}
-          </h1>
-        </div>
-        {!empty && <SeuTomas size={52} className="shrink-0" />}
-      </header>
+      {/* Computador: saudação à esquerda e chips à direita (referencias/22). */}
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <header className="flex items-start justify-between gap-3 pt-2 lg:pt-0">
+          <div className="flex flex-col gap-1">
+            <p className="text-small text-ink-muted">{dateLabel}</p>
+            <h1 className="font-display text-[28px] leading-9 font-semibold">
+              {hello}
+              {profile.name ? `, ${profile.name}` : ""}
+            </h1>
+          </div>
+          {!empty && <SeuTomas size={52} className="shrink-0 lg:hidden" />}
+        </header>
 
-      <div className="flex flex-wrap gap-2">
-        <StatChip kind="ofensiva" value={game.streak} freezes={game.freezes} />
-        {/* Coorte B (DESIGN §9.4): sem XP e nível visíveis. */}
-        {rewards && game.xp > 0 && <StatChip kind="xp" value={game.xp} />}
-        {rewards && <StatChip kind="nivel" value={game.level} />}
+        <div className="flex flex-wrap gap-2">
+          <StatChip kind="ofensiva" value={game.streak} freezes={game.freezes} />
+          {/* Coorte B (DESIGN §9.4): sem XP e nível visíveis. */}
+          {rewards && game.xp > 0 && <StatChip kind="xp" value={game.xp} />}
+          {rewards && <StatChip kind="nivel" value={game.level} />}
+        </div>
       </div>
 
       {line && <MascotBubble>{line}</MascotBubble>}
@@ -156,7 +159,7 @@ export default async function InicioPage() {
               <span className="sr-only"> disciplina</span>
             </Link>
           </div>
-          <ul className="flex flex-col gap-6">
+          <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-4 lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
             {subjects.map((s) => (
               <li key={s.id}>
                 <SubjectCard

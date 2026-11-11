@@ -3,6 +3,7 @@ import { TrackOnMount } from "@/components/telemetry/TrackOnMount";
 import { themeScript } from "@/components/theme/script";
 import { ThemeSync } from "@/components/theme/ThemeSync";
 import { BottomNav } from "@/components/ui/BottomNav";
+import { SideNav } from "@/components/ui/SideNav";
 import { getAccount } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
 import { addDays } from "@/lib/dates";
@@ -45,9 +46,13 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
       <script dangerouslySetInnerHTML={{ __html: themeScript(profile.theme) }} />
       <ThemeSync theme={profile.theme} />
       <TrackOnMount event="app_opened" once="session" />
-      <main className="max-w-app mx-auto flex w-full flex-1 flex-col px-4 pt-4 pb-36">
-        {children}
-      </main>
+      <SideNav />
+      {/* Celular: coluna de 480px · tablet: até 720px · computador: até 1080px ao lado da barra. */}
+      <div className="flex flex-1 flex-col lg:pl-60">
+        <main className="max-w-app mx-auto flex w-full flex-1 flex-col px-4 pt-4 pb-36 md:max-w-[720px] lg:max-w-[1080px] lg:px-10 lg:pt-10 lg:pb-16">
+          {children}
+        </main>
+      </div>
       <BottomNav />
       {rewardsEnabled && (
         <RewardsQueue

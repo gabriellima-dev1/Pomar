@@ -32,7 +32,7 @@ export function ThemeUnlocked({
       className="fixed inset-0 z-50 overflow-y-auto bg-[var(--scene-sky-bottom)]"
     >
       <Scene theme={theme} progress={1} />
-      <div className="max-w-app relative mx-auto flex min-h-full flex-col justify-end gap-4 p-4 pb-[max(16px,env(safe-area-inset-bottom))]">
+      <div className="max-w-app relative mx-auto flex min-h-full flex-col justify-end gap-4 p-4 pb-[max(16px,env(safe-area-inset-bottom))] lg:justify-center">
         <div className="flex justify-center">
           <div className={r.discIn}>
             <SeuTomas size={150} accessory={theme === "classico" ? "basico" : theme} />

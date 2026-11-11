@@ -25,7 +25,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Principal"
-      className="bg-surface-200 border-line fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)]"
+      className="bg-surface-200 border-line fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] lg:hidden"
     >
       <ul className="max-w-app mx-auto grid grid-cols-5 gap-1 px-2 py-1.5">
         {ITEMS.map(({ href, label, icon: Icon }) => {
