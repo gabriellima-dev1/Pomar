@@ -9,7 +9,7 @@ function Button() {
     <button
       type="submit"
       disabled={pending}
-      className="border-border bg-surface flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border px-4 font-medium disabled:opacity-60"
+      className="border-control-border bg-surface-200 text-ink flex min-h-12 w-full items-center justify-center gap-2 rounded-md border-2 px-4 font-extrabold disabled:opacity-60"
     >
       <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5">
         <path
