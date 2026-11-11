@@ -77,6 +77,18 @@ export async function createFromCatalog(_prev: FormState, formData: FormData): P
   if (topicIds.length === 0) return { error: "Marque ao menos um tópico para estudar.", values };
   if (!fields.ok) return { fieldErrors: fields.errors, values };
 
+  // Passo 2 (calibrar) é opcional: "pular" usa o ritmo padrão ou 3 min/página.
+  const calibration =
+    str(formData, "calibracao") === "sim"
+      ? parseCalibration({
+          source: str(formData, "source"),
+          pages: str(formData, "pages"),
+          seconds: str(formData, "seconds"),
+          minutesPerPage: str(formData, "minutesPerPage"),
+        })
+      : null;
+  if (calibration && !calibration.ok) return { error: calibration.error, values };
+
   const supabase = await createClient();
   const { data: id, error } = await supabase.rpc("create_subject_from_catalog", {
     p_book_id: bookId,
@@ -89,8 +101,25 @@ export async function createFromCatalog(_prev: FormState, formData: FormData): P
   if (error || !id) {
     return { error: error?.code === "22023" ? error.message : GENERIC_ERROR, values };
   }
-
   await trackServer("subject_created", { source: "catalog", topics: topicIds.length });
+
+  if (calibration?.ok) {
+    // A 1ª calibração vira o ritmo padrão (a função cuida disso quando não há padrão).
+    const { error: calError } = await supabase.rpc("record_calibration", {
+      p_pages: calibration.value.pages,
+      p_seconds: calibration.value.seconds,
+      p_source: calibration.value.source,
+      p_subject_id: id,
+      p_set_default: false,
+    });
+    if (!calError) {
+      await trackServer("calibration_completed", {
+        source: calibration.value.source,
+        scope: "disciplina",
+      });
+    }
+  }
+
   revalidatePath("/disciplinas");
   revalidatePath("/inicio");
   redirect(`/disciplinas/${id}`);

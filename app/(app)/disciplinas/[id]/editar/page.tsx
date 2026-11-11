@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ActionForm } from "@/components/forms/ActionForm";
-import { BackLink } from "@/components/subjects/BackLink";
+import { TopBar } from "@/components/ui/TopBar";
 import {
   ConfirmSubmitButton,
   DeleteSubjectForm,
@@ -22,10 +22,12 @@ import {
 
 export const metadata: Metadata = { title: "Editar disciplina" };
 
-const input = "border-border bg-background min-h-11 w-full rounded-lg border px-3 text-base";
+const input =
+  "border-control-border bg-surface-200 text-ink aria-invalid:border-danger min-h-12 w-full rounded-md border-2 px-4 text-base";
 const iconButton =
-  "border-border hover:bg-background flex size-11 shrink-0 items-center justify-center rounded-lg border text-sm disabled:opacity-30";
-const saveButton = "border-border min-h-11 shrink-0 rounded-lg border px-3 text-sm font-semibold";
+  "border-control-border hover:bg-surface-300 flex size-11 shrink-0 items-center justify-center rounded-md border text-sm disabled:opacity-30";
+const saveButton =
+  "border-control-border text-primary min-h-11 shrink-0 rounded-md border px-3 text-sm font-extrabold";
 
 export default async function EditarPage({ params }: PageProps<"/disciplinas/[id]/editar">) {
   const { id } = await params;
@@ -36,12 +38,15 @@ export default async function EditarPage({ params }: PageProps<"/disciplinas/[id
   const hidden = <input type="hidden" name="subjectId" value={subject.id} />;
 
   return (
-    <section className="flex flex-col gap-8">
-      <BackLink href={`/disciplinas/${subject.id}`}>{subject.title}</BackLink>
-      <h1 className="text-3xl font-bold">Editar disciplina</h1>
+    <section className="flex flex-col gap-6">
+      <TopBar
+        backHref={`/disciplinas/${subject.id}`}
+        backLabel={`Voltar para ${subject.title}`}
+        title={<h1 className="text-title">Editar disciplina</h1>}
+      />
 
       <section aria-labelledby="dados" className="flex flex-col gap-3">
-        <h2 id="dados" className="text-xl font-semibold">
+        <h2 id="dados" className="text-heading">
           Dados
         </h2>
         <SubjectEditForm
@@ -56,10 +61,10 @@ export default async function EditarPage({ params }: PageProps<"/disciplinas/[id
       </section>
 
       <section aria-labelledby="estrutura" className="flex flex-col gap-3">
-        <h2 id="estrutura" className="text-xl font-semibold">
+        <h2 id="estrutura" className="text-heading">
           Capítulos e tópicos
         </h2>
-        <p className="text-muted text-sm">
+        <p className="text-ink-muted text-sm">
           Corrija títulos e páginas, mude a ordem com as setas ou remova o que não vai estudar.
         </p>
 
@@ -67,7 +72,7 @@ export default async function EditarPage({ params }: PageProps<"/disciplinas/[id
           {subject.chapters.map((chapter, ci) => (
             <li
               key={chapter.id}
-              className="border-border bg-surface flex flex-col gap-3 rounded-xl border p-4"
+              className="border-line bg-surface-200 shadow-card flex flex-col gap-3 rounded-lg border-2 p-4"
             >
               <ActionForm
                 action={renameChapter}
@@ -77,7 +82,7 @@ export default async function EditarPage({ params }: PageProps<"/disciplinas/[id
                 {hidden}
                 <input type="hidden" name="id" value={chapter.id} />
                 <div className="flex min-w-48 flex-1 flex-col gap-1.5">
-                  <label htmlFor={`cap-${chapter.id}`} className="text-sm font-medium">
+                  <label htmlFor={`cap-${chapter.id}`} className="font-extrabold">
                     Capítulo {ci + 1}
                   </label>
                   <input
@@ -116,7 +121,7 @@ export default async function EditarPage({ params }: PageProps<"/disciplinas/[id
                 <ConfirmSubmitButton
                   formAction={deleteChapter}
                   message={`Excluir o capítulo “${chapter.title}” e todos os tópicos dele?`}
-                  className="text-danger min-h-11 rounded-lg px-2 text-sm font-medium"
+                  className="text-danger min-h-11 rounded-md px-2 font-extrabold"
                 >
                   Excluir<span className="sr-only"> capítulo {ci + 1}</span>
                 </ConfirmSubmitButton>
@@ -274,7 +279,7 @@ export default async function EditarPage({ params }: PageProps<"/disciplinas/[id
         >
           {hidden}
           <div className="flex min-w-48 flex-1 flex-col gap-1.5">
-            <label htmlFor="novo-capitulo" className="text-sm font-medium">
+            <label htmlFor="novo-capitulo" className="font-extrabold">
               Novo capítulo
             </label>
             <input id="novo-capitulo" name="title" maxLength={200} className={input} />
@@ -287,12 +292,12 @@ export default async function EditarPage({ params }: PageProps<"/disciplinas/[id
 
       <section
         aria-labelledby="excluir"
-        className="border-danger/40 flex flex-col gap-3 rounded-xl border p-4"
+        className="border-danger/40 flex flex-col gap-3 rounded-lg border p-4"
       >
-        <h2 id="excluir" className="text-xl font-semibold">
+        <h2 id="excluir" className="text-heading">
           Excluir disciplina
         </h2>
-        <p className="text-muted text-sm">
+        <p className="text-ink-muted text-sm">
           Isso apaga a disciplina, os capítulos, os tópicos e o progresso marcado. Não dá para
           desfazer.
         </p>

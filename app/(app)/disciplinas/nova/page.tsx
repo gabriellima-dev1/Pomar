@@ -1,54 +1,49 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { BackLink } from "@/components/subjects/BackLink";
+import { notFound } from "next/navigation";
+import { CatalogPicker } from "@/components/subjects/CatalogPicker";
+import { CatalogSearch } from "@/components/subjects/CatalogSearch";
+import { NewSubjectTabs } from "@/components/subjects/NewSubjectTabs";
+import { requireUser } from "@/lib/auth/session";
+import { suggestColor } from "@/lib/subjects/colors";
+import {
+  countSubjects,
+  getCatalogBook,
+  getPreferences,
+  listCatalogBooks,
+} from "@/lib/subjects/queries";
 
 export const metadata: Metadata = { title: "Nova disciplina" };
 
-const optionClass =
-  "border-border bg-surface hover:border-foreground/40 flex flex-col gap-1 rounded-xl border p-5";
+/** Nova disciplina pelo catálogo (referencias/03-nova-disciplina-catalogo.png). */
+export default async function NovaDisciplinaPage({ searchParams }: PageProps<"/disciplinas/nova">) {
+  const user = await requireUser();
+  const { livro } = await searchParams;
+  const slug = typeof livro === "string" ? livro : null;
+  const [books, book, prefs, count] = await Promise.all([
+    listCatalogBooks(),
+    slug ? getCatalogBook(slug) : Promise.resolve(null),
+    getPreferences(user.id),
+    countSubjects(),
+  ]);
+  if (slug && !book) notFound();
 
-export default function NovaDisciplinaPage() {
   return (
-    <section className="flex flex-col gap-6">
-      <BackLink href="/disciplinas">Disciplinas</BackLink>
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">Nova disciplina</h1>
-        <p className="text-muted max-w-prose">De onde vem o que você vai estudar?</p>
-      </div>
-
-      <ul className="grid gap-4 sm:grid-cols-3">
-        <li>
-          <Link href="/disciplinas/nova/catalogo" className={optionClass}>
-            <span className="text-2xl" aria-hidden>
-              📚
-            </span>
-            <span className="font-semibold">Do catálogo</span>
-            <span className="text-muted text-sm">
-              Escolha um livro e marque os capítulos. A estrutura vem pronta.
-            </span>
-          </Link>
-        </li>
-        <li>
-          <Link href="/disciplinas/nova/manual" className={optionClass}>
-            <span className="text-2xl" aria-hidden>
-              ✍️
-            </span>
-            <span className="font-semibold">Manual</span>
-            <span className="text-muted text-sm">
-              Monte seus capítulos e tópicos com as páginas de cada um.
-            </span>
-          </Link>
-        </li>
-        <li>
-          <div className={`${optionClass} opacity-60`}>
-            <span className="text-2xl" aria-hidden>
-              ▶️
-            </span>
-            <span className="font-semibold">Playlist do YouTube</span>
-            <span className="text-muted text-sm">Em breve: cada vídeo vira um tópico.</span>
-          </div>
-        </li>
-      </ul>
+    <section className="flex flex-col gap-5">
+      <NewSubjectTabs active="catalogo" />
+      <CatalogSearch books={books} selectedSlug={book?.slug ?? null} />
+      {book && (
+        <CatalogPicker
+          key={book.id}
+          book={book}
+          defaultColor={suggestColor(count)}
+          globalPace={prefs.globalPace}
+        />
+      )}
+      {!book && (
+        <p className="text-small text-ink-muted">
+          Só trazemos o sumário dos livros (capítulos, tópicos e páginas), nada do conteúdo.
+        </p>
+      )}
     </section>
   );
 }

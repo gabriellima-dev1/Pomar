@@ -3,6 +3,7 @@
 import { useActionState, useId, useState } from "react";
 import { createManual, type FormState } from "@/app/(app)/disciplinas/actions";
 import { FormMessage, SubmitButton } from "@/components/forms/fields";
+import { StickyFooter } from "@/components/ui/StickyFooter";
 import { SubjectFieldsInputs } from "./SubjectFieldsInputs";
 
 type DraftTopic = { key: number; title: string; page_start: string; page_end: string };
@@ -34,7 +35,7 @@ function nextStart(chapters: DraftChapter[]): string {
 }
 
 const inputClass =
-  "border-border bg-background aria-invalid:border-danger min-h-11 w-full rounded-lg border px-3 text-base";
+  "border-control-border bg-surface-200 text-ink aria-invalid:border-danger min-h-12 w-full rounded-md border-2 px-4 text-base";
 
 export function ManualSubjectForm({ defaultColor }: { defaultColor: string }) {
   const [state, dispatch] = useActionState<FormState, FormData>(createManual, {});
@@ -70,8 +71,11 @@ export function ManualSubjectForm({ defaultColor }: { defaultColor: string }) {
     <form action={dispatch} className="flex flex-col gap-6" noValidate>
       <input type="hidden" name="estrutura" value={payload} />
 
-      <section aria-labelledby={`${uid}-dados`} className="flex flex-col gap-3">
-        <h2 id={`${uid}-dados`} className="text-lg font-semibold">
+      <section
+        aria-labelledby={`${uid}-dados`}
+        className="bg-surface-200 border-line shadow-card flex flex-col gap-4 rounded-lg border-2 p-4"
+      >
+        <h2 id={`${uid}-dados`} className="text-heading">
           Sua disciplina
         </h2>
         <SubjectFieldsInputs
@@ -81,10 +85,10 @@ export function ManualSubjectForm({ defaultColor }: { defaultColor: string }) {
       </section>
 
       <section aria-labelledby={`${uid}-estrutura`} className="flex flex-col gap-3">
-        <h2 id={`${uid}-estrutura`} className="text-lg font-semibold">
+        <h2 id={`${uid}-estrutura`} className="text-heading">
           Capítulos e tópicos
         </h2>
-        <p className="text-muted text-sm">
+        <p className="text-ink-muted text-sm">
           Informe as páginas inicial e final de cada tópico. Elas servem para calcular o progresso e
           o tempo estimado.
         </p>
@@ -97,11 +101,11 @@ export function ManualSubjectForm({ defaultColor }: { defaultColor: string }) {
             return (
               <li
                 key={chapter.key}
-                className="border-border bg-surface flex flex-col gap-3 rounded-xl border p-4"
+                className="border-line bg-surface-200 shadow-card flex flex-col gap-3 rounded-lg border-2 p-4"
               >
                 <div className="flex items-end gap-2">
                   <div className="flex flex-1 flex-col gap-1.5">
-                    <label htmlFor={chapterInput} className="text-sm font-medium">
+                    <label htmlFor={chapterInput} className="font-extrabold">
                       Capítulo {ci + 1}
                     </label>
                     <input
@@ -119,7 +123,7 @@ export function ManualSubjectForm({ defaultColor }: { defaultColor: string }) {
                     <button
                       type="button"
                       onClick={() => setChapters((prev) => prev.filter((_, i) => i !== ci))}
-                      className="text-danger min-h-11 rounded-lg px-3 text-sm font-medium"
+                      className="text-danger min-h-11 rounded-md px-3 font-extrabold"
                     >
                       Remover<span className="sr-only"> capítulo {ci + 1}</span>
                     </button>
@@ -191,7 +195,7 @@ export function ManualSubjectForm({ defaultColor }: { defaultColor: string }) {
                                 topics: chapter.topics.filter((_, j) => j !== ti),
                               })
                             }
-                            className="text-muted hover:text-danger flex size-11 items-center justify-center rounded-lg disabled:opacity-30"
+                            className="text-ink-muted hover:text-danger flex size-11 items-center justify-center rounded-md disabled:opacity-30"
                           >
                             <span aria-hidden>✕</span>
                             <span className="sr-only">
@@ -216,7 +220,7 @@ export function ManualSubjectForm({ defaultColor }: { defaultColor: string }) {
                       topics: [...chapter.topics, newTopic(nextStart(chapters.slice(0, ci + 1)))],
                     })
                   }
-                  className="text-primary min-h-11 self-start rounded-lg px-2 text-sm font-medium"
+                  className="text-primary min-h-11 self-start rounded-md px-2 font-extrabold"
                 >
                   + Adicionar tópico
                 </button>
@@ -228,16 +232,18 @@ export function ManualSubjectForm({ defaultColor }: { defaultColor: string }) {
         <button
           type="button"
           onClick={() => setChapters((prev) => [...prev, newChapter(nextStart(prev))])}
-          className="border-border min-h-11 self-start rounded-lg border px-4 text-sm font-semibold"
+          className="border-control-border text-primary min-h-11 self-start rounded-md border-2 px-4 font-extrabold"
         >
           + Adicionar capítulo
         </button>
       </section>
 
-      <div className="flex flex-col gap-3">
-        <FormMessage message={state.error} />
-        <SubmitButton pendingText="Criando…">Criar disciplina</SubmitButton>
-      </div>
+      <FormMessage message={state.error} />
+      <StickyFooter>
+        <SubmitButton pendingText="Criando…" size="lg">
+          Criar disciplina
+        </SubmitButton>
+      </StickyFooter>
     </form>
   );
 }

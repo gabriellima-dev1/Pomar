@@ -1,7 +1,7 @@
 "use client";
 
 import { TextField } from "@/components/forms/fields";
-import { SUBJECT_COLORS } from "@/lib/subjects/colors";
+import { SUBJECT_COLORS, subjectColorVar } from "@/lib/subjects/colors";
 import type { FieldErrors } from "@/lib/subjects/validation";
 
 export type SubjectFieldValues = {
@@ -31,13 +31,13 @@ export function SubjectFieldsInputs({
       />
 
       <fieldset className="flex flex-col gap-2">
-        <legend className="mb-1 text-sm font-medium">Cor</legend>
+        <legend className="mb-1 font-extrabold">Cor</legend>
         <div className="flex flex-wrap gap-2">
           {SUBJECT_COLORS.map((c) => (
             <label
               key={c.key}
-              className="has-checked:ring-foreground has-focus-visible:outline-ring relative flex size-11 cursor-pointer items-center justify-center rounded-full ring-2 ring-transparent ring-offset-2 has-focus-visible:outline-3 has-focus-visible:outline-offset-4"
-              style={{ backgroundColor: c.hex }}
+              className="has-checked:ring-ink has-focus-visible:outline-focus-ring ring-offset-surface-200 relative flex size-11 cursor-pointer items-center justify-center rounded-full ring-2 ring-transparent ring-offset-2 has-focus-visible:outline-3 has-focus-visible:outline-offset-4"
+              style={{ backgroundColor: subjectColorVar(c.key) }}
             >
               <input
                 type="radio"
@@ -47,7 +47,10 @@ export function SubjectFieldsInputs({
                 className="peer sr-only"
               />
               <span className="sr-only">{c.label}</span>
-              <span aria-hidden className="hidden text-lg font-bold text-white peer-checked:block">
+              <span
+                aria-hidden
+                className="text-on-subject hidden text-lg font-bold peer-checked:block"
+              >
                 ✓
               </span>
             </label>
