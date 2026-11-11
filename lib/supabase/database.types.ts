@@ -190,6 +190,72 @@ export type Database = {
           },
         ]
       }
+      pomodoro_sessions: {
+        Row: {
+          cancel_reason: string | null
+          ended_at: string | null
+          id: string
+          pages_logged: number | null
+          paused_at: string | null
+          paused_sec: number
+          pauses: number
+          planned_focus_sec: number
+          started_at: string
+          status: string
+          subject_id: string | null
+          topic_id: string | null
+          user_id: string
+          xp_awarded: number
+        }
+        Insert: {
+          cancel_reason?: string | null
+          ended_at?: string | null
+          id?: string
+          pages_logged?: number | null
+          paused_at?: string | null
+          paused_sec?: number
+          pauses?: number
+          planned_focus_sec: number
+          started_at?: string
+          status?: string
+          subject_id?: string | null
+          topic_id?: string | null
+          user_id?: string
+          xp_awarded?: number
+        }
+        Update: {
+          cancel_reason?: string | null
+          ended_at?: string | null
+          id?: string
+          pages_logged?: number | null
+          paused_at?: string | null
+          paused_sec?: number
+          pauses?: number
+          planned_focus_sec?: number
+          started_at?: string
+          status?: string
+          subject_id?: string | null
+          topic_id?: string | null
+          user_id?: string
+          xp_awarded?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pomodoro_sessions_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pomodoro_sessions_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -281,6 +347,7 @@ export type Database = {
           goal_date: string | null
           id: string
           min_per_page: number | null
+          pace_ema: number | null
           source: string
           title: string
           user_id: string
@@ -296,6 +363,7 @@ export type Database = {
           goal_date?: string | null
           id?: string
           min_per_page?: number | null
+          pace_ema?: number | null
           source: string
           title: string
           user_id?: string
@@ -311,6 +379,7 @@ export type Database = {
           goal_date?: string | null
           id?: string
           min_per_page?: number | null
+          pace_ema?: number | null
           source?: string
           title?: string
           user_id?: string
@@ -403,6 +472,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_pace_suggestion: {
+        Args: { p_subject_id: string }
+        Returns: number
+      }
+      cancel_pomodoro: {
+        Args: { p_id: string; p_reason?: string }
+        Returns: undefined
+      }
+      complete_pomodoro: {
+        Args: { p_id: string }
+        Returns: {
+          focus_sec: number
+          fruits_today: number
+        }[]
+      }
       create_manual_subject: {
         Args: {
           p_chapters: Json
@@ -424,8 +508,21 @@ export type Database = {
         }
         Returns: string
       }
+      dismiss_pace_suggestion: {
+        Args: { p_subject_id: string }
+        Returns: undefined
+      }
       is_admin: { Args: never; Returns: boolean }
       is_valid_timezone: { Args: { tz: string }; Returns: boolean }
+      log_pomodoro_pages: {
+        Args: { p_finish_topic?: boolean; p_id: string; p_pages: number }
+        Returns: {
+          current_pace: number
+          ema: number
+          observed: number
+          suggest: boolean
+        }[]
+      }
       move_chapter: {
         Args: { p_chapter_id: string; p_direction: number }
         Returns: undefined
@@ -433,6 +530,36 @@ export type Database = {
       move_topic: {
         Args: { p_direction: number; p_topic_id: string }
         Returns: undefined
+      }
+      pause_pomodoro: {
+        Args: { p_id: string }
+        Returns: {
+          cancel_reason: string | null
+          ended_at: string | null
+          id: string
+          pages_logged: number | null
+          paused_at: string | null
+          paused_sec: number
+          pauses: number
+          planned_focus_sec: number
+          started_at: string
+          status: string
+          subject_id: string | null
+          topic_id: string | null
+          user_id: string
+          xp_awarded: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "pomodoro_sessions"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      pomodoro_completion_ratio: { Args: never; Returns: number }
+      pomodoro_paused_total: {
+        Args: { s: Database["public"]["Tables"]["pomodoro_sessions"]["Row"] }
+        Returns: number
       }
       record_calibration: {
         Args: {
@@ -443,6 +570,56 @@ export type Database = {
           p_subject_id?: string
         }
         Returns: number
+      }
+      resume_pomodoro: {
+        Args: { p_id: string }
+        Returns: {
+          cancel_reason: string | null
+          ended_at: string | null
+          id: string
+          pages_logged: number | null
+          paused_at: string | null
+          paused_sec: number
+          pauses: number
+          planned_focus_sec: number
+          started_at: string
+          status: string
+          subject_id: string | null
+          topic_id: string | null
+          user_id: string
+          xp_awarded: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "pomodoro_sessions"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      start_pomodoro: {
+        Args: { p_subject_id?: string; p_topic_id?: string }
+        Returns: {
+          cancel_reason: string | null
+          ended_at: string | null
+          id: string
+          pages_logged: number | null
+          paused_at: string | null
+          paused_sec: number
+          pauses: number
+          planned_focus_sec: number
+          started_at: string
+          status: string
+          subject_id: string | null
+          topic_id: string | null
+          user_id: string
+          xp_awarded: number
+        }
+        SetofOptions: {
+          from: "*"
+          to: "pomodoro_sessions"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
     }
     Enums: {

@@ -17,13 +17,24 @@ describe("tokens do design system", () => {
     },
   );
 
-  it("define todos os tokens de cor para os 4 temas", () => {
+  it("define os tokens de interface nos 4 temas e os de cena ao menos no Clássico", () => {
     for (const theme of tokens.color.themes) {
       expect(css).toContain(`[data-theme="${theme.id}"]`);
     }
     for (const tok of tokens.color.tokens) {
-      expect(typeof tok.value === "string" || Object.keys(tok.value).length === 4).toBe(true);
+      if (typeof tok.value === "string") continue;
+      expect(tok.value.classico, tok.name).toBeDefined();
+      // Cores de cena dos outros temas chegam com as cenas da Fase 3.
+      if (!tok.name.startsWith("scene-")) expect(Object.keys(tok.value), tok.name).toHaveLength(4);
     }
+  });
+
+  it("um tema sem valor próprio herda o do :root", () => {
+    const noturno = css.slice(css.indexOf('[data-theme="noturno"]'));
+    expect(noturno.slice(0, noturno.indexOf("}"))).not.toContain("--scene-sky-top");
+    expect(css.slice(0, css.indexOf('[data-theme="noturno"]'))).toContain(
+      "--scene-sky-top: #9eeedb;",
+    );
   });
 
   it("usa o Noturno no modo escuro sem tema escolhido", () => {

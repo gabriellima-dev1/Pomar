@@ -104,3 +104,28 @@ body {
     opacity: 1;
   }
 }
+
+/* Painel de vidro do cronômetro (docs/design/telas.md › 08). */
+.glass-panel {
+  background: var(--glass-fallback);
+  border: 1.5px solid var(--glass-edge);
+  box-shadow:
+    0 16px 40px var(--glass-shade),
+    inset 0 1px 0 var(--glass-edge);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-panel {
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass-panel {
+    background: var(--glass-fallback);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

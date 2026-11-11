@@ -1,0 +1,188 @@
+/*
+ * Cena "Campo e montanhas" (docs/design/cenas/scene-classico.html).
+ * Só transform/opacity. 5 camadas animadas: nuvens, vegetação, borboletas,
+ * fruto amadurecendo (transição) e colheita (uma vez, no fim do foco).
+ */
+
+@keyframes drift {
+  from {
+    transform: translateX(-14px);
+  }
+  to {
+    transform: translateX(14px);
+  }
+}
+@keyframes drift2 {
+  from {
+    transform: translateX(10px);
+  }
+  to {
+    transform: translateX(-10px);
+  }
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes flap {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.25);
+  }
+}
+@keyframes flyA {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(40px, -20px);
+  }
+  50% {
+    transform: translate(80px, 6px);
+  }
+  75% {
+    transform: translate(40px, 24px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes flyB {
+  0% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(-36px, -16px);
+  }
+  66% {
+    transform: translate(-60px, 10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes harvest {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  35% {
+    transform: translateY(-10px) scale(1.35);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(26px) scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* 1 · nuvens */
+.drift {
+  animation: drift 22s ease-in-out infinite alternate;
+}
+.drift2 {
+  animation: drift2 18s ease-in-out infinite alternate;
+}
+
+/* 2 · vegetação */
+.sway,
+.swayB,
+.swayC,
+.bob,
+.bobB,
+.bobC {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.sway {
+  animation: sway 5s ease-in-out infinite;
+}
+.swayB {
+  animation: sway 6.5s ease-in-out -2s infinite;
+}
+.swayC {
+  animation: sway 7s ease-in-out -4s infinite;
+}
+.bob {
+  animation: bob 3.6s ease-in-out infinite;
+}
+.bobB {
+  animation: bob 4.4s ease-in-out -1.2s infinite;
+}
+.bobC {
+  animation: bob 3.2s ease-in-out -2.4s infinite;
+}
+
+/* 3 · borboletas */
+.wing {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: flap 0.35s ease-in-out infinite;
+}
+.wingB {
+  animation-delay: -0.15s;
+}
+.flyA {
+  animation: flyA 14s ease-in-out infinite;
+}
+.flyB {
+  animation: flyB 11s ease-in-out infinite;
+}
+
+/* 4 · fruto amadurecendo: opacidade = progresso, escala 0,6 → 1 */
+.fruit {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+/* 5 · colheita */
+.harvest {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: harvest 1.2s ease-in forwards;
+}
+
+/* Aba oculta: pausa tudo (classe aplicada no visibilitychange). */
+.hidden * {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift,
+  .drift2,
+  .sway,
+  .swayB,
+  .swayC,
+  .bob,
+  .bobB,
+  .bobC,
+  .wing,
+  .flyA,
+  .flyB,
+  .harvest {
+    animation: none;
+  }
+  .fruit {
+    transition: none;
+  }
+}

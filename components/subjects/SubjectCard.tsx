@@ -5,6 +5,7 @@ import { cardClasses } from "@/components/ui/Card";
 import { ProgressRing } from "@/components/ui/Progress";
 import { effectivePace, remainingMinutes, subjectProgress } from "@/lib/estimates";
 import { subjectColorVar } from "@/lib/subjects/colors";
+import { forecastDay, type SubjectHistory } from "@/lib/subjects/history";
 import type { SubjectListItem } from "@/lib/subjects/queries";
 import { compactDuration, nextTopic, shortAuthors, shortDate } from "@/lib/subjects/summary";
 
@@ -22,9 +23,15 @@ export function pomodoroHref(subjectId: string, topicId?: string | null): string
 export function SubjectCard({
   subject,
   globalPace,
+  history,
+  today,
 }: {
   subject: SubjectListItem;
   globalPace: number | null;
+  /** Histórico de pomodoros desta disciplina (previsão de término). */
+  history?: SubjectHistory;
+  /** Dia local do usuário (AAAA-MM-DD). */
+  today: string;
 }) {
   const unit = subject.source === "youtube" ? "minutos" : "paginas";
   const progress = subjectProgress(subject.topics, unit);
@@ -41,9 +48,12 @@ export function SubjectCard({
     .filter(Boolean)
     .join(" · ");
 
+  const finish = forecastDay(leftMin, history, today);
   const remaining =
     progress.remaining > 0
-      ? `Faltam ${progress.remaining} ${unit === "paginas" ? "pág." : "min"} · ${compactDuration(leftMin)}`
+      ? `Faltam ${progress.remaining} ${unit === "paginas" ? "pág." : "min"} · ${compactDuration(leftMin)}${
+          finish ? ` · termina ~${shortDate(finish)}` : ""
+        }`
       : progress.topicsTotal > 0 && progress.percent === 100
         ? "Tudo concluído!"
         : null;

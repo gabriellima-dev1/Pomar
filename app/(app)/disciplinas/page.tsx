@@ -6,18 +6,29 @@ import { buttonClasses } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Notice } from "@/components/ui/Notice";
 import { requireUser } from "@/lib/auth/session";
+import { localDay } from "@/lib/dates";
 import { formatPace } from "@/lib/estimates";
-import { getPreferences, listSubjects } from "@/lib/subjects/queries";
+import {
+  getHomeProfile,
+  getPreferences,
+  getStudyHistory,
+  listSubjects,
+  sortByLastStudied,
+} from "@/lib/subjects/queries";
 
 export const metadata: Metadata = { title: "Disciplinas" };
 
 export default async function DisciplinasPage({ searchParams }: PageProps<"/disciplinas">) {
   const user = await requireUser();
-  const [subjects, prefs, query] = await Promise.all([
+  const [all, prefs, profile, query] = await Promise.all([
     listSubjects(),
     getPreferences(user.id),
+    getHomeProfile(user.id),
     searchParams,
   ]);
+  const history = await getStudyHistory(profile.timezone);
+  const subjects = sortByLastStudied(all, history);
+  const today = localDay(new Date(), profile.timezone);
 
   return (
     <section className="flex flex-col gap-6 pt-2">
@@ -65,7 +76,12 @@ export default async function DisciplinasPage({ searchParams }: PageProps<"/disc
         <ul className="flex flex-col gap-6">
           {subjects.map((s) => (
             <li key={s.id}>
-              <SubjectCard subject={s} globalPace={prefs.globalPace} />
+              <SubjectCard
+                subject={s}
+                globalPace={prefs.globalPace}
+                history={history.get(s.id)}
+                today={today}
+              />
             </li>
           ))}
         </ul>
