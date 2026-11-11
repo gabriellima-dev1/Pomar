@@ -3,6 +3,7 @@
 import { useActionState, useState, type ReactNode } from "react";
 import { deleteSubject, updateSubject, type FormState } from "@/app/(app)/disciplinas/actions";
 import { FormMessage, SubmitButton } from "@/components/forms/fields";
+import { buttonClasses } from "@/components/ui/Button";
 import { SubjectFieldsInputs, type SubjectFieldValues } from "./SubjectFieldsInputs";
 
 export function SubjectEditForm({
@@ -53,7 +54,7 @@ export function DeleteSubjectForm({ subjectId, title }: { subjectId: string; tit
       <button
         type="submit"
         disabled={!confirmed}
-        className="bg-danger min-h-11 self-start rounded-lg px-4 font-semibold text-white disabled:opacity-50"
+        className={buttonClasses("danger", "sm", "self-start")}
       >
         Excluir disciplina
       </button>

@@ -13,7 +13,7 @@ const ATUALIZADA_EM = "8 de novembro de 2026";
 function Secao({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
     <section className="flex flex-col gap-2">
-      <h2 className="text-xl font-semibold">{titulo}</h2>
+      <h2 className="text-xl font-extrabold">{titulo}</h2>
       {children}
     </section>
   );
@@ -28,7 +28,7 @@ export default function PrivacidadePage() {
 
       <header className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">Política de Privacidade</h1>
-        <p className="text-muted text-sm">Atualizada em {ATUALIZADA_EM}.</p>
+        <p className="text-ink-muted text-sm">Atualizada em {ATUALIZADA_EM}.</p>
         <p>
           O Pomar é um app gratuito de organização de estudos com a técnica Pomodoro, desenvolvido
           como projeto acadêmico da disciplina de Computação Persuasiva da Universidade Federal de
@@ -132,7 +132,7 @@ export default function PrivacidadePage() {
           Configurações haverá as opções <strong>Exportar meus dados</strong> e{" "}
           <strong>Excluir conta</strong>, sem etapas escondidas. Enquanto essas opções não estiverem
           disponíveis, ou para qualquer outro pedido, escreva para{" "}
-          <a href={`mailto:${CONTATO}`} className="text-primary font-semibold underline">
+          <a href={`mailto:${CONTATO}`} className="text-primary font-extrabold underline">
             {CONTATO}
           </a>
           .
@@ -161,7 +161,7 @@ export default function PrivacidadePage() {
       <Secao titulo="10. Contato">
         <p>
           Dúvidas ou pedidos sobre seus dados:{" "}
-          <a href={`mailto:${CONTATO}`} className="text-primary font-semibold underline">
+          <a href={`mailto:${CONTATO}`} className="text-primary font-extrabold underline">
             {CONTATO}
           </a>
           .

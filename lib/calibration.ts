@@ -100,3 +100,40 @@ export function formatClock(totalSeconds: number): string {
   const ss = String(sec).padStart(2, "0");
   return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
 }
+
+/** Mini cronômetro da calibração (Iniciar → Pausar/Continuar → Parar), baseado em timestamps. */
+export type Stopwatch = {
+  status: "idle" | "running" | "paused" | "stopped";
+  /** Início do trecho atual em ms (só quando `running`). */
+  startedAt: number | null;
+  /** Tempo já medido nos trechos anteriores. */
+  accumulatedMs: number;
+};
+
+export const IDLE_STOPWATCH: Stopwatch = { status: "idle", startedAt: null, accumulatedMs: 0 };
+
+export function stopwatchMs(sw: Stopwatch, now: number): number {
+  const current = sw.status === "running" && sw.startedAt !== null ? now - sw.startedAt : 0;
+  return Math.max(0, sw.accumulatedMs + Math.max(0, current));
+}
+
+export function stopwatchSeconds(sw: Stopwatch, now: number): number {
+  return Math.floor(stopwatchMs(sw, now) / 1000);
+}
+
+/** Iniciar (do zero) ou continuar depois de uma pausa. */
+export function runStopwatch(sw: Stopwatch, now: number): Stopwatch {
+  if (sw.status === "running") return sw;
+  const accumulatedMs = sw.status === "paused" ? sw.accumulatedMs : 0;
+  return { status: "running", startedAt: now, accumulatedMs };
+}
+
+export function pauseStopwatch(sw: Stopwatch, now: number): Stopwatch {
+  if (sw.status !== "running") return sw;
+  return { status: "paused", startedAt: null, accumulatedMs: stopwatchMs(sw, now) };
+}
+
+export function stopStopwatch(sw: Stopwatch, now: number): Stopwatch {
+  if (sw.status === "idle" || sw.status === "stopped") return sw;
+  return { status: "stopped", startedAt: null, accumulatedMs: stopwatchMs(sw, now) };
+}

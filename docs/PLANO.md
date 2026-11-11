@@ -89,7 +89,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Aceite:** criar uma disciplina a partir do Cormen escolhendo 3 capítulos; criar outra manual; calibrar com o cronômetro; marcar tópicos e ver o progresso e as estimativas mudarem. — **feito pela dupla em produção em 09/11; RLS verificada com `supabase/tests/rls_fase1.sql`.**
 
 ### Fase 2 — Pomodoro e tela inicial (12–14/11)
-- [ ] Aplicar o design: `docs/design/tokens.css` no lugar dos tokens provisórios do `globals.css`, Fredoka + Nunito, BottomNav, e redesenhar as telas da Fase 1 conforme `docs/design/telas.md`
+- [x] Aplicar o design: `docs/design/tokens.css` no lugar dos tokens provisórios do `globals.css`, Fredoka + Nunito, BottomNav, e redesenhar as telas da Fase 1 conforme `docs/design/telas.md`
 - [ ] Motor do timer baseado em timestamps (`lib/timer.ts`), com testes: continua fora da aba, sobrevive a recarregar
 - [ ] Botões −5/+5 com os limites do `DESIGN.md` §4.5; ciclo longo a cada 4
 - [ ] Pop-up de nudge na pausa (texto e botões do §4.5); eventos `pause_nudge_shown`/`pause_nudge_choice`
