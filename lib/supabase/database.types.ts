@@ -214,6 +214,27 @@ export type Database = {
           },
         ]
       }
+      feature_flags: {
+        Row: {
+          enabled: boolean
+          key: string
+          rollout: Json
+          updated_at: string
+        }
+        Insert: {
+          enabled?: boolean
+          key: string
+          rollout?: Json
+          updated_at?: string
+        }
+        Update: {
+          enabled?: boolean
+          key?: string
+          rollout?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pomodoro_sessions: {
         Row: {
           cancel_reason: string | null
@@ -283,6 +304,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          bartle_answers: Json | null
           bartle_primary: string | null
           bartle_scores: Json | null
           break_min: number
@@ -294,11 +316,13 @@ export type Database = {
           is_admin: boolean
           is_demo: boolean
           last_closed_day: string | null
+          league_invite_dismissed_at: string | null
           league_opt_in: boolean | null
           level: number
           level_seen: number
           long_break_min: number
           min_per_page: number | null
+          onboarding_step: string
           public_profile: boolean
           reminder_time: string | null
           streak_best: number
@@ -310,6 +334,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          bartle_answers?: Json | null
           bartle_primary?: string | null
           bartle_scores?: Json | null
           break_min?: number
@@ -321,11 +346,13 @@ export type Database = {
           is_admin?: boolean
           is_demo?: boolean
           last_closed_day?: string | null
+          league_invite_dismissed_at?: string | null
           league_opt_in?: boolean | null
           level?: number
           level_seen?: number
           long_break_min?: number
           min_per_page?: number | null
+          onboarding_step?: string
           public_profile?: boolean
           reminder_time?: string | null
           streak_best?: number
@@ -337,6 +364,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          bartle_answers?: Json | null
           bartle_primary?: string | null
           bartle_scores?: Json | null
           break_min?: number
@@ -348,11 +376,13 @@ export type Database = {
           is_admin?: boolean
           is_demo?: boolean
           last_closed_day?: string | null
+          league_invite_dismissed_at?: string | null
           league_opt_in?: boolean | null
           level?: number
           level_seen?: number
           long_break_min?: number
           min_per_page?: number | null
+          onboarding_step?: string
           public_profile?: boolean
           reminder_time?: string | null
           streak_best?: number
@@ -508,6 +538,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_cohorts: {
+        Row: {
+          assigned_at: string
+          cohort: string
+          user_id: string
+        }
+        Insert: {
+          assigned_at?: string
+          cohort: string
+          user_id: string
+        }
+        Update: {
+          assigned_at?: string
+          cohort?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_daily_badges: {
         Row: {
@@ -699,6 +747,14 @@ export type Database = {
       }
       is_admin: { Args: never; Returns: boolean }
       is_valid_timezone: { Args: { tz: string }; Returns: boolean }
+      landing_stats: {
+        Args: never
+        Returns: {
+          focus_sec_week: number
+          gardeners: number
+          pomodoros_week: number
+        }[]
+      }
       log_pomodoro_pages: {
         Args: { p_finish_topic?: boolean; p_id: string; p_pages: number }
         Returns: {
