@@ -129,30 +129,47 @@ describe("eligibleBadges", () => {
 });
 
 describe("drawBadge", () => {
-  it("sorteia ponderado pela raridade (comum 10, incomum 5, raro 1)", () => {
-    const pool = ["fruto_do_dia", "maratona", "fruto_dourado"] as const; // 10 + 5 + 1 = 16
-    expect(drawBadge(pool, () => 0)).toBe("fruto_do_dia");
-    expect(drawBadge(pool, () => 9.99 / 16)).toBe("fruto_do_dia");
-    expect(drawBadge(pool, () => 10 / 16)).toBe("maratona");
-    expect(drawBadge(pool, () => 14.99 / 16)).toBe("maratona");
-    expect(drawBadge(pool, () => 15 / 16)).toBe("fruto_dourado");
-    expect(drawBadge(pool, () => 0.999999)).toBe("fruto_dourado");
+  /** Gerador que devolve os valores dados, em ordem. */
+  const seq = (...values: number[]) => {
+    let i = 0;
+    return () => values[i++] ?? 0;
+  };
+
+  it("Fruto Dourado com chance fixa de 2% (1º número do sorteio)", () => {
+    const pool = ["fruto_do_dia", "maratona", "fruto_dourado"] as const;
+    expect(drawBadge(pool, seq(0.0199))).toBe("fruto_dourado");
+    expect(drawBadge(pool, seq(0.02, 0))).toBe("fruto_do_dia");
+  });
+
+  it("fora do dourado, sorteia ponderado pela raridade (comum 10, incomum 5)", () => {
+    const pool = ["fruto_do_dia", "maratona", "fruto_dourado"] as const; // 10 + 5 = 15
+    expect(drawBadge(pool, seq(0.5, 9.99 / 15))).toBe("fruto_do_dia");
+    expect(drawBadge(pool, seq(0.5, 10 / 15))).toBe("maratona");
+    expect(drawBadge(pool, seq(0.5, 0.999999))).toBe("maratona");
+  });
+
+  it("raro comum ao sorteio (Lua Cheia) tem peso 1", () => {
+    const pool = ["fruto_do_dia", "lua_cheia"] as const; // 10 + 1
+    expect(drawBadge(pool, seq(10.5 / 11))).toBe("lua_cheia");
+    expect(drawBadge(pool, seq(9.9 / 11))).toBe("fruto_do_dia");
   });
 
   it("um gerador fora do intervalo não quebra o sorteio", () => {
     expect(drawBadge(["fruto_do_dia"], () => 1)).toBe("fruto_do_dia");
     expect(drawBadge(["fruto_do_dia", "coruja"], () => -1)).toBe("fruto_do_dia");
+    expect(drawBadge(["fruto_dourado"], () => 0.9)).toBe("fruto_dourado");
   });
 
-  it("a frequência se aproxima dos pesos", () => {
+  it("frequência: dourado ~2%, o resto pelos pesos", () => {
     let seed = 42;
     const rng = () => (seed = (seed * 1103515245 + 12345) % 2 ** 31) / 2 ** 31;
     const pool = ["fruto_do_dia", "maratona", "fruto_dourado"] as const;
     const count = { fruto_do_dia: 0, maratona: 0, fruto_dourado: 0 };
-    for (let i = 0; i < 16000; i++) count[drawBadge(pool, rng) as keyof typeof count]++;
-    expect(count.fruto_do_dia / 16000).toBeCloseTo(10 / 16, 1);
-    expect(count.maratona / 16000).toBeCloseTo(5 / 16, 1);
-    expect(count.fruto_dourado / 16000).toBeCloseTo(1 / 16, 1);
+    const n = 50000;
+    for (let i = 0; i < n; i++) count[drawBadge(pool, rng) as keyof typeof count]++;
+    expect(count.fruto_dourado / n).toBeCloseTo(0.02, 2);
+    expect(count.fruto_do_dia / n).toBeCloseTo(0.98 * (10 / 15), 1);
+    expect(count.maratona / n).toBeCloseTo(0.98 * (5 / 15), 1);
   });
 
   it("sem elegíveis é erro (o dia sem pomodoro não sorteia)", () => {

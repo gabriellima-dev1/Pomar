@@ -33,6 +33,8 @@ export type LayerProps = {
   harvested: boolean;
   /** Desenhar a árvore do pomar (a celebração de nível desenha a sua por cima). */
   orchard: boolean;
+  /** Desenhar a lua (ou a estrela do pinheiro) na cena; não quando o cronômetro a desenha. */
+  celestial: boolean;
   /** Prefixo dos ids de degradê (várias cenas na mesma página). */
   uid: string;
 };
@@ -273,7 +275,7 @@ export function NoturnoLayers(p: LayerProps) {
           />
         ))}
       </g>
-      <Moon id={`${p.uid}-lua`} cx={310} cy={300} r={40} glow={90} />
+      {p.celestial && <Moon id={`${p.uid}-lua`} cx={310} cy={300} r={40} glow={90} />}
       {/* 1 · nuvens escuras (sem a da direita, que cobriria a lua) */}
       <g className={s.drift} fill={c("cloud")}>
         <g opacity="0.85">
@@ -384,7 +386,7 @@ export function HalloweenLayers(p: LayerProps) {
   return (
     <>
       <Sky id={`${p.uid}-ceu`} />
-      <Moon id={`${p.uid}-lua`} cx={290} cy={320} r={52} glow={110} />
+      {p.celestial && <Moon id={`${p.uid}-lua`} cx={290} cy={320} r={52} glow={110} />}
       {/* 1 · morcegos (o transform em linha é a posição parada, sem animação) */}
       <g className={s.batA} style={{ transform: "translate(120px, 0)" }}>
         <Bat y={300} />
@@ -540,7 +542,7 @@ export function NatalLayers(p: LayerProps) {
       <Meadow />
       {/* Pinheiro do pomar, no estágio do nível */}
       {p.orchard && (
-        <g transform={`translate(${x} ${y}) scale(${k}) translate(${-x} ${-y})`}>
+        <g transform={`translate(${x} ${y}) scale(${k}) translate(-300 ${-y})`}>
           <ellipse cx="300" cy="574" rx="72" ry="8" fill={c("tree-shadow")} />
           <rect x="292" y="540" width="16" height="34" rx="3" fill={c("trunk")} />
           <path
@@ -574,13 +576,15 @@ export function NatalLayers(p: LayerProps) {
           <g transform="translate(300 500)">
             <CycleFruit r={8} progress={p.progress} harvested={p.harvested} />
           </g>
-          {/* 3 · estrela */}
-          <g className={s.twinkleFast}>
-            <path
-              d="M300 326 L305 338 L318 339 L308 347 L311 360 L300 353 L289 360 L292 347 L282 339 L295 338Z"
-              fill={c("moon")}
-            />
-          </g>
+          {/* 3 · estrela (com o cronômetro na estrela, ela fica atrás do painel) */}
+          {p.celestial && (
+            <g className={s.twinkleFast}>
+              <path
+                d="M300 326 L305 338 L318 339 L308 347 L311 360 L300 353 L289 360 L292 347 L282 339 L295 338Z"
+                fill={c("moon")}
+              />
+            </g>
+          )}
         </g>
       )}
       {/* Boneco de neve */}

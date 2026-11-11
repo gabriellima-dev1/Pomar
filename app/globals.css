@@ -119,6 +119,9 @@ body {
 }
 
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-panel.glass-halo {
+    background: var(--glass-halo);
+  }
   .glass-panel {
     background: var(--glass-fill);
     -webkit-backdrop-filter: blur(18px) saturate(1.6);
@@ -127,7 +130,8 @@ body {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .glass-panel {
+  .glass-panel,
+  .glass-panel.glass-halo {
     background: var(--glass-fallback);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;

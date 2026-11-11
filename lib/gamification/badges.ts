@@ -119,22 +119,38 @@ export function eligibleBadges(ctx: BadgeContext): BadgeCode[] {
 }
 
 /**
- * Sorteio ponderado (comum 10, incomum 5, raro 1). `rng` devolve um número em [0, 1)
- * (no servidor, `crypto.getRandomValues`; nos testes, um valor fixo).
+ * Chance fixa do Fruto Dourado por dia com pomodoro (~1 a cada 50 dias). Raro de
+ * verdade, como os itens especiais do Duolingo (decisão da dupla, 11/11).
+ */
+export const GOLDEN_CHANCE = 0.02;
+
+function clamp01(x: number): number {
+  return Math.min(Math.max(x, 0), 0.999999999);
+}
+
+/**
+ * Sorteio do emblema do dia. Primeiro o Fruto Dourado, com chance fixa de 2%; senão,
+ * sorteio ponderado pela raridade (comum 10, incomum 5, raro 1) entre os outros
+ * elegíveis. `rng` devolve um número em [0, 1) (no servidor, `crypto.getRandomValues`;
+ * nos testes, valores fixos).
  */
 export function drawBadge(eligible: readonly BadgeCode[], rng: () => number): BadgeCode {
   if (eligible.length === 0) throw new Error("Nenhum emblema elegível.");
-  const weights = eligible.map((code) => {
+  const pool = eligible.filter((code) => code !== "fruto_dourado");
+  if (pool.length < eligible.length && (pool.length === 0 || clamp01(rng()) < GOLDEN_CHANCE)) {
+    return "fruto_dourado";
+  }
+  const weights = pool.map((code) => {
     const info = BADGES.find((b) => b.code === code);
     return info ? RARITY_WEIGHT[info.rarity] : 0;
   });
   const total = weights.reduce((a, b) => a + b, 0);
-  let r = Math.min(Math.max(rng(), 0), 0.999999999) * total;
-  for (let i = 0; i < eligible.length; i++) {
+  let r = clamp01(rng()) * total;
+  for (let i = 0; i < pool.length; i++) {
     r -= weights[i] ?? 0;
-    if (r < 0) return eligible[i] as BadgeCode;
+    if (r < 0) return pool[i] as BadgeCode;
   }
-  return eligible[eligible.length - 1] as BadgeCode;
+  return pool[pool.length - 1] as BadgeCode;
 }
 
 /** Número aleatório em [0, 1) com o gerador criptográfico (servidor). */

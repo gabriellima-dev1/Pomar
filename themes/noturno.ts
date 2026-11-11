@@ -8,5 +8,6 @@ export const noturno: ThemeConfig = {
   fruit: "tomate",
   accessory: "pijama",
   seasonMonth: null,
-  layout: { treeX: 296, treeBaseY: 572, treeScale: 2.1 },
+  // Cronômetro dentro da lua, árvore à esquerda (paisagem espelhada).
+  layout: { treeX: 296, treeBaseY: 572, treeScale: 2.1, timer: "moon", mirror: true },
 };

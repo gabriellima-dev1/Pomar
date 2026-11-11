@@ -128,7 +128,7 @@ export const BADGES: readonly BadgeInfo[] = [
     name: "Fruto Dourado",
     rarity: "raro",
     hidden: true,
-    rule: "Pode sair em qualquer dia com pomodoro, mas é bem raro.",
+    rule: "Pode sair em qualquer dia com pomodoro, mas é bem raro (cerca de 1 a cada 50 dias).",
     reason: "Um fruto raro, que só aparece de vez em quando.",
   },
   {

@@ -9,5 +9,6 @@ export const natal: ThemeConfig = {
   fruit: "enfeite",
   accessory: "gorro",
   seasonMonth: 12,
-  layout: { treeX: 300, treeBaseY: 574, treeScale: 1 },
+  // Cronômetro na estrela, pinheiro no centro.
+  layout: { treeX: 195, treeBaseY: 574, treeScale: 1, timer: "star", mirror: false },
 };

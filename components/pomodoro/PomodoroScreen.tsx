@@ -26,6 +26,7 @@ import { levelForXp, stageChanged, stageForLevel } from "@/lib/gamification/leve
 import type { XpResult } from "@/lib/gamification/service";
 import type { ThemePreference } from "@/lib/gamification/themes";
 import { track } from "@/lib/telemetry";
+import { THEMES } from "@/themes";
 import {
   breakAfter,
   deserialize,
@@ -539,6 +540,7 @@ export function PomodoroScreen({
         stage={stageForLevel(levelForXp(xpTotal))}
         progress={sceneProgress}
         harvested={harvested && isFocus}
+        withTimer
       />
 
       <div className="max-w-app relative mx-auto flex h-full w-full flex-col">
@@ -564,6 +566,7 @@ export function PomodoroScreen({
 
         <div className="flex justify-center pt-[clamp(16px,6vh,72px)]">
           <GlassTimer
+            halo={THEMES[sceneTheme].layout.timer}
             label={label}
             seconds={remaining}
             srLabel={`${label}: ${mm} ${mm === 1 ? "minuto" : "minutos"} e ${ss} segundos restantes`}

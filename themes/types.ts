@@ -19,8 +19,16 @@ export type ThemeConfig = {
   /** Mês em que o tema é sugerido (Kairos). */
   seasonMonth: number | null;
   /**
-   * Preset de layout da cena (viewBox 390×844). Segue as imagens aprovadas: o
-   * cronômetro fica no topo e a árvore do pomar à direita nos 4 temas (DECISOES 09/11).
+   * Preset de layout (DESIGN §6.7, decisão da dupla 11/11): onde fica a árvore e em que
+   * o cronômetro "mora". `timer` = astro desenhado atrás do painel de vidro (lua ou
+   * estrela); `mirror` espelha a paisagem (árvore à esquerda). Coordenadas do viewBox
+   * 390×844 da cena.
    */
-  layout: { treeX: number; treeBaseY: number; treeScale: number };
+  layout: {
+    treeX: number;
+    treeBaseY: number;
+    treeScale: number;
+    timer: "plain" | "moon" | "star";
+    mirror: boolean;
+  };
 };

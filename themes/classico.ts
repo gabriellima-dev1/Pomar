@@ -8,5 +8,5 @@ export const classico: ThemeConfig = {
   fruit: "tomate",
   accessory: "basico",
   seasonMonth: null,
-  layout: { treeX: 296, treeBaseY: 572, treeScale: 2.1 },
+  layout: { treeX: 296, treeBaseY: 572, treeScale: 2.1, timer: "plain", mirror: false },
 };

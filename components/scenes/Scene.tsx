@@ -36,6 +36,7 @@ export function Scene({
   harvested = false,
   still = false,
   orchard = true,
+  withTimer = false,
   viewBox = "0 0 390 844",
   preserveAspectRatio = "xMidYMax meet",
   className = "absolute inset-0 h-full w-full",
@@ -50,6 +51,11 @@ export function Scene({
   still?: boolean;
   /** Desenhar a árvore do pomar. */
   orchard?: boolean;
+  /**
+   * A tela tem o cronômetro de vidro: nos temas em que ele "mora" na lua ou na estrela
+   * (§6.7), o astro sai da cena e o GlassTimer desenha atrás do painel.
+   */
+  withTimer?: boolean;
   viewBox?: string;
   preserveAspectRatio?: string;
   className?: string;
@@ -66,7 +72,19 @@ export function Scene({
   }, [still]);
 
   const Layers = LAYERS[theme];
+  const layout = THEMES[theme].layout;
   const p = Math.max(0, Math.min(1, progress));
+  const layers = (
+    <Layers
+      layout={layout}
+      stage={stage}
+      progress={p}
+      harvested={harvested}
+      orchard={orchard}
+      celestial={!(withTimer && layout.timer !== "plain")}
+      uid={`cena${uid}`}
+    />
+  );
 
   return (
     <svg
@@ -75,14 +93,8 @@ export function Scene({
       className={`${className} ${still ? s.still : hidden ? s.hidden : ""}`}
       aria-hidden
     >
-      <Layers
-        layout={THEMES[theme].layout}
-        stage={stage}
-        progress={p}
-        harvested={harvested}
-        orchard={orchard}
-        uid={`cena${uid}`}
-      />
+      {/* Paisagem espelhada = árvore à esquerda (Noturno, §6.7). */}
+      {layout.mirror ? <g transform="translate(390 0) scale(-1 1)">{layers}</g> : layers}
     </svg>
   );
 }

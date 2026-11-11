@@ -31,6 +31,7 @@ insert into public.badges (code, rarity, hidden, weight, position) values
   ('constante', 'comum', false, 10, 8),
   ('pontual', 'incomum', false, 5, 9),
   ('retorno', 'incomum', false, 5, 10),
+  -- Fruto Dourado: chance fixa de 2% por dia (lib/gamification/badges.ts); o peso fica de registro.
   ('fruto_dourado', 'raro', true, 1, 11),
   ('lua_cheia', 'raro', true, 1, 12);
 

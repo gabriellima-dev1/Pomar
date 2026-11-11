@@ -184,14 +184,14 @@ describe("closeDays — contexto dos emblemas", () => {
     const r1 = closeDays(
       input({ fromDay: "2026-11-01", toDay: "2026-11-01", sessions: history, rng: () => 0.5 }),
     );
-    // Pool do 1º dia: fruto_do_dia(10) explorador(5) fruto_dourado(1) → 0.5×16 = 8 → fruto_do_dia.
+    // Dourado: 0.5 ≥ 2%. Pool do 1º dia: fruto_do_dia(10) explorador(5) → 0.5×15 = 7.5.
     expect(r1.badges[0]?.code).toBe("fruto_do_dia");
     const r1b = closeDays(
       input({ fromDay: "2026-11-01", toDay: "2026-11-01", sessions: history, rng: () => 0.7 }),
     );
     expect(r1b.badges[0]?.code).toBe("explorador");
 
-    // 05/11: pool fruto_do_dia(10) retorno(5) fruto_dourado(1); 0.7×16 = 11.2 → retorno.
+    // 05/11: pool fruto_do_dia(10) retorno(5); 0.7×15 = 10.5 → retorno.
     const r2 = closeDays(
       input({ fromDay: "2026-11-05", toDay: "2026-11-05", sessions: history, rng: () => 0.7 }),
     );
@@ -203,7 +203,7 @@ describe("closeDays — contexto dos emblemas", () => {
       input({
         sessions: [pomodoro("2026-11-01"), pomodoro("2026-11-09")],
         chapterCompletions: ["2026-11-09T20:00:00Z"],
-        rng: () => 0.7, // fruto_do_dia(10) finalizador(5) fruto_dourado(1) → 11.2
+        rng: () => 0.7, // fruto_do_dia(10) finalizador(5) → 0.7×15 = 10.5
       }),
     );
     expect(r.badges[0]?.code).toBe("finalizador");

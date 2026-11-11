@@ -67,6 +67,7 @@
   --glass-edge: rgba(255,255,255,0.85);
   --glass-shade: rgba(42,33,24,0.14);
   --glass-fallback: #f4f8f6;
+  --glass-halo: rgba(255,255,255,0.52);
   --subject-tomate: #c0392b;
   --subject-laranja: #b9510f;
   --subject-mel: #8a6100;
@@ -176,6 +177,7 @@
   --glass-edge: rgba(255,255,255,0.22);
   --glass-shade: rgba(0,0,0,0.4);
   --glass-fallback: #1f2a3d;
+  --glass-halo: rgba(19,26,38,0.72);
   --subject-tomate: #ff7d6b;
   --subject-laranja: #f59a52;
   --subject-mel: #e3b745;
@@ -285,6 +287,7 @@
   --glass-edge: rgba(255,255,255,0.2);
   --glass-shade: rgba(0,0,0,0.45);
   --glass-fallback: #2a2036;
+  --glass-halo: rgba(25,19,31,0.78);
   --subject-tomate: #ff7d6b;
   --subject-laranja: #f59a52;
   --subject-mel: #e3b745;
@@ -394,6 +397,7 @@
   --glass-edge: rgba(255,255,255,0.9);
   --glass-shade: rgba(29,42,34,0.14);
   --glass-fallback: #f4f7f9;
+  --glass-halo: rgba(255,255,255,0.72);
   --subject-tomate: #c0392b;
   --subject-laranja: #b9510f;
   --subject-mel: #8a6100;
@@ -505,6 +509,7 @@
     --glass-edge: rgba(255,255,255,0.22);
     --glass-shade: rgba(0,0,0,0.4);
     --glass-fallback: #1f2a3d;
+    --glass-halo: rgba(19,26,38,0.72);
     --subject-tomate: #ff7d6b;
     --subject-laranja: #f59a52;
     --subject-mel: #e3b745;
