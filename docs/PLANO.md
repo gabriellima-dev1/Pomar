@@ -114,16 +114,16 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Aceite:** com dados de teste, um dia com pomodoro gera exatamente 1 emblema no dia seguinte; 5 dias geram Colheita de Prata e desbloqueiam Halloween; trocar o tema muda cenário e posições. — **feito pela dupla em produção em 11/11 (PRs #16, #17 e #18), com a conta de teste `teste.fase3@example.com` (`is_demo`) e `npm run demo:week`: 1 dia → 1 emblema; 5 dias → Colheita de Prata + Halloween; troca de tema muda cena e posições; XP no fim do ciclo. RLS verificada com `supabase/tests/rls_fase3.sql` (19 testes, com rollback). A checagem das animações fica para a Fase 6 (Playwright).**
 
 ### Fase 4 — Onboarding, landing e beta (17–18/11)
-- [ ] Retirar o emblema **Pontual** (decisão de 11/11): nova migração removendo `pontual` do catálogo de emblemas, tirar a regra e os testes de `lib/gamification/badges.ts`, o item de `catalog.ts` e o ícone de `BadgeIcon.tsx`; o álbum passa a ter 11 emblemas. `profiles.reminder_time` deixa de ser usado
-- [ ] Landing page com contadores reais
-- [ ] Onboarding completo: quiz Bartle (8 perguntas) → opt-in de liga (sem pré-marcação) → 1ª disciplina → calibração → 1º pomodoro
-- [ ] Painel adaptado ao perfil de Bartle (§6.8) + opção de trocar/refazer
-- [ ] Revisão de todos os eventos de telemetria do §9.1
-- [ ] Atribuição de coorte A/B no cadastro (flag `rewards_enabled`)
-- [ ] Adaptação para computador e tablet (barra lateral, grades, folhas viram diálogos) conforme `docs/design/telas.md` › Computador e tablet
+- [x] Retirar o emblema **Pontual** (decisão de 11/11): nova migração removendo `pontual` do catálogo de emblemas, tirar a regra e os testes de `lib/gamification/badges.ts`, o item de `catalog.ts` e o ícone de `BadgeIcon.tsx`; o álbum passa a ter 11 emblemas. `profiles.reminder_time` deixa de ser usado
+- [x] Landing page com contadores reais
+- [x] Onboarding completo: quiz Bartle (8 perguntas) → opt-in de liga (sem pré-marcação) → 1ª disciplina → calibração → 1º pomodoro
+- [x] Painel adaptado ao perfil de Bartle (§6.8) + opção de trocar/refazer
+- [x] Revisão de todos os eventos de telemetria do §9.1 — 19 de 23 já estavam registrados; faltavam `onboarding_quiz_completed` e `league_opt_in_choice` (entraram agora) e `follow_created`/`reaction_sent` (Fase 5)
+- [x] Atribuição de coorte A/B no cadastro (flag `rewards_enabled`)
+- [x] Adaptação para computador e tablet (barra lateral, grades, folhas viram diálogos) conforme `docs/design/telas.md` › Computador e tablet
 - [ ] **18/11: link de produção enviado aos colegas**
 
-**Aceite:** uma pessoa que nunca viu o app consegue, sozinha, chegar ao fim do 1º pomodoro; o funil aparece populado na tabela de eventos.
+**Aceite:** uma pessoa que nunca viu o app consegue, sozinha, chegar ao fim do 1º pomodoro; o funil aparece populado na tabela de eventos. — **pendente da dupla. Migrações aplicadas em 11/11; RLS verificada com `supabase/tests/rls_fase4.sql` (18 testes, com rollback). Fluxo completo testado pelo Claude Code no localhost com a conta `teste.fase4.…@example.com` (`is_demo`): funil registrado de `signup_completed` a `pomodoro_completed`.**
 
 ### Fase 5 — Social, ligas, estatísticas e YouTube (19–21/11)
 - [ ] Nome de usuário, perfil público (opt-in), seguir, buscar
