@@ -30,7 +30,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${fredoka.variable} ${nunito.variable} h-full antialiased`}>
+    <html
+      lang="pt-BR"
+      className={`${fredoka.variable} ${nunito.variable} h-full antialiased`}
+      // O tema do usuário entra no `data-theme` antes da hidratação (components/theme).
+      suppressHydrationWarning
+    >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

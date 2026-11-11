@@ -129,3 +129,26 @@ body {
     backdrop-filter: none;
   }
 }
+
+/* Seu Tomás: acessório do tema (components/mascot/SeuTomas.tsx, accessory="auto"). */
+.tomas-acc {
+  display: none;
+}
+[data-theme="noturno"] .tomas-acc[data-acc="noturno"],
+[data-theme="halloween"] .tomas-acc[data-acc="halloween"],
+[data-theme="natal"] .tomas-acc[data-acc="natal"] {
+  display: inline;
+}
+[data-theme="noturno"] .tomas-leaf,
+[data-theme="halloween"] .tomas-leaf,
+[data-theme="natal"] .tomas-leaf {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .tomas-acc[data-acc="noturno"] {
+    display: inline;
+  }
+  :root:not([data-theme]) .tomas-leaf {
+    display: none;
+  }
+}
