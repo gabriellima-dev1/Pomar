@@ -83,6 +83,8 @@ export type PomodoroProps = {
   theme: ThemePreference;
   /** XP total (a árvore da cena segue o estágio do nível). */
   xp: number;
+  /** Coorte B (DESIGN §9.4): sem XP e sem celebração de nível visíveis. */
+  rewards: boolean;
 };
 
 type DialogName = "none" | "settings" | "pause" | "cancel" | "end";
@@ -157,6 +159,7 @@ export function PomodoroScreen({
   running,
   theme,
   xp,
+  rewards,
 }: PomodoroProps) {
   const router = useRouter();
   const sceneTheme = useEffectiveTheme(theme);
@@ -176,7 +179,7 @@ export function PomodoroScreen({
   const [settings, setSettings] = useState(initialSettings);
   const [timer, setTimer] = useState<TimerState>(() =>
     initialTimer(
-      { subject, topic, settings: initialSettings, pace, today, running, theme, xp },
+      { subject, topic, settings: initialSettings, pace, today, running, theme, xp, rewards },
       ctx,
     ),
   );
@@ -188,6 +191,8 @@ export function PomodoroScreen({
     timer.phase === "focus" && timer.status === "finished",
   );
   const [end, setEnd] = useState<{ focusMin: number; fruitsToday: number } | null>(null);
+  // 1º pomodoro do onboarding: depois da folha 07 vem o "Primeiro fruto" (tela 20).
+  const firstFruit = useRef(false);
   const [suggestion, setSuggestion] = useState<{
     ema: number;
     current: number;
@@ -200,17 +205,20 @@ export function PomodoroScreen({
   const handling = useRef(false);
   const timerRef = useRef(timer);
 
-  const absorbXp = useCallback((res: XpResult | null) => {
-    if (!res) return;
-    setXpTotal(res.xpTotal);
-    if (res.levelTo > res.levelFrom) {
-      const prev = pendingLevel.current;
-      pendingLevel.current = {
-        from: prev ? Math.min(prev.from, res.levelFrom) : res.levelFrom,
-        to: Math.max(prev?.to ?? 0, res.levelTo),
-      };
-    }
-  }, []);
+  const absorbXp = useCallback(
+    (res: XpResult | null) => {
+      if (!res) return;
+      setXpTotal(res.xpTotal);
+      if (rewards && res.levelTo > res.levelFrom) {
+        const prev = pendingLevel.current;
+        pendingLevel.current = {
+          from: prev ? Math.min(prev.from, res.levelFrom) : res.levelFrom,
+          to: Math.max(prev?.to ?? 0, res.levelTo),
+        };
+      }
+    },
+    [rewards],
+  );
 
   const update = useCallback((t: TimerState) => {
     timerRef.current = t;
@@ -234,16 +242,17 @@ export function PomodoroScreen({
       setError(null);
       setEnd(res.data);
       absorbXp(res.data.xp);
+      if (res.data.firstFruit) firstFruit.current = true;
       const n = res.data.fruitsToday;
       const fruits = `${n} ${n === 1 ? "fruto" : "frutos"} hoje`;
-      const gained = res.data.xp?.xpGained ?? 0;
+      const gained = rewards ? (res.data.xp?.xpGained ?? 0) : 0;
       // O toast abre depois do diálogo para ficar por cima do véu. O XP vem do servidor.
       window.setTimeout(() => {
         setDialog("end");
         setToast(gained > 0 ? `+${gained} XP · ${fruits}` : fruits);
       }, delayMs);
     },
-    [absorbXp, ctx, settings.focus, update],
+    [absorbXp, ctx, rewards, settings.focus, update],
   );
 
   // Fim do foco: colheita na cena, som, notificação (aba oculta) e conclusão no servidor.
@@ -426,6 +435,13 @@ export function PomodoroScreen({
     setSuggestion(null);
     setHarvested(false);
     setEnd(null);
+    if (firstFruit.current) {
+      // Fim do 1º pomodoro do onboarding: o descanso fica para depois do "Primeiro fruto".
+      firstFruit.current = false;
+      update(readyState("focus", settings.focus, ctx(cycles)));
+      router.push("/onboarding/primeiro-fruto");
+      return;
+    }
     if (next === "break") {
       const phase = breakAfter(cycles);
       const minutes = phase === "long_break" ? settings.longBreak : settings.shortBreak;

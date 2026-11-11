@@ -135,10 +135,13 @@ export function CatalogPicker({
   book,
   defaultColor,
   globalPace,
+  onboarding = false,
 }: {
   book: PickerBook;
   defaultColor: string;
   globalPace: number | null;
+  /** Dentro do onboarding, a calibração é o "Passo 4 de 5". */
+  onboarding?: boolean;
 }) {
   const [state, dispatch] = useActionState<FormState, FormData>(createFromCatalog, {});
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
@@ -259,7 +262,9 @@ export function CatalogPicker({
             >
               <ChevronLeft size={28} aria-hidden />
             </button>
-            <p className="text-small text-ink-muted font-extrabold">Passo 2 de 2</p>
+            <p className="text-small text-ink-muted font-extrabold">
+              {onboarding ? "Passo 4 de 5" : "Passo 2 de 2"}
+            </p>
           </div>
           <h2 className="text-display">Quanto tempo você leva por página?</h2>
           <MascotBubble>
