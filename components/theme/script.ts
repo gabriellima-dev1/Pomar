@@ -1,8 +1,6 @@
-import type { ThemeCode } from "@/lib/gamification/themes";
+import type { ThemePreference } from "@/lib/gamification/themes";
 
 /** Script inline: aplica o tema antes da primeira pintura (sem piscar ao recarregar). */
-export function themeScript(theme: ThemeCode | null): string {
-  return theme
-    ? `document.documentElement.setAttribute("data-theme",${JSON.stringify(theme)})`
-    : `document.documentElement.removeAttribute("data-theme")`;
+export function themeScript(theme: ThemePreference): string {
+  return `document.documentElement.setAttribute("data-theme",${JSON.stringify(theme)})`;
 }

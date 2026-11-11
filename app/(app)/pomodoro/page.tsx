@@ -3,7 +3,7 @@ import { PomodoroLoader } from "@/components/pomodoro/PomodoroLoader";
 import type { PomodoroTopic } from "@/components/pomodoro/PomodoroScreen";
 import { requireUser } from "@/lib/auth/session";
 import { localDay } from "@/lib/dates";
-import { isThemeCode } from "@/lib/gamification/themes";
+import { parseThemePreference } from "@/lib/gamification/themes";
 import { effectivePace, topicPages } from "@/lib/estimates";
 import { getSubject } from "@/lib/subjects/queries";
 import { nextTopic } from "@/lib/subjects/summary";
@@ -98,7 +98,7 @@ export default async function PomodoroPage({ searchParams }: PageProps<"/pomodor
       pace={pace}
       today={localDay(new Date(), profile?.timezone ?? "America/Maceio")}
       running={running}
-      theme={isThemeCode(profile?.theme) ? profile.theme : null}
+      theme={parseThemePreference(profile?.theme)}
       xp={profile?.xp_total ?? 0}
     />
   );

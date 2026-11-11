@@ -1,18 +1,17 @@
 "use client";
 
 import { useLayoutEffect } from "react";
-import type { ThemeCode } from "@/lib/gamification/themes";
+import type { ThemePreference } from "@/lib/gamification/themes";
 
 /**
- * Mantém `data-theme` no `<html>` com o tema escolhido (null = automático: sem
- * atributo, e o tokens.css usa o Noturno no modo escuro). Ao sair da área logada
- * (páginas públicas), o atributo é removido.
+ * Mantém `data-theme` no `<html>` com a preferência do usuário (`auto` = o tokens.css
+ * usa o Noturno com o aparelho no modo escuro). Ao sair da área logada (páginas
+ * públicas), o atributo é removido e vale o Clássico.
  */
-export function ThemeSync({ theme }: { theme: ThemeCode | null }) {
+export function ThemeSync({ theme }: { theme: ThemePreference }) {
   useLayoutEffect(() => {
     const root = document.documentElement;
-    if (theme) root.setAttribute("data-theme", theme);
-    else root.removeAttribute("data-theme");
+    root.setAttribute("data-theme", theme);
     return () => root.removeAttribute("data-theme");
   }, [theme]);
   return null;

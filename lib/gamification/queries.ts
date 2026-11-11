@@ -4,7 +4,7 @@ import { addDays, localDay } from "@/lib/dates";
 import { createClient } from "@/lib/supabase/server";
 import type { BadgeDay } from "./present";
 import { displayStreak, freezeUsedYesterday } from "./streak";
-import { isThemeCode, type ThemeCode } from "./themes";
+import { isThemeCode, parseThemePreference, type ThemeCode, type ThemePreference } from "./themes";
 import type { Tier } from "./harvest";
 
 /**
@@ -24,8 +24,8 @@ export type GameProfile = {
   studiedToday: boolean;
   /** Ontem não teve pomodoro e um congelamento guardou a ofensiva. */
   freezeUsed: boolean;
-  /** Tema escolhido (null = automático). */
-  theme: ThemeCode | null;
+  /** Tema escolhido (padrão Clássico; `auto` = seguir o modo escuro do aparelho). */
+  theme: ThemePreference;
   isAdmin: boolean;
 };
 
@@ -63,7 +63,7 @@ export const getGameProfile = cache(async (userId: string): Promise<GameProfile>
     today,
     studiedToday,
     freezeUsed: freezeUsedYesterday(closed, days.has(yesterday), p?.last_closed_day === yesterday),
-    theme: isThemeCode(p?.theme) ? p.theme : null,
+    theme: parseThemePreference(p?.theme),
     isAdmin: p?.is_admin ?? false,
   };
 });

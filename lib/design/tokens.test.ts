@@ -43,7 +43,8 @@ describe("tokens do design system", () => {
     );
   });
 
-  it("usa o Noturno no modo escuro sem tema escolhido", () => {
-    expect(css).toMatch(/prefers-color-scheme: dark\) \{\n {2}:root:not\(\[data-theme\]\)/);
+  it("usa o Noturno no modo escuro só com o tema automático", () => {
+    expect(css).toMatch(/prefers-color-scheme: dark\) \{\n {2}\[data-theme="auto"\]/);
+    expect(css).not.toContain(":root:not([data-theme])");
   });
 });

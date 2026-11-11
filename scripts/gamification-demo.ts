@@ -108,7 +108,7 @@ must(
         last_closed_day: addDays(monday, -1),
         streak_current: 0,
         freezes: 0,
-        theme: null,
+        theme: "classico",
       })
       .eq("id", userId)
   ).error,

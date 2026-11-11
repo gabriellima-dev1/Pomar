@@ -24,7 +24,7 @@ import { Dialog } from "@/components/ui/Dialog";
 import { Toast } from "@/components/ui/Toast";
 import { levelForXp, stageChanged, stageForLevel } from "@/lib/gamification/levels";
 import type { XpResult } from "@/lib/gamification/service";
-import type { ThemeCode } from "@/lib/gamification/themes";
+import type { ThemePreference } from "@/lib/gamification/themes";
 import { track } from "@/lib/telemetry";
 import {
   breakAfter,
@@ -78,8 +78,8 @@ export type PomodoroProps = {
   today: string;
   /** Ciclo em andamento no servidor (outro aparelho ou recarregamento). */
   running: SessionRow | null;
-  /** Tema escolhido (null = automático: Noturno no modo escuro). */
-  theme: ThemeCode | null;
+  /** Tema escolhido (`auto` = Noturno com o aparelho no modo escuro). */
+  theme: ThemePreference;
   /** XP total (a árvore da cena segue o estágio do nível). */
   xp: number;
 };
@@ -531,7 +531,7 @@ export function PomodoroScreen({
 
   return (
     <div
-      data-theme={theme ?? undefined}
+      data-theme={theme}
       className="fixed inset-0 z-40 overflow-hidden bg-[var(--scene-sky-bottom)]"
     >
       <Scene

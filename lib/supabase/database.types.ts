@@ -303,7 +303,7 @@ export type Database = {
           reminder_time: string | null
           streak_best: number
           streak_current: number
-          theme: string | null
+          theme: string
           timezone: string
           username: string | null
           xp_total: number
@@ -330,7 +330,7 @@ export type Database = {
           reminder_time?: string | null
           streak_best?: number
           streak_current?: number
-          theme?: string | null
+          theme?: string
           timezone?: string
           username?: string | null
           xp_total?: number
@@ -357,7 +357,7 @@ export type Database = {
           reminder_time?: string | null
           streak_best?: number
           streak_current?: number
-          theme?: string | null
+          theme?: string
           timezone?: string
           username?: string | null
           xp_total?: number

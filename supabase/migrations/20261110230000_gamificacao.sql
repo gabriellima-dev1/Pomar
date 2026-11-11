@@ -147,13 +147,10 @@ create policy "temas do usuário: dono marca como visto" on public.user_themes
 
 -- Perfil ----------------------------------------------------------------------
 
--- Tema nulo = automático (Clássico; Noturno com o sistema em modo escuro).
--- Até aqui ninguém escolhia tema, então todos voltam para o automático.
-alter table public.profiles alter column theme drop not null;
-alter table public.profiles alter column theme drop default;
-update public.profiles set theme = null where theme = 'classico';
+-- Tema: o padrão é o Clássico. 'auto' = seguir o modo escuro do aparelho (Clássico de
+-- dia, Noturno no escuro), só para quem escolher (decisão da dupla, 11/11).
 alter table public.profiles add constraint profiles_theme_check
-  check (theme in ('classico', 'noturno', 'halloween', 'natal'));
+  check (theme in ('classico', 'noturno', 'halloween', 'natal', 'auto'));
 
 -- Último nível já celebrado (tela "Subiu de nível"); o cliente marca como visto.
 alter table public.profiles add column level_seen int not null default 1 check (level_seen >= 1);

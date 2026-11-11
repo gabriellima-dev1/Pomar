@@ -12,7 +12,7 @@ import { useEffectiveTheme } from "@/components/theme/useEffectiveTheme";
 import { Toast } from "@/components/ui/Toast";
 import { stageChanged } from "@/lib/gamification/levels";
 import type { BadgeDay } from "@/lib/gamification/present";
-import type { ThemeCode } from "@/lib/gamification/themes";
+import type { ThemeCode, ThemePreference } from "@/lib/gamification/themes";
 import { FruitReveal } from "./FruitReveal";
 import { LevelUpCelebration } from "./LevelUpCelebration";
 import { ThemeUnlocked } from "./ThemeUnlocked";
@@ -51,7 +51,7 @@ export function RewardsQueue({
   levelTo: number;
   xp: number;
   today: string;
-  theme: ThemeCode | null;
+  theme: ThemePreference;
 }) {
   const router = useRouter();
   const pathname = usePathname();

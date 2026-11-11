@@ -11,6 +11,21 @@ export function isThemeCode(value: unknown): value is ThemeCode {
 }
 
 /**
+ * Preferência gravada em `profiles.theme`: um tema, ou `auto` = seguir o modo escuro do
+ * aparelho (Clássico de dia, Noturno no escuro). O padrão é o Clássico; o automático
+ * só vale para quem escolher (decisão da dupla, 11/11).
+ */
+export type ThemePreference = ThemeCode | "auto";
+
+export function isThemePreference(value: unknown): value is ThemePreference {
+  return value === "auto" || isThemeCode(value);
+}
+
+export function parseThemePreference(value: unknown): ThemePreference {
+  return isThemePreference(value) ? value : "classico";
+}
+
+/**
  * Pode usar o tema? Livres sempre; conquistados ficam para sempre; a flag de admin
  * (`is_admin`) libera todos para a conta de demonstração.
  */
@@ -29,7 +44,8 @@ export function seasonalTheme(month: number): ThemeCode | null {
   return null;
 }
 
-/** Tema efetivo: o escolhido, ou o automático (Noturno no modo escuro). */
-export function effectiveTheme(chosen: ThemeCode | null, prefersDark: boolean): ThemeCode {
-  return chosen ?? (prefersDark ? "noturno" : "classico");
+/** Tema que está valendo: o escolhido, ou no automático o Noturno com o aparelho escuro. */
+export function effectiveTheme(pref: ThemePreference, prefersDark: boolean): ThemeCode {
+  if (pref === "auto") return prefersDark ? "noturno" : "classico";
+  return pref;
 }

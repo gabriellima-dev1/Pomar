@@ -8,12 +8,18 @@ import { Scene, SceneThumb } from "@/components/scenes/Scene";
 import { usePrefersDark } from "@/components/theme/useEffectiveTheme";
 import { Button } from "@/components/ui/Button";
 import type { Stage } from "@/lib/gamification/levels";
-import { canUseTheme, effectiveTheme, type ThemeCode } from "@/lib/gamification/themes";
+import {
+  canUseTheme,
+  effectiveTheme,
+  type ThemeCode,
+  type ThemePreference,
+} from "@/lib/gamification/themes";
 import { THEME_LIST, THEMES } from "@/themes";
 
 /**
- * Grade de temas (tela 11, `role="radiogroup"`): em uso, automático no modo escuro,
- * recém-conquistado e bloqueado (com prévia em tela cheia, §6.7).
+ * Grade de temas (tela 11, `role="radiogroup"`): em uso, recém-conquistado e bloqueado
+ * (com prévia em tela cheia, §6.7). Abaixo, o interruptor opcional "Seguir o modo escuro
+ * do aparelho" (Clássico de dia, Noturno no escuro) — desligado por padrão.
  */
 export function ThemeGrid({
   chosen: initialChosen,
@@ -23,7 +29,7 @@ export function ThemeGrid({
   seasonal,
   stage,
 }: {
-  chosen: ThemeCode | null;
+  chosen: ThemePreference;
   unlocked: ThemeCode[];
   /** Conquistados que ainda não tiveram a aba aberta (selo "Novo · conquistado"). */
   fresh: ThemeCode[];
@@ -48,7 +54,7 @@ export function ThemeGrid({
     if (fresh.length > 0) void markThemesTabSeen();
   }, [fresh.length]);
 
-  function choose(code: ThemeCode | null) {
+  function choose(code: ThemePreference) {
     if (code === chosen) return;
     const before = chosen;
     setChosen(code);
@@ -70,7 +76,7 @@ export function ThemeGrid({
         {THEME_LIST.map((t) => {
           const usable = canUseTheme(t.code, owned, isAdmin);
           const active = usable && inUse === t.code;
-          const auto = t.code === "noturno" && chosen === null;
+          const auto = chosen === "auto" && (t.code === "classico" || t.code === "noturno");
           return (
             <button
               key={t.code}
@@ -114,9 +120,9 @@ export function ThemeGrid({
                 {active && !auto && (
                   <span className="text-small text-primary-strong font-extrabold">Em uso</span>
                 )}
-                {auto && (
-                  <span className="text-small text-ink-muted">
-                    {active ? "Em uso · automático no modo escuro" : "Automático no modo escuro"}
+                {active && auto && (
+                  <span className="text-small text-primary-strong font-extrabold">
+                    Em uso · automático
                   </span>
                 )}
                 {fresh.includes(t.code) && !active && (
@@ -150,11 +156,22 @@ export function ThemeGrid({
           Ver prévia do {previewTarget.name}
         </Button>
       )}
-      {chosen !== null && (
-        <Button variant="ghost" onClick={() => choose(null)} disabled={pending}>
-          Usar o automático (Noturno no modo escuro)
-        </Button>
-      )}
+      <label className="bg-surface-200 shadow-card flex cursor-pointer items-center gap-4 rounded-lg p-4">
+        <span className="flex flex-1 flex-col">
+          <span className="font-extrabold">Seguir o modo escuro do aparelho</span>
+          <span className="text-small text-ink-muted">
+            Clássico de dia e Noturno quando o aparelho estiver no modo escuro.
+          </span>
+        </span>
+        <input
+          type="checkbox"
+          role="switch"
+          checked={chosen === "auto"}
+          disabled={pending}
+          onChange={(e) => choose(e.target.checked ? "auto" : "classico")}
+          className="accent-primary size-6 shrink-0"
+        />
+      </label>
 
       {preview && <ThemePreview theme={preview} stage={stage} onClose={() => setPreview(null)} />}
     </div>

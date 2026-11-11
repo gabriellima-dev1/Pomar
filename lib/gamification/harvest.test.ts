@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { nextTier, themesUnlockedBy, tierForDays, tierRank } from "./harvest";
-import { canUseTheme, effectiveTheme, seasonalTheme } from "./themes";
+import { canUseTheme, effectiveTheme, parseThemePreference, seasonalTheme } from "./themes";
 
 describe("colheita da semana", () => {
   it("3–4 dias Bronze, 5–6 Prata, 7 Ouro", () => {
@@ -46,9 +46,17 @@ describe("temas", () => {
     expect(seasonalTheme(11)).toBeNull();
   });
 
-  it("sem escolha, Noturno no modo escuro", () => {
-    expect(effectiveTheme(null, true)).toBe("noturno");
-    expect(effectiveTheme(null, false)).toBe("classico");
+  it("o automático segue o modo escuro; um tema escolhido não muda", () => {
+    expect(effectiveTheme("auto", true)).toBe("noturno");
+    expect(effectiveTheme("auto", false)).toBe("classico");
+    expect(effectiveTheme("classico", true)).toBe("classico");
     expect(effectiveTheme("natal", true)).toBe("natal");
+  });
+
+  it("preferência inválida volta ao Clássico", () => {
+    expect(parseThemePreference("auto")).toBe("auto");
+    expect(parseThemePreference("halloween")).toBe("halloween");
+    expect(parseThemePreference(null)).toBe("classico");
+    expect(parseThemePreference("rosa")).toBe("classico");
   });
 });

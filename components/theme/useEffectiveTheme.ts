@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { effectiveTheme, type ThemeCode } from "@/lib/gamification/themes";
+import { effectiveTheme, type ThemeCode, type ThemePreference } from "@/lib/gamification/themes";
 
 const QUERY = "(prefers-color-scheme: dark)";
 
@@ -20,7 +20,7 @@ export function usePrefersDark(): boolean {
   );
 }
 
-/** Tema que está valendo: o escolhido, ou o automático (Noturno no modo escuro). */
-export function useEffectiveTheme(chosen: ThemeCode | null): ThemeCode {
+/** Tema que está valendo: o escolhido, ou no automático o Noturno com o aparelho escuro. */
+export function useEffectiveTheme(chosen: ThemePreference): ThemeCode {
   return effectiveTheme(chosen, usePrefersDark());
 }

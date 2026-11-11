@@ -63,8 +63,12 @@ html {
   color-scheme: light;
 }
 
+html[data-theme="noturno"],
+html[data-theme="halloween"] {
+  color-scheme: dark;
+}
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme]) {
+  html[data-theme="auto"] {
     color-scheme: dark;
   }
 }
@@ -145,10 +149,10 @@ body {
   display: none;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .tomas-acc[data-acc="noturno"] {
+  [data-theme="auto"] .tomas-acc[data-acc="noturno"] {
     display: inline;
   }
-  :root:not([data-theme]) .tomas-leaf {
+  [data-theme="auto"] .tomas-leaf {
     display: none;
   }
 }

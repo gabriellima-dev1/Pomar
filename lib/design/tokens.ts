@@ -104,9 +104,9 @@ export function generateTokensCss(t: DesignTokens): string {
   });
 
   out.push(
-    "/* Sem tema escolhido + sistema em modo escuro → Noturno (DECISOES 09/11) */",
+    "/* Tema automático (escolha do usuário) + aparelho em modo escuro → Noturno (DECISOES 11/11) */",
     "@media (prefers-color-scheme: dark) {",
-    "  :root:not([data-theme]) {",
+    '  [data-theme="auto"] {',
     ...themeLines(t, DARK_THEME, "    "),
     "  }",
     "}",
