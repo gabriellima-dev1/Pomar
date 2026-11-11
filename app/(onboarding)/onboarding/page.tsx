@@ -26,7 +26,7 @@ export default async function BoasVindasPage() {
           theme="classico"
           still
           orchard={false}
-          viewBox="0 200 390 400"
+          viewBox="0 230 390 340"
           preserveAspectRatio="xMidYMax slice"
         />
         <SeuTomas size={140} className="absolute bottom-6 left-1/2 -translate-x-1/2" />

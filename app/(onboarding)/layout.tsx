@@ -21,13 +21,8 @@ export default async function OnboardingLayout({ children }: LayoutProps<"/">) {
       <TrackOnMount event="app_opened" once="session" />
       <div data-theme="classico" aria-hidden className="fixed inset-0 hidden lg:block">
         <div className="absolute inset-0 bg-[var(--scene-sky-bottom)]" />
-        <Scene
-          theme="classico"
-          still
-          orchard={false}
-          preserveAspectRatio="xMidYMax slice"
-          className="absolute inset-0 h-full w-full"
-        />
+        {/* Mesmo enquadramento do pomodoro: altura toda, céu e campo se estendem aos lados. */}
+        <Scene theme="classico" still orchard={false} />
       </div>
       <main className="max-w-app bg-surface-100 relative mx-auto flex w-full flex-1 flex-col lg:my-10 lg:flex-none lg:overflow-hidden lg:rounded-lg lg:shadow-[var(--shadow-dialog)]">
         {children}

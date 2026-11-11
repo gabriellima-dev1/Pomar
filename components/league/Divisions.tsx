@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { ChevronRight } from "lucide-react";
 
 /** Divisões da Feira (DESIGN §6.6), cores pelos tokens `medal-*`. */
@@ -25,25 +26,27 @@ export function DivisionDisc({ division, size = 52 }: { division: Division; size
   );
 }
 
-/** Bronze → Prata → Ouro → Esmeralda (tela 19). */
+/** Bronze → Prata → Ouro → Esmeralda (tela 19); divide a largura sem estourar no celular. */
 export function DivisionLadder() {
   return (
     <ol
       aria-label="Divisões da Feira, da primeira à última"
-      className="flex items-start justify-between gap-1"
+      className="grid grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-start"
     >
       {DIVISIONS.map((d, i) => (
-        <li key={d.code} className="flex items-start gap-1">
-          <span className="flex w-[4.5rem] flex-col items-center gap-2">
-            <DivisionDisc division={d.code} />
-            <span className="text-small font-extrabold" style={{ color: d.ink }}>
+        <Fragment key={d.code}>
+          <li className="flex min-w-0 flex-col items-center gap-2">
+            <DivisionDisc division={d.code} size={48} />
+            <span className="text-[13px] leading-4 font-extrabold" style={{ color: d.ink }}>
               {d.label}
             </span>
-          </span>
+          </li>
           {i < DIVISIONS.length - 1 && (
-            <ChevronRight size={18} aria-hidden className="text-ink-muted mt-4 shrink-0" />
+            <li aria-hidden className="text-ink-muted mt-3.5">
+              <ChevronRight size={16} />
+            </li>
           )}
-        </li>
+        </Fragment>
       ))}
     </ol>
   );

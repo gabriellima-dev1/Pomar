@@ -58,8 +58,8 @@ export default async function PerfilPage({ searchParams }: PageProps<"/onboardin
                 <button
                   type="submit"
                   aria-current={p === profile ? "true" : undefined}
-                  className={`${cardClasses} flex w-full items-center gap-4 p-4 text-left ${
-                    p === profile ? "border-primary bg-primary-soft" : ""
+                  className={`shadow-card flex w-full items-center gap-4 rounded-lg border-2 p-4 text-left ${
+                    p === profile ? "border-primary bg-primary-soft" : "bg-surface-200 border-line"
                   }`}
                 >
                   <ProfileIcon profile={p} size={56} />

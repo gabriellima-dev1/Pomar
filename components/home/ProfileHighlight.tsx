@@ -87,7 +87,7 @@ function AchieverCard({ xp, history, today, goal }: HighlightData) {
 
 function ExplorerCard({ history, focus }: HighlightData) {
   const owned = new Set(history.map((b) => b.code));
-  // Até 4 discos: obtidos primeiro (mais recentes), depois cadeados.
+  // Até 4 discos: obtidos primeiro (mais recentes), depois cadeados (referencias/21).
   const recent = [...history]
     .sort((a, b) => b.day.localeCompare(a.day))
     .map((b) => b.code)
@@ -120,12 +120,7 @@ function ExplorerCard({ history, focus }: HighlightData) {
         })}
         {missing.map((b) => (
           <li key={b.code}>
-            <BadgeDisc
-              code={b.code}
-              rarity={b.rarity}
-              state={b.hidden ? "secret" : "missing"}
-              size={52}
-            />
+            <BadgeDisc code={b.code} rarity={b.rarity} state="secret" size={52} />
             <span className="sr-only">Emblema ainda não obtido</span>
           </li>
         ))}
