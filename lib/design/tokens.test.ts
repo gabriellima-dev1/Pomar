@@ -17,23 +17,29 @@ describe("tokens do design system", () => {
     },
   );
 
-  it("define os tokens de interface nos 4 temas e os de cena ao menos no Clássico", () => {
+  it("define todos os tokens de cor nos 4 temas (cenas inclusive, Fase 3)", () => {
     for (const theme of tokens.color.themes) {
       expect(css).toContain(`[data-theme="${theme.id}"]`);
     }
     for (const tok of tokens.color.tokens) {
       if (typeof tok.value === "string") continue;
-      expect(tok.value.classico, tok.name).toBeDefined();
-      // Cores de cena dos outros temas chegam com as cenas da Fase 3.
-      if (!tok.name.startsWith("scene-")) expect(Object.keys(tok.value), tok.name).toHaveLength(4);
+      expect(Object.keys(tok.value), tok.name).toHaveLength(4);
     }
   });
 
   it("um tema sem valor próprio herda o do :root", () => {
-    const noturno = css.slice(css.indexOf('[data-theme="noturno"]'));
-    expect(noturno.slice(0, noturno.indexOf("}"))).not.toContain("--scene-sky-top");
-    expect(css.slice(0, css.indexOf('[data-theme="noturno"]'))).toContain(
-      "--scene-sky-top: #9eeedb;",
+    const synthetic: DesignTokens = {
+      ...tokens,
+      color: {
+        themes: tokens.color.themes,
+        tokens: [{ name: "scene-teste", value: { classico: "#123456" } }],
+      },
+    };
+    const out = generateTokensCss(synthetic);
+    const noturno = out.slice(out.indexOf('[data-theme="noturno"]'));
+    expect(noturno.slice(0, noturno.indexOf("}"))).not.toContain("--scene-teste");
+    expect(out.slice(0, out.indexOf('[data-theme="noturno"]'))).toContain(
+      "--scene-teste: #123456;",
     );
   });
 

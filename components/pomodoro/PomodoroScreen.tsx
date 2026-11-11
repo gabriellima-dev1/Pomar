@@ -15,10 +15,16 @@ import {
   startPomodoro,
   type SessionRow,
 } from "@/app/(app)/pomodoro/actions";
+import { markLevelSeen } from "@/app/(app)/conquistas/actions";
+import { LevelUpCelebration } from "@/components/gamification/LevelUpCelebration";
 import { Scene } from "@/components/scenes/Scene";
+import { useEffectiveTheme } from "@/components/theme/useEffectiveTheme";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
 import { Toast } from "@/components/ui/Toast";
+import { levelForXp, stageChanged, stageForLevel } from "@/lib/gamification/levels";
+import type { XpResult } from "@/lib/gamification/service";
+import type { ThemeCode } from "@/lib/gamification/themes";
 import { track } from "@/lib/telemetry";
 import {
   breakAfter,
@@ -72,6 +78,10 @@ export type PomodoroProps = {
   today: string;
   /** Ciclo em andamento no servidor (outro aparelho ou recarregamento). */
   running: SessionRow | null;
+  /** Tema escolhido (null = automático: Noturno no modo escuro). */
+  theme: ThemeCode | null;
+  /** XP total (a árvore da cena segue o estágio do nível). */
+  xp: number;
 };
 
 type DialogName = "none" | "settings" | "pause" | "cancel" | "end";
@@ -144,8 +154,15 @@ export function PomodoroScreen({
   pace,
   today,
   running,
+  theme,
+  xp,
 }: PomodoroProps) {
   const router = useRouter();
+  const sceneTheme = useEffectiveTheme(theme);
+  const [xpTotal, setXpTotal] = useState(xp);
+  // Subida de nível do ciclo (ou do tópico concluído): mostrada depois da folha 07.
+  const pendingLevel = useRef<{ from: number; to: number } | null>(null);
+  const [celebration, setCelebration] = useState<{ from: number; to: number } | null>(null);
   const ctx = useCallback(
     (cyclesDone: number): TimerContext => ({
       subjectId: subject?.id ?? null,
@@ -157,7 +174,10 @@ export function PomodoroScreen({
   );
   const [settings, setSettings] = useState(initialSettings);
   const [timer, setTimer] = useState<TimerState>(() =>
-    initialTimer({ subject, topic, settings: initialSettings, pace, today, running }, ctx),
+    initialTimer(
+      { subject, topic, settings: initialSettings, pace, today, running, theme, xp },
+      ctx,
+    ),
   );
   const [now, setNow] = useState(() => Date.now());
   const [dialog, setDialog] = useState<DialogName>("none");
@@ -178,6 +198,18 @@ export function PomodoroScreen({
   const [sound, setSound] = useState(soundEnabled);
   const handling = useRef(false);
   const timerRef = useRef(timer);
+
+  const absorbXp = useCallback((res: XpResult | null) => {
+    if (!res) return;
+    setXpTotal(res.xpTotal);
+    if (res.levelTo > res.levelFrom) {
+      const prev = pendingLevel.current;
+      pendingLevel.current = {
+        from: prev ? Math.min(prev.from, res.levelFrom) : res.levelFrom,
+        to: Math.max(prev?.to ?? 0, res.levelTo),
+      };
+    }
+  }, []);
 
   const update = useCallback((t: TimerState) => {
     timerRef.current = t;
@@ -200,14 +232,17 @@ export function PomodoroScreen({
       }
       setError(null);
       setEnd(res.data);
+      absorbXp(res.data.xp);
       const n = res.data.fruitsToday;
-      // O toast abre depois do diálogo para ficar por cima do véu.
+      const fruits = `${n} ${n === 1 ? "fruto" : "frutos"} hoje`;
+      const gained = res.data.xp?.xpGained ?? 0;
+      // O toast abre depois do diálogo para ficar por cima do véu. O XP vem do servidor.
       window.setTimeout(() => {
         setDialog("end");
-        setToast(`${n} ${n === 1 ? "fruto" : "frutos"} hoje`);
+        setToast(gained > 0 ? `+${gained} XP · ${fruits}` : fruits);
       }, delayMs);
     },
-    [ctx, settings.focus, update],
+    [absorbXp, ctx, settings.focus, update],
   );
 
   // Fim do foco: colheita na cena, som, notificação (aba oculta) e conclusão no servidor.
@@ -401,6 +436,16 @@ export function PomodoroScreen({
     if (finishedTopic && subject) {
       router.replace(`/pomodoro?disciplina=${subject.id}`);
     }
+    // Nível: celebração em tela cheia se a árvore mudou de estágio; senão, toast.
+    const level = pendingLevel.current;
+    pendingLevel.current = null;
+    if (level) {
+      if (stageChanged(level.from, level.to)) setCelebration(level);
+      else {
+        setToast(`Nível ${level.to}!`);
+        void markLevelSeen(level.to);
+      }
+    }
     router.refresh();
   }
 
@@ -414,6 +459,7 @@ export function PomodoroScreen({
       return;
     }
     setError(null);
+    absorbXp(res.data.xp);
     const { suggest, ema, currentPace } = res.data;
     if (suggest && ema !== null && currentPace !== null && subject) {
       setSuggestion({ ema, current: currentPace, next, finished: finishTopic });
@@ -485,10 +531,15 @@ export function PomodoroScreen({
 
   return (
     <div
-      data-theme="classico"
+      data-theme={theme ?? undefined}
       className="fixed inset-0 z-40 overflow-hidden bg-[var(--scene-sky-bottom)]"
     >
-      <Scene progress={sceneProgress} harvested={harvested && isFocus} />
+      <Scene
+        theme={sceneTheme}
+        stage={stageForLevel(levelForXp(xpTotal))}
+        progress={sceneProgress}
+        harvested={harvested && isFocus}
+      />
 
       <div className="max-w-app relative mx-auto flex h-full w-full flex-col">
         <div className="flex items-center justify-between px-3 pt-3">
@@ -676,6 +727,19 @@ export function PomodoroScreen({
           suggestion={suggestion}
           onConfirm={onConfirmPages}
           onAnswerSuggestion={onAnswerSuggestion}
+        />
+      )}
+
+      {celebration && (
+        <LevelUpCelebration
+          from={celebration.from}
+          to={celebration.to}
+          xp={xpTotal}
+          theme={sceneTheme}
+          onContinue={() => {
+            void markLevelSeen(celebration.to);
+            setCelebration(null);
+          }}
         />
       )}
 

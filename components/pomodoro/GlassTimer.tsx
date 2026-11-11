@@ -16,7 +16,7 @@ export function GlassTimer({
 }) {
   return (
     <div className="glass-panel flex w-[270px] flex-col items-center gap-2 rounded-[28px] px-6 pt-[18px] pb-[22px]">
-      <span className="text-caption rounded-full bg-[var(--surface-200)] px-3 py-1 text-[var(--scene-ink)]">
+      <span className="text-caption rounded-full bg-[var(--scene-chip)] px-3 py-1 text-[var(--scene-on-chip)]">
         {label}
       </span>
       <div

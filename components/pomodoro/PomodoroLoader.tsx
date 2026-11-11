@@ -8,7 +8,6 @@ const PomodoroScreen = dynamic(() => import("./PomodoroScreen").then((m) => m.Po
   ssr: false,
   loading: () => (
     <div
-      data-theme="classico"
       className="fixed inset-0 z-40 bg-[var(--scene-sky-bottom)]"
       aria-busy="true"
       aria-label="Carregando o pomodoro"

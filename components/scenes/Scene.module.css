@@ -1,7 +1,10 @@
 /*
- * Cena "Campo e montanhas" (docs/design/cenas/scene-classico.html).
- * Só transform/opacity. 5 camadas animadas: nuvens, vegetação, borboletas,
- * fruto amadurecendo (transição) e colheita (uma vez, no fim do foco).
+ * Cenas "Campo e montanhas" (docs/design/cenas/scene-*.html). Só transform/opacity.
+ * Camadas animadas por tema (máximo 5, DECISOES 09/11; partículas ≤ 20):
+ *   Clássico  — nuvens, vegetação, borboletas, fruto (amadurece e é colhido)
+ *   Noturno   — nuvens, estrelas, vegetação, vaga-lumes, fruto
+ *   Halloween — morcegos, brilho das abóboras/lanterna, névoa, vegetação, fruto
+ *   Natal     — nuvens, neve (16 flocos), estrela, vegetação, fruto
  */
 
 @keyframes drift {
@@ -93,7 +96,85 @@
   }
 }
 
-/* 1 · nuvens */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(10px, -14px);
+  }
+  66% {
+    transform: translate(-8px, -6px);
+  }
+}
+@keyframes fog {
+  from {
+    transform: translateX(-24px);
+  }
+  to {
+    transform: translateX(24px);
+  }
+}
+@keyframes batA {
+  0% {
+    transform: translate(-80px, 0);
+  }
+  50% {
+    transform: translate(200px, -30px);
+  }
+  100% {
+    transform: translate(480px, 10px);
+  }
+}
+@keyframes batB {
+  0% {
+    transform: translate(460px, 0);
+  }
+  50% {
+    transform: translate(180px, 24px);
+  }
+  100% {
+    transform: translate(-90px, -10px);
+  }
+}
+@keyframes flapY {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-0.6);
+  }
+}
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes snow {
+  from {
+    transform: translateY(-30px);
+  }
+  to {
+    transform: translateY(720px);
+  }
+}
+
+/* nuvens */
 .drift {
   animation: drift 22s ease-in-out infinite alternate;
 }
@@ -101,7 +182,7 @@
   animation: drift2 18s ease-in-out infinite alternate;
 }
 
-/* 2 · vegetação */
+/* vegetação */
 .sway,
 .swayB,
 .swayC,
@@ -130,7 +211,7 @@
   animation: bob 3.2s ease-in-out -2.4s infinite;
 }
 
-/* 3 · borboletas */
+/* borboletas (Clássico) */
 .wing {
   transform-box: fill-box;
   transform-origin: 50% 50%;
@@ -146,7 +227,57 @@
   animation: flyB 11s ease-in-out infinite;
 }
 
-/* 4 · fruto amadurecendo: opacidade = progresso, escala 0,6 → 1 */
+/* estrelas (Noturno) e estrela do pinheiro (Natal) */
+.twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+.twinkleFast {
+  animation: twinkle 1.8s ease-in-out infinite;
+}
+
+/* vaga-lumes (Noturno) */
+.firefly {
+  animation: float 6s ease-in-out infinite;
+}
+.firefly2 {
+  animation: float 8s ease-in-out -3s infinite;
+}
+
+/* névoa (Halloween) */
+.fog {
+  animation: fog 12s ease-in-out infinite alternate;
+}
+.fog2 {
+  animation: fog 16s ease-in-out -6s infinite alternate;
+}
+
+/* morcegos (Halloween) */
+.batA {
+  animation: batA 15s linear infinite;
+}
+.batB {
+  animation: batB 19s linear -6s infinite;
+}
+.batC {
+  animation: batA 18s linear -8s infinite;
+}
+.batWing {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: flapY 0.3s ease-in-out infinite;
+}
+
+/* brilho das abóboras e da lanterna (Halloween) */
+.glow {
+  animation: glow 2.2s ease-in-out infinite;
+}
+
+/* neve (Natal): 16 flocos, duração e atraso por floco */
+.flake {
+  animation: snow linear infinite;
+}
+
+/* fruto do ciclo: opacidade = progresso, escala 0,6 → 1 (sem animação contínua) */
 .fruit {
   transform-box: fill-box;
   transform-origin: 50% 50%;
@@ -155,7 +286,7 @@
     transform 0.6s ease-out;
 }
 
-/* 5 · colheita */
+/* colheita do fruto (uma vez, no fim do foco) */
 .harvest {
   transform-box: fill-box;
   transform-origin: 50% 50%;
@@ -165,6 +296,12 @@
 /* Aba oculta: pausa tudo (classe aplicada no visibilitychange). */
 .hidden * {
   animation-play-state: paused !important;
+}
+
+/* Cena parada (miniaturas, prévia estática, landing). */
+.still * {
+  animation: none !important;
+  transition: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -179,6 +316,18 @@
   .wing,
   .flyA,
   .flyB,
+  .twinkle,
+  .twinkleFast,
+  .firefly,
+  .firefly2,
+  .fog,
+  .fog2,
+  .batA,
+  .batB,
+  .batC,
+  .batWing,
+  .glow,
+  .flake,
   .harvest {
     animation: none;
   }
