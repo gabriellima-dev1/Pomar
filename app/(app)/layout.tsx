@@ -28,6 +28,8 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
   const unseenBadges = recent.filter((b) => !b.seen);
   const unseenThemes = themes.filter((t) => !t.seen).map((t) => t.code);
   const levelFrom = Math.min(profile.levelSeen, profile.level);
+  // Coorte B (Fase 4, `rewards_enabled = false`): sem as telas 12–14 (telas.md › Fase 3).
+  const rewardsEnabled = true;
   // Pendências novas (ex.: subir de nível ao marcar um tópico) recriam a fila.
   const queueKey = [
     unseenBadges.map((b) => b.day).join(","),
@@ -45,17 +47,19 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
         {children}
       </main>
       <BottomNav />
-      <RewardsQueue
-        key={queueKey}
-        badges={unseenBadges}
-        history={recent}
-        themes={unseenThemes}
-        levelFrom={levelFrom}
-        levelTo={profile.level}
-        xp={profile.xp}
-        today={profile.today}
-        theme={profile.theme}
-      />
+      {rewardsEnabled && (
+        <RewardsQueue
+          key={queueKey}
+          badges={unseenBadges}
+          history={recent}
+          themes={unseenThemes}
+          levelFrom={levelFrom}
+          levelTo={profile.level}
+          xp={profile.xp}
+          today={profile.today}
+          theme={profile.theme}
+        />
+      )}
     </div>
   );
 }

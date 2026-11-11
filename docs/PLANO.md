@@ -102,16 +102,16 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Aceite:** do card, 1 clique abre o pomodoro no próximo tópico; trocar de aba e voltar mantém o tempo certo; pausar mostra o pop-up; concluir pede as páginas e atualiza o card. — **feito pela dupla em 10/11 (PRs #11, #12 e #13); RLS e regras verificadas com `supabase/tests/rls_fase2.sql` (20 testes, com rollback).**
 
 ### Fase 3 — Gamificação (15–17/11)
-- [ ] XP calculado no servidor (`lib/gamification/xp.ts`) e tabela `xp_events`
-- [ ] Níveis e estágios da árvore; animação de subida de nível
-- [ ] Ofensiva + congelamentos, no fuso do usuário
-- [ ] Fechamento preguiçoso do dia: elegibilidade dos emblemas + sorteio ponderado no servidor (`lib/gamification/badges.ts`), com testes de cada regra
-- [ ] Colheita semanal (bronze/prata/ouro) e álbum de conquistas
-- [ ] Sistema de temas: tokens CSS + cena + preset de layout + fruto + acessório do Seu Tomás; cenas **Noturno, Halloween e Natal**
-- [ ] Desbloqueio de temas por colheita; sugestão sazonal; flag de admin para liberar tudo
-- [ ] Mascote Seu Tomás com falas contextuais (onboarding, conquistas, retorno)
+- [x] XP calculado no servidor (`lib/gamification/xp.ts`) e tabela `xp_events`
+- [x] Níveis e estágios da árvore; animação de subida de nível
+- [x] Ofensiva + congelamentos, no fuso do usuário
+- [x] Fechamento preguiçoso do dia: elegibilidade dos emblemas + sorteio ponderado no servidor (`lib/gamification/badges.ts`), com testes de cada regra
+- [x] Colheita semanal (bronze/prata/ouro) e álbum de conquistas
+- [x] Sistema de temas: tokens CSS + cena + preset de layout + fruto + acessório do Seu Tomás; cenas **Noturno, Halloween e Natal**
+- [x] Desbloqueio de temas por colheita; sugestão sazonal; flag de admin para liberar tudo
+- [x] Mascote Seu Tomás com falas contextuais (onboarding, conquistas, retorno)
 
-**Aceite:** com dados de teste, um dia com pomodoro gera exatamente 1 emblema no dia seguinte; 5 dias geram Colheita de Prata e desbloqueiam Halloween; trocar o tema muda cenário e posições.
+**Aceite:** com dados de teste, um dia com pomodoro gera exatamente 1 emblema no dia seguinte; 5 dias geram Colheita de Prata e desbloqueiam Halloween; trocar o tema muda cenário e posições. — **implementado em 11/11 (branch `fase-3-gamificacao`); falta aplicar a migração (`npm run db:push`), rodar `supabase/tests/rls_fase3.sql` e o aceite da dupla no preview (dados de teste: `npm run demo:week -- <email> 5 --confirmo`). As falas do onboarding ficam prontas para a Fase 4.**
 
 ### Fase 4 — Onboarding, landing e beta (17–18/11)
 - [ ] Landing page com contadores reais
