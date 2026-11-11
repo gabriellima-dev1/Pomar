@@ -5,6 +5,7 @@ import {
   daysBetween,
   localClock,
   localDay,
+  monthOf,
   weekday,
   weekStart,
 } from "./dates.ts";
@@ -46,5 +47,12 @@ describe("datas no fuso do usuário", () => {
       "2026-12-01",
     ]);
     expect(dayRange("2026-12-01", "2026-11-29")).toEqual([]);
+  });
+});
+
+describe("monthOf", () => {
+  it("lê o mês do dia", () => {
+    expect(monthOf("2026-12-01")).toBe(12);
+    expect(monthOf("2026-10-31")).toBe(10);
   });
 });

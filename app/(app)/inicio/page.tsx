@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { YesterdayFruitCard } from "@/components/gamification/YesterdayFruitCard";
 import { SeuTomas } from "@/components/mascot/SeuTomas";
 import { SubjectCard } from "@/components/subjects/SubjectCard";
 import { buttonClasses } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { MascotBubble } from "@/components/ui/MascotBubble";
 import { StatChip } from "@/components/ui/StatChip";
 import { requireUser } from "@/lib/auth/session";
-import { localDay } from "@/lib/dates";
+import { daysAway } from "@/lib/gamification/present";
+import { getBadgeHistory, getGameProfile } from "@/lib/gamification/queries";
+import { homeLine } from "@/lib/mascot/lines";
 import {
   getHomeProfile,
   getPreferences,
@@ -28,14 +32,20 @@ const STEPS = [
 
 export default async function InicioPage() {
   const user = await requireUser();
-  const [profile, prefs, all] = await Promise.all([
+  const [profile, game, badges, prefs, all] = await Promise.all([
     getHomeProfile(user.id),
+    getGameProfile(user.id),
+    getBadgeHistory(),
     getPreferences(user.id),
     listSubjects(),
   ]);
   const history = await getStudyHistory(profile.timezone);
   const subjects = sortByLastStudied(all, history);
-  const today = localDay(new Date(), profile.timezone);
+  const today = game.today;
+  const away = daysAway(badges, today);
+  const line = game.studiedToday
+    ? null
+    : homeLine({ daysAway: away ?? 0, freezeUsed: game.freezeUsed, streak: game.streak });
 
   const { hour, dateLabel } = localParts(new Date(), profile.timezone);
   const empty = subjects.length === 0;
@@ -55,10 +65,13 @@ export default async function InicioPage() {
       </header>
 
       <div className="flex flex-wrap gap-2">
-        <StatChip kind="ofensiva" value={profile.streak} />
-        {profile.xp > 0 && <StatChip kind="xp" value={profile.xp} />}
-        <StatChip kind="nivel" value={profile.level} />
+        <StatChip kind="ofensiva" value={game.streak} freezes={game.freezes} />
+        {game.xp > 0 && <StatChip kind="xp" value={game.xp} />}
+        <StatChip kind="nivel" value={game.level} />
       </div>
+
+      {line && <MascotBubble>{line}</MascotBubble>}
+      <YesterdayFruitCard history={badges} today={today} />
 
       {empty ? (
         <>

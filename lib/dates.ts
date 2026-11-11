@@ -62,3 +62,8 @@ export function dayRange(from: string, to: string): string[] {
   const n = daysBetween(from, to);
   return Array.from({ length: Math.max(0, n + 1) }, (_, i) => addDays(from, i));
 }
+
+/** Mês (1–12) de um dia AAAA-MM-DD. */
+export function monthOf(day: string): number {
+  return Number(day.slice(5, 7));
+}
