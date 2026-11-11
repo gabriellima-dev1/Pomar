@@ -140,7 +140,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Configurações: exportar dados (JSON) e excluir conta (1 clique + confirmação)
 - [ ] Seed de usuários demo (com selo) para popular ligas na apresentação
 - [ ] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular
-- [ ] Teste ponta a ponta do fluxo principal (Playwright)
+- [ ] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11
 - [ ] Correções a partir do uso real dos colegas
 - [ ] **23/11: congelamento de funcionalidades**
 
