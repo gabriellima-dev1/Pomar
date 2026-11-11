@@ -49,17 +49,26 @@ function staticValue(token: Token): string {
   return token.value;
 }
 
-function themedValue(token: Token, theme: string): string {
+/**
+ * Valor do token no tema. O primeiro tema (Clássico, também no `:root`) é obrigatório;
+ * nos outros, um valor ausente herda o do `:root` (ex.: cores de cena ainda só do
+ * Clássico, cujas cenas dos outros temas chegam na Fase 3).
+ */
+function themedValue(token: Token, theme: string, required: boolean): string | undefined {
   if (typeof token.value === "string") return token.value;
   const v = token.value[theme];
-  if (v === undefined) throw new Error(`Token ${token.name} sem valor para o tema ${theme}.`);
+  if (v === undefined && required) {
+    throw new Error(`Token ${token.name} sem valor para o tema ${theme}.`);
+  }
   return v;
 }
 
 function themeLines(t: DesignTokens, theme: string, indent: string): string[] {
-  return [...t.color.tokens, ...t.shadow.tokens].map(
-    (tok) => `${indent}--${tok.name}: ${themedValue(tok, theme)};`,
-  );
+  const required = theme === t.color.themes[0]?.id;
+  return [...t.color.tokens, ...t.shadow.tokens].flatMap((tok) => {
+    const value = themedValue(tok, theme, required);
+    return value === undefined ? [] : [`${indent}--${tok.name}: ${value};`];
+  });
 }
 
 function textRule(style: TextStyle, family: string): string {
