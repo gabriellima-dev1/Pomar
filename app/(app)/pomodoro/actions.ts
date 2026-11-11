@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth/session";
 import { topicPages } from "@/lib/estimates";
+import { awardCompletion, awardPomodoro, type XpResult } from "@/lib/gamification/service";
 import { isUuid } from "@/lib/subjects/validation";
 import { createClient } from "@/lib/supabase/server";
 import { trackServer } from "@/lib/telemetry.server";
@@ -10,8 +11,9 @@ import { clampMinutes } from "@/lib/timer";
 
 /**
  * Ações do pomodoro. Toda regra (duração, pausas, 90%, média do ritmo) roda no banco,
- * nas funções de supabase/migrations/*_pomodoro.sql; aqui só validamos a entrada,
- * chamamos a função e registramos a telemetria.
+ * nas funções de supabase/migrations/*_pomodoro.sql; o XP é calculado no servidor
+ * (lib/gamification/service.ts). Aqui só validamos a entrada, chamamos as funções e
+ * registramos a telemetria.
  */
 
 export type SessionRow = {
@@ -57,6 +59,7 @@ function pick(row: SessionRow): SessionRow {
 
 function revalidateStudy(subjectId: string | null) {
   revalidatePath("/inicio");
+  revalidatePath("/conquistas");
   revalidatePath("/disciplinas");
   if (subjectId) revalidatePath(`/disciplinas/${subjectId}`);
 }
@@ -119,10 +122,25 @@ export async function cancelPomodoro(
   return { ok: true, data: null };
 }
 
-export async function completePomodoro(
-  id: string,
-): Promise<Result<{ focusMin: number; fruitsToday: number }>> {
-  await requireUser();
+export type CompleteResult = {
+  focusMin: number;
+  fruitsToday: number;
+  /** XP calculado no servidor (null se a gamificação falhou; o ciclo vale do mesmo jeito). */
+  xp: XpResult | null;
+};
+
+/** O XP nunca impede o ciclo de ser salvo: se falhar, o fechamento do dia acerta depois. */
+async function safely<T>(label: string, run: () => Promise<T>): Promise<T | null> {
+  try {
+    return await run();
+  } catch (error) {
+    console.error(`[gamificação] ${label}`, error);
+    return null;
+  }
+}
+
+export async function completePomodoro(id: string): Promise<Result<CompleteResult>> {
+  const user = await requireUser();
   if (!isUuid(id)) return { ok: false, error: "Ciclo inválido." };
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("complete_pomodoro", { p_id: id });
@@ -138,8 +156,9 @@ export async function completePomodoro(
   }
   const focusMin = Math.round(row.focus_sec / 60);
   await trackServer("pomodoro_completed", { focus_min: focusMin });
+  const xp = await safely("XP do pomodoro", () => awardPomodoro(user.id, id));
   revalidateStudy(null);
-  return { ok: true, data: { focusMin, fruitsToday: row.fruits_today } };
+  return { ok: true, data: { focusMin, fruitsToday: row.fruits_today, xp } };
 }
 
 export type PagesResult = {
@@ -147,6 +166,8 @@ export type PagesResult = {
   ema: number | null;
   currentPace: number | null;
   suggest: boolean;
+  /** XP do tópico concluído (e do capítulo/disciplina que ele completou). */
+  xp: XpResult | null;
 };
 
 export async function logPages(
@@ -154,7 +175,7 @@ export async function logPages(
   pages: number,
   finishTopic: boolean,
 ): Promise<Result<PagesResult>> {
-  await requireUser();
+  const user = await requireUser();
   if (!isUuid(id)) return { ok: false, error: "Ciclo inválido." };
   if (!Number.isInteger(pages) || pages < 0 || pages > 500) {
     return { ok: false, error: "Use de 0 a 500 páginas." };
@@ -176,8 +197,13 @@ export async function logPages(
 
   if (pages > 0) await trackServer("pages_logged", { pages });
   const topic = session?.topics;
-  if (finishTopic && topic && !topic.done_at) {
-    await trackServer("topic_completed", { pages: topicPages(topic), source: "pomodoro" });
+  let xp: XpResult | null = null;
+  if (finishTopic && topic && session?.topic_id) {
+    if (!topic.done_at) {
+      await trackServer("topic_completed", { pages: topicPages(topic), source: "pomodoro" });
+    }
+    const topicId = session.topic_id;
+    xp = await safely("XP do tópico", () => awardCompletion(user.id, topicId));
   }
   revalidateStudy(session?.subject_id ?? null);
   return {
@@ -187,6 +213,7 @@ export async function logPages(
       ema: row.ema,
       currentPace: row.current_pace,
       suggest: row.suggest,
+      xp,
     },
   };
 }

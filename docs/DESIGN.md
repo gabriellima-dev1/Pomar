@@ -51,7 +51,7 @@ escolher tópico → pomodoro (foco) → registrar páginas/aula → recompensa 
 
 ### D4 — Devise activity cycles
 - **Ciclo de engajamento (Hook Model):**
-  1. **Gatilho:** externo (lembrete diário no horário escolhido, notificação de fim de ciclo) e interno (ansiedade antes de prova, vontade de manter a ofensiva).
+  1. **Gatilho:** externo (notificação de fim de ciclo, card com o próximo tópico ao abrir o app) e interno (ansiedade antes de prova, vontade de manter a ofensiva).
   2. **Ação:** um clique em "Começar" no card da disciplina, que já sugere o próximo tópico.
   3. **Recompensa variável:** fruto colhido, XP e, no fechamento do dia, um **emblema sorteado** entre os elegíveis.
   4. **Investimento:** registrar páginas (recalibra o ritmo e melhora as estimativas), marcar tópicos, seguir pessoas, escolher tema.
@@ -81,9 +81,9 @@ escolher tópico → pomodoro (foco) → registrar páginas/aula → recompensa 
 | Conteúdo | Onde aparece |
 |---|---|
 | **Persuasão × coerção × manipulação** | Página `/transparencia`; nada é obrigatório; pausa não pune; ranking opt-in |
-| **Fogg (B = MAP)** | M: SDT + recompensas. A: catálogo pronto, botão único, sessões curtas. P: lembrete diário e sugestão de próximo tópico |
-| **6 elementos de simplicidade** | Tempo (1 clique), esforço mental (catálogo e estimativas automáticas), não-rotina (lembrete no horário escolhido), dinheiro (gratuito), desvio social (estudo é norma valorizada), esforço físico (só o navegador) |
-| **Kairos** | Lembrete no horário escolhido; tema sazonal sugerido na época; nudge no momento da pausa |
+| **Fogg (B = MAP)** | M: SDT + recompensas. A: catálogo pronto, botão único, sessões curtas. P: sugestão de próximo tópico e aviso de fim de ciclo |
+| **6 elementos de simplicidade** | Tempo (1 clique), esforço mental (catálogo e estimativas automáticas), não-rotina (o próximo tópico já vem sugerido), dinheiro (gratuito), desvio social (estudo é norma valorizada), esforço físico (só o navegador) |
+| **Kairos** | Tema sazonal sugerido na época; nudge no momento da pausa; convite para notificações durante o 1º foco |
 | **Auto-monitoramento** | Estatísticas pessoais, heatmap, anel de progresso, previsão de término |
 | **Motivação intrínseca × extrínseca / superjustificação** | A partir do nível 10, o painel passa a destacar maestria ("tópicos dominados", "capítulos concluídos") e o XP perde destaque visual |
 | **Telemetria, DAU, MAU, stickiness, funil** | Eventos instrumentados (seção 9) e painel `/admin` |
@@ -96,7 +96,7 @@ escolher tópico → pomodoro (foco) → registrar páginas/aula → recompensa 
 | **Cialdini — Escassez** | Emblemas raros (ética: nunca à venda; temas conquistados ficam para sempre) |
 | **Aversão à perda** | Ofensiva diária, com congelamento para suavizar |
 | **Ancoragem** | Estimativa inicial (tempo previsto do tópico) como referência; ao fim, o app mostra "previsto × real" |
-| **Nudge / default** | Pop-up de pausa com "Reiniciar" em destaque; defaults saudáveis (25/5/15, lembretes limitados) |
+| **Nudge / default** | Pop-up de pausa com "Reiniciar" em destaque; defaults saudáveis (25/5/15) |
 | **Dark patterns (o que evitamos)** | Sem roach motel: exportar e excluir conta em 1 clique + confirmação |
 | **Hook Model** | Seção 2, D4 |
 | **Deterding (matriz)** | O app é *gameful design* (partes de jogo, com regras) + *playful design* (micro-interações do cenário) |
@@ -156,9 +156,9 @@ escolher tópico → pomodoro (foco) → registrar páginas/aula → recompensa 
 - **Feed** de conquistas de quem você segue, com o botão **"Parabéns"** 🍅.
 - Perfil público e participação em ligas são **opt-in**.
 
-### 4.8 Lembretes e notificações
-- Lembrete diário no horário escolhido pelo usuário (opcional) e notificação de fim de ciclo.
-- **Teto: no máximo 2 notificações não solicitadas por dia** (prevenção de fadiga).
+### 4.8 Notificações
+- Notificação do navegador no fim do foco e do descanso (com a aba oculta), pedida pela pessoa ao usar o cronômetro.
+- Nesta versão **não há lembrete diário nem avisos não solicitados**. O lembrete fica para uma possível implementação real (§12).
 
 ---
 
@@ -208,11 +208,11 @@ escolher tópico → pomodoro (foco) → registrar páginas/aula → recompensa 
 | `explorador` | Explorador | Iniciou um capítulo ou disciplina nova | incomum |
 | `finalizador` | Finalizador | Concluiu um capítulo | incomum |
 | `constante` | Constante | Cumpriu a meta diária | comum |
-| `pontual` | Pontual | Começou até 15 min após o lembrete (Kairos) | incomum |
 | `retorno` | Bom Retorno | Voltou após 3+ dias sem estudar | incomum |
 | `fruto_dourado` | Fruto Dourado | Qualquer dia com pomodoro | **raro, oculto** |
 | `lua_cheia` | Lua Cheia | Estudou numa noite de lua cheia | **raro, oculto** |
 
+- O emblema `pontual` (começar até 15 min após o lembrete) saiu junto com o lembrete diário (§12); ficam 11 emblemas.
 - Pesos sugeridos: comum = 10, incomum = 5, raro = 1.
 - A imprevisibilidade está só em **qual** emblema sai, nunca em **se** sai.
 
@@ -362,7 +362,7 @@ Restrito a `is_admin = true`. Mostra cartões de DAU, MAU, stickiness, gráfico 
 - **Transparência:** página `/transparencia` lista cada técnica persuasiva usada, onde aparece e por quê, além do experimento de coortes.
 - **Autonomia:** pausar não pune; ranking e perfil público são opt-in sem pré-marcação; tempos personalizáveis; tema livre entre os desbloqueados; perfil de Bartle editável.
 - **Anti-roach motel:** em Configurações, **Exportar meus dados** (JSON) e **Excluir conta** (1 clique + confirmação digitando o nome de usuário), sem etapas escondidas.
-- **Fadiga de notificações:** teto de 2 notificações não solicitadas por dia; tudo desativável.
+- **Fadiga de notificações:** nenhum aviso não solicitado; o aviso de fim de ciclo é pedido no contexto e pode ser desligado.
 - **Aversão à perda suavizada:** congelamento de ofensiva; mensagens de retorno acolhedoras, nunca culpabilizantes.
 - **Recompensa variável ética:** nada comprável, sem moeda paga, sem "caixas"; a variação é só em qual emblema sai.
 - **Dados reais:** a landing page só mostra números reais. Usuários demo têm selo e podem ser excluídos das métricas.
@@ -386,6 +386,12 @@ Restrito a `is_admin = true`. Mostra cartões de DAU, MAU, stickiness, gráfico 
 11. Conquistas (álbum de emblemas, colheitas, temas)
 12. Liga (Feira da semana)
 13. Social (feed, seguindo, buscar pessoas) + perfil público
-14. Configurações (pomodoro, lembretes, tema, privacidade, exportar/excluir)
+14. Configurações (pomodoro, tema, privacidade, exportar/excluir)
 15. Transparência
 16. Admin (telemetria)
+
+---
+
+## 12. Fora desta versão (possível implementação real)
+
+- **Lembrete diário** no horário escolhido (por e-mail ou push do navegador), opcional, só em dias sem estudo, com teto de 2 avisos não solicitados por dia e descadastro em 1 clique. Retirado do projeto da disciplina em 11/11/2026 (DECISOES). Junto com ele saiu o emblema **Pontual** (começar até 15 min depois do lembrete).

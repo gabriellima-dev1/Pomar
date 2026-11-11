@@ -1,7 +1,16 @@
-import { Flame, Star } from "lucide-react";
+import { Flame, Snowflake, Star } from "lucide-react";
 
 /** Pílula de 32px: ofensiva, XP ou nível (docs/design/telas.md › StatChip). */
-export function StatChip({ kind, value }: { kind: "ofensiva" | "xp" | "nivel"; value: number }) {
+export function StatChip({
+  kind,
+  value,
+  freezes = 0,
+}: {
+  kind: "ofensiva" | "xp" | "nivel";
+  value: number;
+  /** Congelamentos guardados (só na ofensiva; DESIGN §6.3). */
+  freezes?: number;
+}) {
   if (kind === "ofensiva") {
     const active = value > 0;
     return (
@@ -18,7 +27,19 @@ export function StatChip({ kind, value }: { kind: "ofensiva" | "xp" | "nivel"; v
           strokeWidth={0}
         />
         {value} {value === 1 ? "dia" : "dias"}
-        <span className="sr-only"> de ofensiva</span>
+        <span className="sr-only">
+          {" "}
+          de ofensiva
+          {freezes > 0
+            ? `, ${freezes} ${freezes === 1 ? "congelamento guardado" : "congelamentos guardados"}`
+            : ""}
+        </span>
+        {freezes > 0 && (
+          <span aria-hidden className="text-ink-muted inline-flex items-center gap-0.5">
+            <Snowflake size={14} strokeWidth={2.4} />
+            {freezes}
+          </span>
+        )}
       </span>
     );
   }

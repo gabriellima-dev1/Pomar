@@ -63,8 +63,12 @@ html {
   color-scheme: light;
 }
 
+html[data-theme="noturno"],
+html[data-theme="halloween"] {
+  color-scheme: dark;
+}
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme]) {
+  html[data-theme="auto"] {
     color-scheme: dark;
   }
 }
@@ -115,6 +119,9 @@ body {
 }
 
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-panel.glass-halo {
+    background: var(--glass-halo);
+  }
   .glass-panel {
     background: var(--glass-fill);
     -webkit-backdrop-filter: blur(18px) saturate(1.6);
@@ -123,9 +130,33 @@ body {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .glass-panel {
+  .glass-panel,
+  .glass-panel.glass-halo {
     background: var(--glass-fallback);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+}
+
+/* Seu Tomás: acessório do tema (components/mascot/SeuTomas.tsx, accessory="auto"). */
+.tomas-acc {
+  display: none;
+}
+[data-theme="noturno"] .tomas-acc[data-acc="noturno"],
+[data-theme="halloween"] .tomas-acc[data-acc="halloween"],
+[data-theme="natal"] .tomas-acc[data-acc="natal"] {
+  display: inline;
+}
+[data-theme="noturno"] .tomas-leaf,
+[data-theme="halloween"] .tomas-leaf,
+[data-theme="natal"] .tomas-leaf {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] .tomas-acc[data-acc="noturno"] {
+    display: inline;
+  }
+  [data-theme="auto"] .tomas-leaf {
+    display: none;
   }
 }

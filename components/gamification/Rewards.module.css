@@ -1,0 +1,69 @@
+/*
+ * Movimentos das telas de recompensa (docs/design/telas.md › 12–14).
+ * Só transform/opacity; tudo parado com prefers-reduced-motion.
+ */
+
+@keyframes disc-in {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes rise {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Disco do emblema: scale(0.6 → 1) + opacity em 400ms. */
+.discIn {
+  animation: disc-in 400ms ease-out both;
+}
+
+/* Raios: 1 volta a cada 60s. */
+.rays {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: spin 60s linear infinite;
+}
+
+/* Até 7 partículas. */
+.sparkle {
+  animation: sparkle 2.4s ease-in-out infinite;
+}
+
+.rise {
+  animation: rise 300ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .discIn,
+  .rays,
+  .sparkle,
+  .rise {
+    animation: none;
+  }
+}
