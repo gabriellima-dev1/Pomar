@@ -7,8 +7,9 @@ import { leagueWeek } from "@/lib/league/week";
  * anteriores ainda abertas (posições, subida e descida) e abre a nova. A Vercel manda
  * `Authorization: Bearer $CRON_SECRET`; sem o segredo certo, nada roda.
  *
- * `?fechar=atual` (só pelo script `npm run league:close`, para o aceite e a demonstração):
- * fecha a semana em andamento sem esperar a segunda.
+ * `?fechar=atual` (script `npm run league:close`, para o aceite e a demonstração) fecha a
+ * semana em andamento sem esperar a segunda; `?fechar=AAAA-MM-DD` fecha uma semana
+ * específica (testes ponta a ponta, numa semana fictícia).
  */
 export async function GET(request: NextRequest) {
   const secret = process.env.CRON_SECRET;
@@ -16,8 +17,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ erro: "não autorizado" }, { status: 401 });
   }
   try {
-    if (request.nextUrl.searchParams.get("fechar") === "atual") {
-      const week = leagueWeek(new Date());
+    const fechar = request.nextUrl.searchParams.get("fechar");
+    if (fechar) {
+      // "atual" (aceite manual) ou uma segunda-feira AAAA-MM-DD (testes ponta a ponta,
+      // que usam uma semana fictícia para não mexer na Feira real).
+      const week = fechar === "atual" ? leagueWeek(new Date()) : fechar;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(week) || new Date(`${week}T12:00:00Z`).getUTCDay() !== 1) {
+        return NextResponse.json({ erro: "semana inválida" }, { status: 400 });
+      }
       return NextResponse.json({ closed: (await closeWeek(week)) ? [week] : [], opened: null });
     }
     return NextResponse.json(await runWeeklyRollover());
