@@ -17,7 +17,9 @@
     "db:seed:catalog": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/seed-catalog.ts",
     "catalog:review": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/catalog-review.ts",
     "tokens": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-tokens.ts",
-    "demo:week": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/gamification-demo.ts"
+    "demo:week": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/gamification-demo.ts",
+    "league:close": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/league-close.ts",
+    "demo:league": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/league-demo.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
