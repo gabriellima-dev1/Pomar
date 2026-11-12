@@ -162,18 +162,16 @@ export default async function DisciplinaPage({
           </dl>
 
           {unit === "paginas" && pace.source === "padrao" && (
-            <div className="flex flex-col gap-2">
-              <p className="text-small text-ink-muted">
-                Estimativa padrão de 3 min por página. Calibre seu ritmo para eu acertar as contas.
-              </p>
+            <p className="text-small text-ink-muted">
+              Estimativa padrão de 3 min por página.{" "}
               <Link
                 href={`/disciplinas/${subject.id}/calibrar`}
-                className={buttonClasses("secondary", "md")}
+                className="text-primary font-extrabold underline underline-offset-4"
               >
-                <Timer size={20} aria-hidden />
-                Calibrar meu ritmo
-              </Link>
-            </div>
+                Calibre seu ritmo
+              </Link>{" "}
+              para eu acertar as contas.
+            </p>
           )}
           {subject.goal_date && (
             <p className="text-small text-ink-muted">
