@@ -1,4 +1,4 @@
--- Teste de RLS e regras da Fase 5 (Feira e apelido).
+-- Teste de RLS e regras da Fase 5 (Feira, apelido, social e YouTube).
 -- Roda dentro de uma transação desfeita no fim (rollback): não deixa dados no banco.
 -- Uso: set -a; source .env.local; set +a
 --      npx supabase db query --remote -f supabase/tests/rls_fase5.sql
@@ -20,11 +20,13 @@ values
   ('00000000-0000-4000-8000-0000000000c5', 'authenticated', 'authenticated', 'rls5-c@teste.invalid', '{}');
 
 update public.profiles set username = 'rls5.ana', league_opt_in = true where id = '00000000-0000-4000-8000-0000000000a5';
-update public.profiles set username = 'rls5.bia', league_opt_in = true, is_demo = true where id = '00000000-0000-4000-8000-0000000000b5';
+update public.profiles set username = 'rls5.bia', league_opt_in = true, is_demo = true, public_profile = true where id = '00000000-0000-4000-8000-0000000000b5';
 update public.profiles set username = 'rls5.caio', league_opt_in = true where id = '00000000-0000-4000-8000-0000000000c5';
 
 -- A semana atual pode já existir no banco (cron); os grupos de teste são novos.
 insert into public.league_weeks (week_start) select atual from semana on conflict do nothing;
+-- Se a semana já foi fechada (teste manual), reabre dentro desta transação.
+update public.league_weeks set closed_at = null where week_start = (select atual from semana);
 insert into public.league_groups (id, week_start, division, band_min, band_max)
 select '00000000-0000-4000-8000-00000000f5a1'::uuid, atual, 'prata', 1, 2 from semana
 union all
@@ -171,6 +173,131 @@ exception when insufficient_privilege then
 end $$;
 reset role;
 
+-- Social ----------------------------------------------------------------------------------
+insert into public.feed_events (id, user_id, type, payload, dedupe_key)
+values
+  ('00000000-0000-4000-8000-00000000e5b1', '00000000-0000-4000-8000-0000000000b5', 'harvest', '{"tier":"ouro"}', 'rls5:hb'),
+  ('00000000-0000-4000-8000-00000000e5c1', '00000000-0000-4000-8000-0000000000c5', 'chapter', '{"position":1}', 'rls5:hc'),
+  ('00000000-0000-4000-8000-00000000e5a1', '00000000-0000-4000-8000-0000000000a5', 'stage', '{"level":3}', 'rls5:ha');
+
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-0000000000a5","role":"authenticated"}', true);
+
+insert into resultado (teste, ok, detalhe)
+select 'Busca só acha perfis públicos (sem a própria pessoa)',
+  (select count(*) = 1 and bool_and(username = 'rls5.bia') from public.search_profiles('rls5')),
+  (select string_agg(username, ', ') from public.search_profiles('rls5'));
+
+insert into resultado (teste, ok, detalhe)
+select 'Busca exige 2 letras e trata _ como letra',
+  (select count(*) = 0 from public.search_profiles('r'))
+  and (select count(*) = 0 from public.search_profiles('rls5_')),
+  null;
+
+create temp table seguiu as
+select public.follow_user('rls5.bia') as bia, public.follow_user('rls5.caio') as caio,
+       public.follow_user('rls5.bia') as bia_de_novo;
+
+insert into resultado (teste, ok, detalhe)
+select 'Segue perfil público; não segue privado; repetir não duplica',
+  (select bia and not caio and not bia_de_novo from seguiu)
+  and (select count(*) = 1 from public.follows),
+  null;
+
+do $$
+begin
+  insert into public.follows (follower_id, followee_id)
+  values ('00000000-0000-4000-8000-0000000000a5', '00000000-0000-4000-8000-0000000000c5');
+  insert into resultado (teste, ok, detalhe) values ('Não grava follows direto', false, 'gravou');
+exception when insufficient_privilege then
+  insert into resultado (teste, ok, detalhe) values ('Não grava follows direto', true, sqlerrm);
+end $$;
+
+insert into resultado (teste, ok, detalhe)
+select 'Feed só com quem sigo e é público',
+  (select count(*) = 1 and bool_and(username = 'rls5.bia' and not reacted) from public.friends_feed()),
+  null;
+
+insert into resultado (teste, ok, detalhe)
+select 'Não lê itens do feed de outra pessoa direto',
+  (select count(*) = 1 and bool_and(user_id = '00000000-0000-4000-8000-0000000000a5') from public.feed_events),
+  null;
+
+create temp table reagiu as
+select public.send_reaction('00000000-0000-4000-8000-00000000e5b1') as bia,
+       public.send_reaction('00000000-0000-4000-8000-00000000e5b1') as bia_de_novo,
+       public.send_reaction('00000000-0000-4000-8000-00000000e5c1') as caio,
+       public.send_reaction('00000000-0000-4000-8000-00000000e5a1') as propria;
+
+insert into resultado (teste, ok, detalhe)
+select 'Um parabéns por conquista; nada em item privado nem no próprio',
+  (select bia and not bia_de_novo and not caio and not propria from reagiu)
+  and (select count(*) = 1 from public.reactions),
+  null;
+
+do $$
+begin
+  delete from public.reactions where user_id = '00000000-0000-4000-8000-0000000000a5';
+  insert into resultado (teste, ok, detalhe) values ('Parabéns não se desfaz', false, 'apagou');
+exception when insufficient_privilege then
+  insert into resultado (teste, ok, detalhe) values ('Parabéns não se desfaz', true, sqlerrm);
+end $$;
+
+insert into resultado (teste, ok, detalhe)
+select 'Perfil privado não mostra dados; público mostra só campos públicos',
+  public.public_profile('rls5.caio') = '{"privado": true}'::jsonb
+  and (public.public_profile('rls5.bia') ->> 'username') = 'rls5.bia'
+  and (public.public_profile('rls5.bia') ? 'level')
+  and not (public.public_profile('rls5.bia') ? 'display_name')
+  and public.public_profile('ninguem.aqui') is null,
+  null;
+
+select public.unfollow_user('rls5.bia');
+insert into resultado (teste, ok, detalhe)
+select 'Deixar de seguir tira do feed',
+  (select count(*) = 0 from public.follows) and (select count(*) = 0 from public.friends_feed()),
+  null;
+reset role;
+
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-0000000000b5","role":"authenticated"}', true);
+insert into resultado (teste, ok, detalhe)
+select 'B vê o parabéns recebido de A',
+  (select count(*) = 1 and bool_and(from_username = 'rls5.ana_2') from public.received_reactions()),
+  (select string_agg(from_username, ', ') from public.received_reactions());
+reset role;
+
+set local role anon;
+do $$
+begin
+  perform * from public.friends_feed();
+  insert into resultado (teste, ok, detalhe) values ('Visitante não lê o feed', false, 'leu');
+exception when insufficient_privilege then
+  insert into resultado (teste, ok, detalhe) values ('Visitante não lê o feed', true, sqlerrm);
+end $$;
+reset role;
+
+-- YouTube: só o servidor grava duração de vídeo (vale XP) ---------------------------------
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-0000000000a5","role":"authenticated"}', true);
+do $$
+begin
+  insert into public.topics (chapter_id, position, title, youtube_video_id, duration_sec)
+  values (gen_random_uuid(), 1, 'Vídeo', 'abc', 99999);
+  insert into resultado (teste, ok, detalhe) values ('Cliente não grava duração de vídeo', false, 'gravou');
+exception when insufficient_privilege then
+  insert into resultado (teste, ok, detalhe) values ('Cliente não grava duração de vídeo', true, sqlerrm);
+end $$;
+
+do $$
+begin
+  perform public.create_youtube_subject('00000000-0000-4000-8000-0000000000a5', 'X', 'PLx', 'ceu', 1, 'X', '[{"id":"a","title":"a","duration_sec":60}]');
+  insert into resultado (teste, ok, detalhe) values ('Cliente não cria disciplina do YouTube direto', false, 'criou');
+exception when insufficient_privilege then
+  insert into resultado (teste, ok, detalhe) values ('Cliente não cria disciplina do YouTube direto', true, sqlerrm);
+end $$;
+reset role;
+
 -- Servidor (service_role): abertura e fechamento idempotentes ------------------------------
 set local role service_role;
 
@@ -200,6 +327,18 @@ select 'Fechar a semana grava posição, saída e divisão',
        where user_id = '00000000-0000-4000-8000-0000000000a5')
   and (select league_division = 'ouro' from public.profiles where id = '00000000-0000-4000-8000-0000000000a5')
   and (select league_division = 'bronze' from public.profiles where id = '00000000-0000-4000-8000-0000000000c5'),
+  null;
+
+create temp table yt as
+select public.create_youtube_subject('00000000-0000-4000-8000-0000000000a5', 'Playlist', 'PLteste', 'ceu', 1.25, 'Playlist',
+  '[{"id":"v1","title":"Aula 1","duration_sec":600},{"id":"v2","title":"Aula 2","duration_sec":900}]') as id;
+
+insert into resultado (teste, ok, detalhe)
+select 'Servidor cria a disciplina do YouTube com 1 capítulo e os vídeos',
+  (select s.source = 'youtube' and s.video_speed = 1.25 and s.user_id = '00000000-0000-4000-8000-0000000000a5'
+   from public.subjects s where s.id = (select id from yt))
+  and (select count(*) = 2 and sum(t.duration_sec) = 1500 from public.topics t
+       join public.chapters c on c.id = t.chapter_id where c.subject_id = (select id from yt)),
   null;
 
 insert into resultado (teste, ok, detalhe)

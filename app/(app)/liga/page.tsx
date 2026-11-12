@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { CalendarClock, Users } from "lucide-react";
+import Link from "next/link";
+import { CalendarClock, Search, Users } from "lucide-react";
 import { setLeagueChoice } from "@/app/(onboarding)/onboarding/actions";
 import { SubmitButton } from "@/components/forms/fields";
 import { DivisionLadder, DivisionMedal } from "@/components/league/Divisions";
 import { LeagueHeader, LeagueTable } from "@/components/league/LeagueBoard";
+import { FeedList } from "@/components/social/FeedList";
+import { ReactionBanner } from "@/components/social/ReactionBanner";
+import { buttonClasses } from "@/components/ui/Button";
 import { cardClasses } from "@/components/ui/Card";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { SegmentedNav } from "@/components/ui/SegmentedNav";
 import { requireUser } from "@/lib/auth/session";
+import { getGameProfile } from "@/lib/gamification/queries";
 import { DIVISION_LABEL } from "@/lib/league/divisions";
 import { getLeagueView } from "@/lib/league/queries";
 import { ensureLeagueRollover } from "@/lib/league/service";
 import { closesIn } from "@/lib/league/week";
+import { reactionBanner, whenLabel } from "@/lib/social/feed";
+import { getFriendsFeed, getReceivedReactions } from "@/lib/social/queries";
 
 export const metadata: Metadata = { title: "Liga" };
 
@@ -65,13 +73,72 @@ function FirstLeagueSoon({ division }: { division: keyof typeof DIVISION_LABEL }
   );
 }
 
+/** Aba Amigos (referencias/26-liga-amigos.png): busca, parabéns recebidos e feed. */
+async function FriendsTab({ userId }: { userId: string }) {
+  const [feed, received, game] = await Promise.all([
+    getFriendsFeed(),
+    getReceivedReactions(),
+    getGameProfile(userId),
+  ]);
+  const now = new Date();
+  const banner = reactionBanner(received);
+  return (
+    <>
+      <Link
+        href="/liga/buscar"
+        className="border-control-border bg-surface-200 text-ink-muted flex min-h-14 items-center gap-3 rounded-lg border-2 px-4 text-lg font-semibold"
+      >
+        <Search size={24} aria-hidden className="shrink-0" />
+        Buscar pessoas pelo apelido
+      </Link>
+      {banner && (
+        <ReactionBanner
+          lead={banner.lead}
+          others={banner.others}
+          prefix={banner.ref.prefix}
+          name={banner.ref.name}
+        />
+      )}
+      {feed.length > 0 ? (
+        <section aria-labelledby="quem-segue" className="flex flex-col gap-3">
+          <h2 id="quem-segue" className="text-caption text-ink-muted">
+            Quem você segue
+          </h2>
+          <FeedList
+            items={feed.map((f) => ({
+              id: f.id,
+              username: f.username,
+              type: f.type,
+              payload: f.payload,
+              when: whenLabel(f.at, now, game.timezone),
+              reacted: f.reacted,
+            }))}
+          />
+        </section>
+      ) : (
+        <EmptyState
+          title="Ninguém por aqui ainda"
+          action={
+            <Link href="/liga/buscar" className={buttonClasses("primary", "md")}>
+              Buscar pessoas
+            </Link>
+          }
+        >
+          Siga colegas para ver as conquistas deles aqui. Só aparecem pessoas com perfil público.
+        </EmptyState>
+      )}
+    </>
+  );
+}
+
 /**
- * Liga (referencias/23-liga-feira.png): `Feira · Amigos`. A Feira mostra o grupo da
- * semana com o ranking por XP; Amigos chega com o social (Fase 5, PR 2).
+ * Liga (referencias/23 e 26): `Feira · Amigos`. Abre em Feira; abre em Amigos para
+ * quem não está na Feira (telas.md › Onde fica o social). Apelido na primeira entrada
+ * na Feira ou em Amigos (24).
  */
 export default async function LigaPage({ searchParams }: PageProps<"/liga">) {
   const user = await requireUser();
-  const { todos } = await searchParams;
+  const { todos, aba } = await searchParams;
 
   // Rede de segurança: se o cron de segunda não rodou, a virada acontece agora.
   try {
@@ -81,8 +148,11 @@ export default async function LigaPage({ searchParams }: PageProps<"/liga">) {
   }
 
   const view = await getLeagueView(user.id);
-  // Apelido na primeira entrada na Feira (telas.md › 24).
-  if (view.optIn && !view.username) redirect("/liga/apelido?depois=/liga");
+  const tab = aba === "amigos" || aba === "feira" ? aba : view.optIn ? "feira" : "amigos";
+  if (!view.username && (tab === "amigos" || view.optIn)) {
+    const back = tab === "amigos" ? "/liga?aba=amigos" : "/liga";
+    redirect(`/liga/apelido?depois=${encodeURIComponent(back)}`);
+  }
 
   return (
     <section className="flex flex-col gap-5">
@@ -90,29 +160,38 @@ export default async function LigaPage({ searchParams }: PageProps<"/liga">) {
       <SegmentedNav
         label="Liga"
         items={[
-          { label: "Feira", href: "/liga", active: true },
-          { label: "Amigos", hint: "em breve" },
+          { label: "Feira", href: "/liga?aba=feira", active: tab === "feira" },
+          { label: "Amigos", href: "/liga?aba=amigos", active: tab === "amigos" },
         ]}
       />
 
-      {!view.optIn && <JoinCard />}
-      {view.optIn && !view.group && <FirstLeagueSoon division={view.division} />}
-      {view.optIn && view.group && (
+      {tab === "amigos" && <FriendsTab userId={user.id} />}
+
+      {tab === "feira" && !view.optIn && <JoinCard />}
+      {tab === "feira" && view.optIn && !view.group && <FirstLeagueSoon division={view.division} />}
+      {tab === "feira" && view.optIn && view.group && (
         <>
           <LeagueHeader group={view.group} closesIn={closesIn(new Date(), view.group.week)} />
           <LeagueTable
             group={view.group}
             showAll={todos === "1"}
-            allHref="/liga?todos=1"
-            lessHref="/liga"
+            allHref="/liga?aba=feira&todos=1"
+            lessHref="/liga?aba=feira"
+            profileLinks
           />
         </>
       )}
 
-      {view.optIn && view.username && (
+      {view.username && (
         <p className="text-small text-ink-muted flex items-center gap-2">
           <Users size={16} aria-hidden />
           Você aparece como <strong className="text-ink font-extrabold">@{view.username}</strong>.
+          <Link
+            href={`/perfil/${view.username}`}
+            className="text-primary font-extrabold underline underline-offset-4"
+          >
+            Ver meu perfil
+          </Link>
         </p>
       )}
     </section>

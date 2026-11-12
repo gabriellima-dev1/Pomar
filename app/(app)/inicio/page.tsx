@@ -14,6 +14,8 @@ import { getAccount, latestSubjectId } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
 import { focusSummary } from "@/lib/focus-summary";
 import { getLeagueView } from "@/lib/league/queries";
+import { whenLabel } from "@/lib/social/feed";
+import { getFriendsFeed, getReceivedReactions } from "@/lib/social/queries";
 import { daysAway } from "@/lib/gamification/present";
 import { getBadgeHistory, getGameProfile } from "@/lib/gamification/queries";
 import { homeLine } from "@/lib/mascot/lines";
@@ -50,10 +52,25 @@ export default async function InicioPage() {
     listSubjects(),
     getRecentFocusSessions(),
   ]);
-  const [history, league] = await Promise.all([
+  const socializer = account.bartle === "socializador";
+  const [history, league, feed, received] = await Promise.all([
     getStudyHistory(profile.timezone),
     account.bartle === "competidor" ? getLeagueView(user.id) : Promise.resolve(null),
+    socializer ? getFriendsFeed() : Promise.resolve([]),
+    socializer ? getReceivedReactions() : Promise.resolve([]),
   ]);
+  const social = socializer
+    ? {
+        received: received.length,
+        feed: feed.slice(0, 2).map((f) => ({
+          id: f.id,
+          username: f.username,
+          type: f.type,
+          payload: f.payload,
+          when: whenLabel(f.at, new Date(), profile.timezone),
+        })),
+      }
+    : null;
   const subjects = sortByLastStudied(all, history);
   const today = game.today;
   const rewards = account.rewards;
@@ -109,6 +126,7 @@ export default async function InicioPage() {
             focus={focus}
             goal={goal}
             league={league}
+            social={social}
           />
           {rewards && <YesterdayFruitCard history={badges} today={today} />}
         </div>

@@ -126,11 +126,11 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Aceite:** uma pessoa que nunca viu o app consegue, sozinha, chegar ao fim do 1º pomodoro; o funil aparece populado na tabela de eventos. — **movido para a Fase 7 (decisão de 11/11). Migrações aplicadas em 11/11; RLS verificada com `supabase/tests/rls_fase4.sql` (18 testes, com rollback). Fluxo completo testado pelo Claude Code no localhost com a conta `teste.fase4.…@example.com` (`is_demo`): funil registrado de `signup_completed` a `pomodoro_completed`.**
 
 ### Fase 5 — Social, ligas, estatísticas e YouTube (19–21/11)
-- [ ] Nome de usuário, perfil público (opt-in), seguir, buscar
-- [ ] Feed de conquistas de quem você segue + "Parabéns"
+- [x] Nome de usuário, perfil público (opt-in), seguir, buscar — apelido na PR `fase-5-ligas`; perfil público (`/perfil/[apelido]`), seguir e buscar na PR `fase-5-social`
+- [x] Feed de conquistas de quem você segue + "Parabéns" — PR `fase-5-social` (`follow_created` e `reaction_sent` registrados)
 - [x] Ligas: agrupamento por divisão e faixa de horas, ranking semanal, cron de fechamento (Vercel Cron) com promoção/rebaixamento — PR `fase-5-ligas` (apelido, tela de resultado, destaque do Competidor; faixas pequenas se juntam, DECISOES 11/11)
-- [ ] Estatísticas pessoais (§4.6)
-- [ ] Importação de playlist do YouTube (rota de servidor com a chave; vídeos viram tópicos com duração; unidade em minutos)
+- [x] Estatísticas pessoais (§4.6) — PR `fase-5-estatisticas` (Recharts; fórmulas em `lib/stats/stats.ts`, DECISOES 11/11)
+- [x] Importação de playlist do YouTube (rota de servidor com a chave; vídeos viram tópicos com duração; unidade em minutos) — PR `fase-5-youtube`
 
 **Aceite:** dois usuários de teste se seguem e veem as conquistas um do outro; o fechamento da liga, rodado manualmente, promove e rebaixa corretamente; uma playlist importada vira disciplina com durações.
 

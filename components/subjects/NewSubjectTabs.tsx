@@ -9,7 +9,7 @@ export function NewSubjectTabs({
   active,
   onboarding = false,
 }: {
-  active: "catalogo" | "manual";
+  active: "catalogo" | "manual" | "youtube";
   onboarding?: boolean;
 }) {
   return (
@@ -38,7 +38,7 @@ export function NewSubjectTabs({
         items={[
           { label: "Catálogo", href: "/disciplinas/nova", active: active === "catalogo" },
           { label: "Manual", href: "/disciplinas/nova/manual", active: active === "manual" },
-          { label: "YouTube", hint: "em breve" },
+          { label: "YouTube", href: "/disciplinas/nova/youtube", active: active === "youtube" },
         ]}
       />
     </div>
