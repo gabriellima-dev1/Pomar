@@ -33,3 +33,6 @@ npm-debug.log*
 
 # fluxos de telas: capturas e senhas das contas de exemplo (docs/fluxos/PLANO.md)
 /.fluxos/
+
+# resultados dos testes ponta a ponta (Playwright)
+/.e2e-resultados/
