@@ -1,4 +1,4 @@
-# Pomar — Design para implementação (Fases 2, 3 e 4)
+# Pomar — Design para implementação (Fases 2 a 5)
 
 Fonte aprovada pela dupla em 09/11/2026. Referências no Claude: design system **"Pomar"** e prancheta **"Pomar — telas da Fase 2"**. Este arquivo e a pasta `docs/design/` são o que o Claude Code usa; em caso de dúvida, as imagens em `referencias/` mandam no visual e o `DESIGN.md` manda nas regras.
 
@@ -232,5 +232,60 @@ Referências: `22-inicio-desktop.png` (1440px) e `22b-inicio-tablet.png` (900px)
 - **Pomodoro:** cena em tela cheia (já decidido); cronômetro de vidro e folha de controles centralizados com até 480px.
 - **Onboarding:** card central de até 480px sobre a cena Campo em tela cheia.
 
+## Fase 5 — Feira, social, estatísticas e YouTube (onda 4, 11/11)
+
+Prancheta no Claude: **"Pomar — telas da Fase 5"**. Referências `23` a `30`. Apelidos e números das imagens são exemplos.
+
+### Onde fica o social
+A aba **Liga** da navegação ganha um `SegmentedControl` **Feira · Amigos** (abre em Feira; abre em Amigos para quem não está na Feira). Não há destino novo na navegação.
+
+### 23 · Liga › Feira (`referencias/23-liga-feira.png`)
+- Card da divisão: medalha da divisão (`colheitas/*.svg` nas cores `medal-*`; Esmeralda com `medal-esmeralda*`), "Feira de {divisão}", "{N} pessoas que estudam de {faixa} por semana" (faixas do DESIGN §6.6) e "FECHA EM {d}d {h}h" (fecha segunda 00:00, `America/Sao_Paulo`).
+- Ranking por XP da semana em card `--surface-200`: posição, avatar com iniciais (cores das disciplinas), apelido, XP. A pessoa = linha em `--fruit-soft` com "Você". Usuário demo leva o selo "demo" (`--surface-300`).
+- Linhas divisórias de zona (só em grupos com 10 ou mais): "SOBEM PARA A FEIRA DE {próxima}" depois do 5º (`--primary-strong`, seta para cima) e "DESCEM PARA A FEIRA DE {anterior}" antes dos 5 últimos (`--ink-muted`, seta para baixo; sem tom de alarme). Bronze não tem zona de descida; Esmeralda não tem zona de subida. Grupo com menos de 10: frase "Grupo pequeno: ninguém sobe nem desce nesta semana."
+- Mostra até 8 linhas em volta da pessoa + "Ver o grupo todo ({N})". Tocar num apelido com perfil público abre o perfil (28).
+- Sem Feira: quem disse "Agora não" vê um card com a explicação da Feira e "Quero entrar"; quem entrou e ainda não tem grupo vê "Sua primeira Feira começa na segunda".
+
+### 24 · Escolher apelido (`referencias/24-liga-apelido.png`)
+- Abre na primeira vez que a pessoa entra na Feira ou usa Amigos. `MascotBubble`: o apelido é o que aparece; nome e e-mail ficam privados.
+- Campo com prefixo "@", validação ao digitar (disponível / já em uso / formato), regra: 3 a 20 caracteres, minúsculas, números, `.` e `_`. Sugestão inicial a partir do nome.
+- Caixa **"Deixar meu perfil público" desmarcada** por padrão, com o que fica visível. "Salvar apelido". Apelido e perfil público mudam depois em Configurações.
+
+### 25 · Resultado da semana (`referencias/25-liga-resultado.png`)
+- Aparece uma vez, ao abrir o app depois do fechamento. Raios + medalha da nova divisão, selo do resultado, título e frase com a posição e o XP. "Ver minha nova Feira" / "Fechar".
+- Textos por caso: **subiu** "Feira de {nova}!" · **ficou** "Você continua na Feira de {divisão}" + "Terminou em {N}º. Semana nova, todo mundo começa do zero." · **desceu** "Nesta semana você vai para a Feira de {nova}" + "Lá os grupos estudam num ritmo parecido com o seu agora." (nunca "rebaixado"/"perdeu"). Sem raios quando desce.
+
+### 26 · Liga › Amigos (`referencias/26-liga-amigos.png`)
+- Campo "Buscar pessoas pelo apelido" (abre 27). Faixa `--fruit-soft` com os parabéns recebidos desde a última visita ("{apelido} e mais N pessoas deram parabéns pelo seu {conquista}").
+- "QUEM VOCÊ SEGUE": conquistas recentes de quem você segue (só perfis públicos), mais novas primeiro, até 14 dias: colheita da semana, subida de estágio da árvore (níveis 3, 6, 10 e 15), emblema raro, capítulo ou disciplina concluída e subida de divisão. Cada item: avatar, texto, quando, botão **"Parabéns"** (secundário) → "Enviado" (`--primary-soft`, desabilitado). Um parabéns por pessoa por conquista; não dá para desfazer.
+- Vazio: Seu Tomás + "Siga colegas para ver as conquistas deles aqui" + "Buscar pessoas".
+- Eventos: `reaction_sent`; o feed só mostra conquistas de quem tem perfil público.
+
+### 27 · Buscar pessoas (`referencias/27-buscar-pessoas.png`)
+- Busca por prefixo do apelido (a partir de 2 letras), **só perfis públicos**. Linha: avatar, @apelido, "Nível N · {estágio}", botão "Seguir" (primário pequeno) ou "Seguindo" (`--primary-soft`; tocar pede confirmação para deixar de seguir).
+- "DA SUA FEIRA": sugestões de pessoas públicas do seu grupo. Evento: `follow_created`.
+
+### 28 · Perfil público (`referencias/28-perfil-publico.png`)
+- Faixa da cena Campo com a árvore do estágio da pessoa; avatar 84px; @apelido; "Nível N · {estágio}"; "Seguir/Seguindo"; ofensiva atual; emblemas obtidos (N de 11; ocultos só aparecem se obtidos); conquistas recentes; "No Pomar desde {mês de ano}". Nada de disciplinas, horas ou páginas (DESIGN §4.7).
+- Perfil não público: a página responde "Este perfil é privado" (sem dados).
+
+### 29 · Estatísticas (`referencias/29-estatisticas.png`)
+- `SegmentedControl` Semana · Mês · Ano + navegação de período (setas, rótulo do período). Tudo no fuso do usuário, só pomodoros concluídos.
+- **Tempo de foco:** total do período + comparação com o período anterior (texto neutro: "+40 min que a anterior" ou "−20 min que a anterior"); barras por dia (semana), por semana (mês) ou por mês (ano) em `--primary`, rótulo de valor em cima, eixo em horas; 3 mini-cards: pomodoros, % sem pausa, dias com estudo.
+- **Dias estudados no ano:** heatmap de semanas (colunas) × dias (linhas), 4 tons: `--surface-300` (0), claro (< 30 min), `--primary` (30–60 min), `--primary-strong` (> 60 min), legenda "menos/mais". Dias futuros não aparecem.
+- **Por disciplina:** barra empilhada nas cores `--subject-*` + lista com tempo e %.
+- **Seu ritmo:** linha do min/página por ciclo da disciplina mais estudada no período (seletor de disciplina), com frase "Você está lendo cerca de X% mais rápido/devagar…".
+- **Melhor horário:** faixa de 2 h com mais minutos de foco nos últimos 30 dias (barras por hora, a faixa em `--primary`).
+- **Previsto × real:** erro médio |real − previsto| ÷ previsto dos tópicos concluídos.
+- Gráficos com Recharts, cores dos tokens, `aria-label` com os números; período sem dados mostra o Seu Tomás com "Ainda não há pomodoros neste período".
+- Coorte B: estatísticas iguais (não são recompensa).
+
+### 30 · Nova disciplina › YouTube (`referencias/30-nova-disciplina-youtube.png`)
+- Terceira aba de Nova disciplina. Campo "Link da playlist" (aceita link de playlist ou de vídeo com `list=`); ao colar, a rota de servidor busca a playlist com a chave (`YOUTUBE_API_KEY`).
+- Card da playlist (borda `--primary`): miniatura, título, canal, nº de vídeos e duração total; velocidade **1× · 1,25× · 1,5× · 2×** (padrão 1×; a escolha vira o ritmo da disciplina, DESIGN §4.2); lista de vídeos com checkbox e duração (todos marcados), "Ver os N vídeos". Vídeos privados ou indisponíveis ficam de fora com o aviso "N vídeos indisponíveis foram ignorados".
+- Rodapé: "{N} vídeos · {duração}" + "≈ {duração ÷ velocidade} em {velocidade} · cerca de {n} pomodoros" + "Continuar" (cria a disciplina com unidade em minutos; sem calibração).
+- Erros: link inválido, playlist privada, cota esgotada ("Não consegui abrir a playlist agora. Tente de novo mais tarde.").
+- Evento: `subject_created {source: youtube}`.
+
 ## Ainda não desenhado (próxima onda)
-Liga, social e perfil público, estatísticas, configurações, transparência e admin (antes da Fase 5). Até lá, essas telas seguem os componentes acima.
+Configurações completas, transparência e admin (antes da Fase 6). Até lá, essas telas seguem os componentes acima.
