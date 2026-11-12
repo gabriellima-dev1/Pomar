@@ -3,7 +3,7 @@ import { BarChart3, Sparkles, Users } from "lucide-react";
 import { dismissLeagueInvite, setLeagueChoice } from "@/app/(onboarding)/onboarding/actions";
 import { BadgeDisc } from "@/components/gamification/BadgeDisc";
 import { SubmitButton } from "@/components/forms/fields";
-import { DivisionDisc } from "@/components/league/Divisions";
+import { DivisionDisc, DivisionMedal } from "@/components/league/Divisions";
 import { ProgressBar } from "@/components/ui/Progress";
 import { cardClasses } from "@/components/ui/Card";
 import type { Account } from "@/lib/account";
@@ -12,6 +12,10 @@ import { BADGES, badgeInfo } from "@/lib/gamification/catalog";
 import { TIER_LABEL, tierForDays } from "@/lib/gamification/harvest";
 import { progressToNext, xpForLevel } from "@/lib/gamification/levels";
 import { badgesThisWeek, type BadgeDay } from "@/lib/gamification/present";
+import { DIVISION_LABEL } from "@/lib/league/divisions";
+import { chaseLine } from "@/lib/league/present";
+import type { LeagueView } from "@/lib/league/queries";
+import { zones } from "@/lib/league/ranking";
 
 export type HighlightData = {
   account: Account;
@@ -21,6 +25,8 @@ export type HighlightData = {
   focus: FocusSummary;
   /** Disciplina com meta diária, na ordem do Início (a primeira vale). */
   goal: { title: string; target: number; done: number } | null;
+  /** Feira da pessoa (só carregada para o Competidor). */
+  league?: LeagueView | null;
 };
 
 const card = `${cardClasses} flex flex-col gap-4 p-5`;
@@ -137,17 +143,55 @@ function ExplorerCard({ history, focus }: HighlightData) {
 }
 
 function CompetitorCard(data: HighlightData) {
-  const { account } = data;
-  if (account.leagueOptIn) {
+  const { account, league } = data;
+  const group = league?.group;
+  if (account.leagueOptIn && group) {
+    const z = zones(group.rows.length, group.division);
+    const inUp = group.me.rank <= z.up;
+    const inDown = z.down > 0 && group.me.rank > group.rows.length - z.down;
     return (
       <section aria-labelledby="destaque" className={card}>
         <div className="flex items-center gap-4">
-          <DivisionDisc division="bronze" size={48} />
+          <DivisionMedal division={group.division} size={48} />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <h2 id="destaque" className="text-heading">
+              {group.me.rank}º na Feira de {DIVISION_LABEL[group.division]}
+            </h2>
+            <p className="text-small text-ink-muted font-semibold">
+              {group.me.xp} XP nesta semana · {group.rows.length} pessoas
+            </p>
+          </div>
+        </div>
+        <p>{chaseLine(group.rows)}</p>
+        {(inUp || inDown) && (
+          <p
+            className={`text-small rounded-md px-4 py-3 font-extrabold ${inUp ? "bg-primary-soft text-primary-strong" : "bg-surface-100 text-ink-muted"}`}
+          >
+            {inUp
+              ? "Você está na zona de subida. Se a semana fechar agora, você sobe de Feira."
+              : "Mais alguns pomodoros e você sai da zona de descida."}
+          </p>
+        )}
+        <Link
+          href="/liga"
+          className="text-primary self-start font-extrabold underline underline-offset-4"
+        >
+          Ver a Feira
+        </Link>
+      </section>
+    );
+  }
+  if (account.leagueOptIn) {
+    const division = league?.division ?? "bronze";
+    return (
+      <section aria-labelledby="destaque" className={card}>
+        <div className="flex items-center gap-4">
+          <DivisionMedal division={division} size={48} />
           <div className="flex flex-col">
             <h2 id="destaque" className="text-heading">
-              Feira de Bronze
+              Feira de {DIVISION_LABEL[division]}
             </h2>
-            <p className="text-small text-ink-muted">Sua primeira Feira começa em breve.</p>
+            <p className="text-small text-ink-muted">Sua primeira Feira começa na segunda.</p>
           </div>
         </div>
         <p className="text-ink-muted">
@@ -237,7 +281,7 @@ function QuizInvite() {
 
 /**
  * Card de destaque do Início conforme o perfil de Bartle (DESIGN §6.8, telas.md › 21),
- * nas versões "antes da Fase 5" (sem Feira e sem social ainda). Coorte B: Conquistador
+ * com a Feira da Fase 5 no Competidor. Coorte B: Conquistador
  * e Explorador viram o resumo neutro do foco.
  */
 export function ProfileHighlight(data: HighlightData) {

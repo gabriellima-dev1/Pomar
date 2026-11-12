@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LogOut, Timer } from "lucide-react";
+import { AtSign, LogOut, Timer } from "lucide-react";
 import { redoQuiz } from "@/app/(onboarding)/onboarding/actions";
 import { SubmitButton } from "@/components/forms/fields";
 import { LeagueChoice } from "@/components/league/LeagueChoice";
@@ -12,18 +12,20 @@ import { TopBar } from "@/components/ui/TopBar";
 import { getAccount } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
 import { PROFILE_LABEL, PROFILE_SUMMARY } from "@/lib/bartle";
+import { getLeagueView } from "@/lib/league/queries";
 import { signOut } from "../actions";
 
 export const metadata: Metadata = { title: "Configurações" };
 
 /**
  * Configurações mínimas da Fase 4: perfil de Bartle (trocar ou refazer, DESIGN §6.8),
- * Feira (opt-in, §6.6) e sair da conta. O resto (tema, exportar, excluir) vem na Fase 6.
+ * apelido e perfil público (Fase 5), Feira (opt-in, §6.6) e sair da conta. O resto
+ * (tema, exportar, excluir) vem na Fase 6.
  */
 export default async function ConfiguracoesPage({ searchParams }: PageProps<"/configuracoes">) {
   const user = await requireUser();
   const query = await searchParams;
-  const account = await getAccount(user.id);
+  const [account, league] = await Promise.all([getAccount(user.id), getLeagueView(user.id)]);
   const profile = account.bartle;
 
   return (
@@ -36,6 +38,7 @@ export default async function ConfiguracoesPage({ searchParams }: PageProps<"/co
 
       {query.perfil && <Notice>Perfil salvo! O destaque do Início já mudou.</Notice>}
       {query.feira && <Notice>Escolha da Feira salva.</Notice>}
+      {query.apelido && <Notice>Apelido salvo.</Notice>}
 
       <section aria-labelledby="perfil" className={`${cardClasses} flex flex-col gap-4 p-5`}>
         <h2 id="perfil" className="text-heading">
@@ -80,6 +83,36 @@ export default async function ConfiguracoesPage({ searchParams }: PageProps<"/co
             </Link>
           )}
         </div>
+      </section>
+
+      <section aria-labelledby="apelido" className={`${cardClasses} flex flex-col gap-4 p-5`}>
+        <div className="flex flex-col gap-1">
+          <h2 id="apelido" className="text-heading">
+            Apelido e perfil público
+          </h2>
+          <p className="text-ink-muted">
+            {league.username ? (
+              <>
+                Você aparece como{" "}
+                <strong className="text-ink font-extrabold">@{league.username}</strong>. Perfil
+                público:{" "}
+                <strong className="text-ink font-extrabold">
+                  {league.publicProfile ? "sim" : "não"}
+                </strong>
+                .
+              </>
+            ) : (
+              "Você ainda não escolheu um apelido. Ele aparece na Feira e entre amigos; seu nome e seu e-mail ficam privados."
+            )}
+          </p>
+        </div>
+        <Link
+          href="/liga/apelido?depois=/configuracoes"
+          className="bg-surface-300 flex min-h-14 items-center gap-3 rounded-lg px-4 py-3 font-extrabold"
+        >
+          <AtSign size={22} aria-hidden className="text-primary shrink-0" />
+          {league.username ? "Mudar apelido ou perfil público" : "Escolher apelido"}
+        </Link>
       </section>
 
       <section aria-labelledby="feira" className={`${cardClasses} flex flex-col gap-4 p-5`}>

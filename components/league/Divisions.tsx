@@ -1,15 +1,52 @@
 import { Fragment } from "react";
 import { ChevronRight } from "lucide-react";
+import { DIVISION_LABEL, type Division } from "@/lib/league/divisions";
 
 /** Divisões da Feira (DESIGN §6.6), cores pelos tokens `medal-*`. */
 export const DIVISIONS = [
-  { code: "bronze", label: "Bronze", ink: "var(--medal-bronze-ink)" },
-  { code: "prata", label: "Prata", ink: "var(--medal-prata-ink)" },
-  { code: "ouro", label: "Ouro", ink: "var(--reward-mark)" },
-  { code: "esmeralda", label: "Esmeralda", ink: "var(--medal-esmeralda-ink)" },
-] as const;
+  { code: "bronze", label: DIVISION_LABEL.bronze, ink: "var(--medal-bronze-ink)" },
+  { code: "prata", label: DIVISION_LABEL.prata, ink: "var(--medal-prata-ink)" },
+  { code: "ouro", label: DIVISION_LABEL.ouro, ink: "var(--reward-mark)" },
+  { code: "esmeralda", label: DIVISION_LABEL.esmeralda, ink: "var(--medal-esmeralda-ink)" },
+] as const satisfies readonly { code: Division; label: string; ink: string }[];
 
-export type Division = (typeof DIVISIONS)[number]["code"];
+/**
+ * Medalha da divisão (desenho de docs/design/colheitas/*.svg, 40×44), nas cores
+ * `medal-{divisão}`; a Esmeralda usa `medal-esmeralda*` (telas.md › 23).
+ */
+export function DivisionMedal({
+  division,
+  size = 56,
+  label,
+}: {
+  division: Division;
+  size?: number;
+  label?: string;
+}) {
+  const a11y = label ? { role: "img" as const, "aria-label": label } : { "aria-hidden": true };
+  return (
+    <svg viewBox="0 0 40 44" width={size} height={(size * 44) / 40} {...a11y} className="shrink-0">
+      <path d="M12 2h7l-3 14h-7z" fill="var(--primary)" />
+      <path d="M28 2h-7l3 14h7z" fill="var(--primary-strong)" />
+      <circle cx="20" cy="27" r="15" fill={`var(--medal-${division})`} />
+      <circle
+        cx="20"
+        cy="27"
+        r="11"
+        fill="none"
+        stroke={`var(--medal-${division}-edge)`}
+        strokeWidth="2.5"
+      />
+      <circle cx="20" cy="28" r="5.5" fill="var(--scene-fruit-ripe)" />
+      <path
+        d="M20 22.5v-3"
+        stroke="var(--scene-canopy-dark)"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 export function DivisionDisc({ division, size = 52 }: { division: Division; size?: number }) {
   return (

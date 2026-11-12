@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getAccount } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
+import { leaveCurrentGroup } from "@/lib/league/service";
 import {
   QUESTION_COUNT,
   isBartleProfile,
@@ -112,15 +113,27 @@ export async function setLeagueChoice(formData: FormData): Promise<void> {
   if (!error) {
     await trackServer("league_opt_in_choice", {
       choice,
-      contexto: ["onboarding", "configuracoes", "inicio"].includes(context) ? context : "outro",
+      contexto: ["onboarding", "configuracoes", "inicio", "liga"].includes(context)
+        ? context
+        : "outro",
     });
+    // Sair da Feira tira a pessoa do grupo da semana em andamento (DECISOES 11/11).
+    if (choice === "out") {
+      try {
+        await leaveCurrentGroup(user.id);
+      } catch (e) {
+        console.error("[feira] sair do grupo", e);
+      }
+    }
   }
   revalidatePath("/inicio");
   revalidatePath("/configuracoes");
+  revalidatePath("/liga");
   if (await advanceOnboarding(user.id, "feira", "disciplina")) {
     redirect(pathForStep("disciplina", null));
   }
   if (context === "configuracoes") redirect("/configuracoes?feira=1");
+  if (context === "liga") redirect("/liga");
   redirect("/inicio");
 }
 

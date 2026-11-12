@@ -13,6 +13,7 @@ import { StatChip } from "@/components/ui/StatChip";
 import { getAccount, latestSubjectId } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
 import { focusSummary } from "@/lib/focus-summary";
+import { getLeagueView } from "@/lib/league/queries";
 import { daysAway } from "@/lib/gamification/present";
 import { getBadgeHistory, getGameProfile } from "@/lib/gamification/queries";
 import { homeLine } from "@/lib/mascot/lines";
@@ -49,7 +50,10 @@ export default async function InicioPage() {
     listSubjects(),
     getRecentFocusSessions(),
   ]);
-  const history = await getStudyHistory(profile.timezone);
+  const [history, league] = await Promise.all([
+    getStudyHistory(profile.timezone),
+    account.bartle === "competidor" ? getLeagueView(user.id) : Promise.resolve(null),
+  ]);
   const subjects = sortByLastStudied(all, history);
   const today = game.today;
   const rewards = account.rewards;
@@ -104,6 +108,7 @@ export default async function InicioPage() {
             today={today}
             focus={focus}
             goal={goal}
+            league={league}
           />
           {rewards && <YesterdayFruitCard history={badges} today={today} />}
         </div>
