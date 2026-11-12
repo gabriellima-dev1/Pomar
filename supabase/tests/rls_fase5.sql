@@ -17,11 +17,13 @@ insert into auth.users (id, aud, role, email, raw_user_meta_data)
 values
   ('00000000-0000-4000-8000-0000000000a5', 'authenticated', 'authenticated', 'rls5-a@teste.invalid', '{}'),
   ('00000000-0000-4000-8000-0000000000b5', 'authenticated', 'authenticated', 'rls5-b@teste.invalid', '{}'),
-  ('00000000-0000-4000-8000-0000000000c5', 'authenticated', 'authenticated', 'rls5-c@teste.invalid', '{}');
+  ('00000000-0000-4000-8000-0000000000c5', 'authenticated', 'authenticated', 'rls5-c@teste.invalid', '{}'),
+  ('00000000-0000-4000-8000-0000000000e5', 'authenticated', 'authenticated', 'rls5-e@teste.invalid', '{}');
 
 update public.profiles set username = 'rls5.ana', league_opt_in = true where id = '00000000-0000-4000-8000-0000000000a5';
 update public.profiles set username = 'rls5.bia', league_opt_in = true, is_demo = true, public_profile = true where id = '00000000-0000-4000-8000-0000000000b5';
 update public.profiles set username = 'rls5.caio', league_opt_in = true where id = '00000000-0000-4000-8000-0000000000c5';
+update public.profiles set username = 'rls5.edu', league_opt_in = true where id = '00000000-0000-4000-8000-0000000000e5';
 
 -- A semana atual pode já existir no banco (cron); os grupos de teste são novos.
 insert into public.league_weeks (week_start) select atual from semana on conflict do nothing;
@@ -36,7 +38,10 @@ select '00000000-0000-4000-8000-00000000f5a1'::uuid, '00000000-0000-4000-8000-00
 union all
 select '00000000-0000-4000-8000-00000000f5a1'::uuid, '00000000-0000-4000-8000-0000000000b5'::uuid, atual from semana
 union all
-select '00000000-0000-4000-8000-00000000f5c1'::uuid, '00000000-0000-4000-8000-0000000000c5'::uuid, atual from semana;
+select '00000000-0000-4000-8000-00000000f5c1'::uuid, '00000000-0000-4000-8000-0000000000c5'::uuid, atual from semana
+union all
+-- E está no grupo de A, mas sem XP na semana: como no Duolingo, fica fora do ranking.
+select '00000000-0000-4000-8000-00000000f5a1'::uuid, '00000000-0000-4000-8000-0000000000e5'::uuid, atual from semana;
 
 -- XP: A ganha 30 nesta semana e 50 na semana passada (não conta); B ganha 20.
 insert into public.xp_events (user_id, source, amount, dedupe_key, created_at)
@@ -51,7 +56,7 @@ set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-0000000000a5","role":"authenticated"}', true);
 
 insert into resultado (teste, ok, detalhe)
-select 'A vê o próprio grupo no ranking (A e B, sem C)',
+select 'A vê o ranking do grupo só com quem tem XP (A e B; sem C, de outro grupo, e sem E, com 0 XP)',
   count(*) = 2 and bool_and(username in ('rls5.ana', 'rls5.bia')),
   string_agg(username, ', ')
 from public.league_standings();
@@ -76,6 +81,18 @@ insert into resultado (teste, ok, detalhe)
 select 'A não lê o perfil de B direto (só pela função)',
   (select count(*) = 0 from public.profiles where id = '00000000-0000-4000-8000-0000000000b5'),
   null;
+
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-0000000000e5","role":"authenticated"}', true);
+insert into resultado (teste, ok, detalhe)
+select 'Quem está com 0 XP se vê e vê os que já entraram no ranking',
+  (select count(*) = 3 from public.league_standings())
+  and (select xp = 0 from public.league_standings() where is_me),
+  null;
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-0000000000a5","role":"authenticated"}', true);
 
 update public.league_members set result_seen_at = now()
 where user_id = '00000000-0000-4000-8000-0000000000a5';
@@ -164,6 +181,12 @@ reset role;
 
 -- Visitante ------------------------------------------------------------------------------
 set local role anon;
+insert into resultado (teste, ok, detalhe)
+select 'Visitante abre perfil público; perfil privado continua privado',
+  (public.public_profile('rls5.bia') ->> 'username') = 'rls5.bia'
+  and (public.public_profile('rls5.bia') ->> 'is_me') = 'false'
+  and public.public_profile('rls5.caio') = '{"privado": true}'::jsonb,
+  public.public_profile('rls5.caio')::text;
 do $$
 begin
   perform * from public.league_standings();
