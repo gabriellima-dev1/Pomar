@@ -81,7 +81,7 @@ npm run dev          # servidor local
 npm run lint
 npm run typecheck    # next typegen + tsc
 npm test             # Vitest
-npm run test:e2e     # Playwright
+npm run test:e2e     # Playwright (build local na porta 3100; E2E_BASE_URL=<url> testa outro endereço)
 npm run db:push      # aplicar migrações (supabase db push --remote; carregar .env.local antes)
 npm run db:types     # regenerar lib/supabase/database.types.ts
 npm run db:seed:catalog  # carregar supabase/seed/catalog/*.json (lê .env.local, chave secreta)

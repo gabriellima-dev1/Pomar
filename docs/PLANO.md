@@ -132,7 +132,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [x] Estatísticas pessoais (§4.6) — PR `fase-5-estatisticas` (Recharts; fórmulas em `lib/stats/stats.ts`, DECISOES 11/11)
 - [x] Importação de playlist do YouTube (rota de servidor com a chave; vídeos viram tópicos com duração; unidade em minutos) — PR `fase-5-youtube`
 
-**Aceite:** dois usuários de teste se seguem e veem as conquistas um do outro; o fechamento da liga, rodado manualmente, promove e rebaixa corretamente; uma playlist importada vira disciplina com durações.
+**Aceite:** dois usuários de teste se seguem e veem as conquistas um do outro; o fechamento da liga, rodado manualmente, promove e rebaixa corretamente; uma playlist importada vira disciplina com durações. — **verificado por testes automáticos em 12/11 (`npm run test:e2e`, 16 testes, contas de teste criadas e apagadas a cada rodada): social e YouTube passaram também contra a produção (`E2E_BASE_URL`); o fechamento da Feira passou no build local, numa semana fictícia, pela mesma rota do cron (a opção de fechar uma semana específica entra em produção com o PR dos testes). RLS: `supabase/tests/rls_fase5.sql` (36 testes). Falta só conferir a virada automática do cron na segunda, 16/11.**
 
 ### Fase 6 — Telemetria, ética e acabamento (21–23/11)
 - [ ] Painel `/admin`: DAU, MAU, stickiness, funil com drop-off, retenção D1/D7, aceite do nudge, comparação de coortes, filtro sem demos
@@ -140,7 +140,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Configurações: exportar dados (JSON) e excluir conta (1 clique + confirmação)
 - [ ] Seed de usuários demo (com selo) para popular ligas na apresentação
 - [ ] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular
-- [ ] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11
+- [ ] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11 — **em andamento:** suíte em `e2e/` (login, pomodoro, animações com e sem "reduzir movimento", fruto de ontem, Feira, social, YouTube); falta o fluxo do onboarding (cadastro → 1º pomodoro)
 - [ ] Correções a partir do uso real dos colegas
 - [ ] **23/11: congelamento de funcionalidades**
 
