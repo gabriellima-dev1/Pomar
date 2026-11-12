@@ -235,6 +235,51 @@ export type Database = {
         }
         Relationships: []
       }
+      feed_events: {
+        Row: {
+          created_at: string
+          dedupe_key: string
+          id: string
+          payload: Json
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dedupe_key: string
+          id?: string
+          payload?: Json
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dedupe_key?: string
+          id?: string
+          payload?: Json
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      follows: {
+        Row: {
+          created_at: string
+          followee_id: string
+          follower_id: string
+        }
+        Insert: {
+          created_at?: string
+          followee_id: string
+          follower_id: string
+        }
+        Update: {
+          created_at?: string
+          followee_id?: string
+          follower_id?: string
+        }
+        Relationships: []
+      }
       league_groups: {
         Row: {
           band_max: number
@@ -419,6 +464,7 @@ export type Database = {
           min_per_page: number | null
           onboarding_step: string
           public_profile: boolean
+          reactions_seen_at: string | null
           reminder_time: string | null
           streak_best: number
           streak_current: number
@@ -450,6 +496,7 @@ export type Database = {
           min_per_page?: number | null
           onboarding_step?: string
           public_profile?: boolean
+          reactions_seen_at?: string | null
           reminder_time?: string | null
           streak_best?: number
           streak_current?: number
@@ -481,6 +528,7 @@ export type Database = {
           min_per_page?: number | null
           onboarding_step?: string
           public_profile?: boolean
+          reactions_seen_at?: string | null
           reminder_time?: string | null
           streak_best?: number
           streak_current?: number
@@ -490,6 +538,32 @@ export type Database = {
           xp_total?: number
         }
         Relationships: []
+      }
+      reactions: {
+        Row: {
+          created_at: string
+          event_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reactions_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "feed_events"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subjects: {
         Row: {
@@ -850,6 +924,19 @@ export type Database = {
         Args: { p_subject_id: string }
         Returns: undefined
       }
+      follow_user: { Args: { p_username: string }; Returns: boolean }
+      friends_feed: {
+        Args: never
+        Returns: {
+          created_at: string
+          id: string
+          is_demo: boolean
+          payload: Json
+          reacted: boolean
+          type: string
+          username: string
+        }[]
+      }
       is_admin: { Args: never; Returns: boolean }
       is_valid_timezone: { Args: { tz: string }; Returns: boolean }
       landing_stats: {
@@ -881,6 +968,15 @@ export type Database = {
           username: string
           week_start: string
           xp: number
+        }[]
+      }
+      league_suggestions: {
+        Args: never
+        Returns: {
+          following: boolean
+          is_demo: boolean
+          level: number
+          username: string
         }[]
       }
       league_week_xp: {
@@ -941,6 +1037,17 @@ export type Database = {
         Args: { s: Database["public"]["Tables"]["pomodoro_sessions"]["Row"] }
         Returns: number
       }
+      public_profile: { Args: { p_username: string }; Returns: Json }
+      received_reactions: {
+        Args: never
+        Returns: {
+          created_at: string
+          event_id: string
+          from_username: string
+          payload: Json
+          type: string
+        }[]
+      }
       record_calibration: {
         Args: {
           p_pages: number
@@ -976,6 +1083,16 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      search_profiles: {
+        Args: { p_prefix: string }
+        Returns: {
+          following: boolean
+          is_demo: boolean
+          level: number
+          username: string
+        }[]
+      }
+      send_reaction: { Args: { p_event: string }; Returns: boolean }
       start_pomodoro: {
         Args: { p_subject_id?: string; p_topic_id?: string }
         Returns: {
@@ -1001,6 +1118,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      unfollow_user: { Args: { p_username: string }; Returns: undefined }
       username_available: { Args: { p_username: string }; Returns: boolean }
     }
     Enums: {

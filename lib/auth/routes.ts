@@ -8,6 +8,7 @@ export const PROTECTED_PREFIXES = [
   "/conquistas",
   "/liga",
   "/social",
+  "/perfil",
   "/estatisticas",
   "/configuracoes",
   "/admin",
