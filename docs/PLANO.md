@@ -128,7 +128,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 ### Fase 5 — Social, ligas, estatísticas e YouTube (19–21/11)
 - [ ] Nome de usuário, perfil público (opt-in), seguir, buscar
 - [ ] Feed de conquistas de quem você segue + "Parabéns"
-- [ ] Ligas: agrupamento por divisão e faixa de horas, ranking semanal, cron de fechamento (Vercel Cron ou `pg_cron`) com promoção/rebaixamento
+- [x] Ligas: agrupamento por divisão e faixa de horas, ranking semanal, cron de fechamento (Vercel Cron) com promoção/rebaixamento — PR `fase-5-ligas` (apelido, tela de resultado, destaque do Competidor; faixas pequenas se juntam, DECISOES 11/11)
 - [ ] Estatísticas pessoais (§4.6)
 - [ ] Importação de playlist do YouTube (rota de servidor com a chave; vídeos viram tópicos com duração; unidade em minutos)
 

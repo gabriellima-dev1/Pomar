@@ -88,6 +88,8 @@ npm run db:seed:catalog  # carregar supabase/seed/catalog/*.json (lê .env.local
 npm run catalog:review   # regenerar docs/catalogo-revisao.md a partir dos JSONs
 npm run tokens           # regenerar app/tokens.css e docs/design/tokens.css a partir do tokens.json
 npm run demo:week -- <email> [dias] --confirmo  # conta de TESTE: pomodoros na semana passada (aceite da Fase 3)
+npm run league:close -- [--fechar-semana-atual] [--url URL] --confirmo  # virada da Feira pelo endpoint do cron (CRON_SECRET)
+npm run demo:league -- <email> [--divisao prata] --confirmo  # conta de TESTE num grupo da Feira com 12 contas demo (--remover apaga)
 ```
 (Ajuste esta seção se os scripts mudarem.)
 
