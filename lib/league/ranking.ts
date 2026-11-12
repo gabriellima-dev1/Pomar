@@ -2,8 +2,10 @@
  * Ranking e fechamento de um grupo da Feira (DESIGN §6.6, DECISOES 11/11).
  * - Ordem: XP da semana; empate → quem chegou primeiro ao XP (último ganho mais
  *   antigo); depois o apelido.
- * - Zonas só em grupos com 10 ou mais: 5 primeiros sobem, 5 últimos descem.
- *   Bronze não desce; Esmeralda não sobe. Só sobe quem fez XP na semana.
+ * - Como no Duolingo, só entra no ranking da semana quem ganhou XP nela: quem ficou
+ *   em 0 não aparece para os outros, não sobe, não desce e continua na divisão.
+ * - Zonas só com 10 ou mais participantes (com XP): 5 primeiros sobem, 5 últimos
+ *   descem. Bronze não desce; Esmeralda não sobe.
  */
 import { nextDivision, previousDivision, type Division } from "./divisions";
 import { MIN_FOR_ZONES } from "./grouping";
@@ -24,11 +26,17 @@ export type RankedStanding<T extends Standing = Standing> = T & { rank: number }
 
 export type GroupResult = {
   userId: string;
-  rank: number;
+  /** null = não entrou no ranking da semana (0 XP). */
+  rank: number | null;
   xp: number;
-  outcome: Outcome;
+  outcome: Outcome | null;
   division: Division;
 };
+
+/** Entrou no ranking da semana: ganhou XP nela (como no Duolingo). */
+export function isParticipant(s: Pick<Standing, "xp">): boolean {
+  return s.xp > 0;
+}
 
 export function rankStandings<T extends Standing>(rows: readonly T[]): RankedStanding<T>[] {
   return [...rows]
@@ -51,18 +59,21 @@ export function zones(size: number, division: Division): { up: number; down: num
   };
 }
 
-export function outcomeFor(rank: number, size: number, division: Division, xp: number): Outcome {
+export function outcomeFor(rank: number, size: number, division: Division): Outcome {
   const z = zones(size, division);
-  if (rank <= z.up && xp > 0) return "up";
+  if (rank <= z.up) return "up";
   if (rank > size - z.down) return "down";
   return "stay";
 }
 
-/** Resultado final de um grupo: posição, XP, saída e a divisão da semana seguinte. */
+/**
+ * Resultado final de um grupo: posição, XP, saída e a divisão da semana seguinte.
+ * Quem não entrou no ranking (0 XP) fica sem posição e sem saída, na mesma divisão.
+ */
 export function closeGroup(rows: readonly Standing[], division: Division): GroupResult[] {
-  const ranked = rankStandings(rows);
-  return ranked.map((r) => {
-    const outcome = outcomeFor(r.rank, ranked.length, division, r.xp);
+  const ranked = rankStandings(rows.filter(isParticipant));
+  const results: GroupResult[] = ranked.map((r) => {
+    const outcome = outcomeFor(r.rank, ranked.length, division);
     const next =
       outcome === "up"
         ? nextDivision(division)
@@ -71,4 +82,8 @@ export function closeGroup(rows: readonly Standing[], division: Division): Group
           : division;
     return { userId: r.userId, rank: r.rank, xp: r.xp, outcome, division: next ?? division };
   });
+  for (const r of rows.filter((x) => !isParticipant(x))) {
+    results.push({ userId: r.userId, rank: null, xp: 0, outcome: null, division });
+  }
+  return results;
 }

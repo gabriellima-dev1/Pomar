@@ -207,9 +207,20 @@ describe("ranking e zonas", () => {
     expect(result[14]!.outcome).toBe("stay");
   });
 
-  it("quem não fez XP não sobe, mesmo entre os 5 primeiros", () => {
+  it("como no Duolingo, quem ficou em 0 XP não entra no ranking", () => {
+    // 12 no grupo, só 10 com XP: as zonas contam só os 10 participantes.
+    const result = closeGroup(standings([100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0, 0]), "prata");
+    const out = result.filter((r) => r.rank === null);
+    expect(out).toHaveLength(2);
+    expect(out.every((r) => r.outcome === null && r.division === "prata" && r.xp === 0)).toBe(true);
+    expect(result.filter((r) => r.outcome === "up")).toHaveLength(5);
+    expect(result.filter((r) => r.outcome === "down").map((r) => r.rank)).toEqual([6, 7, 8, 9, 10]);
+  });
+
+  it("com menos de 10 participantes, ninguém se move (mesmo com o grupo cheio)", () => {
     const result = closeGroup(standings([30, 20, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0]), "bronze");
-    expect(result.filter((r) => r.outcome === "up").map((r) => r.rank)).toEqual([1, 2, 3]);
+    expect(result.filter((r) => r.outcome === "stay").map((r) => r.rank)).toEqual([1, 2, 3]);
+    expect(result.filter((r) => r.outcome === null)).toHaveLength(9);
   });
 
   it("divisões vizinhas", () => {
