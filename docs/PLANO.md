@@ -58,7 +58,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 
 > As telas que não forem desenhadas (estatísticas, configurações, admin, transparência) seguem os componentes do design system, sem mockup próprio.
 
-**Entregue em 09/11 (onda 1):** `docs/design/` com tokens, `telas.md`, imagens das telas da Fase 2 e das 4 cenas, cenas animadas, ícones dos emblemas e Seu Tomás. **Entregue em 10/11 (onda 2, gamificação):** seção "Fase 3" do `telas.md`, referências `09`–`14` (conquistas, fruto de ontem, subida de nível, tema desbloqueado), medalhas em `docs/design/colheitas/` e tokens `medal-*`. **Entregue em 10/11 (onda 3, landing e onboarding):** seção "Fase 4" e "Computador e tablet" do `telas.md`, referências `15`–`22`, `docs/design/quiz-bartle.json` e tokens `medal-esmeralda*`. Próxima onda: liga, social, estatísticas, configurações, transparência e admin (antes da Fase 5).
+**Entregue em 09/11 (onda 1):** `docs/design/` com tokens, `telas.md`, imagens das telas da Fase 2 e das 4 cenas, cenas animadas, ícones dos emblemas e Seu Tomás. **Entregue em 10/11 (onda 2, gamificação):** seção "Fase 3" do `telas.md`, referências `09`–`14` (conquistas, fruto de ontem, subida de nível, tema desbloqueado), medalhas em `docs/design/colheitas/` e tokens `medal-*`. **Entregue em 10/11 (onda 3, landing e onboarding):** seção "Fase 4" e "Computador e tablet" do `telas.md`, referências `15`–`22`, `docs/design/quiz-bartle.json` e tokens `medal-esmeralda*`. **Entregue em 11/11 (onda 4, Fase 5):** seção "Fase 5" do `telas.md` e referências `23`–`30` (Feira, apelido, resultado da semana, amigos, busca, perfil público, estatísticas, YouTube). Próxima onda: configurações, transparência e admin (antes da Fase 6).
 
 ---
 
@@ -175,7 +175,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 > Fase 4 do docs/PLANO.md. Leia as seções "Fase 4" e "Computador e tablet" de docs/design/telas.md, as imagens docs/design/referencias/15 a 22 e docs/design/quiz-bartle.json. Revise se todos os eventos do DESIGN.md §9.1 estão instrumentados e me liste os que faltavam. Plano primeiro.
 
 **Fase 5**
-> Fase 5 do docs/PLANO.md. Comece pelas ligas (mais críticas para a apresentação), depois social, estatísticas e YouTube. Plano primeiro.
+> Fase 5 do docs/PLANO.md. Leia a seção "Fase 5" de docs/design/telas.md e as imagens docs/design/referencias/23 a 30. Comece pelas ligas (mais críticas para a apresentação), depois social, estatísticas e YouTube. Plano primeiro.
 
 **Fase 6**
 > Fase 6 do docs/PLANO.md. Em seguida, rode o checklist de ética do DESIGN.md §10 item por item e me mostre o resultado. Plano primeiro.
