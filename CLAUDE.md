@@ -90,6 +90,9 @@ npm run tokens           # regenerar app/tokens.css e docs/design/tokens.css a p
 npm run demo:week -- <email> [dias] --confirmo  # conta de TESTE: pomodoros na semana passada (aceite da Fase 3)
 npm run league:close -- [--fechar-semana-atual] [--url URL] --confirmo  # virada da Feira pelo endpoint do cron (CRON_SECRET)
 npm run demo:league -- <email> [--divisao prata] --confirmo  # conta de TESTE num grupo da Feira com 12 contas demo (--remover apaga)
+npm run fluxos:preparar -- --confirmo   # contas de exemplo fluxo.carla/diego/elisa (is_demo) com dados prontos
+npm run fluxos:capturar                 # capturas das telas em .fluxos/ (app em next start -p 3100)
+npm run fluxos:galeria                  # monta .fluxos/galeria.html a partir das capturas
 ```
 (Ajuste esta seção se os scripts mudarem.)
 
