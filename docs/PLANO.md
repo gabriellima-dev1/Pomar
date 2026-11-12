@@ -121,9 +121,9 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [x] Revisão de todos os eventos de telemetria do §9.1 — 19 de 23 já estavam registrados; faltavam `onboarding_quiz_completed` e `league_opt_in_choice` (entraram agora) e `follow_created`/`reaction_sent` (Fase 5)
 - [x] Atribuição de coorte A/B no cadastro (flag `rewards_enabled`)
 - [x] Adaptação para computador e tablet (barra lateral, grades, folhas viram diálogos) conforme `docs/design/telas.md` › Computador e tablet
-- [ ] **18/11: link de produção enviado aos colegas**
+- ~~**18/11: link de produção enviado aos colegas**~~ → movido para a Fase 7 (decisão de 11/11)
 
-**Aceite:** uma pessoa que nunca viu o app consegue, sozinha, chegar ao fim do 1º pomodoro; o funil aparece populado na tabela de eventos. — **pendente da dupla. Migrações aplicadas em 11/11; RLS verificada com `supabase/tests/rls_fase4.sql` (18 testes, com rollback). Fluxo completo testado pelo Claude Code no localhost com a conta `teste.fase4.…@example.com` (`is_demo`): funil registrado de `signup_completed` a `pomodoro_completed`.**
+**Aceite:** uma pessoa que nunca viu o app consegue, sozinha, chegar ao fim do 1º pomodoro; o funil aparece populado na tabela de eventos. — **movido para a Fase 7 (decisão de 11/11). Migrações aplicadas em 11/11; RLS verificada com `supabase/tests/rls_fase4.sql` (18 testes, com rollback). Fluxo completo testado pelo Claude Code no localhost com a conta `teste.fase4.…@example.com` (`is_demo`): funil registrado de `signup_completed` a `pomodoro_completed`.**
 
 ### Fase 5 — Social, ligas, estatísticas e YouTube (19–21/11)
 - [ ] Nome de usuário, perfil público (opt-in), seguir, buscar
@@ -152,6 +152,8 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Slides (no chat, com o tipo Slides) e roteiro da demonstração
 - [ ] Conta de demonstração com tudo desbloqueado e dados preparados
 - [ ] Ensaio cronometrado da apresentação
+- [ ] Aceite da Fase 4: uma pessoa que nunca viu o app chega, sozinha, ao fim do 1º pomodoro; o funil aparece populado na tabela de eventos (adiado da Fase 4 em 11/11)
+- [ ] Link de produção enviado aos colegas (adiado da Fase 4 em 11/11)
 
 ---
 
