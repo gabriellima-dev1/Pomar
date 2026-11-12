@@ -17,8 +17,10 @@ export type LeagueGroupView = {
   division: Division;
   bandMin: BandIndex;
   bandMax: BandIndex;
+  /** Quem entrou no ranking da semana (ganhou XP), já em ordem. */
   rows: LeagueRow[];
-  me: LeagueRow;
+  /** A pessoa no ranking; null = ainda sem XP nesta semana (como no Duolingo). */
+  me: LeagueRow | null;
 };
 
 export type LeagueView = {
@@ -51,27 +53,26 @@ export const getLeagueView = cache(async (userId: string): Promise<LeagueView> =
   let group: LeagueGroupView | null = null;
   if (first) {
     const rows = rankStandings(
-      list.map((s, i) => ({
-        userId: s.is_me ? "eu" : `${i}`,
-        username: s.username,
-        xp: s.xp,
-        lastXpAt: s.last_xp_at,
-        isMe: s.is_me,
-        isDemo: s.is_demo,
-        publicProfile: s.public_profile,
-      })),
+      list
+        .filter((s) => s.xp > 0)
+        .map((s, i) => ({
+          userId: s.is_me ? "eu" : `${i}`,
+          username: s.username,
+          xp: s.xp,
+          lastXpAt: s.last_xp_at,
+          isMe: s.is_me,
+          isDemo: s.is_demo,
+          publicProfile: s.public_profile,
+        })),
     );
-    const me = rows.find((r) => r.isMe);
-    if (me) {
-      group = {
-        week: first.week_start,
-        division: isDivision(first.division) ? first.division : "bronze",
-        bandMin: band(first.band_min),
-        bandMax: band(first.band_max),
-        rows,
-        me,
-      };
-    }
+    group = {
+      week: first.week_start,
+      division: isDivision(first.division) ? first.division : "bronze",
+      bandMin: band(first.band_min),
+      bandMax: band(first.band_max),
+      rows,
+      me: rows.find((r) => r.isMe) ?? null,
+    };
   }
   return {
     optIn: p?.league_opt_in ?? null,

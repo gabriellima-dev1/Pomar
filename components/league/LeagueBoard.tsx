@@ -24,7 +24,9 @@ export function LeagueHeader({ group, closesIn }: { group: LeagueGroupView; clos
           Feira de {DIVISION_LABEL[group.division]}
         </h2>
         <p className="text-small text-ink-muted font-semibold">
-          {groupSubtitle(group.rows.length, group.bandMin, group.bandMax)}
+          {group.rows.length > 0
+            ? groupSubtitle(group.rows.length, group.bandMin, group.bandMax)
+            : "Ninguém entrou no ranking desta semana ainda"}
         </p>
       </div>
       <p className="flex shrink-0 flex-col items-end text-right">
@@ -99,7 +101,8 @@ function ZoneDivider({ kind, text }: { kind: "up" | "down"; text: string }) {
 
 /**
  * Ranking por XP da semana (telas.md › 23): até 8 linhas em volta da pessoa, divisórias
- * de zona (só em grupos com 10 ou mais) e "Ver o grupo todo".
+ * de zona (só com 10 ou mais no ranking) e "Ver o grupo todo". Como no Duolingo, só
+ * aparece quem ganhou XP na semana; quem ainda não ganhou vê o convite para entrar.
  */
 export function LeagueTable({
   group,
@@ -117,27 +120,34 @@ export function LeagueTable({
 }) {
   const { rows, division } = group;
   const size = rows.length;
-  const [start, end] = showAll ? [0, size] : visibleWindow(size, group.me.rank - 1);
+  const [start, end] = showAll ? [0, size] : visibleWindow(size, (group.me?.rank ?? 1) - 1);
   const next = nextDivision(division);
   const previous = previousDivision(division);
   const z = zones(size, division);
 
   return (
     <section aria-label="Ranking da semana" className={`${cardClasses} flex flex-col gap-3 p-3`}>
-      <ol className="flex flex-col gap-1">
-        {rows.slice(start, end).map((row) => {
-          const divider = dividerAfter(row.rank, size, division, next, previous);
-          return (
-            <Fragment key={row.userId}>
-              <Row row={row} inUpZone={row.rank <= z.up} profileLinks={profileLinks} />
-              {divider && row.rank < end && <ZoneDivider {...divider} />}
-            </Fragment>
-          );
-        })}
-      </ol>
-      {size < MIN_FOR_ZONES && (
+      {!group.me && (
+        <p className="bg-fruit-soft text-ink rounded-md px-4 py-3 font-semibold">
+          Conclua um pomodoro para entrar no ranking desta semana. Até lá, você não sobe nem desce.
+        </p>
+      )}
+      {size > 0 && (
+        <ol className="flex flex-col gap-1">
+          {rows.slice(start, end).map((row) => {
+            const divider = dividerAfter(row.rank, size, division, next, previous);
+            return (
+              <Fragment key={row.userId}>
+                <Row row={row} inUpZone={row.rank <= z.up} profileLinks={profileLinks} />
+                {divider && row.rank < end && <ZoneDivider {...divider} />}
+              </Fragment>
+            );
+          })}
+        </ol>
+      )}
+      {size > 0 && size < MIN_FOR_ZONES && (
         <p className="text-small text-ink-muted px-3">
-          Grupo pequeno: ninguém sobe nem desce nesta semana.
+          Com menos de 10 pessoas no ranking, ninguém sobe nem desce nesta semana.
         </p>
       )}
       {size > end - start && (

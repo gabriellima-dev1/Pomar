@@ -115,9 +115,10 @@ export function UsernameForm({
         <span className="flex flex-col gap-1">
           <span className="font-extrabold">Deixar meu perfil público</span>
           <span className="text-ink-muted">
-            Quem tiver seu apelido pode ver seu nível, sua árvore, a ofensiva, os emblemas e as
-            conquistas recentes (como um capítulo concluído, com o nome da disciplina), e seguir
-            você. Desmarcado, só o apelido e o XP da semana aparecem na Feira.
+            Qualquer pessoa com o link do seu perfil, mesmo sem conta no Pomar, pode ver seu nível,
+            sua árvore, a ofensiva, os emblemas e as conquistas recentes (como um capítulo
+            concluído, com o nome da disciplina). Quem tem conta também pode seguir você.
+            Desmarcado, só o apelido e o XP da semana aparecem na Feira.
           </span>
         </span>
       </label>

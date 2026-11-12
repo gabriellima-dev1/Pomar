@@ -151,20 +151,46 @@ function ExplorerCard({ history, focus }: HighlightData) {
 function CompetitorCard(data: HighlightData) {
   const { account, league } = data;
   const group = league?.group;
-  if (account.leagueOptIn && group) {
-    const z = zones(group.rows.length, group.division);
-    const inUp = group.me.rank <= z.up;
-    const inDown = z.down > 0 && group.me.rank > group.rows.length - z.down;
+  if (account.leagueOptIn && group && !group.me) {
     return (
       <section aria-labelledby="destaque" className={card}>
         <div className="flex items-center gap-4">
           <DivisionMedal division={group.division} size={48} />
           <div className="flex min-w-0 flex-1 flex-col">
             <h2 id="destaque" className="text-heading">
-              {group.me.rank}º na Feira de {DIVISION_LABEL[group.division]}
+              Feira de {DIVISION_LABEL[group.division]}
             </h2>
             <p className="text-small text-ink-muted font-semibold">
-              {group.me.xp} XP nesta semana · {group.rows.length} pessoas
+              {group.rows.length === 1 ? "1 pessoa" : `${group.rows.length} pessoas`} no ranking
+              desta semana
+            </p>
+          </div>
+        </div>
+        <p>Conclua um pomodoro para entrar no ranking desta semana.</p>
+        <Link
+          href="/liga"
+          className="text-primary self-start font-extrabold underline underline-offset-4"
+        >
+          Ver a Feira
+        </Link>
+      </section>
+    );
+  }
+  if (account.leagueOptIn && group?.me) {
+    const me = group.me;
+    const z = zones(group.rows.length, group.division);
+    const inUp = me.rank <= z.up;
+    const inDown = z.down > 0 && me.rank > group.rows.length - z.down;
+    return (
+      <section aria-labelledby="destaque" className={card}>
+        <div className="flex items-center gap-4">
+          <DivisionMedal division={group.division} size={48} />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <h2 id="destaque" className="text-heading">
+              {me.rank}º na Feira de {DIVISION_LABEL[group.division]}
+            </h2>
+            <p className="text-small text-ink-muted font-semibold">
+              {me.xp} XP nesta semana · {group.rows.length} pessoas
             </p>
           </div>
         </div>
