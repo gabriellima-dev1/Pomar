@@ -2,6 +2,8 @@ import "server-only";
 import { addDays, localDay, weekStart } from "@/lib/dates";
 import { createAdminClient, type AdminClient } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/database.types";
+import { completionDrafts, dayCloseDrafts, levelDraft } from "@/lib/social/feed";
+import { recordFeed, rewardsFor } from "@/lib/social/service";
 import type { EventName, EventProps } from "@/lib/telemetry/events";
 import { cryptoRandom } from "./badges";
 import { badgeInfo } from "./catalog";
@@ -13,7 +15,7 @@ import {
   type SessionRecord,
 } from "./close";
 import type { Tier } from "./harvest";
-import { levelForXp, stageForLevel } from "./levels";
+import { levelForXp, stageChanged, stageForLevel } from "./levels";
 import { completionAwards, pomodoroAwards, type XpEvent } from "./xp";
 
 /**
@@ -53,6 +55,11 @@ async function applyXp(admin: AdminClient, userId: string, events: XpEvent[]): P
     await admin.from("profiles").update({ level: levelTo }).eq("id", userId);
     if (levelTo > levelFrom) {
       await trackAs(admin, userId, "level_up", { level: levelTo, stage: stageForLevel(levelTo) });
+      // Subida de estágio da árvore vai para o feed de quem segue (só coorte A).
+      if (stageChanged(levelFrom, levelTo)) {
+        const draft = levelDraft(levelFrom, levelTo, await rewardsFor(admin, userId));
+        if (draft) await recordFeed(admin, userId, [draft]);
+      }
     }
   }
   return { xpGained, xpTotal: row.new_total, levelFrom, levelTo };
@@ -111,13 +118,14 @@ export async function awardCompletion(
   if (!topic || topic.chapters.subjects.user_id !== userId || !topic.done_at) return null;
   const subjectId = topic.chapters.subject_id;
 
-  const [{ data: chapters }, { count }] = await Promise.all([
-    admin.from("chapters").select("id, topics(done_at)").eq("subject_id", subjectId),
+  const [{ data: chapters }, { count }, { data: subject }] = await Promise.all([
+    admin.from("chapters").select("id, position, topics(done_at)").eq("subject_id", subjectId),
     admin
       .from("pomodoro_sessions")
       .select("id", { count: "exact", head: true })
       .eq("subject_id", subjectId)
       .eq("status", "completed"),
+    admin.from("subjects").select("title").eq("id", subjectId).maybeSingle(),
   ]);
   const all = chapters ?? [];
   const own = all.find((c) => c.id === topic.chapter_id);
@@ -132,7 +140,21 @@ export async function awardCompletion(
     subjectAllDone: all.length > 0 && all.every(done),
   });
   if (events.length === 0) return null;
-  return applyXp(admin, userId, events);
+  const result = await applyXp(admin, userId, events);
+
+  // Capítulo e disciplina concluídos vão para o feed (as duas coortes). A mesma trava
+  // do XP vale aqui: só com pomodoro na disciplina; a chave impede repetir.
+  const keys = new Set(events.map((e) => e.dedupe_key));
+  await recordFeed(
+    admin,
+    userId,
+    completionDrafts({
+      subject: { id: subjectId, title: subject?.title ?? "" },
+      chapter: own && keys.has(`chapter:${own.id}`) ? { id: own.id, position: own.position } : null,
+      subjectDone: keys.has(`subject:${subjectId}`),
+    }),
+  );
+  return result;
 }
 
 const ACTIVE_STATUSES = ["completed", "cancelled"] as const;
@@ -255,6 +277,19 @@ export async function ensureDaysClosed(userId: string, now = new Date()): Promis
     }
     for (const h of result.harvests.filter((x) => x.upgraded)) {
       await trackAs(admin, userId, "harvest_awarded", { tier: h.tier, days: h.days });
+    }
+    // Emblema raro e colheita vão para o feed de quem segue (só coorte A).
+    const upgraded = result.harvests.filter((x) => x.upgraded);
+    if (upgraded.length > 0 || result.badges.length > 0) {
+      await recordFeed(
+        admin,
+        userId,
+        dayCloseDrafts({
+          rewards: await rewardsFor(admin, userId),
+          badges: result.badges,
+          harvests: upgraded,
+        }),
+      );
     }
   }
 

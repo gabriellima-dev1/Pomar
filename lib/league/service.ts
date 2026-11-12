@@ -1,5 +1,7 @@
 import "server-only";
 import { addDays } from "@/lib/dates";
+import { divisionDraft } from "@/lib/social/feed";
+import { recordFeed } from "@/lib/social/service";
 import { createAdminClient, type AdminClient } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/database.types";
 import { weeklyHours } from "./bands";
@@ -127,7 +129,12 @@ export async function closeWeek(week: string, admin = createAdminClient()): Prom
     })) as unknown as Json,
   });
   if (error) throw new Error(`apply_league_close: ${error.message}`);
-  return closed === true;
+  if (closed !== true) return false;
+  // Subida de divisão vai para o feed de quem segue.
+  for (const r of results.filter((x) => x.outcome === "up")) {
+    await recordFeed(admin, r.userId, [divisionDraft(week, r.division)]);
+  }
+  return true;
 }
 
 export type RolloverReport = { closed: string[]; opened: string | null };
