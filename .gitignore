@@ -30,3 +30,6 @@ supabase/.branches/
 npm-debug.log*
 /build
 *.pem
+
+# fluxos de telas: capturas e senhas das contas de exemplo (docs/fluxos/PLANO.md)
+/.fluxos/

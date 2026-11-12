@@ -1,7 +1,7 @@
 # Plano — fluxos de telas com casos de exemplo
 
 > Para a dupla decidir como as telas devem funcionar vendo o que a plataforma mostra de verdade, em situações concretas, e não em telas soltas.
-> Status: **proposta**, aguardando aprovação. Nada foi gerado ainda.
+> Status: **primeira rodada gerada em 12/11** com Carla, Diego e Elisa (31 telas, celular e computador), sem tablet e sem os 4 temas (decisão da dupla em 12/11). Galeria privada: https://claude.ai/artifact/Kf1HJe1eZKncPjkLAz6znW
 
 ## 1. O que vamos entregar
 
@@ -59,7 +59,15 @@ Estimativa: **cerca de 90 telas** (≈ 180 imagens).
 3. **`docs/fluxos/roteiro.json`:** a lista de passos de cada persona, com URL, ação, legenda, regra e pontos de decisão. A galeria é montada a partir dele.
 4. **Galeria:** uma página privada (Artifact) com os fluxos em sequência, em que vocês dois comentam em cada tela. As imagens não vão para o git (≈ 25 MB); ficam na galeria e numa pasta local ignorada.
 
-Rodar de novo depois de uma mudança: `npm run fluxos:preparar` e `npm run fluxos:capturar`.
+Rodar de novo depois de uma mudança (com `npm run build && npx next start -p 3100` em outro terminal):
+
+```
+npm run fluxos:preparar -- --confirmo
+npm run fluxos:capturar
+npm run fluxos:galeria      # gera .fluxos/galeria.html; depois o Claude Code republica no mesmo link
+```
+
+As senhas das contas de exemplo ficam em `.fluxos/senhas.json` (fora do git). Ao fim da captura, as personas saem da Feira para não entrarem nos grupos reais; `fluxos:preparar` põe de volta.
 
 ## 5. Como usar para decidir
 
