@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { Stage } from "@/lib/gamification/levels";
 import type { ThemeCode } from "@/lib/gamification/themes";
+import {
+  panoramaWidth,
+  SCENE_H,
+  SCENE_W,
+  sidePanelCount,
+  sidePanelTransform,
+} from "@/lib/design/panorama";
 import { THEMES } from "@/themes";
 import {
   ClassicoLayers,
@@ -12,6 +19,9 @@ import {
   type LayerProps,
 } from "./layers";
 import s from "./Scene.module.css";
+
+const DEFAULT_VIEWBOX = `0 0 ${SCENE_W} ${SCENE_H}`;
+const DEFAULT_ASPECT = "xMidYMax meet";
 
 const LAYERS: Record<ThemeCode, (p: LayerProps) => React.ReactNode> = {
   classico: ClassicoLayers,
@@ -37,8 +47,8 @@ export function Scene({
   still = false,
   orchard = true,
   withTimer = false,
-  viewBox = "0 0 390 844",
-  preserveAspectRatio = "xMidYMax meet",
+  viewBox = DEFAULT_VIEWBOX,
+  preserveAspectRatio = DEFAULT_ASPECT,
   className = "absolute inset-0 h-full w-full",
 }: {
   theme: ThemeCode;
@@ -62,6 +72,20 @@ export function Scene({
 }) {
   const [hidden, setHidden] = useState(false);
   const uid = useId().replace(/[^a-zA-Z0-9-]/g, "");
+  const ref = useRef<SVGSVGElement>(null);
+  // Só o enquadramento padrão (tela cheia) se estende para os lados.
+  const panoramic = viewBox === DEFAULT_VIEWBOX && preserveAspectRatio === DEFAULT_ASPECT;
+  const [width, setWidth] = useState(SCENE_W);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!panoramic || !el || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry) setWidth(panoramaWidth(entry.contentRect.width, entry.contentRect.height));
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [panoramic]);
 
   useEffect(() => {
     if (still) return;
@@ -86,15 +110,66 @@ export function Scene({
     />
   );
 
+  // Painéis laterais: paisagem parada, sem árvore do pomar e sem lua/estrela, para a
+  // cena continuar com no máximo 5 camadas animadas e 20 partículas (§6.7).
+  const sides = panoramic ? sidePanelCount(width) : 0;
+  const panels = Array.from({ length: sides }, (_, i) => [i + 1, -(i + 1)]).flat();
+  const shownViewBox =
+    panoramic && width > SCENE_W ? `${-(width - SCENE_W) / 2} 0 ${width} ${SCENE_H}` : viewBox;
+
   return (
     <svg
-      viewBox={viewBox}
+      ref={ref}
+      viewBox={shownViewBox}
       preserveAspectRatio={preserveAspectRatio}
       className={`${className} ${still ? s.still : hidden ? s.hidden : ""}`}
       aria-hidden
     >
       {/* Paisagem espelhada = árvore à esquerda (Noturno, §6.7). */}
       {layout.mirror ? <g transform="translate(390 0) scale(-1 1)">{layers}</g> : layers}
+      {/* Painéis por cima da central (o céu e o campo dela se estendem), do mais distante
+          para o mais próximo. Cada um fica recortado na própria faixa de 390 e avança 1
+          unidade para dentro, por baixo do vizinho mais próximo do centro: a emenda não
+          deixa pixel vazio. Máscara (e não clipPath): ela recorta o painel já montado; o
+          clipPath recortava camada por camada e a emenda virava um traço claro. */}
+      {panels.length > 0 && (
+        <defs>
+          {panels.map((k) => {
+            const n = Math.abs(k);
+            const x = k > 0 ? SCENE_W * n - 1 : -SCENE_W * n;
+            return (
+              <mask
+                key={k}
+                id={`cena${uid}-painel${k}`}
+                maskUnits="userSpaceOnUse"
+                x={x}
+                y="0"
+                width={SCENE_W + 1}
+                height={SCENE_H}
+              >
+                <rect x={x} y="0" width={SCENE_W + 1} height={SCENE_H} fill="white" />
+              </mask>
+            );
+          })}
+        </defs>
+      )}
+      {[...panels].reverse().map((k) => (
+        <g key={k} mask={`url(#cena${uid}-painel${k})`} className={s.still}>
+          <g transform={sidePanelTransform(k)}>
+            <g transform={layout.mirror ? "translate(390 0) scale(-1 1)" : undefined}>
+              <Layers
+                layout={layout}
+                stage={stage}
+                progress={0}
+                harvested={false}
+                orchard={false}
+                celestial={false}
+                uid={`cena${uid}p${k < 0 ? "e" : "d"}${Math.abs(k)}`}
+              />
+            </g>
+          </g>
+        </g>
+      ))}
     </svg>
   );
 }

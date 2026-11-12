@@ -8,7 +8,10 @@ const nextConfig: NextConfig = {
   images: { remotePatterns: [{ protocol: "https", hostname: "i.ytimg.com" }] },
   turbopack: {
     rules: {
+      // CSS Modules (cenas e revelações) ficam fora: passar por este loader apagava as
+      // classes deles e desligava todas as animações das cenas.
       "*.css": {
+        condition: { not: { path: /\.module\.css$/ } },
         loaders: ["@tailwindcss/turbopack"],
         as: "*.css",
       },
