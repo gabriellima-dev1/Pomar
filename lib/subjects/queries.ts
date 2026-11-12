@@ -67,7 +67,7 @@ export async function listSubjects() {
   const { data, error } = await supabase
     .from("subjects")
     .select(
-      "id, title, color, source, goal_date, min_per_page, video_speed, created_at, catalog_books(authors, edition), chapters(position, topics(id, position, title, page_start, page_end, duration_sec, done_at))",
+      "id, title, color, source, goal_date, daily_goal, min_per_page, video_speed, created_at, catalog_books(authors, edition), chapters(position, topics(id, position, title, page_start, page_end, duration_sec, done_at))",
     )
     .eq("archived", false)
     .order("created_at", { ascending: false });
@@ -149,6 +149,17 @@ export const getStudyHistory = cache(async (timeZone: string) => {
     .order("ended_at", { ascending: false })
     .limit(2000);
   return summarizeHistory(data ?? [], timeZone);
+});
+
+/** Ciclos concluídos dos últimos 8 dias, inclusive sessões livres (destaque do Início). */
+export const getRecentFocusSessions = cache(async () => {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("pomodoro_sessions")
+    .select("subject_id, started_at, ended_at, paused_sec")
+    .eq("status", "completed")
+    .gte("ended_at", new Date(Date.now() - 8 * 86_400_000).toISOString());
+  return data ?? [];
 });
 
 /** Disciplinas na ordem do Início: a última estudada primeiro; sem estudo, a mais nova. */

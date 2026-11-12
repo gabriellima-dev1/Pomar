@@ -33,10 +33,13 @@ export function Dialog({
     if (!open && el.open) el.close();
   }, [open]);
 
+  // A partir de 1024px, folha e card viram diálogo centralizado de até 480px com os 4
+  // cantos arredondados (telas.md › Computador e tablet).
+  const centered = "lg:inset-0 lg:m-auto lg:h-fit lg:w-full lg:max-w-[480px] lg:rounded-lg";
   const shape =
     variant === "sheet"
-      ? "inset-x-0 bottom-0 mx-auto w-full max-w-app rounded-t-lg px-4 pt-3 pb-6"
-      : "inset-x-4 bottom-4 mx-auto w-[calc(100%-2rem)] max-w-[calc(var(--screen-max)-2rem)] rounded-lg px-6 pt-6 pb-6";
+      ? `inset-x-0 bottom-0 mx-auto w-full max-w-app rounded-t-lg px-4 pt-3 pb-6 lg:px-6 lg:pt-6 ${centered}`
+      : `inset-x-4 bottom-4 mx-auto w-[calc(100%-2rem)] max-w-[calc(var(--screen-max)-2rem)] rounded-lg px-6 pt-6 pb-6 ${centered}`;
 
   return (
     <dialog
@@ -52,7 +55,7 @@ export function Dialog({
       className={`bg-surface-200 text-ink shadow-dialog backdrop:bg-scrim fixed top-auto m-0 max-h-[90dvh] overflow-y-auto ${shape} open:animate-[sheet-up_200ms_ease-out]`}
     >
       {variant === "sheet" && (
-        <div aria-hidden className="bg-line mx-auto mb-4 h-1.5 w-10 rounded-full" />
+        <div aria-hidden className="bg-line mx-auto mb-4 h-1.5 w-10 rounded-full lg:hidden" />
       )}
       {children}
     </dialog>

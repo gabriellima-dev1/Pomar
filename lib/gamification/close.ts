@@ -34,7 +34,6 @@ export type CloseInput = {
   /** Instantes em que cada capítulo ficou completo (último tópico marcado). */
   chapterCompletions: readonly string[];
   dailyGoals: ReadonlyMap<string, number>;
-  reminderTime: string | null;
   /** Dias que já têm emblema (para contar a colheita de semanas já começadas). */
   existingBadgeDays: readonly string[];
   existingHarvests: readonly HarvestRecord[];
@@ -129,7 +128,6 @@ export function closeDays(input: CloseInput): CloseResult {
       startedSubjectOrChapter,
       finishedChapter: chapterDays.has(day),
       dailyGoals: input.dailyGoals,
-      reminderTime: input.reminderTime,
     });
     badges.push({ day, code: drawBadge(eligible, input.rng) });
   }

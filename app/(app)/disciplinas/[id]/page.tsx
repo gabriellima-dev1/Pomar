@@ -138,88 +138,95 @@ export default async function DisciplinaPage({
         </div>
       </header>
 
-      {query.calibrado && <Notice>Ritmo calibrado! As estimativas já usam o novo valor.</Notice>}
+      {/* Computador: capítulos à esquerda e mini-cards numa coluna de 320px à direita. */}
+      <div className="flex flex-col gap-5 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-6">
+        <aside className="flex flex-col gap-5 lg:sticky lg:top-10 lg:col-start-2 lg:row-start-1">
+          {query.calibrado && (
+            <Notice>Ritmo calibrado! As estimativas já usam o novo valor.</Notice>
+          )}
 
-      <dl className="grid grid-cols-3 gap-2">
-        <MiniStat
-          label={unit === "paginas" ? "Páginas" : "Minutos"}
-          value={`${progress.done} / ${progress.total}`}
-        />
-        <MiniStat
-          label="Seu ritmo"
-          value={
-            unit === "paginas"
-              ? `${formatPace(pace.minPerPage).replace(" min", "")} min/pág`
-              : `${subject.video_speed.toLocaleString("pt-BR")}×`
-          }
-        />
-        <MiniStat label="Término" value={finishDay ? `~${shortDate(finishDay)}` : "—"} />
-      </dl>
+          <dl className="grid grid-cols-3 gap-2 lg:grid-cols-1">
+            <MiniStat
+              label={unit === "paginas" ? "Páginas" : "Minutos"}
+              value={`${progress.done} / ${progress.total}`}
+            />
+            <MiniStat
+              label="Seu ritmo"
+              value={
+                unit === "paginas"
+                  ? `${formatPace(pace.minPerPage).replace(" min", "")} min/pág`
+                  : `${subject.video_speed.toLocaleString("pt-BR")}×`
+              }
+            />
+            <MiniStat label="Término" value={finishDay ? `~${shortDate(finishDay)}` : "—"} />
+          </dl>
 
-      {unit === "paginas" && pace.source === "padrao" && (
-        <p className="text-small text-ink-muted">
-          Estimativa padrão de 3 min por página.{" "}
-          <Link
-            href={`/disciplinas/${subject.id}/calibrar`}
-            className="text-primary font-extrabold underline underline-offset-4"
-          >
-            Calibre seu ritmo
-          </Link>{" "}
-          para eu acertar as contas.
-        </p>
-      )}
-      {subject.goal_date && (
-        <p className="text-small text-ink-muted">
-          Prova em {shortDate(subject.goal_date)}
-          {finishDay
-            ? ` · no seu ritmo atual, ${goalComparison(finishDay, subject.goal_date)}.`
-            : ". A previsão de término aparece depois dos seus primeiros pomodoros."}
-        </p>
-      )}
-      {approx && <ApproxPagesNotice />}
+          {unit === "paginas" && pace.source === "padrao" && (
+            <p className="text-small text-ink-muted">
+              Estimativa padrão de 3 min por página.{" "}
+              <Link
+                href={`/disciplinas/${subject.id}/calibrar`}
+                className="text-primary font-extrabold underline underline-offset-4"
+              >
+                Calibre seu ritmo
+              </Link>{" "}
+              para eu acertar as contas.
+            </p>
+          )}
+          {subject.goal_date && (
+            <p className="text-small text-ink-muted">
+              Prova em {shortDate(subject.goal_date)}
+              {finishDay
+                ? ` · no seu ritmo atual, ${goalComparison(finishDay, subject.goal_date)}.`
+                : ". A previsão de término aparece depois dos seus primeiros pomodoros."}
+            </p>
+          )}
+          {approx && <ApproxPagesNotice />}
+        </aside>
 
-      <ol className="flex flex-col gap-5">
-        {subject.chapters.map((chapter) => {
-          const done = chapter.topics.filter((t) => t.done_at).length;
-          const complete = chapter.topics.length > 0 && done === chapter.topics.length;
-          return (
-            <li key={chapter.id}>
-              <Card className="flex flex-col gap-2 px-3 pt-4 pb-3">
-                <h2 className="flex items-center justify-between gap-2 px-1">
-                  <span className="text-heading">{chapter.title}</span>
-                  {complete ? (
-                    <span className="bg-primary-soft text-primary-strong text-small shrink-0 rounded-full px-3 py-0.5 font-extrabold">
-                      Concluído
-                    </span>
+        <ol className="flex flex-col gap-5 lg:col-start-1 lg:row-start-1">
+          {subject.chapters.map((chapter) => {
+            const done = chapter.topics.filter((t) => t.done_at).length;
+            const complete = chapter.topics.length > 0 && done === chapter.topics.length;
+            return (
+              <li key={chapter.id}>
+                <Card className="flex flex-col gap-2 px-3 pt-4 pb-3">
+                  <h2 className="flex items-center justify-between gap-2 px-1">
+                    <span className="text-heading">{chapter.title}</span>
+                    {complete ? (
+                      <span className="bg-primary-soft text-primary-strong text-small shrink-0 rounded-full px-3 py-0.5 font-extrabold">
+                        Concluído
+                      </span>
+                    ) : (
+                      <span className="text-small text-ink-muted shrink-0">
+                        {done} de {chapter.topics.length}
+                      </span>
+                    )}
+                  </h2>
+                  {chapter.topics.length === 0 ? (
+                    <p className="text-small text-ink-muted px-1">Nenhum tópico neste capítulo.</p>
                   ) : (
-                    <span className="text-small text-ink-muted shrink-0">
-                      {done} de {chapter.topics.length}
-                    </span>
+                    <ul className="flex flex-col gap-1">
+                      {chapter.topics.map((t) => (
+                        <li key={t.id}>
+                          <TopicItem
+                            subjectId={subject.id}
+                            topicId={t.id}
+                            title={t.title}
+                            done={Boolean(t.done_at)}
+                            isNext={next?.id === t.id}
+                            detail={pageRange(t.page_start, t.page_end)}
+                          />
+                        </li>
+                      ))}
+                    </ul>
                   )}
-                </h2>
-                {chapter.topics.length === 0 ? (
-                  <p className="text-small text-ink-muted px-1">Nenhum tópico neste capítulo.</p>
-                ) : (
-                  <ul className="flex flex-col gap-1">
-                    {chapter.topics.map((t) => (
-                      <li key={t.id}>
-                        <TopicItem
-                          subjectId={subject.id}
-                          topicId={t.id}
-                          title={t.title}
-                          done={Boolean(t.done_at)}
-                          isNext={next?.id === t.id}
-                          detail={pageRange(t.page_start, t.page_end)}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </Card>
-            </li>
-          );
-        })}
-      </ol>
+                </Card>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
 
       {next && (
         <StickyFooter summary={footerSummary}>

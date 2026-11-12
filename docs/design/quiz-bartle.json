@@ -1,6 +1,6 @@
 {
   "versao": 1,
-  "status": "rascunho do design (10/11/2026), pendente de aprovação da dupla em docs/DECISOES.md",
+  "status": "aprovado pela dupla com o plano da Fase 4 (11/11/2026)",
   "perfis": {
     "conquistador": { "rotulo": "Conquistador", "bartle": "Achiever" },
     "competidor": { "rotulo": "Competidor", "bartle": "Killer (Assassino no DESIGN §6.8)" },

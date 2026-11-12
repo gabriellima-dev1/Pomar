@@ -75,7 +75,7 @@ export function LevelUpCelebration({
         </div>
 
         <div
-          className={`bg-surface-200 text-ink -mx-4 flex flex-col gap-4 rounded-t-lg px-4 pt-5 pb-[max(24px,env(safe-area-inset-bottom))] ${r.rise}`}
+          className={`bg-surface-200 text-ink shadow-dialog -mx-4 flex flex-col gap-4 rounded-t-lg px-4 pt-5 pb-[max(24px,env(safe-area-inset-bottom))] lg:mx-0 lg:mb-10 lg:rounded-lg lg:px-6 lg:pb-6 ${r.rise}`}
         >
           <MascotBubble>{levelUpLine(after)}</MascotBubble>
           <div className="border-line flex flex-col gap-2 rounded-lg border-2 p-4">

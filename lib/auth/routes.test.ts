@@ -40,6 +40,9 @@ describe("resolveAuthRedirect", () => {
     expect(resolveAuthRedirect("/inicio", "", true)).toBeNull();
     expect(resolveAuthRedirect("/login", "", false)).toBeNull();
     expect(resolveAuthRedirect("/", "", false)).toBeNull();
-    expect(resolveAuthRedirect("/", "", true)).toBeNull();
+  });
+
+  it("usuário logado na landing vai para o início", () => {
+    expect(resolveAuthRedirect("/", "", true)).toBe("/inicio");
   });
 });

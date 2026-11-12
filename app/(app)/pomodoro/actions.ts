@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth/session";
 import { topicPages } from "@/lib/estimates";
 import { awardCompletion, awardPomodoro, type XpResult } from "@/lib/gamification/service";
+import { advanceOnboarding } from "@/lib/onboarding.server";
 import { isUuid } from "@/lib/subjects/validation";
 import { createClient } from "@/lib/supabase/server";
 import { trackServer } from "@/lib/telemetry.server";
@@ -127,6 +128,8 @@ export type CompleteResult = {
   fruitsToday: number;
   /** XP calculado no servidor (null se a gamificação falhou; o ciclo vale do mesmo jeito). */
   xp: XpResult | null;
+  /** 1º pomodoro do onboarding: depois da folha de fim do ciclo vem a tela 20. */
+  firstFruit: boolean;
 };
 
 /** O XP nunca impede o ciclo de ser salvo: se falhar, o fechamento do dia acerta depois. */
@@ -157,8 +160,9 @@ export async function completePomodoro(id: string): Promise<Result<CompleteResul
   const focusMin = Math.round(row.focus_sec / 60);
   await trackServer("pomodoro_completed", { focus_min: focusMin });
   const xp = await safely("XP do pomodoro", () => awardPomodoro(user.id, id));
+  const firstFruit = await advanceOnboarding(user.id, "pomodoro", "primeiro_fruto");
   revalidateStudy(null);
-  return { ok: true, data: { focusMin, fruitsToday: row.fruits_today, xp } };
+  return { ok: true, data: { focusMin, fruitsToday: row.fruits_today, xp, firstFruit } };
 }
 
 export type PagesResult = {

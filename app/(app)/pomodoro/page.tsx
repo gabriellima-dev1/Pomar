@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PomodoroLoader } from "@/components/pomodoro/PomodoroLoader";
 import type { PomodoroTopic } from "@/components/pomodoro/PomodoroScreen";
+import { getAccount } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
 import { localDay } from "@/lib/dates";
 import { parseThemePreference } from "@/lib/gamification/themes";
@@ -36,7 +37,8 @@ export default async function PomodoroPage({ searchParams }: PageProps<"/pomodor
   const query = await searchParams;
   const supabase = await createClient();
 
-  const [{ data: profile }, { data: runningRow }] = await Promise.all([
+  const [account, { data: profile }, { data: runningRow }] = await Promise.all([
+    getAccount(user.id),
     supabase
       .from("profiles")
       .select("focus_min, break_min, long_break_min, min_per_page, timezone, theme, xp_total")
@@ -100,6 +102,7 @@ export default async function PomodoroPage({ searchParams }: PageProps<"/pomodor
       running={running}
       theme={parseThemePreference(profile?.theme)}
       xp={profile?.xp_total ?? 0}
+      rewards={account.rewards}
     />
   );
 }

@@ -13,7 +13,10 @@ export const PROTECTED_PREFIXES = [
   "/admin",
 ] as const;
 
-/** Rotas que só fazem sentido sem login. */
+/**
+ * Rotas que só fazem sentido sem login. A landing (`/`) também: quem já está logado
+ * vai direto para o Início (telas.md › 15).
+ */
 export const GUEST_ONLY_PATHS = ["/login", "/cadastro"] as const;
 
 export const HOME_PATH = "/inicio";
@@ -44,7 +47,7 @@ export function resolveAuthRedirect(
     const next = encodeURIComponent(`${pathname}${search}`);
     return `${LOGIN_PATH}?next=${next}`;
   }
-  if (isAuthenticated && isGuestOnlyPath(pathname)) {
+  if (isAuthenticated && (pathname === "/" || isGuestOnlyPath(pathname))) {
     return HOME_PATH;
   }
   return null;

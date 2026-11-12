@@ -20,7 +20,6 @@ function ctx(partial: Partial<BadgeContext> = {}): BadgeContext {
     startedSubjectOrChapter: false,
     finishedChapter: false,
     dailyGoals: new Map(),
-    reminderTime: null,
     ...partial,
   };
 }
@@ -84,19 +83,6 @@ describe("eligibleBadges", () => {
     expect(eligibleBadges(ctx({ sessions, dailyGoals: new Map([["s2", 2]]) }))).not.toContain(
       "constante",
     );
-  });
-
-  it("Pontual: até 15 min depois do lembrete", () => {
-    expect(eligibleBadges(ctx({ sessions: [at("19:15")], reminderTime: "19:00:00" }))).toContain(
-      "pontual",
-    );
-    expect(eligibleBadges(ctx({ sessions: [at("19:16")], reminderTime: "19:00" }))).not.toContain(
-      "pontual",
-    );
-    expect(eligibleBadges(ctx({ sessions: [at("18:59")], reminderTime: "19:00" }))).not.toContain(
-      "pontual",
-    );
-    expect(eligibleBadges(ctx({ sessions: [at("19:05")] }))).not.toContain("pontual");
   });
 
   it("Bom Retorno: 3 ou mais dias vazios antes", () => {

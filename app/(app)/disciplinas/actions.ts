@@ -6,6 +6,8 @@ import { requireUser } from "@/lib/auth/session";
 import { parseCalibration } from "@/lib/calibration";
 import { topicPages } from "@/lib/estimates";
 import { awardCompletion } from "@/lib/gamification/service";
+import { pathForStep, stepAfterSubject } from "@/lib/onboarding";
+import { advanceOnboarding } from "@/lib/onboarding.server";
 import {
   isUuid,
   parseItemTitle,
@@ -69,7 +71,7 @@ function revalidateSubject(subjectId: string) {
 // Criação ---------------------------------------------------------------------
 
 export async function createFromCatalog(_prev: FormState, formData: FormData): Promise<FormState> {
-  await requireUser();
+  const user = await requireUser();
   const bookId = str(formData, "bookId");
   const topicIds = parseTopicIds(formData.getAll("topico"));
   const fields = subjectFieldsFrom(formData);
@@ -124,11 +126,22 @@ export async function createFromCatalog(_prev: FormState, formData: FormData): P
 
   revalidatePath("/disciplinas");
   revalidatePath("/inicio");
-  redirect(`/disciplinas/${id}`);
+  redirect(await afterSubjectCreated(user.id, id, "catalog"));
+}
+
+/** Onboarding: a 1ª disciplina leva ao passo seguinte; fora dele, abre a disciplina. */
+async function afterSubjectCreated(
+  userId: string,
+  subjectId: string,
+  source: "catalog" | "manual",
+): Promise<string> {
+  const next = stepAfterSubject(source);
+  if (await advanceOnboarding(userId, "disciplina", next)) return pathForStep(next, subjectId);
+  return `/disciplinas/${subjectId}`;
 }
 
 export async function createManual(_prev: FormState, formData: FormData): Promise<FormState> {
-  await requireUser();
+  const user = await requireUser();
   const fields = subjectFieldsFrom(formData);
   const structure = parseManualStructure(formData.get("estrutura"));
   const fieldErrors = {
@@ -154,7 +167,7 @@ export async function createManual(_prev: FormState, formData: FormData): Promis
   await trackServer("subject_created", { source: "manual", topics });
   revalidatePath("/disciplinas");
   revalidatePath("/inicio");
-  redirect(`/disciplinas/${id}`);
+  redirect(await afterSubjectCreated(user.id, id, "manual"));
 }
 
 // Progresso -----------------------------------------------------------------
@@ -371,7 +384,7 @@ export async function moveTopic(formData: FormData): Promise<void> {
 // Calibração ------------------------------------------------------------------
 
 export async function recordCalibration(_prev: FormState, formData: FormData): Promise<FormState> {
-  await requireUser();
+  const user = await requireUser();
   const subjectId = str(formData, "subjectId");
   if (subjectId !== "" && !isUuid(subjectId)) return { error: "Disciplina inválida." };
 
@@ -399,8 +412,20 @@ export async function recordCalibration(_prev: FormState, formData: FormData): P
   });
   if (subjectId) {
     revalidateSubject(subjectId);
+    if (await advanceOnboarding(user.id, "calibracao", "pomodoro")) {
+      redirect(pathForStep("pomodoro", subjectId));
+    }
     redirect(`/disciplinas/${subjectId}?calibrado=1`);
   }
   revalidatePath("/disciplinas");
   redirect("/disciplinas?calibrado=1");
+}
+
+/** Onboarding, passo 4: pular a calibração (nada é obrigatório, DESIGN §3) e ir ao 1º pomodoro. */
+export async function skipOnboardingCalibration(formData: FormData): Promise<void> {
+  const user = await requireUser();
+  const subjectId = str(formData, "subjectId");
+  if (!isUuid(subjectId)) redirect("/inicio");
+  await advanceOnboarding(user.id, "calibracao", "pomodoro");
+  redirect(pathForStep("pomodoro", subjectId));
 }

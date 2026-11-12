@@ -8,7 +8,7 @@ export type BadgeDay = { day: string; code: string };
 
 export type AlbumEntry = BadgeInfo & { count: number; days: string[] };
 
-/** Os 12 emblemas na ordem do álbum, com quantas vezes saíram e em que dias (mais novo primeiro). */
+/** Os 11 emblemas na ordem do álbum, com quantas vezes saíram e em que dias (mais novo primeiro). */
 export function albumEntries(history: readonly BadgeDay[]): AlbumEntry[] {
   const byCode = new Map<string, string[]>();
   for (const h of history) byCode.set(h.code, [...(byCode.get(h.code) ?? []), h.day]);
