@@ -47,6 +47,18 @@ export function localClock(
   };
 }
 
+/** Instante da meia-noite (00:00 local) de um dia AAAA-MM-DD no fuso dado. */
+export function zonedMidnight(day: string, timeZone: string): Date {
+  const target = toUtc(day);
+  // Diferença (local − UTC) num instante; duas passadas acertam a virada de horário de verão.
+  const offset = (instant: number) => {
+    const c = localClock(new Date(instant), timeZone);
+    return toUtc(c.day) + c.hour * 3_600_000 + c.minute * 60_000 - instant;
+  };
+  const guess = target - offset(target);
+  return new Date(target - offset(guess));
+}
+
 /** Dia da semana de um dia AAAA-MM-DD (0 = domingo … 6 = sábado). */
 export function weekday(day: string): number {
   return new Date(toUtc(day)).getUTCDay();
