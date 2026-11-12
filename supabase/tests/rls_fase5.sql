@@ -1,4 +1,4 @@
--- Teste de RLS e regras da Fase 5 (Feira, apelido e social).
+-- Teste de RLS e regras da Fase 5 (Feira, apelido, social e YouTube).
 -- Roda dentro de uma transação desfeita no fim (rollback): não deixa dados no banco.
 -- Uso: set -a; source .env.local; set +a
 --      npx supabase db query --remote -f supabase/tests/rls_fase5.sql
@@ -277,6 +277,27 @@ exception when insufficient_privilege then
 end $$;
 reset role;
 
+-- YouTube: só o servidor grava duração de vídeo (vale XP) ---------------------------------
+set local role authenticated;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-0000000000a5","role":"authenticated"}', true);
+do $$
+begin
+  insert into public.topics (chapter_id, position, title, youtube_video_id, duration_sec)
+  values (gen_random_uuid(), 1, 'Vídeo', 'abc', 99999);
+  insert into resultado (teste, ok, detalhe) values ('Cliente não grava duração de vídeo', false, 'gravou');
+exception when insufficient_privilege then
+  insert into resultado (teste, ok, detalhe) values ('Cliente não grava duração de vídeo', true, sqlerrm);
+end $$;
+
+do $$
+begin
+  perform public.create_youtube_subject('00000000-0000-4000-8000-0000000000a5', 'X', 'PLx', 'ceu', 1, 'X', '[{"id":"a","title":"a","duration_sec":60}]');
+  insert into resultado (teste, ok, detalhe) values ('Cliente não cria disciplina do YouTube direto', false, 'criou');
+exception when insufficient_privilege then
+  insert into resultado (teste, ok, detalhe) values ('Cliente não cria disciplina do YouTube direto', true, sqlerrm);
+end $$;
+reset role;
+
 -- Servidor (service_role): abertura e fechamento idempotentes ------------------------------
 set local role service_role;
 
@@ -306,6 +327,18 @@ select 'Fechar a semana grava posição, saída e divisão',
        where user_id = '00000000-0000-4000-8000-0000000000a5')
   and (select league_division = 'ouro' from public.profiles where id = '00000000-0000-4000-8000-0000000000a5')
   and (select league_division = 'bronze' from public.profiles where id = '00000000-0000-4000-8000-0000000000c5'),
+  null;
+
+create temp table yt as
+select public.create_youtube_subject('00000000-0000-4000-8000-0000000000a5', 'Playlist', 'PLteste', 'ceu', 1.25, 'Playlist',
+  '[{"id":"v1","title":"Aula 1","duration_sec":600},{"id":"v2","title":"Aula 2","duration_sec":900}]') as id;
+
+insert into resultado (teste, ok, detalhe)
+select 'Servidor cria a disciplina do YouTube com 1 capítulo e os vídeos',
+  (select s.source = 'youtube' and s.video_speed = 1.25 and s.user_id = '00000000-0000-4000-8000-0000000000a5'
+   from public.subjects s where s.id = (select id from yt))
+  and (select count(*) = 2 and sum(t.duration_sec) = 1500 from public.topics t
+       join public.chapters c on c.id = t.chapter_id where c.subject_id = (select id from yt)),
   null;
 
 insert into resultado (teste, ok, detalhe)

@@ -920,6 +920,18 @@ export type Database = {
         }
         Returns: string
       }
+      create_youtube_subject: {
+        Args: {
+          p_chapter_title: string
+          p_color: string
+          p_playlist_id: string
+          p_speed: number
+          p_title: string
+          p_user: string
+          p_videos: Json
+        }
+        Returns: string
+      }
       dismiss_pace_suggestion: {
         Args: { p_subject_id: string }
         Returns: undefined
