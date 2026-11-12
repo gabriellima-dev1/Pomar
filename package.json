@@ -22,7 +22,8 @@
     "demo:league": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/league-demo.ts",
     "fluxos:preparar": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/fluxos/preparar.ts",
     "fluxos:capturar": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/fluxos/capturar.ts",
-    "fluxos:galeria": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/fluxos/galeria.ts"
+    "fluxos:galeria": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/fluxos/galeria.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

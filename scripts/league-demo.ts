@@ -11,8 +11,8 @@
  *   4. npm run league:close -- --fechar-semana-atual --confirmo   (fecha agora)
  *   5. abrir o app: tela "Resultado da semana" uma vez; divisões trocadas
  *
- * Cria (ou reaproveita) 12 contas `teste.liga.NN@example.com` (is_demo, na Feira,
- * algumas com perfil público), põe todas num grupo novo da semana atual junto com a
+ * Cria (ou reaproveita) 12 contas `teste.liga.NN@example.com` (is_demo, fora da Feira
+ * real, algumas com perfil público), põe todas num grupo novo da semana atual junto com a
  * conta de teste e dá a cada uma ciclos concluídos nesta semana, com o XP aplicado
  * pela mesma função do servidor (apply_xp). Nunca use numa conta real: a conta entra
  * na Feira, sai do grupo em que estava e muda de divisão.
@@ -144,7 +144,9 @@ for (const [i, [username, , isPublic]] of DEMOS.entries()) {
         .from("profiles")
         .update({
           is_demo: true,
-          league_opt_in: true,
+          // Fora da Feira: entram no grupo de teste direto, e assim o cron de segunda
+          // não as coloca nos grupos reais.
+          league_opt_in: false,
           public_profile: isPublic,
           username,
           league_division: division,
