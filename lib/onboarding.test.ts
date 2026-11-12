@@ -42,5 +42,6 @@ describe("onboarding", () => {
   it("depois da disciplina: catálogo vai ao pomodoro, manual à calibração", () => {
     expect(stepAfterSubject("catalog")).toBe("pomodoro");
     expect(stepAfterSubject("manual")).toBe("calibracao");
+    expect(stepAfterSubject("youtube")).toBe("pomodoro");
   });
 });

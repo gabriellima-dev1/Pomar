@@ -102,6 +102,7 @@ export function pathForStep(step: OnboardingStep, subjectId: string | null): str
  * Passo seguinte à criação da 1ª disciplina: o catálogo já tem a calibração (que pode
  * ser pulada) dentro do mesmo fluxo; a manual vai para a calibração.
  */
-export function stepAfterSubject(source: "catalog" | "manual"): OnboardingStep {
-  return source === "catalog" ? "pomodoro" : "calibracao";
+export function stepAfterSubject(source: "catalog" | "manual" | "youtube"): OnboardingStep {
+  // YouTube não tem calibração: o ritmo é a velocidade escolhida (telas.md › 30).
+  return source === "manual" ? "calibracao" : "pomodoro";
 }

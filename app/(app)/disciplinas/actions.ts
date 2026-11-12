@@ -17,8 +17,12 @@ import {
   parseTopicIds,
   type FieldErrors,
 } from "@/lib/subjects/validation";
+import { isSubjectColor } from "@/lib/subjects/colors";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { trackServer } from "@/lib/telemetry.server";
+import { fetchPlaylist, YOUTUBE_ERROR_TEXT, YoutubeError } from "@/lib/youtube/client.server";
+import { isVideoSpeed, parsePlaylistId } from "@/lib/youtube/parse";
 
 export type SubjectValues = {
   title: string;
@@ -133,7 +137,7 @@ export async function createFromCatalog(_prev: FormState, formData: FormData): P
 async function afterSubjectCreated(
   userId: string,
   subjectId: string,
-  source: "catalog" | "manual",
+  source: "catalog" | "manual" | "youtube",
 ): Promise<string> {
   const next = stepAfterSubject(source);
   if (await advanceOnboarding(userId, "disciplina", next)) return pathForStep(next, subjectId);
@@ -168,6 +172,54 @@ export async function createManual(_prev: FormState, formData: FormData): Promis
   revalidatePath("/disciplinas");
   revalidatePath("/inicio");
   redirect(await afterSubjectCreated(user.id, id, "manual"));
+}
+
+/**
+ * Nova disciplina pelo YouTube (telas.md › 30). A playlist é buscada de novo aqui e só
+ * as durações da API entram (a duração vale XP no tópico); o cliente manda os ids
+ * marcados, a velocidade e a cor. Unidade em minutos, sem calibração.
+ */
+export async function createFromYoutube(_prev: FormState, formData: FormData): Promise<FormState> {
+  const user = await requireUser();
+  const playlistId = parsePlaylistId(str(formData, "url"));
+  if (!playlistId) return { error: YOUTUBE_ERROR_TEXT.link_invalido };
+  const speed = Number(str(formData, "speed"));
+  const color = str(formData, "color");
+  if (!isVideoSpeed(speed) || !isSubjectColor(color)) return { error: GENERIC_ERROR };
+  let selected: Set<string>;
+  try {
+    const raw: unknown = JSON.parse(str(formData, "videos") || "[]");
+    selected = new Set(
+      Array.isArray(raw) ? raw.filter((v): v is string => typeof v === "string") : [],
+    );
+  } catch {
+    return { error: GENERIC_ERROR };
+  }
+
+  let playlist;
+  try {
+    playlist = await fetchPlaylist(playlistId);
+  } catch (e) {
+    return { error: YOUTUBE_ERROR_TEXT[e instanceof YoutubeError ? e.code : "falha"] };
+  }
+  const videos = playlist.videos.filter((v) => selected.has(v.id));
+  if (videos.length === 0) return { error: "Escolha ao menos um vídeo." };
+
+  const { data: id, error } = await createAdminClient().rpc("create_youtube_subject", {
+    p_user: user.id,
+    p_title: playlist.title,
+    p_playlist_id: playlistId,
+    p_color: color,
+    p_speed: speed,
+    p_chapter_title: playlist.title,
+    p_videos: videos.map((v) => ({ id: v.id, title: v.title, duration_sec: v.durationSec })),
+  });
+  if (error || !id) return { error: GENERIC_ERROR };
+
+  await trackServer("subject_created", { source: "youtube", topics: videos.length });
+  revalidatePath("/disciplinas");
+  revalidatePath("/inicio");
+  redirect(await afterSubjectCreated(user.id, id, "youtube"));
 }
 
 // Progresso -----------------------------------------------------------------
