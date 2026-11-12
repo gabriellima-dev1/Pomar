@@ -1,16 +1,34 @@
 import "server-only";
 import { cache } from "react";
+import { getCurrentUser } from "@/lib/auth/session";
 import { addDays, localDay } from "@/lib/dates";
 import { createClient } from "@/lib/supabase/server";
 import type { BadgeDay } from "./present";
 import { displayStreak, freezeUsedYesterday } from "./streak";
 import { isThemeCode, parseThemePreference, type ThemeCode, type ThemePreference } from "./themes";
 import type { Tier } from "./harvest";
+import { ensureDaysClosed } from "./service";
 
 /**
  * Leituras da gamificação para as telas (sessão do usuário: a RLS filtra).
  * Tudo aqui foi calculado no servidor; o cliente só exibe.
  */
+
+/**
+ * Fechamento preguiçoso dos dias (DESIGN §6.4), uma vez por requisição. Toda leitura
+ * de jogo espera por ele: o Next renderiza layout e página ao mesmo tempo, e sem isso
+ * a página podia ler os emblemas antes do fechamento (o "fruto de ontem" não aparecia
+ * no primeiro acesso). Uma falha nunca bloqueia o app.
+ */
+export const closeDaysOnce = cache(async (): Promise<void> => {
+  const user = await getCurrentUser();
+  if (!user) return;
+  try {
+    await ensureDaysClosed(user.id);
+  } catch (error) {
+    console.error("[gamificação] fechamento do dia", error);
+  }
+});
 
 export type GameProfile = {
   xp: number;
@@ -30,6 +48,7 @@ export type GameProfile = {
 };
 
 export const getGameProfile = cache(async (userId: string): Promise<GameProfile> => {
+  await closeDaysOnce();
   const supabase = await createClient();
   const [{ data: p }, { data: recent }] = await Promise.all([
     supabase
@@ -71,6 +90,7 @@ export const getGameProfile = cache(async (userId: string): Promise<GameProfile>
 export type BadgeHistoryItem = BadgeDay & { seen: boolean };
 
 export const getBadgeHistory = cache(async (): Promise<BadgeHistoryItem[]> => {
+  await closeDaysOnce();
   const supabase = await createClient();
   const { data } = await supabase
     .from("user_daily_badges")
@@ -82,6 +102,7 @@ export const getBadgeHistory = cache(async (): Promise<BadgeHistoryItem[]> => {
 export type HarvestItem = { weekStart: string; tier: Tier; days: number };
 
 export const getHarvests = cache(async (): Promise<HarvestItem[]> => {
+  await closeDaysOnce();
   const supabase = await createClient();
   const { data } = await supabase
     .from("weekly_harvests")
@@ -98,6 +119,7 @@ export type UnlockedTheme = {
 };
 
 export const getUnlockedThemes = cache(async (): Promise<UnlockedTheme[]> => {
+  await closeDaysOnce();
   const supabase = await createClient();
   const { data } = await supabase
     .from("user_themes")
