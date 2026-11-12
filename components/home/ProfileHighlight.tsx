@@ -15,6 +15,7 @@ import { badgesThisWeek, type BadgeDay } from "@/lib/gamification/present";
 import { DIVISION_LABEL } from "@/lib/league/divisions";
 import { chaseLine } from "@/lib/league/present";
 import type { LeagueView } from "@/lib/league/queries";
+import { feedText, type FeedPayload, type FeedType } from "@/lib/social/feed";
 import { zones } from "@/lib/league/ranking";
 
 export type HighlightData = {
@@ -27,6 +28,11 @@ export type HighlightData = {
   goal: { title: string; target: number; done: number } | null;
   /** Feira da pessoa (só carregada para o Competidor). */
   league?: LeagueView | null;
+  /** Social (só carregado para o Socializador). */
+  social?: {
+    received: number;
+    feed: { id: string; username: string; type: FeedType; payload: FeedPayload; when: string }[];
+  } | null;
 };
 
 const card = `${cardClasses} flex flex-col gap-4 p-5`;
@@ -231,7 +237,9 @@ function CompetitorCard(data: HighlightData) {
   );
 }
 
-function SocializerCard() {
+function SocializerCard({ social }: HighlightData) {
+  const feed = social?.feed ?? [];
+  const received = social?.received ?? 0;
   return (
     <section aria-labelledby="destaque" className={card}>
       <div className="flex items-center gap-4">
@@ -245,9 +253,35 @@ function SocializerCard() {
           Quem você segue
         </h2>
       </div>
-      <p className="text-ink-muted">
-        Em breve você poderá seguir colegas, ver as conquistas deles e mandar parabéns.
-      </p>
+      {received > 0 && (
+        <p className="bg-fruit-soft rounded-md px-4 py-3 font-semibold">
+          {received === 1 ? "1 parabéns novo" : `${received} parabéns novos`} para você.
+        </p>
+      )}
+      {feed.length > 0 ? (
+        <ul className="flex flex-col gap-2">
+          {feed.map((f) => {
+            const t = feedText(f.type, f.payload);
+            return (
+              <li key={f.id} className="bg-surface-100 rounded-md px-4 py-3">
+                <strong className="font-extrabold">{f.username}</strong> {t.text}
+                {t.strong && <strong className="font-extrabold">{t.strong}</strong>}
+                <span className="text-small text-ink-muted block font-semibold">{f.when}</span>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="text-ink-muted">
+          Siga colegas para ver as conquistas deles e mandar parabéns.
+        </p>
+      )}
+      <Link
+        href={feed.length > 0 ? "/liga?aba=amigos" : "/liga/buscar"}
+        className="text-primary self-start font-extrabold underline underline-offset-4"
+      >
+        {feed.length > 0 ? "Ver tudo em Amigos" : "Buscar pessoas"}
+      </Link>
     </section>
   );
 }
@@ -294,7 +328,7 @@ export function ProfileHighlight(data: HighlightData) {
     case "competidor":
       return <CompetitorCard {...data} />;
     case "socializador":
-      return <SocializerCard />;
+      return <SocializerCard {...data} />;
     default:
       return <QuizInvite />;
   }
