@@ -9,10 +9,13 @@ import {
   setTheme,
 } from "@/app/(app)/conquistas/actions";
 import { useEffectiveTheme } from "@/components/theme/useEffectiveTheme";
+import { markWeekResultSeen } from "@/app/(app)/liga/actions";
+import { WeekResult } from "@/components/league/WeekResult";
 import { Toast } from "@/components/ui/Toast";
 import { stageChanged } from "@/lib/gamification/levels";
 import type { BadgeDay } from "@/lib/gamification/present";
 import type { ThemeCode, ThemePreference } from "@/lib/gamification/themes";
+import type { WeekResult as LeagueResult } from "@/lib/league/queries";
 import { FruitReveal } from "./FruitReveal";
 import { LevelUpCelebration } from "./LevelUpCelebration";
 import { ThemeUnlocked } from "./ThemeUnlocked";
@@ -23,12 +26,15 @@ const MAX_REVEALS = 7;
 type Step =
   | { kind: "badge"; badge: BadgeDay }
   | { kind: "theme"; code: ThemeCode }
-  | { kind: "level"; from: number; to: number };
+  | { kind: "level"; from: number; to: number }
+  | { kind: "league"; result: LeagueResult };
 
 /**
  * Fila de recompensas ao abrir o app (DECISOES 10/11): primeiro os frutos (tela 12,
  * do mais antigo ao mais novo), depois o tema desbloqueado (14), depois o nível (13
- * ou toast). Tudo foi calculado no servidor; aqui só se mostra e marca como visto.
+ * ou toast) e, por último, o resultado da semana da Feira (25). Tudo foi calculado no
+ * servidor; aqui só se mostra e marca como visto. A coorte B recebe só o resultado da
+ * Feira (as listas de recompensa chegam vazias).
  * Fica de fora do pomodoro, que mostra o próprio nível depois do fim do ciclo.
  */
 export function RewardsQueue({
@@ -40,6 +46,7 @@ export function RewardsQueue({
   xp,
   today,
   theme,
+  leagueResult = null,
 }: {
   /** Emblemas ainda não revelados, do mais antigo ao mais novo. */
   badges: BadgeDay[];
@@ -52,6 +59,8 @@ export function RewardsQueue({
   xp: number;
   today: string;
   theme: ThemePreference;
+  /** Resultado da semana ainda não visto (tela 25). */
+  leagueResult?: LeagueResult | null;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -60,6 +69,7 @@ export function RewardsQueue({
     ...badges.slice(-MAX_REVEALS).map((badge): Step => ({ kind: "badge", badge })),
     ...themes.map((code): Step => ({ kind: "theme", code })),
     ...(levelTo > levelFrom ? [{ kind: "level", from: levelFrom, to: levelTo } as Step] : []),
+    ...(leagueResult ? [{ kind: "league", result: leagueResult } as Step] : []),
   ]);
   const [busy, startTransition] = useTransition();
 
@@ -123,6 +133,21 @@ export function RewardsQueue({
           theme={sceneTheme}
           onContinue={() => {
             void markLevelSeen(current.to);
+            advance();
+          }}
+        />
+      )}
+      {current?.kind === "league" && (
+        <WeekResult
+          result={current.result}
+          theme={sceneTheme}
+          onSee={() => {
+            void markWeekResultSeen(current.result.week);
+            advance();
+            router.push("/liga");
+          }}
+          onClose={() => {
+            void markWeekResultSeen(current.result.week);
             advance();
           }}
         />

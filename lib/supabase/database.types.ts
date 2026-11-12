@@ -235,6 +235,100 @@ export type Database = {
         }
         Relationships: []
       }
+      league_groups: {
+        Row: {
+          band_max: number
+          band_min: number
+          created_at: string
+          division: string
+          id: string
+          week_start: string
+        }
+        Insert: {
+          band_max: number
+          band_min: number
+          created_at?: string
+          division: string
+          id?: string
+          week_start: string
+        }
+        Update: {
+          band_max?: number
+          band_min?: number
+          created_at?: string
+          division?: string
+          id?: string
+          week_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "league_groups_week_start_fkey"
+            columns: ["week_start"]
+            isOneToOne: false
+            referencedRelation: "league_weeks"
+            referencedColumns: ["week_start"]
+          },
+        ]
+      }
+      league_members: {
+        Row: {
+          final_rank: number | null
+          group_id: string
+          joined_at: string
+          outcome: string | null
+          result_seen_at: string | null
+          user_id: string
+          week_start: string
+          xp_week: number
+        }
+        Insert: {
+          final_rank?: number | null
+          group_id: string
+          joined_at?: string
+          outcome?: string | null
+          result_seen_at?: string | null
+          user_id: string
+          week_start: string
+          xp_week?: number
+        }
+        Update: {
+          final_rank?: number | null
+          group_id?: string
+          joined_at?: string
+          outcome?: string | null
+          result_seen_at?: string | null
+          user_id?: string
+          week_start?: string
+          xp_week?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "league_members_group_id_week_start_fkey"
+            columns: ["group_id", "week_start"]
+            isOneToOne: false
+            referencedRelation: "league_groups"
+            referencedColumns: ["id", "week_start"]
+          },
+        ]
+      }
+      league_weeks: {
+        Row: {
+          closed_at: string | null
+          opened_at: string
+          week_start: string
+        }
+        Insert: {
+          closed_at?: string | null
+          opened_at?: string
+          week_start: string
+        }
+        Update: {
+          closed_at?: string | null
+          opened_at?: string
+          week_start?: string
+        }
+        Relationships: []
+      }
       pomodoro_sessions: {
         Row: {
           cancel_reason: string | null
@@ -316,6 +410,7 @@ export type Database = {
           is_admin: boolean
           is_demo: boolean
           last_closed_day: string | null
+          league_division: string
           league_invite_dismissed_at: string | null
           league_opt_in: boolean | null
           level: number
@@ -346,6 +441,7 @@ export type Database = {
           is_admin?: boolean
           is_demo?: boolean
           last_closed_day?: string | null
+          league_division?: string
           league_invite_dismissed_at?: string | null
           league_opt_in?: boolean | null
           level?: number
@@ -376,6 +472,7 @@ export type Database = {
           is_admin?: boolean
           is_demo?: boolean
           last_closed_day?: string | null
+          league_division?: string
           league_invite_dismissed_at?: string | null
           league_opt_in?: boolean | null
           level?: number
@@ -701,6 +798,14 @@ export type Database = {
         }
         Returns: boolean
       }
+      apply_league_close: {
+        Args: { p_results: Json; p_week: string }
+        Returns: boolean
+      }
+      apply_league_open: {
+        Args: { p_groups: Json; p_week: string }
+        Returns: boolean
+      }
       apply_xp: {
         Args: { p_events: Json; p_user: string }
         Returns: {
@@ -753,6 +858,40 @@ export type Database = {
           focus_sec_week: number
           gardeners: number
           pomodoros_week: number
+        }[]
+      }
+      league_focus_seconds: {
+        Args: { p_from: string; p_to: string; p_users: string[] }
+        Returns: {
+          focus_sec: number
+          user_id: string
+        }[]
+      }
+      league_standings: {
+        Args: never
+        Returns: {
+          band_max: number
+          band_min: number
+          division: string
+          group_id: string
+          is_demo: boolean
+          is_me: boolean
+          last_xp_at: string
+          public_profile: boolean
+          username: string
+          week_start: string
+          xp: number
+        }[]
+      }
+      league_week_xp: {
+        Args: { p_week: string }
+        Returns: {
+          division: string
+          group_id: string
+          last_xp_at: string
+          user_id: string
+          username: string
+          xp: number
         }[]
       }
       log_pomodoro_pages: {
@@ -862,6 +1001,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      username_available: { Args: { p_username: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
