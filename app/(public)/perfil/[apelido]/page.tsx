@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Flame, Lock } from "lucide-react";
 import { BadgeDisc } from "@/components/gamification/BadgeDisc";
@@ -6,17 +7,24 @@ import { Scene } from "@/components/scenes/Scene";
 import { Avatar } from "@/components/social/Avatar";
 import { FollowButton } from "@/components/social/FollowButton";
 import { levelLine } from "@/components/social/PersonRow";
+import { buttonClasses } from "@/components/ui/Button";
 import { cardClasses } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { TopBar } from "@/components/ui/TopBar";
-import { requireUser } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth/session";
 import { BADGES, badgeInfo } from "@/lib/gamification/catalog";
 import { stageForLevel } from "@/lib/gamification/levels";
 import { getGameProfile } from "@/lib/gamification/queries";
 import { dayLabelShort, profileAchievement } from "@/lib/social/feed";
 import { getPublicProfile } from "@/lib/social/queries";
 
-export const metadata: Metadata = { title: "Perfil" };
+/** Perfis abrem pelo link, mas não entram em buscadores (DECISOES 12/11). */
+export async function generateMetadata({
+  params,
+}: PageProps<"/perfil/[apelido]">): Promise<Metadata> {
+  const { apelido } = await params;
+  return { title: `@${decodeURIComponent(apelido)}`, robots: { index: false, follow: false } };
+}
 
 const MONTHS = [
   "janeiro",
@@ -44,27 +52,32 @@ function since(iso: string, timeZone: string): string {
  * Perfil público (referencias/28-perfil-publico.png): árvore do estágio, nível,
  * ofensiva, emblemas e conquistas recentes. Nada de disciplinas, horas ou páginas
  * (DESIGN §4.7). Perfil não público responde "Este perfil é privado".
+ * Como no Duolingo, abre sem login pelo link (/perfil/<apelido>); quem não tem conta
+ * vê "Entrar para seguir".
  */
 export default async function PerfilPage({ params }: PageProps<"/perfil/[apelido]">) {
-  const user = await requireUser();
+  const user = await getCurrentUser();
   const { apelido } = await params;
+  const username = decodeURIComponent(apelido);
   const [profile, game] = await Promise.all([
-    getPublicProfile(decodeURIComponent(apelido)),
-    getGameProfile(user.id),
+    getPublicProfile(username),
+    user ? getGameProfile(user.id) : Promise.resolve(null),
   ]);
   if (!profile) notFound();
+  const tz = game?.timezone ?? "America/Sao_Paulo";
+  const back = user ? "/liga?aba=amigos" : "/";
 
   if (profile.privado) {
     return (
-      <section className="flex flex-col gap-5">
-        <TopBar backHref="/liga?aba=amigos" backLabel="Voltar" />
+      <main className="max-w-app mx-auto flex w-full flex-1 flex-col gap-5 px-4 py-4">
+        <TopBar backHref={back} backLabel="Voltar" />
         <EmptyState title="Este perfil é privado">
           <span className="inline-flex items-center gap-2">
             <Lock size={18} aria-hidden />
             Só a própria pessoa vê o nível, a árvore e os emblemas dela.
           </span>
         </EmptyState>
-      </section>
+      </main>
     );
   }
 
@@ -72,7 +85,7 @@ export default async function PerfilPage({ params }: PageProps<"/perfil/[apelido
   const now = new Date();
 
   return (
-    <section className="-mx-4 -mt-4 flex flex-col gap-5 lg:mx-0 lg:mt-0">
+    <main className="max-w-app mx-auto flex w-full flex-1 flex-col gap-5 pb-8 lg:pt-6">
       <div
         data-theme="classico"
         className="relative aspect-[390/230] w-full overflow-hidden bg-[var(--scene-sky-bottom)] lg:rounded-lg"
@@ -86,11 +99,11 @@ export default async function PerfilPage({ params }: PageProps<"/perfil/[apelido
           preserveAspectRatio="xMidYMid slice"
         />
         <div className="absolute top-2 left-4">
-          <TopBar backHref="/liga?aba=amigos" backLabel="Voltar" />
+          <TopBar backHref={back} backLabel="Voltar" />
         </div>
       </div>
 
-      <div className="-mt-16 flex flex-col gap-5 px-4 lg:px-0">
+      <div className="-mt-16 flex flex-col gap-5 px-4">
         <div className="flex items-end gap-4">
           <span className="border-surface-100 rounded-full border-4">
             <Avatar username={profile.username} size={84} />
@@ -111,6 +124,13 @@ export default async function PerfilPage({ params }: PageProps<"/perfil/[apelido
             <span className="bg-surface-300 text-ink-muted flex min-h-12 items-center justify-center rounded-md px-3 text-center font-extrabold">
               Este é você
             </span>
+          ) : !user ? (
+            <Link
+              href={`/login?next=${encodeURIComponent(`/perfil/${profile.username}`)}`}
+              className={buttonClasses("secondary", "md", "text-ink w-full")}
+            >
+              Entrar para seguir
+            </Link>
           ) : (
             <FollowButton
               username={profile.username}
@@ -160,7 +180,7 @@ export default async function PerfilPage({ params }: PageProps<"/perfil/[apelido
                     {a.title}
                     <span className="text-small text-ink-muted font-semibold">
                       {" · "}
-                      {a.note ?? dayLabelShort(r.at, now, game.timezone)}
+                      {a.note ?? dayLabelShort(r.at, now, tz)}
                     </span>
                   </li>
                 );
@@ -170,9 +190,14 @@ export default async function PerfilPage({ params }: PageProps<"/perfil/[apelido
         )}
 
         <p className="text-small text-ink-muted text-center font-semibold">
-          No Pomar desde {since(profile.createdAt, game.timezone)}
+          No Pomar desde {since(profile.createdAt, tz)}
         </p>
+        {!user && (
+          <Link href="/" className={buttonClasses("primary", "md", "mb-8")}>
+            Conhecer o Pomar
+          </Link>
+        )}
       </div>
-    </section>
+    </main>
   );
 }
