@@ -121,6 +121,18 @@ test("o resultado da semana aparece uma vez ao abrir o app", async ({ page, cont
   await expect(dialogo.getByText(/4º lugar na Feira de Prata, com 100 XP/)).toBeVisible();
   await dialogo.getByRole("button", { name: "Fechar" }).click();
   await expect(dialogo).toBeHidden();
+  // "Fechar" marca como visto em segundo plano: espera o servidor gravar antes de recarregar.
+  await expect
+    .poll(async () => {
+      const { data } = await db()
+        .from("league_members")
+        .select("result_seen_at")
+        .eq("user_id", quem.id)
+        .eq("week_start", SEMANA)
+        .single();
+      return data?.result_seen_at ?? null;
+    })
+    .not.toBeNull();
   await page.reload();
   await expect(page.getByRole("dialog", { name: "Feira de Ouro!" })).toHaveCount(0);
 });
