@@ -142,6 +142,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular
 - [ ] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11 — **em andamento:** suíte em `e2e/` (login, pomodoro, animações com e sem "reduzir movimento", fruto de ontem, Feira, social, YouTube); falta o fluxo do onboarding (cadastro → 1º pomodoro)
 - [ ] Correções a partir do uso real dos colegas
+- [ ] **Pomodoro no computador** (design revisto em 12/11): cena larga por tema em vez das cópias espelhadas, painel de 440px com cronômetro e controles à esquerda, árvore do tema à direita, atalhos Espaço e F — telas.md › "Pomodoro no computador" e referências 35
 - [ ] **23/11: congelamento de funcionalidades**
 
 **Aceite:** o checklist de ética do `DESIGN.md` §10 está todo atendido; o admin mostra os números reais do beta.
@@ -180,6 +181,9 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Fase 6**
 > Fase 6 do docs/PLANO.md. Leia a seção "Fase 6" de docs/design/telas.md e as imagens docs/design/referencias/31 a 34. Em seguida, rode o checklist de ética do DESIGN.md §10 item por item e me mostre o resultado. Plano primeiro.
 
+
+**Pomodoro no computador** (pode rodar em paralelo à Fase 6, antes do congelamento de 23/11)
+> Leia a seção "Pomodoro no computador" de docs/design/telas.md, as imagens docs/design/referencias/35-pomodoro-desktop-*.png e abra as páginas docs/design/cenas/pomodoro-desktop-*.html (animadas) para conferir cores, posições e animações. Implemente a partir de 1024px: (1) uma cena larga por tema (Clássico, Noturno, Halloween, Natal) em viewBox 1350×844 com slice, reaproveitando as peças de components/scenes/parts.tsx, no lugar das cópias espelhadas do pomodoro; o fruto que amadurece continua ligado ao progresso real; no máximo 5 camadas animadas, só transform/opacity, tudo parado com prefers-reduced-motion; (2) o painel de 440px à esquerda juntando GlassTimer e controles, com vidro por tema e contraste AA; (3) os atalhos Espaço (pausar/retomar, passando pelo nudge) e F (tela cheia), ignorados em campos e diálogos. Abaixo de 1024px nada muda. Acrescente ao e2e uma checagem em 1440×900 de cada tema (captura + document.getAnimations() com e sem reduzir movimento) e testes dos atalhos. Plano primeiro.
 ---
 
 ## 6. Variáveis de ambiente (`.env.example`)
