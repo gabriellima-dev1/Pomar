@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Pomodoro no computador · Halloween</title>
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&amp;family=Nunito:wght@400;600;800&amp;display=swap">
+<style>
+body{margin:0}
+@keyframes pc-drift{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
+@keyframes pc-drift2{from{transform:translateX(14px)}to{transform:translateX(-14px)}}
+@keyframes pc-sway{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+@keyframes pc-bob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes pc-ripen{0%{opacity:.15}100%{opacity:.85}}
+.pc-drift{animation:pc-drift 26s ease-in-out infinite alternate}
+.pc-drift2{animation:pc-drift2 20s ease-in-out infinite alternate}
+.pc-sway{transform-box:fill-box;transform-origin:50% 100%;animation:pc-sway 6s ease-in-out infinite}
+.pc-sway-b{transform-box:fill-box;transform-origin:50% 100%;animation:pc-sway 7.5s ease-in-out -2s infinite}
+.pc-sway-c{transform-box:fill-box;transform-origin:50% 100%;animation:pc-sway 8.5s ease-in-out -4s infinite}
+.pc-bob{transform-box:fill-box;transform-origin:50% 100%;animation:pc-bob 3.8s ease-in-out infinite}
+.pc-bob-b{transform-box:fill-box;transform-origin:50% 100%;animation:pc-bob 4.6s ease-in-out -1.3s infinite}
+.pc-bob-c{transform-box:fill-box;transform-origin:50% 100%;animation:pc-bob 3.3s ease-in-out -2.4s infinite}
+.pc-ripen{animation:pc-ripen 12s ease-in-out infinite alternate}
+@keyframes pc-fog{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
+@keyframes pc-batA{0%{transform:translate(-120px,0)}50%{transform:translate(260px,-40px)}100%{transform:translate(640px,10px)}}
+@keyframes pc-batB{0%{transform:translate(520px,0)}50%{transform:translate(200px,30px)}100%{transform:translate(-140px,-12px)}}
+@keyframes pc-flapY{0%,100%{transform:scaleY(1)}50%{transform:scaleY(-.6)}}
+@keyframes pc-glow{0%,100%{opacity:.55}50%{opacity:1}}
+.pc-fog{animation:pc-fog 22s ease-in-out infinite alternate}
+.pc-fog2{animation:pc-fog 30s ease-in-out -9s infinite alternate-reverse}
+.pc-batA{animation:pc-batA 18s linear infinite}
+.pc-batB{animation:pc-batB 24s linear -7s infinite}
+.pc-flapY{transform-box:fill-box;transform-origin:50% 50%;animation:pc-flapY .32s ease-in-out infinite}
+.pc-glow{animation:pc-glow 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.pc-drift,.pc-drift2,.pc-sway,.pc-sway-b,.pc-sway-c,.pc-bob,.pc-bob-b,.pc-bob-c,.pc-ripen,.pc-fog,.pc-fog2,.pc-batA,.pc-batB,.pc-flapY,.pc-glow{animation:none}}
+</style>
+<div style="width: 1440px; height: 900px; position: relative; overflow: hidden; background: #1f1233; font-family: Nunito, system-ui, sans-serif;">
+<svg viewBox="0 0 1350 844" width="1440" height="900" preserveAspectRatio="xMidYMid slice" style="position: absolute; inset: 0;" aria-hidden="true">
+<defs>
+<linearGradient id="hw-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f1233"></stop><stop offset="0.55" stop-color="#4a2a63"></stop><stop offset="0.82" stop-color="#8a4a6e"></stop><stop offset="1" stop-color="#d9805e"></stop></linearGradient>
+<radialGradient id="hw-moonglow"><stop offset="0" stop-color="#ffd27a" stop-opacity="0.5"></stop><stop offset="1" stop-color="#ffd27a" stop-opacity="0"></stop></radialGradient>
+<radialGradient id="hw-lamp"><stop offset="0" stop-color="#ffd25a" stop-opacity="0.75"></stop><stop offset="1" stop-color="#ffd25a" stop-opacity="0"></stop></radialGradient>
+<path id="hw-bat" d="M0 0 C-6 -7 -13 -7 -20 -2 C-15 -2 -13 2 -11 5 C-8 1 -4 1 0 5 C4 1 8 1 11 5 C13 2 15 -2 20 -2 C13 -7 6 -7 0 0Z" fill="#140c1f"></path>
+<g id="hw-seca">
+<path d="M-3 0 C-2 -30 -4 -52 -1 -80 L1 -80 C3 -52 2 -30 3 0Z" fill="#1c1428"></path>
+<path d="M0 -44 C-10 -50 -18 -54 -26 -66 M0 -56 C10 -62 16 -68 22 -82 M-1 -70 C-6 -80 -4 -86 -9 -94 M-14 -54 L-20 -46 M12 -66 L20 -64" fill="none" stroke="#1c1428" stroke-width="3" stroke-linecap="round"></path>
+</g>
+<g id="hw-secaL">
+<path d="M-2 0 L-1 -70 L1 -70 L2 0Z" fill="#1c1428"></path>
+<path d="M0 -36 L-14 -52 M0 -48 L12 -62 M0 -60 L-6 -72" stroke="#1c1428" stroke-width="2.6" stroke-linecap="round"></path>
+</g>
+<g id="hw-abobora">
+<ellipse cx="0" cy="-11" rx="16" ry="12" fill="#e8742a"></ellipse>
+<ellipse cx="0" cy="-11" rx="7" ry="12" fill="none" stroke="#b9551a" stroke-width="2"></ellipse>
+<path d="M-12 -11 C-12 -18 -8 -22 -4 -22 M12 -11 C12 -18 8 -22 4 -22" fill="none" stroke="#b9551a" stroke-width="2"></path>
+<path d="M0 -22 C0 -27 2 -30 5 -31" stroke="#4a6a2a" stroke-width="3" fill="none" stroke-linecap="round"></path>
+</g>
+<g id="hw-lanterna">
+<use href="#hw-abobora"></use>
+<path d="M-8 -14 L-4 -18 L-2 -13Z M8 -14 L4 -18 L2 -13Z M-8 -7 Q0 -2 8 -7 Q4 -5 0 -6 Q-4 -5 -8 -7Z" fill="#ffd25a"></path>
+</g>
+<g id="hw-flor">
+<path d="M0 0 C-2 -20 2 -36 0 -50" fill="none" stroke="#2a3a24" stroke-width="3"></path>
+<path d="M0 -20 C-14 -26 -24 -22 -28 -12 C-16 -10 -6 -14 0 -20Z" fill="#2a3a24"></path>
+<path d="M-12 -50 C-14 -64 -7 -72 0 -76 C7 -72 14 -64 12 -50Z" fill="#9b6ad6"></path>
+<path d="M-6 -50 C-8 -60 -3 -66 0 -68 C3 -66 8 -60 6 -50Z" fill="#7a4ab8"></path>
+</g>
+<g id="hw-botao">
+<path d="M0 0 C-1 -14 1 -24 0 -36" fill="none" stroke="#2a3a24" stroke-width="2.6"></path>
+<path d="M-9 -36 C-10 -46 -5 -52 0 -55 C5 -52 10 -46 9 -36Z" fill="#7a4ab8"></path>
+</g>
+</defs>
+<rect width="1350" height="844" fill="url(#hw-sky)"></rect>
+<g fill="#f6e6ff" opacity="0.7"><circle cx="120" cy="60" r="1.4"></circle><circle cx="300" cy="120" r="1.2"></circle><circle cx="620" cy="50" r="1.5"></circle><circle cx="980" cy="90" r="1.2"></circle><circle cx="1180" cy="40" r="1.6"></circle><circle cx="1300" cy="150" r="1.2"></circle><circle cx="880" cy="210" r="1.1"></circle><circle cx="460" cy="200" r="1.2"></circle></g>
+<circle cx="760" cy="200" r="190" fill="url(#hw-moonglow)"></circle>
+<circle cx="760" cy="200" r="78" fill="#f6c95a"></circle>
+<circle cx="732" cy="178" r="14" fill="#e8b448"></circle><circle cx="790" cy="220" r="11" fill="#e8b448"></circle><circle cx="768" cy="244" r="7" fill="#e8b448"></circle><circle cx="796" cy="170" r="6" fill="#e8b448"></circle>
+<g class="pc-batA"><g transform="translate(560 150) scale(1.6)"><g class="pc-flapY"><use href="#hw-bat"></use></g></g></g>
+<g class="pc-batA" style="animation-delay: -11s"><g transform="translate(600 250) scale(1.1)"><g class="pc-flapY" style="animation-delay: -0.1s"><use href="#hw-bat"></use></g></g></g>
+<g class="pc-batB"><g transform="translate(700 120) scale(1.3)"><g class="pc-flapY" style="animation-delay: -0.2s"><use href="#hw-bat"></use></g></g></g>
+<g transform="translate(0 96)">
+<path d="M-60 480 L110 322 L290 480Z" fill="#3a2752"></path>
+<path d="M-60 480 L110 322 L98 352 L126 368 L52 410 L168 420 L214 480Z" fill="#2c1d42"></path>
+<path d="M200 490 L370 378 L540 490Z" fill="#3a2752"></path>
+<path d="M370 378 L360 400 L402 418 L362 438 L430 448 L460 490 L540 490Z" fill="#2c1d42"></path>
+<path d="M470 486 L690 300 L910 486Z" fill="#3a2752"></path>
+<path d="M470 486 L690 300 L676 334 L708 352 L620 400 L752 412 L804 486Z" fill="#2c1d42"></path>
+<path d="M820 490 L990 384 L1160 490Z" fill="#3a2752"></path>
+<path d="M990 384 L980 404 L1020 420 L984 438 L1048 448 L1076 490 L1160 490Z" fill="#2c1d42"></path>
+<path d="M1060 484 L1240 334 L1420 484Z" fill="#3a2752"></path>
+<path d="M1060 484 L1240 334 L1228 364 L1256 380 L1182 420 L1296 430 L1340 484Z" fill="#2c1d42"></path>
+<path d="M0 474 C300 486 700 492 1350 470 V580 H0Z" fill="#2a2338"></path>
+<path d="M0 474 C300 486 700 492 1350 470 V480 C700 502 300 496 0 484Z" fill="#3b3150"></path>
+<use href="#hw-seca" transform="translate(40 528) scale(0.9)"></use>
+<use href="#hw-seca" transform="translate(118 508) scale(0.7)"></use>
+<use href="#hw-secaL" transform="translate(168 492) scale(0.38)"></use>
+<use href="#hw-secaL" transform="translate(192 494) scale(0.34)"></use>
+<use href="#hw-secaL" transform="translate(560 496) scale(0.42)"></use>
+<use href="#hw-seca" transform="translate(600 506) scale(0.5)"></use>
+<use href="#hw-secaL" transform="translate(640 498) scale(0.36)"></use>
+<use href="#hw-secaL" transform="translate(1150 494) scale(0.36)"></use>
+<use href="#hw-seca" transform="translate(1200 508) scale(0.66)"></use>
+<use href="#hw-seca" transform="translate(1290 530) scale(0.92)"></use>
+<path d="M0 568 C300 558 800 546 1350 532 V844 H0Z" fill="#34402a"></path>
+<path d="M0 568 C300 558 800 546 1350 532 V550 C800 566 300 578 0 586Z" fill="#46543a"></path>
+<g fill="#2a3424"><ellipse cx="60" cy="612" rx="7" ry="2.4"></ellipse><ellipse cx="200" cy="598" rx="7" ry="2.4"></ellipse><ellipse cx="380" cy="624" rx="7" ry="2.4"></ellipse><ellipse cx="520" cy="604" rx="7" ry="2.4"></ellipse><ellipse cx="700" cy="620" rx="7" ry="2.4"></ellipse><ellipse cx="820" cy="600" rx="7" ry="2.4"></ellipse><ellipse cx="1180" cy="610" rx="7" ry="2.4"></ellipse><ellipse cx="1300" cy="596" rx="7" ry="2.4"></ellipse><ellipse cx="300" cy="760" rx="8" ry="2.6"></ellipse><ellipse cx="640" cy="780" rx="8" ry="2.6"></ellipse><ellipse cx="980" cy="770" rx="8" ry="2.6"></ellipse><ellipse cx="1220" cy="790" rx="8" ry="2.6"></ellipse></g>
+<g class="pc-fog" fill="#c9b0e0" opacity="0.13"><ellipse cx="200" cy="500" rx="260" ry="22"></ellipse><ellipse cx="760" cy="512" rx="300" ry="20"></ellipse><ellipse cx="1240" cy="498" rx="220" ry="20"></ellipse></g>
+<g transform="translate(990 572) scale(2.4)">
+<ellipse cx="0" cy="0" rx="30" ry="4" fill="#2a3424"></ellipse>
+<path d="M-6 0 C-4 -30 -8 -50 -3 -84 L1 -84 C6 -52 4 -30 7 0Z" fill="#140c1f"></path>
+<path d="M-1 -48 C-14 -56 -24 -58 -36 -72 M-30 -66 L-38 -60 M0 -60 C12 -68 22 -74 32 -92 M24 -78 L34 -76 M-2 -76 C-8 -88 -6 -96 -14 -106 M-8 -92 L-2 -100 M1 -84 C4 -94 10 -100 12 -110" fill="none" stroke="#140c1f" stroke-width="3" stroke-linecap="round"></path>
+<path d="M28 -84 V-70" stroke="#140c1f" stroke-width="0.8"></path>
+<circle class="pc-glow" cx="28" cy="-64" r="16" fill="url(#hw-lamp)"></circle>
+<rect x="24.5" y="-70" width="7" height="10" rx="2" fill="#ffb54a"></rect><rect x="24" y="-71" width="8" height="2" fill="#140c1f"></rect>
+</g>
+<g transform="translate(940 584) scale(1.5)"><use href="#hw-lanterna"></use></g>
+<g transform="translate(1060 590) scale(1.2)"><use href="#hw-abobora"></use></g>
+<g transform="translate(1010 600) scale(1.7)">
+<ellipse cx="0" cy="-11" rx="16" ry="12" fill="#8fbf5f"></ellipse><ellipse class="pc-ripen" cx="0" cy="-11" rx="16" ry="12" fill="#f28a2b"></ellipse>
+<ellipse cx="0" cy="-11" rx="7" ry="12" fill="none" stroke="#b9551a" stroke-width="2" opacity="0.6"></ellipse>
+<path d="M0 -22 C0 -27 2 -30 5 -31" stroke="#4a6a2a" stroke-width="3" fill="none" stroke-linecap="round"></path>
+</g>
+<g transform="translate(46 640)"><use href="#hw-flor" class="pc-bob"></use></g>
+<g transform="translate(116 650)"><use href="#hw-flor" class="pc-bob-b"></use></g>
+<g transform="translate(250 650)"><use href="#hw-botao" class="pc-bob"></use></g>
+<g transform="translate(320 652)"><use href="#hw-flor" class="pc-bob-b"></use></g>
+<g transform="translate(396 640) scale(1.1)"><use href="#hw-flor" class="pc-bob-c"></use></g>
+<g transform="translate(470 656) scale(0.75)"><use href="#hw-botao" class="pc-bob"></use></g>
+<g transform="translate(646 650) scale(0.9)"><use href="#hw-flor" class="pc-bob-c"></use></g>
+<g transform="translate(700 654)"><use href="#hw-botao" class="pc-bob"></use></g>
+<g transform="translate(770 648)"><use href="#hw-botao" class="pc-bob-b"></use></g>
+<g transform="translate(850 646) scale(1.08)"><use href="#hw-flor" class="pc-bob-c"></use></g>
+<g transform="translate(930 646)"><use href="#hw-flor" class="pc-bob"></use></g>
+<g transform="translate(1086 656) scale(0.8)"><use href="#hw-botao" class="pc-bob-b"></use></g>
+<g transform="translate(1160 660) scale(0.9)"><use href="#hw-flor" class="pc-bob-c"></use></g>
+<g transform="translate(1290 644)"><use href="#hw-flor" class="pc-bob-b"></use></g>
+<g transform="translate(150 664) scale(1.1)"><use href="#hw-lanterna"></use></g>
+<g transform="translate(520 670)"><use href="#hw-abobora"></use></g>
+<g transform="translate(1230 668) scale(1.1)"><use href="#hw-lanterna"></use></g>
+<g fill="#1a1426"><circle cx="0" cy="666" r="30"></circle><circle cx="40" cy="676" r="28"></circle><circle cx="80" cy="672" r="24"></circle><circle cx="120" cy="682" r="22"></circle><circle cx="170" cy="684" r="20"></circle><circle cx="206" cy="676" r="24"></circle><circle cx="244" cy="686" r="20"></circle><circle cx="296" cy="682" r="24"></circle><circle cx="336" cy="672" r="28"></circle><circle cx="376" cy="680" r="24"></circle><circle cx="420" cy="686" r="20"></circle><circle cx="458" cy="676" r="26"></circle><circle cx="500" cy="684" r="22"></circle><circle cx="546" cy="678" r="26"></circle><circle cx="592" cy="686" r="20"></circle><circle cx="632" cy="676" r="26"></circle><circle cx="676" cy="684" r="22"></circle><circle cx="720" cy="680" r="24"></circle><circle cx="764" cy="686" r="20"></circle><circle cx="806" cy="676" r="26"></circle><circle cx="850" cy="684" r="22"></circle><circle cx="896" cy="678" r="26"></circle><circle cx="940" cy="686" r="20"></circle><circle cx="982" cy="676" r="26"></circle><circle cx="1026" cy="684" r="22"></circle><circle cx="1070" cy="680" r="24"></circle><circle cx="1114" cy="686" r="20"></circle><circle cx="1156" cy="676" r="26"></circle><circle cx="1200" cy="684" r="22"></circle><circle cx="1246" cy="676" r="28"></circle><circle cx="1290" cy="670" r="30"></circle><circle cx="1336" cy="664" r="32"></circle></g>
+<g fill="#2a2038"><circle cx="-4" cy="658" r="16"></circle><circle cx="38" cy="668" r="14"></circle><circle cx="204" cy="668" r="12"></circle><circle cx="334" cy="664" r="14"></circle><circle cx="544" cy="670" r="12"></circle><circle cx="804" cy="668" r="13"></circle><circle cx="980" cy="668" r="13"></circle><circle cx="1244" cy="666" r="14"></circle><circle cx="1338" cy="654" r="16"></circle></g>
+<path d="M0 744 C320 732 900 722 1350 712 V844 H0Z" fill="#3a4630"></path>
+<g class="pc-fog2" fill="#c9b0e0" opacity="0.16"><ellipse cx="320" cy="628" rx="300" ry="14"></ellipse><ellipse cx="1000" cy="620" rx="340" ry="12"></ellipse></g>
+</g>
+
+</svg>
+
+<div style="position: absolute; left: 32px; right: 32px; top: 24px; display: flex; justify-content: space-between; align-items: center;">
+<a href="#" style="display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px 0 12px; border-radius: 999px; background: rgba(25, 19, 31, 0.66); border: 1.5px solid rgba(255, 255, 255, 0.18); color: #f6ead8; text-decoration: none; font-weight: 800; font-size: 15px;"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Início</a>
+<div style="display: flex; gap: 10px;">
+<button aria-label="Ajustar ciclo" style="width: 48px; height: 48px; border-radius: 999px; background: rgba(25, 19, 31, 0.66); border: 1.5px solid rgba(255, 255, 255, 0.18); display: grid; place-items: center; color: #f6ead8;"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></g></svg></button>
+<button aria-label="Tela cheia" style="width: 48px; height: 48px; border-radius: 999px; background: rgba(25, 19, 31, 0.66); border: 1.5px solid rgba(255, 255, 255, 0.18); display: grid; place-items: center; color: #f6ead8;"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+</div>
+</div>
+
+<section aria-label="Pomodoro em andamento" style="position: absolute; left: 120px; top: 132px; width: 440px; box-sizing: border-box; padding: 24px 30px 26px; border-radius: 32px; background: rgba(25, 19, 31, 0.66); border: 1.5px solid rgba(255, 255, 255, 0.18); box-shadow: 0 16px 40px rgba(10, 4, 16, 0.4); display: flex; flex-direction: column; gap: 14px; color: #f6ead8;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 0.6px; color: #1f1233; background: #f28a2b; padding: 4px 12px; border-radius: 999px;">FOCO</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800;" aria-label="Ciclo 2 de 4"><span style="width: 9px; height: 9px; border-radius: 999px; background: #e8742a;"></span><span style="width: 9px; height: 9px; border-radius: 999px; background: #f6c95a;"></span><span style="width: 9px; height: 9px; border-radius: 999px; background: rgba(246, 234, 216, 0.25);"></span><span style="width: 9px; height: 9px; border-radius: 999px; background: rgba(246, 234, 216, 0.25);"></span><span style="margin-left: 4px;">Ciclo 2 de 4</span></span>
+</div>
+<div role="timer" aria-label="18 minutos e 42 segundos restantes" style="font-family: Fredoka, Nunito, sans-serif; font-weight: 600; font-size: 112px; line-height: 0.95; letter-spacing: -2px; font-variant-numeric: tabular-nums;">18:42</div>
+<div style="display: flex; flex-direction: column; gap: 5px;">
+<div style="height: 8px; border-radius: 999px; background: rgba(246, 234, 216, 0.16); overflow: hidden;"><div style="width: 25%; height: 100%; border-radius: 999px; background: #f28a2b;"></div></div>
+<span style="font-size: 12px; font-weight: 800;">Abóbora amadurecendo · 25%</span>
+</div>
+<div style="padding: 12px 14px; border-radius: 18px; background: rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; gap: 1px;">
+<span style="font-size: 12px; font-weight: 800; color: #cdbfd8;">ALGORITMOS</span>
+<span style="font-size: 17px; font-weight: 800; color: #fff6ea;">5.3 Algoritmos aleatorizados</span>
+<span style="font-size: 13px; font-weight: 600; color: #cdbfd8;">p. 120–131 · cerca de 2 pomodoros</span>
+</div>
+<div style="display: flex; gap: 10px;">
+<button style="flex: 1; min-height: 52px; border-radius: 22px; border: 2px solid rgba(246, 234, 216, 0.55); background: rgba(255, 255, 255, 0.08); font: 800 17px Nunito, sans-serif; color: #fff6ea;">Pausar</button>
+<button style="flex: 1; min-height: 52px; border-radius: 22px; border: 0; background: transparent; font: 800 17px Nunito, sans-serif; color: #f6c95a;">Encerrar</button>
+</div>
+</section>
+<span style="position: absolute; left: 120px; top: 540px; font-size: 12px; font-weight: 800; color: #f6ead8; background: rgba(25, 19, 31, 0.66); padding: 4px 10px; border-radius: 999px;">Espaço pausa · F tela cheia</span>
+</div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Pomodoro no computador · Clássico</title>
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&amp;family=Nunito:wght@400;600;800&amp;display=swap">
+<style>
+body{margin:0}
+@keyframes pc-drift{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
+@keyframes pc-drift2{from{transform:translateX(14px)}to{transform:translateX(-14px)}}
+@keyframes pc-sway{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+@keyframes pc-bob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes pc-flap{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.25)}}
+@keyframes pc-flyA{0%{transform:translate(0,0)}25%{transform:translate(46px,-22px)}50%{transform:translate(92px,6px)}75%{transform:translate(44px,26px)}100%{transform:translate(0,0)}}
+@keyframes pc-flyB{0%{transform:translate(0,0)}33%{transform:translate(-40px,-18px)}66%{transform:translate(-68px,10px)}100%{transform:translate(0,0)}}
+@keyframes pc-ripen{0%{opacity:.15}100%{opacity:.85}}
+.pc-drift{animation:pc-drift 26s ease-in-out infinite alternate}
+.pc-drift2{animation:pc-drift2 20s ease-in-out infinite alternate}
+.pc-sway{transform-box:fill-box;transform-origin:50% 100%;animation:pc-sway 6s ease-in-out infinite}
+.pc-sway-b{transform-box:fill-box;transform-origin:50% 100%;animation:pc-sway 7.5s ease-in-out -2s infinite}
+.pc-sway-c{transform-box:fill-box;transform-origin:50% 100%;animation:pc-sway 8.5s ease-in-out -4s infinite}
+.pc-bob{transform-box:fill-box;transform-origin:50% 100%;animation:pc-bob 3.8s ease-in-out infinite}
+.pc-bob-b{transform-box:fill-box;transform-origin:50% 100%;animation:pc-bob 4.6s ease-in-out -1.3s infinite}
+.pc-bob-c{transform-box:fill-box;transform-origin:50% 100%;animation:pc-bob 3.3s ease-in-out -2.4s infinite}
+.pc-wing{transform-box:fill-box;transform-origin:50% 50%;animation:pc-flap .38s ease-in-out infinite}
+.pc-flyA{animation:pc-flyA 15s ease-in-out infinite}
+.pc-flyB{animation:pc-flyB 12s ease-in-out infinite}
+.pc-flyC{animation:pc-flyA 17s ease-in-out -6s infinite}
+.pc-ripen{animation:pc-ripen 12s ease-in-out infinite alternate}
+@media (prefers-reduced-motion: reduce){.pc-drift,.pc-drift2,.pc-sway,.pc-sway-b,.pc-sway-c,.pc-bob,.pc-bob-b,.pc-bob-c,.pc-wing,.pc-flyA,.pc-flyB,.pc-flyC,.pc-ripen{animation:none}}
+</style>
+<div style="width: 1440px; height: 900px; position: relative; overflow: hidden; background: #b3f0e2; font-family: Nunito, system-ui, sans-serif; color: #24361a;">
+<svg viewBox="0 0 1350 844" width="1440" height="900" preserveAspectRatio="xMidYMid slice" style="position: absolute; inset: 0;" aria-hidden="true">
+<defs>
+<linearGradient id="pc-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9eeedb"></stop><stop offset="1" stop-color="#d4f6ee"></stop></linearGradient>
+<g id="pc-arv">
+<ellipse cx="0" cy="0" rx="16" ry="3" fill="#5a7a16"></ellipse>
+<circle cx="6" cy="-78" r="22" fill="#5a7c2e"></circle><circle cx="18" cy="-60" r="18" fill="#5a7c2e"></circle><circle cx="-2" cy="-98" r="16" fill="#5a7c2e"></circle>
+<circle cx="-2" cy="-72" r="22" fill="#3e5e22"></circle><circle cx="-14" cy="-56" r="18" fill="#3e5e22"></circle><circle cx="10" cy="-54" r="17" fill="#3e5e22"></circle><circle cx="-8" cy="-92" r="15" fill="#3e5e22"></circle><circle cx="0" cy="-42" r="15" fill="#3e5e22"></circle>
+<path d="M-2 0 L-1 -82 L1 -82 L2 0Z" fill="#6b2e12"></path>
+<path d="M0 -40 L-12 -52 M0 -48 L10 -60 M0 -64 L-8 -74" stroke="#6b2e12" stroke-width="2" stroke-linecap="round"></path>
+</g>
+<g id="pc-arvL">
+<circle cx="-2" cy="-72" r="22" fill="#3e5e22"></circle><circle cx="-12" cy="-56" r="18" fill="#3e5e22"></circle><circle cx="10" cy="-56" r="17" fill="#3e5e22"></circle><circle cx="-4" cy="-92" r="15" fill="#3e5e22"></circle>
+<path d="M-2 0 L-1 -82 L1 -82 L2 0Z" fill="#6b2e12"></path>
+</g>
+<g id="pc-tulipa">
+<path d="M0 0 C-2 -24 2 -44 0 -62" fill="none" stroke="#3e5e22" stroke-width="3"></path>
+<path d="M0 -24 C-18 -30 -30 -24 -34 -12 C-20 -10 -8 -14 0 -24Z" fill="#3e5e22"></path>
+<path d="M0 -36 C16 -44 28 -40 32 -28 C18 -26 8 -30 0 -36Z" fill="#3e5e22"></path>
+<path d="M-14 -62 C-16 -78 -8 -88 0 -92 C8 -88 16 -78 14 -62Z" fill="#ffd23f"></path>
+<path d="M-8 -62 C-10 -74 -4 -82 0 -84 C4 -82 10 -74 8 -62Z" fill="#ffb627"></path>
+<path d="M-18 -70 C-12 -66 -8 -62 -4 -60 M18 -70 C12 -66 8 -62 4 -60" stroke="#ffd23f" stroke-width="7" stroke-linecap="round"></path>
+</g>
+<g id="pc-margarida">
+<path d="M0 0 C2 -20 -2 -36 0 -52" fill="none" stroke="#3e5e22" stroke-width="3"></path>
+<path d="M0 -20 C14 -28 26 -24 30 -12 C16 -10 6 -14 0 -20Z" fill="#3e5e22"></path>
+<g transform="translate(0 -64)">
+<ellipse cx="0" cy="-13" rx="8" ry="13" fill="#ff7a4a"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#ff7a4a" transform="rotate(72)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#ff7a4a" transform="rotate(144)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#ff7a4a" transform="rotate(216)"></ellipse><ellipse cx="0" cy="-13" rx="8" ry="13" fill="#ff7a4a" transform="rotate(288)"></ellipse>
+<path d="M0 -6 V-20 M0 0 L13 -4 M0 0 L8 11 M0 0 L-8 11 M0 0 L-13 -4" stroke="#ff9a6e" stroke-width="1.4" stroke-linecap="round"></path>
+<circle r="6" fill="#ffe08a"></circle>
+</g>
+</g>
+<g id="pc-botao">
+<path d="M0 0 C-1 -14 1 -24 0 -36" fill="none" stroke="#3e5e22" stroke-width="2.6"></path>
+<path d="M0 -14 C-12 -20 -20 -16 -24 -8 C-12 -6 -6 -9 0 -14Z" fill="#3e5e22"></path>
+<path d="M-10 -36 C-11 -48 -6 -55 0 -58 C6 -55 11 -48 10 -36Z" fill="#ffd23f"></path>
+<path d="M-5 -36 C-6 -44 -3 -49 0 -50 C3 -49 6 -44 5 -36Z" fill="#ffb627"></path>
+</g>
+<g id="pc-ramo">
+<path d="M0 0 C-4 -16 -10 -26 -20 -34 M-8 -18 l-10 -4 M-14 -26 l-10 -2 M-6 -12 l4 -10 M-12 -22 l4 -10" fill="none" stroke="#ff7a4a" stroke-width="3" stroke-linecap="round"></path>
+</g>
+</defs>
+
+<rect width="1350" height="844" fill="url(#pc-sky)"></rect>
+
+<g class="pc-drift">
+<g transform="translate(530 -150)"><g fill="#e9fbf6"><circle cx="54" cy="250" r="40"></circle><circle cx="96" cy="276" r="30"></circle></g>
+<g fill="#ffffff"><circle cx="46" cy="242" r="36"></circle><circle cx="88" cy="270" r="26"></circle><rect x="14" y="262" width="96" height="28" rx="14"></rect></g></g>
+<g fill="#ffffff"><circle cx="1010" cy="372" r="16"></circle><circle cx="1034" cy="364" r="20"></circle><circle cx="1058" cy="376" r="14"></circle><rect x="996" y="376" width="76" height="18"></rect></g>
+</g>
+<g class="pc-drift2">
+<g fill="#e9fbf6"><circle cx="760" cy="212" r="36"></circle><circle cx="804" cy="200" r="44"></circle><circle cx="850" cy="220" r="32"></circle></g>
+<g fill="#ffffff"><circle cx="756" cy="206" r="32"></circle><circle cx="800" cy="194" r="40"></circle><circle cx="844" cy="214" r="28"></circle><rect x="736" y="214" width="124" height="30"></rect></g>
+<g fill="#e9fbf6"><circle cx="1286" cy="238" r="46"></circle><circle cx="1330" cy="290" r="48"></circle><circle cx="1250" cy="298" r="30"></circle></g>
+<g fill="#ffffff"><circle cx="1294" cy="230" r="40"></circle><circle cx="1336" cy="282" r="42"></circle><circle cx="1258" cy="292" r="26"></circle><rect x="1250" y="292" width="100" height="36"></rect></g>
+</g>
+
+<g transform="translate(0 96)">
+<path d="M-60 480 L110 322 L290 480Z" fill="#5ab585"></path>
+<path d="M-60 480 L110 322 L98 352 L126 368 L52 410 L168 420 L214 480Z" fill="#43a27a"></path>
+<path d="M200 490 L370 378 L540 490Z" fill="#5ab585"></path>
+<path d="M370 378 L360 400 L402 418 L362 438 L430 448 L460 490 L540 490Z" fill="#3f9b75"></path>
+<path d="M470 486 L690 300 L910 486Z" fill="#5ab585"></path>
+<path d="M470 486 L690 300 L676 334 L708 352 L620 400 L752 412 L804 486Z" fill="#43a27a"></path>
+<path d="M820 490 L990 384 L1160 490Z" fill="#5ab585"></path>
+<path d="M990 384 L980 404 L1020 420 L984 438 L1048 448 L1076 490 L1160 490Z" fill="#3f9b75"></path>
+<path d="M1060 484 L1240 334 L1420 484Z" fill="#5ab585"></path>
+<path d="M1060 484 L1240 334 L1228 364 L1256 380 L1182 420 L1296 430 L1340 484Z" fill="#43a27a"></path>
+
+<path d="M0 474 C300 486 700 492 1350 470 V580 H0Z" fill="#6f9119"></path>
+<path d="M0 474 C300 486 700 492 1350 470 V480 C700 502 300 496 0 484Z" fill="#8cac2c"></path>
+
+<g transform="translate(40 528) scale(0.9)"><use href="#pc-arv" class="pc-sway-b"></use></g>
+<g transform="translate(118 508) scale(0.7)"><use href="#pc-arv" class="pc-sway-c"></use></g>
+<use href="#pc-arvL" transform="translate(168 492) scale(0.38)"></use>
+<use href="#pc-arvL" transform="translate(192 494) scale(0.34)"></use>
+<use href="#pc-arvL" transform="translate(560 496) scale(0.42)"></use>
+<g transform="translate(600 506) scale(0.5)"><use href="#pc-arv" class="pc-sway-c"></use></g>
+<use href="#pc-arvL" transform="translate(640 498) scale(0.36)"></use>
+<use href="#pc-arvL" transform="translate(1150 494) scale(0.36)"></use>
+<g transform="translate(1200 508) scale(0.66)"><use href="#pc-arv" class="pc-sway-b"></use></g>
+<g transform="translate(1290 530) scale(0.92)"><use href="#pc-arv" class="pc-sway-c"></use></g>
+<path d="M74 540 q10 -14 22 -8 q10 -10 22 -2 q8 -2 10 10 h-54z" fill="#3e5e22"></path>
+<path d="M440 512 q8 -10 18 -6 q8 -8 18 -1 q6 -1 8 7 h-44z" fill="#3e5e22"></path>
+<path d="M860 516 q8 -10 18 -6 q8 -8 18 -1 q6 -1 8 7 h-44z" fill="#3e5e22"></path>
+<path d="M1220 540 q10 -14 22 -8 q10 -10 22 -2 q8 -2 10 10 h-54z" fill="#3e5e22"></path>
+
+<path d="M0 568 C300 558 800 546 1350 532 V844 H0Z" fill="#9bc345"></path>
+<path d="M0 568 C300 558 800 546 1350 532 V550 C800 566 300 578 0 586Z" fill="#c0d564"></path>
+<g fill="#86b13a"><ellipse cx="60" cy="612" rx="7" ry="2.4"></ellipse><ellipse cx="200" cy="598" rx="7" ry="2.4"></ellipse><ellipse cx="380" cy="624" rx="7" ry="2.4"></ellipse><ellipse cx="520" cy="604" rx="7" ry="2.4"></ellipse><ellipse cx="700" cy="620" rx="7" ry="2.4"></ellipse><ellipse cx="820" cy="600" rx="7" ry="2.4"></ellipse><ellipse cx="1180" cy="610" rx="7" ry="2.4"></ellipse><ellipse cx="1300" cy="596" rx="7" ry="2.4"></ellipse><ellipse cx="300" cy="760" rx="8" ry="2.6"></ellipse><ellipse cx="640" cy="780" rx="8" ry="2.6"></ellipse><ellipse cx="980" cy="770" rx="8" ry="2.6"></ellipse><ellipse cx="1220" cy="790" rx="8" ry="2.6"></ellipse></g>
+
+<g transform="translate(990 572) scale(2.1)"><g class="pc-sway">
+<ellipse cx="0" cy="0" rx="34" ry="5" fill="#86b13a"></ellipse>
+<circle cx="8" cy="-80" r="24" fill="#5a7c2e"></circle><circle cx="22" cy="-60" r="20" fill="#5a7c2e"></circle><circle cx="0" cy="-104" r="18" fill="#5a7c2e"></circle><circle cx="18" cy="-96" r="16" fill="#5a7c2e"></circle>
+<circle cx="-2" cy="-74" r="24" fill="#3e5e22"></circle><circle cx="-16" cy="-58" r="20" fill="#3e5e22"></circle><circle cx="12" cy="-56" r="19" fill="#3e5e22"></circle><circle cx="-8" cy="-96" r="17" fill="#3e5e22"></circle><circle cx="6" cy="-92" r="16" fill="#3e5e22"></circle><circle cx="0" cy="-42" r="16" fill="#3e5e22"></circle><circle cx="-22" cy="-80" r="12" fill="#3e5e22"></circle>
+<path d="M-3 0 L-1 -86 L1 -86 L3 0Z" fill="#6b2e12"></path>
+<path d="M0 -38 L-14 -50 M0 -46 L12 -60 M0 -64 L-10 -76 M0 -72 L8 -84" stroke="#6b2e12" stroke-width="2" stroke-linecap="round"></path>
+<circle cx="-18" cy="-62" r="4" fill="#e8492e"></circle><circle cx="14" cy="-84" r="4" fill="#e8492e"></circle><circle cx="-6" cy="-100" r="3.6" fill="#e8492e"></circle>
+<circle cx="16" cy="-52" r="4.4" fill="#c3df86"></circle><circle class="pc-ripen" cx="16" cy="-52" r="4.4" fill="#e8492e"></circle>
+<ellipse cx="14.6" cy="-53.4" rx="1.2" ry="0.8" fill="#ffffff" opacity="0.7"></ellipse>
+</g></g>
+
+<g class="pc-flyA"><g transform="translate(880 470)"><g class="pc-wing"><path d="M0 0 C-8 -10 -14 -6 -12 0 C-14 6 -8 8 0 0 C8 8 14 6 12 0 C14 -6 8 -10 0 0Z" fill="#ff8a4c"></path></g><path d="M0 -4 V4" stroke="#5a2a10" stroke-width="2" stroke-linecap="round"></path></g></g>
+<g class="pc-flyB"><g transform="translate(1140 520)"><g class="pc-wing" style="animation-delay: -0.15s"><path d="M0 0 C-7 -9 -12 -5 -10 0 C-12 5 -7 7 0 0 C7 7 12 5 10 0 C12 -5 7 -9 0 0Z" fill="#ffd23f"></path></g><path d="M0 -3 V3" stroke="#5a2a10" stroke-width="2" stroke-linecap="round"></path></g></g>
+<g class="pc-flyC"><g transform="translate(300 540)"><g class="pc-wing" style="animation-delay: -0.25s"><path d="M0 0 C-7 -9 -12 -5 -10 0 C-12 5 -7 7 0 0 C7 7 12 5 10 0 C12 -5 7 -9 0 0Z" fill="#ffd23f"></path></g><path d="M0 -3 V3" stroke="#5a2a10" stroke-width="2" stroke-linecap="round"></path></g></g>
+
+<g transform="translate(46 640)"><use href="#pc-tulipa" class="pc-bob"></use></g>
+<g transform="translate(116 650)"><use href="#pc-margarida" class="pc-bob-b"></use></g>
+<g transform="translate(196 654) scale(0.8)"><use href="#pc-botao" class="pc-bob-c"></use></g>
+<g transform="translate(250 650)"><use href="#pc-ramo" class="pc-bob-c"></use></g>
+<g transform="translate(320 652)"><use href="#pc-margarida" class="pc-bob"></use></g>
+<g transform="translate(396 640) scale(1.1)"><use href="#pc-tulipa" class="pc-bob-b"></use></g>
+<g transform="translate(470 656) scale(0.75)"><use href="#pc-botao" class="pc-bob"></use></g>
+<g transform="translate(560 660) scale(0.85)"><use href="#pc-margarida" class="pc-bob-c"></use></g>
+<g transform="translate(646 650) scale(0.9)"><use href="#pc-tulipa" class="pc-bob"></use></g>
+<g transform="translate(700 654)"><use href="#pc-ramo" class="pc-bob-b"></use></g>
+<g transform="translate(770 648)"><use href="#pc-botao" class="pc-bob-c"></use></g>
+<g transform="translate(850 646) scale(1.08)"><use href="#pc-margarida" class="pc-bob-b"></use></g>
+<g transform="translate(930 646)"><use href="#pc-tulipa" class="pc-bob"></use></g>
+<g transform="translate(1086 656) scale(0.8)"><use href="#pc-botao" class="pc-bob-b"></use></g>
+<g transform="translate(1160 660) scale(0.9)"><use href="#pc-margarida" class="pc-bob"></use></g>
+<g transform="translate(1214 650)"><use href="#pc-ramo" class="pc-bob-c"></use></g>
+<g transform="translate(1290 644)"><use href="#pc-tulipa" class="pc-bob-b"></use></g>
+
+<g fill="#3e5e22">
+<circle cx="0" cy="666" r="30"></circle><circle cx="40" cy="676" r="28"></circle><circle cx="80" cy="672" r="24"></circle><circle cx="120" cy="682" r="22"></circle><circle cx="170" cy="684" r="20"></circle><circle cx="206" cy="676" r="24"></circle><circle cx="244" cy="686" r="20"></circle><circle cx="296" cy="682" r="24"></circle><circle cx="336" cy="672" r="28"></circle><circle cx="376" cy="680" r="24"></circle>
+<circle cx="420" cy="686" r="20"></circle><circle cx="458" cy="676" r="26"></circle><circle cx="500" cy="684" r="22"></circle><circle cx="546" cy="678" r="26"></circle><circle cx="592" cy="686" r="20"></circle><circle cx="632" cy="676" r="26"></circle><circle cx="676" cy="684" r="22"></circle><circle cx="720" cy="680" r="24"></circle><circle cx="764" cy="686" r="20"></circle><circle cx="806" cy="676" r="26"></circle>
+<circle cx="850" cy="684" r="22"></circle><circle cx="896" cy="678" r="26"></circle><circle cx="940" cy="686" r="20"></circle><circle cx="982" cy="676" r="26"></circle><circle cx="1026" cy="684" r="22"></circle><circle cx="1070" cy="680" r="24"></circle><circle cx="1114" cy="686" r="20"></circle><circle cx="1156" cy="676" r="26"></circle><circle cx="1200" cy="684" r="22"></circle><circle cx="1246" cy="676" r="28"></circle><circle cx="1290" cy="670" r="30"></circle><circle cx="1336" cy="664" r="32"></circle>
+</g>
+<g fill="#4f7230"><circle cx="-4" cy="658" r="16"></circle><circle cx="38" cy="668" r="14"></circle><circle cx="204" cy="668" r="12"></circle><circle cx="334" cy="664" r="14"></circle><circle cx="544" cy="670" r="12"></circle><circle cx="804" cy="668" r="13"></circle><circle cx="980" cy="668" r="13"></circle><circle cx="1244" cy="666" r="14"></circle><circle cx="1338" cy="654" r="16"></circle></g>
+<path d="M0 744 C320 732 900 722 1350 712 V844 H0Z" fill="#a8cd52"></path>
+</g>
+</svg>
+
+<div style="position: absolute; left: 32px; right: 32px; top: 24px; display: flex; justify-content: space-between; align-items: center;">
+<a href="#" style="display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px 0 12px; border-radius: 999px; background: rgba(245, 255, 252, 0.6); border: 1.5px solid rgba(255, 255, 255, 0.9); color: #24361a; text-decoration: none; font-weight: 800; font-size: 15px;"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Início</a>
+<div style="display: flex; gap: 10px;">
+<button aria-label="Ajustar ciclo" style="width: 48px; height: 48px; border-radius: 999px; background: rgba(245, 255, 252, 0.6); border: 1.5px solid rgba(255, 255, 255, 0.9); display: grid; place-items: center; color: #24361a;"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></g></svg></button>
+<button aria-label="Tela cheia" style="width: 48px; height: 48px; border-radius: 999px; background: rgba(245, 255, 252, 0.6); border: 1.5px solid rgba(255, 255, 255, 0.9); display: grid; place-items: center; color: #24361a;"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+</div>
+</div>
+
+<section aria-label="Pomodoro em andamento" style="position: absolute; left: 120px; top: 132px; width: 440px; box-sizing: border-box; padding: 24px 30px 26px; border-radius: 32px; background: rgba(245, 255, 252, 0.6); border: 1.5px solid rgba(255, 255, 255, 0.95); box-shadow: 0 16px 40px rgba(36, 54, 26, 0.1); display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 0.6px; color: #ffffff; background: #2e7a47; padding: 4px 12px; border-radius: 999px;">FOCO</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800;" aria-label="Ciclo 2 de 4"><span style="width: 9px; height: 9px; border-radius: 999px; background: #e8492e;"></span><span style="width: 9px; height: 9px; border-radius: 999px; background: #f08a4b;"></span><span style="width: 9px; height: 9px; border-radius: 999px; background: rgba(36, 54, 26, 0.2);"></span><span style="width: 9px; height: 9px; border-radius: 999px; background: rgba(36, 54, 26, 0.2);"></span><span style="margin-left: 4px;">Ciclo 2 de 4</span></span>
+</div>
+<div role="timer" aria-label="18 minutos e 42 segundos restantes" style="font-family: Fredoka, Nunito, sans-serif; font-weight: 600; font-size: 112px; line-height: 0.95; letter-spacing: -2px; font-variant-numeric: tabular-nums;">18:42</div>
+<div style="display: flex; flex-direction: column; gap: 5px;">
+<div style="height: 8px; border-radius: 999px; background: rgba(36, 54, 26, 0.12); overflow: hidden;"><div style="width: 25%; height: 100%; border-radius: 999px; background: #f08a4b;"></div></div>
+<span style="font-size: 12px; font-weight: 800;">Fruto amadurecendo · 25%</span>
+</div>
+<div style="padding: 12px 14px; border-radius: 18px; background: rgba(255, 255, 255, 0.72); display: flex; flex-direction: column; gap: 1px;">
+<span style="font-size: 12px; font-weight: 800; color: #4a5a3e;">ALGORITMOS</span>
+<span style="font-size: 17px; font-weight: 800; color: #2a2118;">5.3 Algoritmos aleatorizados</span>
+<span style="font-size: 13px; font-weight: 600; color: #4a5a3e;">p. 120–131 · cerca de 2 pomodoros</span>
+</div>
+<div style="display: flex; gap: 10px;">
+<button style="flex: 1; min-height: 52px; border-radius: 22px; border: 2px solid #94806a; background: #ffffff; font: 800 17px Nunito, sans-serif; color: #2a2118;">Pausar</button>
+<button style="flex: 1; min-height: 52px; border-radius: 22px; border: 0; background: transparent; font: 800 17px Nunito, sans-serif; color: #1f5a33;">Encerrar</button>
+</div>
+</section>
+<span style="position: absolute; left: 120px; top: 540px; font-size: 12px; font-weight: 800; color: #24361a; background: rgba(245, 255, 252, 0.6); padding: 4px 10px; border-radius: 999px;">Espaço pausa · F tela cheia</span>
+</div>
+</body>
+</html>

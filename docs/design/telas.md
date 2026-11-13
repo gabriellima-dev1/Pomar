@@ -229,7 +229,7 @@ Referências: `22-inicio-desktop.png` (1440px) e `22b-inicio-tablet.png` (900px)
 - **Folhas inferiores** (ajustar ciclo, fim do ciclo, pausa, celebrações) viram **diálogos centralizados** de até 480px com `--radius-lg` nos 4 cantos.
 - **Conquistas:** álbum em 4–6 colunas; card de nível ao lado das abas.
 - **Disciplina:** lista de capítulos à esquerda e mini-cards (páginas, ritmo, término) numa coluna à direita de 320px.
-- **Pomodoro:** cena em tela cheia (já decidido); cronômetro de vidro e folha de controles centralizados com até 480px.
+- **Pomodoro:** a partir de 1024px, cena larga própria e painel à esquerda; ver "Pomodoro no computador" abaixo (revisão de 12/11, substitui o cronômetro centralizado com folha de 480px).
 - **Onboarding:** card central de até 480px sobre a cena Campo em tela cheia.
 
 ## Fase 5 — Feira, social, estatísticas e YouTube (onda 4, 11/11)
@@ -321,6 +321,40 @@ Completa a versão mínima da Fase 4. Seções em cards `--surface-200` com linh
 - **Experimento:** tabela A × B com pessoas, DAU médio, pomodoros por pessoa por semana e retenção D7, coluna de diferença e o selo "Amostra pequena: resultado demonstrativo". Exclui quem saiu do experimento e as contas anteriores à Fase 4.
 - **Nudge da pausa:** barra 100% com "Reiniciar" × "Continuar mesmo assim" e o total de pop-ups.
 - Rodapé com o número de contas demo fora das métricas. Consultas no servidor com a chave secreta; nada disso vai para o navegador de quem não é admin.
+
+## Pomodoro no computador (revisão de 12/11)
+
+Referências: `35-pomodoro-desktop-classico.png`, `35-pomodoro-desktop-noturno.png`, `35-pomodoro-desktop-halloween.png` e `35-pomodoro-desktop-natal.png` (1440×900). As páginas `cenas/pomodoro-desktop-<tema>.html` abrem no navegador, já animadas, e servem de fonte para cores, posições e animações. Vale de **1024px para cima**; abaixo disso fica como está hoje (cena de celular e folha de controles).
+
+**O que estava errado:** a paisagem de 390 de largura era repetida dos lados (as cópias espelhadas), a árvore do pomar ocupava ~6% da altura, o cronômetro tinha tamanho fixo no meio e os controles ficavam numa folha de 480px, com as laterais vazias.
+
+**Composição da cena larga** (substitui as cópias espelhadas no pomodoro):
+- Uma paisagem só, desenhada em `viewBox="0 0 1350 844"` com `preserveAspectRatio="xMidYMid slice"` (cobre a tela inteira em qualquer proporção; corta as bordas, nunca deixa faixa vazia). Horizonte a ~58% da altura (grupo da paisagem com `translate(0 96)`).
+- Camadas de trás para a frente: céu → nuvens/estrelas/lua → 5 montanhas facetadas → campo e bosques pequenos → prado → **árvore do tema** → flores → fileira de arbustos → prado da frente.
+- **Árvore do tema no terço direito**, em `translate(990 572)`, escala 2,1 (≈ 30% da altura da tela). O fruto que amadurece é o da árvore: a camada de cor sobe de opacidade conforme o progresso do pomodoro (`pc-ripen` nas referências é só demonstração em loop).
+- As peças (árvore, `pc-tulipa`, `pc-margarida`, `pc-botao`, `pc-ramo`, bosques) são as mesmas de `components/scenes/parts.tsx`, em escala nativa; não redesenhar.
+
+| Tema | Céu e destaque | Árvore (direita) | Animações (≤ 5 camadas) |
+|---|---|---|---|
+| Clássico | gradiente `#9eeedb → #d4f6ee`, nuvens brancas | macieira com frutos `#e8492e` | nuvens, bosques e árvore balançando, borboletas, flores |
+| Noturno | `#101a38 → #1f3264 → #34508a`; lua `#f4ecd2` com brilho em (760, 190); estrelas | mesma árvore em `#2f5236/#1f3a27`, frutos `#ff6a4a` | estrelas piscando, nuvens, árvore, vaga-lumes, flores |
+| Halloween | `#1f1233 → #4a2a63 → #8a4a6e → #d9805e`; lua cheia `#f6c95a` em (760, 200); morcegos | árvore seca `#140c1f` com lanterna; abóboras ao pé, a do meio amadurece de `#8fbf5f` para `#f28a2b` | morcegos, neblina (2 faixas), brilho da lanterna, flores, abóbora |
+| Natal | `#a9c8df → #e6f0f6`; montanhas com neve; neve caindo | pinheiro de 3 andares com festão, enfeites e estrela no topo; o enfeite do meio ganha cor (`#e6ecf0 → #d23a3a`); boneco de neve ao lado | neve (2 camadas), nuvens, estrela, flores, enfeite |
+
+- Só `transform` e `opacity`; tudo para com `prefers-reduced-motion: reduce` (a cena fica parada e completa). A neve é um bloco de flocos repetido acima de si mesmo, deslizando 844 de altura em loop (sem criar elementos).
+- No Noturno, a regra "árvore à esquerda" vale só para o celular; no computador a árvore fica à direita para não ficar atrás do painel.
+
+**Painel do pomodoro** (`GlassTimer` + controles juntos, substitui a folha de controles):
+- `section` de 440px, à esquerda: `left: 120px; top: 132px` (em telas < 1280px, `left: 64px`). Padding 24/30/26, raio 32, vidro + borda 1,5px + sombra `0 16px 40px`.
+- Conteúdo, de cima para baixo: chip FOCO/PAUSA + "Ciclo 2 de 4" com 4 bolinhas; cronômetro Fredoka 600 **112px**, `tabular-nums`, `role="timer"`; barra de 8px "Fruto amadurecendo · 25%" (Halloween: "Abóbora amadurecendo"; Natal: "Enfeite ganhando cor"); caixa do tópico (disciplina, tópico, páginas e estimativa); **Pausar** (secundário) e **Encerrar** (fantasma) lado a lado, 52px.
+- Topo: "Início" (pílula de vidro) à esquerda; **Ajustar ciclo** e **Tela cheia** (círculos de 48px) à direita. Abaixo do painel, a pílula "Espaço pausa · F tela cheia".
+- Vidro por tema: Clássico `rgba(245,255,252,.6)` texto `#24361a`; Noturno `rgba(16,26,56,.62)` texto `#f4ecd2`, borda `rgba(255,255,255,.22)`; Halloween `rgba(25,19,31,.66)` texto `#f6ead8`, borda `rgba(255,255,255,.18)`; Natal `rgba(250,253,255,.7)` texto `#1c2a3a`. Chip FOCO: verde `#2e7a47` (Clássico), `#4fa86a` com texto escuro (Noturno), `#f28a2b` com texto `#1f1233` (Halloween), `#1f5a3c` (Natal). Conferir contraste AA de todos os textos.
+- Os diálogos (ajustar ciclo, pausa, fim do ciclo) continuam como diálogos centralizados de até 480px.
+
+**Atalhos de teclado** (só na tela do pomodoro, ignorados quando o foco está num campo de texto ou num diálogo aberto):
+- **Espaço:** pausa/retoma (abre o mesmo fluxo do botão Pausar, inclusive o nudge da pausa).
+- **F:** entra/sai da tela cheia (`requestFullscreen` no contêiner da tela; o botão muda para "Sair da tela cheia"). Esc sai, como no navegador.
+- Os atalhos aparecem na pílula e nos `aria-keyshortcuts` dos botões.
 
 ## Design completo
 Todas as telas do DESIGN §11 estão desenhadas (ondas 1 a 5). Telas novas que surgirem seguem os componentes acima.
