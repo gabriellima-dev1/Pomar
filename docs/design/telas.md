@@ -1,4 +1,4 @@
-# Pomar — Design para implementação (Fases 2 a 5)
+# Pomar — Design para implementação (Fases 2 a 6)
 
 Fonte aprovada pela dupla em 09/11/2026. Referências no Claude: design system **"Pomar"** e prancheta **"Pomar — telas da Fase 2"**. Este arquivo e a pasta `docs/design/` são o que o Claude Code usa; em caso de dúvida, as imagens em `referencias/` mandam no visual e o `DESIGN.md` manda nas regras.
 
@@ -287,5 +287,40 @@ A aba **Liga** da navegação ganha um `SegmentedControl` **Feira · Amigos** (a
 - Erros: link inválido, playlist privada, cota esgotada ("Não consegui abrir a playlist agora. Tente de novo mais tarde.").
 - Evento: `subject_created {source: youtube}`.
 
-## Ainda não desenhado (próxima onda)
-Configurações completas, transparência e admin (antes da Fase 6). Até lá, essas telas seguem os componentes acima.
+## Fase 6 — Configurações, transparência e admin (onda 5, 12/11)
+
+Prancheta no Claude: **"Pomar — telas da Fase 6"**. Referências `31` a `34`. Os números do admin são de exemplo.
+
+### 31 · Configurações (`referencias/31-configuracoes.png`)
+Completa a versão mínima da Fase 4. Seções em cards `--surface-200` com linhas de 60px (rótulo 800 + valor em `--ink-muted` + chevron) separadas por `--surface-300`:
+- **CONTA:** Nome (editar) · Apelido (abre a tela 24) · **Perfil público** (interruptor, desligado por padrão) · E-mail (só leitura, com o método de login).
+- **ESTUDO:** Ciclo do pomodoro (resumo "Foco 25 · descanso 5 · longo 15 min"; abre a folha 05) · Ritmo de leitura padrão (abre a 04) · Tocar som ao terminar · **Aviso de fim do ciclo** (interruptor; ligar pede a permissão do navegador; se o navegador bloqueou, a linha explica como liberar).
+- **JOGO:** Perfil de jogador (trocar/refazer, como na 18) · Tema (resumo; abre Conquistas › Temas, onde fica o interruptor do modo escuro) · Feira (entrar/sair).
+- **PRIVACIDADE E DADOS:** card do experimento ("Você está no grupo que vê as recompensas" / "…que não vê as recompensas"; "Ver transparência" + "Sair do experimento"; some para quem está fora do experimento) · card **Exportar meus dados** ("Baixar arquivo" → JSON na hora, `GET /api/export`) · links Política de privacidade e Transparência.
+- Rodapé: "Sair da conta" (secundário) e **"Excluir conta"** (texto `--danger`, abre a 32). Nada escondido em submenus.
+
+### 32 · Excluir conta (`referencias/32-excluir-conta.png`)
+- Folha inferior sobre as Configurações com véu: Seu Tomás com sorriso menor, "Excluir sua conta?", o que é apagado, sugestão "Baixar meus dados" e o campo **"Para confirmar, digite seu apelido: {apelido}"** (sem apelido: digitar "EXCLUIR").
+- "Excluir para sempre" fica desabilitado (`--surface-300`) até o texto bater; habilitado = fundo `--danger`, texto branco. "Cancelar" (ghost).
+- Exclusão no servidor com a chave secreta: apaga a linha de `auth.users` e, em cascata, os dados da pessoa; a telemetria fica anonimizada (sem `user_id`). Depois: volta à landing com o toast "Sua conta foi excluída".
+
+### 33 · Transparência (`referencias/33-transparencia-desktop.png`, `33b-transparencia-celular.png`)
+- Página pública `/transparencia` no layout da landing (coluna de 1200px, empilha no celular), com âncoras: Técnicas · O que não fazemos · Experimento · Seus dados.
+- Hero: "Como o Pomar tenta te convencer a estudar" + a diferença entre persuasão, coerção e manipulação.
+- **"As técnicas que usamos":** grade `auto-fill, minmax(320px, 1fr)` de cards, cada um com selo do conceito da disciplina (`--surface-300` roxo claro), título em linguagem simples, **Onde**, **Por quê** e uma faixa `--primary-soft` com **Você controla** ou **Limite**. Técnicas: Fogg, recompensa variável, Kairos/nudge, default saudável, prova social, aversão à perda, compromisso e consistência, escassez, personalização (Bartle), auto-monitoramento/ancoragem, afeição (Seu Tomás), gamificação (XP, níveis, árvore). O texto deve bater com o DESIGN §3.
+- **"O que não fazemos"** (fundo `--primary-soft`): nada à venda, nenhum aviso não pedido, nada público por padrão, sem punição, sem números inventados, sem armadilha para sair.
+- **"O experimento da disciplina":** explicação dos grupos A e B (§9.4) e um quadro "O SEU GRUPO" (borda `--subject-ceu`) com o grupo da pessoa logada e "Sair do experimento" (confirmação simples; depois de sair: "Você saiu do experimento e agora vê todas as recompensas"). Sem login: "Entre para ver em qual grupo você está". Para quem está fora (contas antigas ou quem saiu), o quadro diz isso.
+- **"O que registramos":** registramos / não registramos / é seu (exportar e excluir).
+
+### 34 · Painel admin (`referencias/34-admin.png`, `34b-admin-celular.png`)
+- `/admin`, só `is_admin = true` (os outros recebem 404). Pensado para computador; no celular tudo empilha.
+- Cabeçalho: "Painel do Pomar" + selo "admin", período **7 dias · 30 dias · Desde o início**, caixa **"Sem contas demo"** (marcada por padrão) e "Atualizado às {hora}".
+- 6 cartões: DAU (média do período), MAU (30 dias), Stickiness (DAU/MAU), Retenção D1, Retenção D7, Nudge da pausa (% de "Reiniciar").
+- **Funil do onboarding** (DESIGN §9.2): barras horizontais por etapa com o total e a perda em relação à etapa anterior (perda em `--danger`).
+- **Ativos por dia:** linha no período.
+- **Experimento:** tabela A × B com pessoas, DAU médio, pomodoros por pessoa por semana e retenção D7, coluna de diferença e o selo "Amostra pequena: resultado demonstrativo". Exclui quem saiu do experimento e as contas anteriores à Fase 4.
+- **Nudge da pausa:** barra 100% com "Reiniciar" × "Continuar mesmo assim" e o total de pop-ups.
+- Rodapé com o número de contas demo fora das métricas. Consultas no servidor com a chave secreta; nada disso vai para o navegador de quem não é admin.
+
+## Design completo
+Todas as telas do DESIGN §11 estão desenhadas (ondas 1 a 5). Telas novas que surgirem seguem os componentes acima.
