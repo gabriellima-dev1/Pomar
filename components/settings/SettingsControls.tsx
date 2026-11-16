@@ -295,14 +295,7 @@ export function FeiraRow({ optIn, summary }: { optIn: boolean | null; summary: s
  * Card do experimento (telas.md › 31): some para quem está fora (conta antiga ou já saiu).
  * Sair pede uma confirmação simples.
  */
-export function ExperimentCard({
-  group,
-  back = "/configuracoes",
-}: {
-  group: ExperimentGroup;
-  back?: "/configuracoes" | "/transparencia";
-}) {
-  const [confirm, setConfirm] = useState(false);
+export function ExperimentCard({ group }: { group: ExperimentGroup }) {
   if (group === "fora") return null;
   return (
     <div className="bg-surface-200 shadow-card flex flex-col gap-4 rounded-lg p-5">
@@ -324,10 +317,28 @@ export function ExperimentCard({
         <Link href="/transparencia#experimento" className={buttonClasses("secondary", "md")}>
           Ver transparência
         </Link>
-        <Button variant="ghost" onClick={() => setConfirm(true)}>
-          Sair do experimento
-        </Button>
+        <LeaveExperimentButton back="/configuracoes" variant="ghost" />
       </div>
+    </div>
+  );
+}
+
+/** "Sair do experimento" com confirmação simples (Configurações e Transparência). */
+export function LeaveExperimentButton({
+  back,
+  variant,
+  className = "",
+}: {
+  back: "/configuracoes" | "/transparencia";
+  variant: "ghost" | "secondary";
+  className?: string;
+}) {
+  const [confirm, setConfirm] = useState(false);
+  return (
+    <>
+      <Button variant={variant} onClick={() => setConfirm(true)} className={className}>
+        Sair do experimento
+      </Button>
       <Dialog
         open={confirm}
         onClose={() => setConfirm(false)}
@@ -351,7 +362,7 @@ export function ExperimentCard({
           </Button>
         </form>
       </Dialog>
-    </div>
+    </>
   );
 }
 
