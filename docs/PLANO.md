@@ -136,7 +136,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 
 ### Fase 6 — Telemetria, ética e acabamento (21–23/11)
 - [ ] Painel `/admin`: DAU, MAU, stickiness, funil com drop-off, retenção D1/D7, aceite do nudge, comparação de coortes, filtro sem demos
-- [ ] Página `/transparencia` (técnicas usadas + experimento de coortes + sair do experimento)
+- [x] Página `/transparencia` (técnicas usadas + experimento de coortes + sair do experimento) — PR `fase-6-transparencia` (tela 33; junto, o destaque de maestria a partir do nível 10 que a página promete; e2e `e2e/transparencia.spec.ts`)
 - [x] Configurações: exportar dados (JSON) e excluir conta (1 clique + confirmação) — PR `fase-6-configuracoes` (tela 31 completa, sair do experimento, `GET /api/export`, exclusão com cascata e telemetria anonimizada; RLS em `supabase/tests/rls_fase6.sql`, 8 testes; e2e `e2e/configuracoes.spec.ts`)
 - [ ] Seed de usuários demo (com selo) para popular ligas na apresentação
 - [ ] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular
