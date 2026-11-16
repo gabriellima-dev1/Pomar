@@ -1,7 +1,7 @@
 # Pomar — Registro de decisões
 
 Formato: **data · decisão · motivo · status** (aprovada / pendente).
-Decisões de produto ficam com a dupla. As marcadas como "pendente" foram tomadas pelo Claude Code como a opção mais simples e reversível e aguardam confirmação.
+Decisões de produto ficam com a dupla. As marcadas como "pendente" foram tomadas pelo Claude Code como a opção mais simples e reversível e aguardam confirmação. "Superada" = substituída por uma decisão posterior. **Revisão das pendentes por prioridade: `docs/DECISOES-revisao.md` (16/11).**
 
 | Data | Decisão | Motivo | Status |
 |---|---|---|---|
@@ -71,9 +71,9 @@ Decisões de produto ficam com a dupla. As marcadas como "pendente" foram tomada
 | 10/11/2026 | Avisos de fim de foco e de descanso contam como **solicitados** (a pessoa ligou o cronômetro): ficam fora do teto de 2/dia, que vale para os lembretes da Fase 4. A notificação só aparece com a aba oculta; sem permissão, o título da aba pisca | Com a aba visível, o próprio app mostra o fim do ciclo | pendente |
 | 10/11/2026 | Convite para notificações: cartão discreto **durante o 1º foco** ("Quer que eu avise…?" Avisar · Agora não); "Agora não" fica guardado no aparelho | Pedido de permissão contextual (PLANO Fase 2) | pendente |
 | 10/11/2026 | "Tocar som ao terminar" e a contagem de ciclos para o descanso longo ficam **no aparelho** (localStorage). A contagem zera depois do descanso longo, ao pular um descanso longo ou na virada do dia | Preferência leve, sem migração; a duração dos ciclos continua no perfil | pendente |
-| 10/11/2026 | Na Fase 2, a tela do pomodoro fica **sempre no tema Clássico** (cena e folha), também no modo escuro | As cenas Noturno, Halloween e Natal são da Fase 3 | pendente |
+| 10/11/2026 | Na Fase 2, a tela do pomodoro fica **sempre no tema Clássico** (cena e folha), também no modo escuro | As cenas Noturno, Halloween e Natal são da Fase 3 | superada (Fase 3: cenas dos 4 temas no pomodoro) |
 | 10/11/2026 | Cores da cena viram tokens `scene-*` no `tokens.json` só para o Clássico; nos outros temas, o gerador deixa herdar do `:root` até a Fase 3. Os tokens `--scene-sky` etc. da 1ª versão das cenas ficaram como estavam | Telas.md › 08 pede as cores da paisagem em tokens | aprovada (técnica) |
-| 10/11/2026 | Em telas largas, a cena fica com a altura toda e centralizada (céu, campo e prado se estendem para os lados) | Com `slice`, o desktop mostrava só o prado ampliado | pendente |
+| 10/11/2026 | Em telas largas, a cena fica com a altura toda e centralizada (céu, campo e prado se estendem para os lados) | Com `slice`, o desktop mostrava só o prado ampliado | superada (12/11: cópias espelhadas dos lados; 15/11: cena larga no pomodoro ≥ 1024px) |
 | 10/11/2026 | `/pomodoro` sem disciplina abre uma **sessão livre** (sem tópico e sem páginas) | DESIGN §4.5: "uma sessão pode estar vinculada a um tópico (padrão) ou ser livre" | pendente |
 | 10/11/2026 | Card da disciplina mostra **"termina ~DD/MM"** na linha do restante quando já há pomodoros nela | O DESIGN §4.4 pede a previsão no card; a referência 01 não mostra, e o DESIGN manda nas regras | pendente |
 | 10/11/2026 | **Fase 2 concluída.** Aceite feito pela dupla em 10/11 e RLS verificada com `supabase/tests/rls_fase2.sql` (20 testes, com rollback) | O PR #12 tinha `fase-2-design` como base e entrou nela depois do merge do #11, sem chegar na `main`. O #13 levou o código para a `main`. Nas próximas fases, PRs em sequência apontam para a `main` | aprovada |
@@ -89,7 +89,7 @@ Decisões de produto ficam com a dupla. As marcadas como "pendente" foram tomada
 | 10/11/2026 | Na interface, o perfil Killer/Assassino se chama **"Competidor"** (o relatório mantém o termo de Bartle) | "Assassino" soa agressivo num app de estudo | pendente |
 | 10/11/2026 | O perfil muda só **um card de destaque** no topo do Início (tela 21); o resto do Início é igual para todos | Adaptação visível sem fragmentar o app; fácil de implementar e de explicar | pendente |
 | 10/11/2026 | Landing: contadores da semana sem usuários demo, em cache curto; contador zerado some, e a faixa some se todos forem zero | "A landing só mostra números reais" (DESIGN §10) sem expor zeros no beta | pendente |
-| 10/11/2026 | O **lembrete diário** é oferecido ao fim do 1º pomodoro (tela 20, sugestão 19:00), não durante o onboarding; a permissão do navegador é pedida nesse clique | Pedido contextual, depois da primeira vitória | pendente |
+| 10/11/2026 | O **lembrete diário** é oferecido ao fim do 1º pomodoro (tela 20, sugestão 19:00), não durante o onboarding; a permissão do navegador é pedida nesse clique | Pedido contextual, depois da primeira vitória | superada (11/11: lembrete diário retirado do projeto) |
 | 10/11/2026 | Onboarding guarda o passo atual no perfil e retoma de onde parou; `/inicio` redireciona até terminar; BottomNav oculta | Funil de onboarding completo (DESIGN §9.2) | pendente |
 | 10/11/2026 | Apelido da Feira é pedido só na Fase 5, ao entrar na primeira Feira; o onboarding grava só a escolha | O onboarding fica curto | pendente |
 | 10/11/2026 | Divisão Esmeralda com tokens `medal-esmeralda*` (`#3fae7a`) | Completa as 4 divisões do §6.6 | pendente |
@@ -154,7 +154,7 @@ Decisões de produto ficam com a dupla. As marcadas como "pendente" foram tomada
 | 11/11/2026 | **Cron da Feira** na Vercel (`0 3 * * 1`, segunda 00:00 em São Paulo) + **rede de segurança**: ao abrir a Liga, se houver semana anterior ainda aberta, o servidor faz a virada. A primeira Feira é aberta manualmente (`npm run league:close`) ou pelo primeiro cron | No plano Hobby o cron pode atrasar até 1 h; a virada é idempotente (trava em `league_weeks`) | pendente |
 | 11/11/2026 | `league_opt_in_choice` ganha o contexto `liga` (botão "Quero entrar" da própria aba Liga) | Distinguir de onboarding/configurações/início | aprovada (técnica) |
 | 11/11/2026 | Fechamento manual para aceite e demonstração: `npm run league:close -- --fechar-semana-atual --confirmo` chama o mesmo endpoint do cron com `?fechar=atual` (protegido pelo `CRON_SECRET`); `npm run demo:league` monta um grupo com 12 contas `teste.liga.NN@example.com` (`is_demo`) | Aceite da Fase 5 ("fechamento rodado manualmente") sem esperar a segunda | aprovada (técnica) |
-| 11/11/2026 | Perfil público em **`/perfil/[apelido]`**, só para quem está logado. A própria pessoa vê o próprio perfil mesmo sem ser público ("Este é você") | Opção mais simples; o DESIGN não diz se visitantes veem perfis | pendente |
+| 11/11/2026 | Perfil público em **`/perfil/[apelido]`**, só para quem está logado. A própria pessoa vê o próprio perfil mesmo sem ser público ("Este é você") | Opção mais simples; o DESIGN não diz se visitantes veem perfis | superada (12/11: perfil público abre sem login) |
 | 11/11/2026 | **Colheita no feed = 1 item por semana** que sobe de faixa (Bronze → Prata → Ouro atualiza o mesmo item e o traz para o topo); os parabéns já dados continuam | Evita 3 itens da mesma semana | pendente |
 | 11/11/2026 | Itens do feed **gravados a partir do deploy** (sem retroativo). Capítulo e disciplina concluídos só entram com pomodoro na disciplina, a mesma trava do XP | Coerente com a regra de XP de conclusão (DECISOES 11/11) | pendente |
 | 11/11/2026 | Seguir, deixar de seguir e parabéns passam por funções do banco (`follow_user`, `unfollow_user`, `send_reaction`) que validam perfil público, feed de 14 dias e "não é o próprio"; o cliente não grava nessas tabelas | RLS não consegue checar o perfil público de outra pessoa sem expor os perfis | aprovada (técnica) |
