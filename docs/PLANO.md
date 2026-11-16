@@ -137,7 +137,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 ### Fase 6 — Telemetria, ética e acabamento (21–23/11)
 - [ ] Painel `/admin`: DAU, MAU, stickiness, funil com drop-off, retenção D1/D7, aceite do nudge, comparação de coortes, filtro sem demos
 - [ ] Página `/transparencia` (técnicas usadas + experimento de coortes + sair do experimento)
-- [ ] Configurações: exportar dados (JSON) e excluir conta (1 clique + confirmação)
+- [x] Configurações: exportar dados (JSON) e excluir conta (1 clique + confirmação) — PR `fase-6-configuracoes` (tela 31 completa, sair do experimento, `GET /api/export`, exclusão com cascata e telemetria anonimizada; RLS em `supabase/tests/rls_fase6.sql`, 8 testes; e2e `e2e/configuracoes.spec.ts`)
 - [ ] Seed de usuários demo (com selo) para popular ligas na apresentação
 - [ ] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular
 - [ ] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11 — **em andamento:** suíte em `e2e/` (login, pomodoro, animações com e sem "reduzir movimento", fruto de ontem, Feira, social, YouTube); falta o fluxo do onboarding (cadastro → 1º pomodoro)
