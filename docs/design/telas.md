@@ -145,8 +145,11 @@ A raridade sempre vai escrita, nunca só pela cor. Raridades conforme DESIGN §6
 
 ### 12 · Fruto de ontem (`referencias/12-fruto-de-ontem.png`)
 - Aparece ao abrir o app quando o fechamento preguiçoso gerou emblema novo (1 por dia fechado; vários dias = um por vez, do mais antigo para o mais novo).
+- **Quando a fila abre (revisão de 16/11):** só no primeiro carregamento do app numa tela que não seja o pomodoro. Ao navegar dentro do app, inclusive ao sair do pomodoro pelo "Início", pela seta de voltar ou depois de encerrar, a fila **não** abre por cima: espera a próxima abertura do app ou um toque no cartão "Fruto de ontem"/"Último fruto" do Início. Vale para a fila inteira (12, 14, 13 e 25).
 - Cena Campo ao fundo + véu `--scrim`; card central `--radius-lg` 32px: "SEU FRUTO DE ONTEM · {DIA}", raios (8 fatias em `--primary-soft` para incomum, `--reward` claro para comum, `--fruit-soft` para raro) + até 7 partículas, disco de 116px no estilo da raridade, selo da raridade, nome Fredoka 30px, frase com o motivo ("Esse saiu do sorteio entre os frutos que você mereceu."), linha "Colheita da semana" com 7 bolinhas e "N de 7".
-- "Colher" (primário) fecha; "Ver meu álbum" abre a 09.
+- "Colher" (primário) marca como visto e passa para o próximo item da fila; "Ver meu álbum" abre a 09.
+- **Fechar (X)** no canto superior direito da tela, acima do card: círculo de vidro de 44px (o mesmo dos botões do pomodoro), `aria-label="Fechar e ver depois"`; no celular `top: 40px; right: 16px`, no computador `top: 24px; right: 32px`. Também fecha com **Esc**. Fechar **adia** a fila inteira sem marcar nada como visto: o fruto não se perde e volta na próxima abertura do app ou no toque no cartão do Início. Tocar no véu não fecha (evita fechar sem querer).
+- Com fruto pendente, o cartão "Fruto de ontem" do Início mostra "Toque para colher" e abre a fila; sem pendência, abre a 09.
 - Movimento: disco entra com `scale(0.6→1)` + `opacity` em 400ms; raios giram devagar (60s/volta); tudo parado com `prefers-reduced-motion`.
 
 ### 13 · Subiu de nível (`referencias/13-subiu-de-nivel.png`)
