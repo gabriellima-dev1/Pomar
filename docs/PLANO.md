@@ -145,7 +145,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [x] **Pomodoro no computador** (design revisto em 12/11): cena larga por tema em vez das cópias espelhadas, painel de 440px com cronômetro e controles à esquerda, árvore do tema à direita, atalhos Espaço e F — telas.md › "Pomodoro no computador" e referências 35 — PR `fase-6-pomodoro-desktop` (contraste AA em `lib/design/contrast.test.ts`; e2e `e2e/pomodoro-desktop.spec.ts` com os 4 temas em 1440×900 e os atalhos)
 - [ ] **23/11: congelamento de funcionalidades**
 
-**Aceite:** o checklist de ética do `DESIGN.md` §10 está todo atendido; o admin mostra os números reais do beta.
+**Aceite:** o checklist de ética do `DESIGN.md` §10 está todo atendido; o admin mostra os números reais do beta. — **checklist conferido item por item em 15/11 (9 de 9 atendidos, incluindo o pomodoro no computador; resultado no PR #45). O admin já mostra os números reais (com e sem contas demo). Falta: publicar os PRs #40–#45 e conferir no preview/produção; "Correções a partir do uso real dos colegas" segue aberta até 23/11.**
 
 ### Fase 7 — Relatório, slides e ensaio (23–26/11)
 - [ ] Exportar do `/admin` os números finais e gráficos do funil
