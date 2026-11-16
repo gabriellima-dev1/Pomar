@@ -5,6 +5,11 @@
  *   Noturno   — nuvens, estrelas, vegetação, vaga-lumes, fruto
  *   Halloween — morcegos, brilho das abóboras/lanterna, névoa, vegetação, fruto
  *   Natal     — nuvens, neve (16 flocos), estrela, vegetação, fruto
+ * Cena larga do computador (WideScene, telas.md › Pomodoro no computador):
+ *   Clássico  — nuvens, vegetação, borboletas, flores, fruto
+ *   Noturno   — estrelas (≤ 20 piscando), nuvens, árvore, vaga-lumes, flores
+ *   Halloween — morcegos, névoa, brilho, flores, abóbora
+ *   Natal     — neve (2 blocos que deslizam juntos), nuvens, estrela, flores, enfeite
  */
 
 @keyframes drift {
@@ -173,6 +178,38 @@
     transform: translateY(720px);
   }
 }
+/* Cena larga: neve em bloco repetido acima de si mesmo, deslizando a altura da cena. */
+@keyframes snowWide {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(844px);
+  }
+}
+/* Cena larga: morcegos cruzando o céu de 1350. */
+@keyframes batWideA {
+  0% {
+    transform: translate(-120px, 0);
+  }
+  50% {
+    transform: translate(260px, -40px);
+  }
+  100% {
+    transform: translate(640px, 10px);
+  }
+}
+@keyframes batWideB {
+  0% {
+    transform: translate(520px, 0);
+  }
+  50% {
+    transform: translate(200px, 30px);
+  }
+  100% {
+    transform: translate(-140px, -12px);
+  }
+}
 
 /* nuvens */
 .drift {
@@ -277,6 +314,23 @@
   animation: snow linear infinite;
 }
 
+/* cena larga: neve (2 blocos) e morcegos */
+.snowWide {
+  animation: snowWide 40s linear infinite;
+}
+.snowWide2 {
+  animation: snowWide 26s linear infinite;
+}
+.batWideA {
+  animation: batWideA 18s linear infinite;
+}
+.batWideA2 {
+  animation: batWideA 18s linear -11s infinite;
+}
+.batWideB {
+  animation: batWideB 24s linear -7s infinite;
+}
+
 /* fruto do ciclo: opacidade = progresso, escala 0,6 → 1 (sem animação contínua) */
 .fruit {
   transform-box: fill-box;
@@ -328,6 +382,11 @@
   .batWing,
   .glow,
   .flake,
+  .snowWide,
+  .snowWide2,
+  .batWideA,
+  .batWideA2,
+  .batWideB,
   .harvest {
     animation: none;
   }

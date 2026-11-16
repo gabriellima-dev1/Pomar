@@ -9,6 +9,7 @@ import { FRUIT_ANCHOR, OrchardTree } from "./OrchardTree";
 import {
   BackPine,
   BackTree,
+  Butterfly,
   c,
   Clouds,
   Field,
@@ -22,6 +23,7 @@ import {
   Sky,
   SmallTulip,
   Tulip,
+  Twig,
 } from "./parts";
 import s from "./Scene.module.css";
 
@@ -40,7 +42,7 @@ export type LayerProps = {
 };
 
 /** Escala da árvore temática (seca no Halloween, pinheiro no Natal) por estágio. */
-const STAGE_SCALE: Record<Stage, number> = {
+export const STAGE_SCALE: Record<Stage, number> = {
   muda: 0.5,
   arbusto: 0.65,
   jovem: 0.82,
@@ -49,7 +51,7 @@ const STAGE_SCALE: Record<Stage, number> = {
 };
 
 /** Fruto deste ciclo: verde → maduro (opacidade = progresso, escala 0,6 → 1) → colhido. */
-function CycleFruit({
+export function CycleFruit({
   r,
   progress,
   harvested,
@@ -127,6 +129,132 @@ function LeafyOrchard({ layout, stage, progress, harvested }: LayerProps) {
   );
 }
 
+// Peças maiores (também usadas na cena larga do computador, wide-layers.tsx) -------
+
+/** Árvore seca do Halloween com a lanterna (base do tronco em 0, 0). */
+export function DryTree() {
+  return (
+    <>
+      <ellipse cx="0" cy="0" rx="30" ry="4" fill={c("tree-shadow")} />
+      <path d="M-5 0 C-4 -30 -3 -60 -1 -86 L1 -86 C3 -60 4 -30 5 0Z" fill={c("trunk")} />
+      <path
+        d="M0 -40 C-10 -50 -20 -54 -32 -58 M-20 -54 C-24 -60 -26 -66 -26 -72 M0 -52 C10 -62 22 -68 34 -70 M22 -66 C26 -72 30 -76 36 -78 M0 -66 C-6 -76 -10 -84 -16 -92 M0 -74 C6 -84 10 -92 12 -100 M-30 -58 C-34 -56 -36 -52 -36 -48"
+        fill="none"
+        stroke={c("trunk")}
+        strokeWidth="2.6"
+        strokeLinecap="round"
+      />
+      <path d="M34 -70 v8" stroke={c("trunk")} strokeWidth="0.8" />
+      {/* 2 · brilho da lanterna e das abóboras */}
+      <g className={s.glow}>
+        <circle cx="34" cy="-58" r="6" fill={c("critter-glow")} opacity="0.35" />
+        <rect x="31.5" y="-61" width="5" height="6" rx="1.5" fill={c("fruit-ripe")} />
+      </g>
+    </>
+  );
+}
+
+/** Árvore seca pequena do fundo (Halloween). */
+export function DryBackTree() {
+  return (
+    <path
+      d="M-2 0 L-1 -70 L1 -70 L2 0Z M0 -40 L-16 -58 M0 -50 L14 -66 M0 -62 L-8 -80 M-10 -52 L-18 -56"
+      stroke={c("trunk")}
+      strokeWidth="4"
+      strokeLinecap="round"
+      fill={c("trunk")}
+    />
+  );
+}
+
+/**
+ * Pinheiro do Natal com o enfeite do ciclo (base do tronco em 0, 0). `star` desenha a
+ * estrela do topo (fica fora quando o cronômetro do celular a desenha atrás do painel).
+ */
+export function ChristmasPine({
+  progress,
+  harvested,
+  star,
+}: {
+  progress: number;
+  harvested: boolean;
+  star: boolean;
+}) {
+  return (
+    <g transform="translate(-300 -574)">
+      <ellipse cx="300" cy="574" rx="72" ry="8" fill={c("tree-shadow")} />
+      <rect x="292" y="540" width="16" height="34" rx="3" fill={c("trunk")} />
+      <path
+        d="M300 344 L340 420 L260 420Z M300 384 L362 476 L238 476Z M300 430 L384 540 L216 540Z"
+        fill={c("canopy-dark")}
+      />
+      <path
+        d="M300 344 L340 420 L300 420Z M300 384 L362 476 L300 476Z M300 430 L384 540 L300 540Z"
+        fill={c("canopy-light")}
+      />
+      <g fill={c("snow")}>
+        <path d="M260 420 Q270 412 280 420 Q290 412 300 420 Q310 412 320 420 Q330 412 340 420 L336 414 L264 414Z" />
+        <path d="M238 476 Q250 466 262 476 Q274 466 286 476 Q298 466 310 476 Q322 466 334 476 Q346 466 362 476 L356 468 L244 468Z" />
+        <path d="M216 540 Q230 530 244 540 Q258 530 272 540 Q286 530 300 540 Q314 530 328 540 Q342 530 356 540 Q370 530 384 540 L378 532 L222 532Z" />
+        <path d="M300 344 L290 362 L300 358 L310 362Z" />
+      </g>
+      <path
+        d="M272 404 Q300 418 328 402 M254 458 Q300 476 346 456 M234 520 Q300 540 366 518"
+        fill="none"
+        stroke={c("garland")}
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeDasharray="1 7"
+      />
+      <circle cx="284" cy="400" r="6" fill={c("fruit-ripe")} />
+      <circle cx="322" cy="452" r="7" fill={c("fruit-ripe")} />
+      <circle cx="262" cy="460" r="6" fill={c("ornament-alt")} />
+      <circle cx="250" cy="520" r="7" fill={c("fruit-ripe")} />
+      <circle cx="350" cy="514" r="7" fill={c("garland")} />
+      {/* 5 · o enfeite deste ciclo */}
+      <g transform="translate(300 500)">
+        <CycleFruit r={8} progress={progress} harvested={harvested} />
+      </g>
+      {/* 3 · estrela (com o cronômetro na estrela, ela fica atrás do painel) */}
+      {star && (
+        <g className={s.twinkleFast}>
+          <path
+            d="M300 326 L305 338 L318 339 L308 347 L311 360 L300 353 L289 360 L292 347 L282 339 L295 338Z"
+            fill={c("moon")}
+          />
+        </g>
+      )}
+    </g>
+  );
+}
+
+/** Boneco de neve (centro do corpo em 0, 0). */
+export function Snowman() {
+  return (
+    <>
+      <ellipse cx="0" cy="22" rx="24" ry="5" fill={c("snow-shade")} />
+      <circle cx="0" cy="6" r="20" fill={c("snow")} />
+      <circle cx="0" cy="-22" r="14" fill={c("snow")} />
+      <path d="M-14 -12 Q0 -6 14 -12 L14 -6 Q0 0 -14 -6Z" fill={c("fruit-ripe")} />
+      <rect x="6" y="-8" width="6" height="16" rx="2" fill={c("fruit-ripe")} />
+      <g fill={c("ink")}>
+        <circle cx="-5" cy="-25" r="1.8" />
+        <circle cx="5" cy="-25" r="1.8" />
+        <circle cx="0" cy="2" r="1.8" />
+        <circle cx="0" cy="10" r="1.8" />
+      </g>
+      <path d="M0 -21 l9 2 -9 2z" fill={c("pumpkin")} />
+      <path
+        d="M-18 0 L-32 -10 M18 0 L32 -12"
+        stroke={c("trunk")}
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+      <ellipse cx="-8" cy="-2" rx="5" ry="3" fill={c("snow-shade")} />
+    </>
+  );
+}
+
 // Clássico ----------------------------------------------------------------------
 
 export function ClassicoLayers(p: LayerProps) {
@@ -166,24 +294,12 @@ export function ClassicoLayers(p: LayerProps) {
       {/* 3 · borboletas */}
       <g className={s.flyA}>
         <g transform="translate(120 470)">
-          <g className={s.wing}>
-            <path
-              d="M0 0 C-8 -10 -14 -6 -12 0 C-14 6 -8 8 0 0 C8 8 14 6 12 0 C14 -6 8 -10 0 0Z"
-              fill={c("butterfly")}
-            />
-          </g>
-          <path d="M0 -4 V4" stroke={c("butterfly-body")} strokeWidth="2" strokeLinecap="round" />
+          <Butterfly />
         </g>
       </g>
       <g className={s.flyB}>
         <g transform="translate(250 520)">
-          <g className={`${s.wing} ${s.wingB}`}>
-            <path
-              d="M0 0 C-7 -9 -12 -5 -10 0 C-12 5 -7 7 0 0 C7 7 12 5 10 0 C12 -5 7 -9 0 0Z"
-              fill={c("flower-yellow")}
-            />
-          </g>
-          <path d="M0 -3 V3" stroke={c("butterfly-body")} strokeWidth="2" strokeLinecap="round" />
+          <Butterfly small />
         </g>
       </g>
       {/* 2 · flores da frente */}
@@ -216,13 +332,7 @@ export function ClassicoLayers(p: LayerProps) {
       </g>
       <g transform="translate(250 650)">
         <g className={s.bobC}>
-          <path
-            d="M0 0 C-4 -16 -10 -26 -20 -34 M-8 -18 l-10 -4 M-14 -26 l-10 -2 M-6 -12 l4 -10 M-12 -22 l4 -10"
-            fill="none"
-            stroke={c("flower-coral")}
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
+          <Twig />
         </g>
       </g>
       <FrontShrubs />
@@ -367,7 +477,7 @@ export function NoturnoLayers(p: LayerProps) {
 
 // Halloween ---------------------------------------------------------------------
 
-function Bat({ y, scale = 1, delay = 0 }: { y: number; scale?: number; delay?: number }) {
+export function Bat({ y, scale = 1, delay = 0 }: { y: number; scale?: number; delay?: number }) {
   return (
     <g transform={`translate(0 ${y}) scale(${scale})`}>
       <g className={s.batWing} style={{ animationDelay: `${delay}s` }}>
@@ -403,13 +513,7 @@ export function HalloweenLayers(p: LayerProps) {
         <BackTree light={false} />
       </g>
       <g transform="translate(110 508) scale(0.7)">
-        <path
-          d="M-2 0 L-1 -70 L1 -70 L2 0Z M0 -40 L-16 -58 M0 -50 L14 -66 M0 -62 L-8 -80 M-10 -52 L-18 -56"
-          stroke={c("trunk")}
-          strokeWidth="4"
-          strokeLinecap="round"
-          fill={c("trunk")}
-        />
+        <DryBackTree />
       </g>
       <g transform="translate(170 492) scale(0.4)">
         <BackTree light={false} full={false} />
@@ -421,21 +525,7 @@ export function HalloweenLayers(p: LayerProps) {
       {/* Árvore seca em silhueta, no estágio do nível */}
       {p.orchard && (
         <g transform={`translate(${p.layout.treeX} ${p.layout.treeBaseY}) scale(${2.1 * k})`}>
-          <ellipse cx="0" cy="0" rx="30" ry="4" fill={c("tree-shadow")} />
-          <path d="M-5 0 C-4 -30 -3 -60 -1 -86 L1 -86 C3 -60 4 -30 5 0Z" fill={c("trunk")} />
-          <path
-            d="M0 -40 C-10 -50 -20 -54 -32 -58 M-20 -54 C-24 -60 -26 -66 -26 -72 M0 -52 C10 -62 22 -68 34 -70 M22 -66 C26 -72 30 -76 36 -78 M0 -66 C-6 -76 -10 -84 -16 -92 M0 -74 C6 -84 10 -92 12 -100 M-30 -58 C-34 -56 -36 -52 -36 -48"
-            fill="none"
-            stroke={c("trunk")}
-            strokeWidth="2.6"
-            strokeLinecap="round"
-          />
-          <path d="M34 -70 v8" stroke={c("trunk")} strokeWidth="0.8" />
-          {/* 2 · brilho da lanterna e das abóboras */}
-          <g className={s.glow}>
-            <circle cx="34" cy="-58" r="6" fill={c("critter-glow")} opacity="0.35" />
-            <rect x="31.5" y="-61" width="5" height="6" rx="1.5" fill={c("fruit-ripe")} />
-          </g>
+          <DryTree />
         </g>
       )}
       <g transform="translate(244 590)">
@@ -542,72 +632,13 @@ export function NatalLayers(p: LayerProps) {
       <Meadow />
       {/* Pinheiro do pomar, no estágio do nível */}
       {p.orchard && (
-        <g transform={`translate(${x} ${y}) scale(${k}) translate(-300 ${-y})`}>
-          <ellipse cx="300" cy="574" rx="72" ry="8" fill={c("tree-shadow")} />
-          <rect x="292" y="540" width="16" height="34" rx="3" fill={c("trunk")} />
-          <path
-            d="M300 344 L340 420 L260 420Z M300 384 L362 476 L238 476Z M300 430 L384 540 L216 540Z"
-            fill={c("canopy-dark")}
-          />
-          <path
-            d="M300 344 L340 420 L300 420Z M300 384 L362 476 L300 476Z M300 430 L384 540 L300 540Z"
-            fill={c("canopy-light")}
-          />
-          <g fill={c("snow")}>
-            <path d="M260 420 Q270 412 280 420 Q290 412 300 420 Q310 412 320 420 Q330 412 340 420 L336 414 L264 414Z" />
-            <path d="M238 476 Q250 466 262 476 Q274 466 286 476 Q298 466 310 476 Q322 466 334 476 Q346 466 362 476 L356 468 L244 468Z" />
-            <path d="M216 540 Q230 530 244 540 Q258 530 272 540 Q286 530 300 540 Q314 530 328 540 Q342 530 356 540 Q370 530 384 540 L378 532 L222 532Z" />
-            <path d="M300 344 L290 362 L300 358 L310 362Z" />
-          </g>
-          <path
-            d="M272 404 Q300 418 328 402 M254 458 Q300 476 346 456 M234 520 Q300 540 366 518"
-            fill="none"
-            stroke={c("garland")}
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeDasharray="1 7"
-          />
-          <circle cx="284" cy="400" r="6" fill={c("fruit-ripe")} />
-          <circle cx="322" cy="452" r="7" fill={c("fruit-ripe")} />
-          <circle cx="262" cy="460" r="6" fill={c("ornament-alt")} />
-          <circle cx="250" cy="520" r="7" fill={c("fruit-ripe")} />
-          <circle cx="350" cy="514" r="7" fill={c("garland")} />
-          {/* 5 · o enfeite deste ciclo */}
-          <g transform="translate(300 500)">
-            <CycleFruit r={8} progress={p.progress} harvested={p.harvested} />
-          </g>
-          {/* 3 · estrela (com o cronômetro na estrela, ela fica atrás do painel) */}
-          {p.celestial && (
-            <g className={s.twinkleFast}>
-              <path
-                d="M300 326 L305 338 L318 339 L308 347 L311 360 L300 353 L289 360 L292 347 L282 339 L295 338Z"
-                fill={c("moon")}
-              />
-            </g>
-          )}
+        <g transform={`translate(${x} ${y}) scale(${k})`}>
+          <ChristmasPine progress={p.progress} harvested={p.harvested} star={p.celestial} />
         </g>
       )}
       {/* Boneco de neve */}
       <g transform="translate(70 600)">
-        <ellipse cx="0" cy="22" rx="24" ry="5" fill={c("snow-shade")} />
-        <circle cx="0" cy="6" r="20" fill={c("snow")} />
-        <circle cx="0" cy="-22" r="14" fill={c("snow")} />
-        <path d="M-14 -12 Q0 -6 14 -12 L14 -6 Q0 0 -14 -6Z" fill={c("fruit-ripe")} />
-        <rect x="6" y="-8" width="6" height="16" rx="2" fill={c("fruit-ripe")} />
-        <g fill={c("ink")}>
-          <circle cx="-5" cy="-25" r="1.8" />
-          <circle cx="5" cy="-25" r="1.8" />
-          <circle cx="0" cy="2" r="1.8" />
-          <circle cx="0" cy="10" r="1.8" />
-        </g>
-        <path d="M0 -21 l9 2 -9 2z" fill={c("pumpkin")} />
-        <path
-          d="M-18 0 L-32 -10 M18 0 L32 -12"
-          stroke={c("trunk")}
-          strokeWidth="2.2"
-          strokeLinecap="round"
-        />
-        <ellipse cx="-8" cy="-2" rx="5" ry="3" fill={c("snow-shade")} />
+        <Snowman />
       </g>
       {/* 4 · bicos-de-papagaio */}
       <g transform="translate(130 652)">

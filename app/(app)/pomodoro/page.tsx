@@ -5,7 +5,7 @@ import { getAccount } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
 import { localDay } from "@/lib/dates";
 import { parseThemePreference } from "@/lib/gamification/themes";
-import { effectivePace, topicPages } from "@/lib/estimates";
+import { effectivePace, topicDetail, topicPages } from "@/lib/estimates";
 import { getSubject } from "@/lib/subjects/queries";
 import { nextTopic } from "@/lib/subjects/summary";
 import { isUuid } from "@/lib/subjects/validation";
@@ -88,6 +88,11 @@ export default async function PomodoroPage({ searchParams }: PageProps<"/pomodor
       title: topicRow.title,
       predictedPages: p.pages,
       predictedLabel: p.label,
+      detail: topicDetail(topicRow, {
+        minPerPage: pace,
+        videoSpeed: subject?.video_speed ?? 1,
+        focusMin: settings.focus,
+      }),
     };
   }
 

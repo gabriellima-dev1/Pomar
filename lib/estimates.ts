@@ -190,3 +190,26 @@ export function goalComparison(forecastDay: string, goalDay: string): string {
   const dias = n === 1 ? "1 dia" : `${n} dias`;
   return diff > 0 ? `você termina ${dias} antes` : `você termina ${dias} depois`;
 }
+
+/**
+ * Linha do tópico no painel do pomodoro no computador: "p. 120–131 · cerca de 2 pomodoros"
+ * (vídeo: só os pomodoros). `null` quando não há páginas nem duração.
+ */
+export function topicDetail(
+  topic: EstimateTopic,
+  opts: { minPerPage: number | null; videoSpeed?: number; focusMin: number },
+): string | null {
+  const parts: string[] = [];
+  const pages = topicPages(topic);
+  if (pages > 0) {
+    parts.push(pages === 1 ? `p. ${topic.page_start}` : `p. ${topic.page_start}–${topic.page_end}`);
+  }
+  const minutes = positive(topic.duration_sec)
+    ? topicMinutes(topic, 0, opts.videoSpeed)
+    : positive(opts.minPerPage)
+      ? topicMinutes(topic, opts.minPerPage)
+      : 0;
+  const n = pomodorosFor(minutes, opts.focusMin);
+  if (n > 0) parts.push(n === 1 ? "cerca de 1 pomodoro" : `cerca de ${n} pomodoros`);
+  return parts.length > 0 ? parts.join(" · ") : null;
+}

@@ -11,6 +11,7 @@ import {
   pomodorosFor,
   remainingMinutes,
   subjectProgress,
+  topicDetail,
   topicMinutes,
   topicPages,
 } from "./estimates";
@@ -193,5 +194,31 @@ describe("previsão de término (Fase 2)", () => {
     expect(goalComparison("2026-11-28", "2026-12-02")).toBe("você termina 4 dias antes");
     expect(goalComparison("2026-12-03", "2026-12-02")).toBe("você termina 1 dia depois");
     expect(goalComparison("2026-12-02", "2026-12-02")).toBe("você termina no dia da prova");
+  });
+});
+
+describe("topicDetail (painel do pomodoro no computador)", () => {
+  it("livro: intervalo de páginas e pomodoros", () => {
+    expect(
+      topicDetail({ page_start: 120, page_end: 131 }, { minPerPage: 4, focusMin: 25 }),
+    ).toBe("p. 120–131 · cerca de 2 pomodoros");
+    expect(topicDetail({ page_start: 7, page_end: 7 }, { minPerPage: 3, focusMin: 25 })).toBe(
+      "p. 7 · cerca de 1 pomodoro",
+    );
+  });
+
+  it("vídeo: só os pomodoros, pela duração e velocidade", () => {
+    expect(
+      topicDetail(
+        { page_start: null, page_end: null, duration_sec: 3600 },
+        { minPerPage: null, videoSpeed: 1.5, focusMin: 25 },
+      ),
+    ).toBe("cerca de 2 pomodoros");
+  });
+
+  it("sem páginas nem duração: nada", () => {
+    expect(
+      topicDetail({ page_start: null, page_end: null }, { minPerPage: 3, focusMin: 25 }),
+    ).toBeNull();
   });
 });

@@ -142,7 +142,7 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 - [ ] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular
 - [ ] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11 — **em andamento:** suíte em `e2e/` (login, pomodoro, animações com e sem "reduzir movimento", fruto de ontem, Feira, social, YouTube); falta o fluxo do onboarding (cadastro → 1º pomodoro)
 - [ ] Correções a partir do uso real dos colegas
-- [ ] **Pomodoro no computador** (design revisto em 12/11): cena larga por tema em vez das cópias espelhadas, painel de 440px com cronômetro e controles à esquerda, árvore do tema à direita, atalhos Espaço e F — telas.md › "Pomodoro no computador" e referências 35
+- [x] **Pomodoro no computador** (design revisto em 12/11): cena larga por tema em vez das cópias espelhadas, painel de 440px com cronômetro e controles à esquerda, árvore do tema à direita, atalhos Espaço e F — telas.md › "Pomodoro no computador" e referências 35 — PR `fase-6-pomodoro-desktop` (contraste AA em `lib/design/contrast.test.ts`; e2e `e2e/pomodoro-desktop.spec.ts` com os 4 temas em 1440×900 e os atalhos)
 - [ ] **23/11: congelamento de funcionalidades**
 
 **Aceite:** o checklist de ética do `DESIGN.md` §10 está todo atendido; o admin mostra os números reais do beta.

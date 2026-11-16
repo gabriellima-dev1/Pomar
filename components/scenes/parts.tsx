@@ -390,3 +390,61 @@ export function Pumpkin({
     </>
   );
 }
+
+/** Raminho coral (Clássico). */
+export function Twig() {
+  return (
+    <path
+      d="M0 0 C-4 -16 -10 -26 -20 -34 M-8 -18 l-10 -4 M-14 -26 l-10 -2 M-6 -12 l4 -10 M-12 -22 l4 -10"
+      fill="none"
+      stroke={c("flower-coral")}
+      strokeWidth="3"
+      strokeLinecap="round"
+    />
+  );
+}
+
+/** Azevinho com três frutinhas (Natal, cena do computador). */
+export function Holly() {
+  return (
+    <>
+      <path
+        d="M0 0 C-10 -6 -16 -14 -18 -24 C-12 -20 -6 -22 -2 -16 C-2 -10 0 -4 0 0Z"
+        fill={c("canopy-dark")}
+      />
+      <path
+        d="M0 0 C10 -6 16 -14 18 -24 C12 -20 6 -22 2 -16 C2 -10 0 -4 0 0Z"
+        fill={c("canopy-light")}
+      />
+      <g fill={c("fruit-ripe")}>
+        <circle cx="-3" cy="-4" r="3.4" />
+        <circle cx="3" cy="-5" r="3.4" />
+        <circle cx="0" cy="-9" r="3.4" />
+      </g>
+    </>
+  );
+}
+
+/** Borboleta (Clássico). A pequena é amarela e bate as asas defasada. */
+export function Butterfly({ small = false }: { small?: boolean }) {
+  return (
+    <>
+      <g className={small ? `${s.wing} ${s.wingB}` : s.wing}>
+        <path
+          d={
+            small
+              ? "M0 0 C-7 -9 -12 -5 -10 0 C-12 5 -7 7 0 0 C7 7 12 5 10 0 C12 -5 7 -9 0 0Z"
+              : "M0 0 C-8 -10 -14 -6 -12 0 C-14 6 -8 8 0 0 C8 8 14 6 12 0 C14 -6 8 -10 0 0Z"
+          }
+          fill={c(small ? "flower-yellow" : "butterfly")}
+        />
+      </g>
+      <path
+        d={small ? "M0 -3 V3" : "M0 -4 V4"}
+        stroke={c("butterfly-body")}
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </>
+  );
+}
