@@ -29,3 +29,23 @@ export function rewardsEnabled(cohort: Cohort | null, flag: RewardsFlag | null):
   if (!cohort) return true;
   return !offCohorts(flag.rollout).includes(cohort);
 }
+
+/** Situação da pessoa no experimento: grupo A, grupo B ou fora (legado ou saiu). */
+export type ExperimentGroup = Cohort | "fora";
+
+export type CohortRow = { cohort: unknown; legacy?: boolean | null; left_at?: string | null };
+
+/**
+ * Contas anteriores à Fase 4 (`legacy`) e quem saiu do experimento (`left_at`) ficam
+ * fora: veem as recompensas e não entram na comparação A × B (DESIGN §9.4).
+ */
+export function experimentGroup(row: CohortRow | null | undefined): ExperimentGroup {
+  const cohort = parseCohort(row?.cohort);
+  if (!cohort || row?.legacy || row?.left_at) return "fora";
+  return cohort;
+}
+
+/** Coorte que vale para as recompensas (`null` = como a coorte A). */
+export function rewardsCohort(group: ExperimentGroup): Cohort | null {
+  return group === "fora" ? null : group;
+}
