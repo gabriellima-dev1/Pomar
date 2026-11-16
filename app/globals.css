@@ -138,6 +138,29 @@ body {
   }
 }
 
+/* Vidro do pomodoro no computador: painel, pílulas e botões redondos (telas.md ›
+   Pomodoro no computador). Opaco sem backdrop-filter ou com menos transparência. */
+.pc-glass {
+  background: var(--pc-glass-fallback);
+  border: 1.5px solid var(--pc-edge);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .pc-glass {
+    background: var(--pc-glass);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .pc-glass {
+    background: var(--pc-glass-fallback);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
 /* Seu Tomás: acessório do tema (components/mascot/SeuTomas.tsx, accessory="auto"). */
 .tomas-acc {
   display: none;

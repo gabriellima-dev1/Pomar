@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BellRing, ChevronLeft, SlidersHorizontal } from "lucide-react";
+import { ChevronLeft, Maximize, Minimize, SlidersHorizontal } from "lucide-react";
 import {
   answerPaceSuggestion,
   cancelPomodoro,
@@ -18,6 +18,7 @@ import {
 import { markLevelSeen } from "@/app/(app)/conquistas/actions";
 import { LevelUpCelebration } from "@/components/gamification/LevelUpCelebration";
 import { Scene } from "@/components/scenes/Scene";
+import { WideScene } from "@/components/scenes/WideScene";
 import { useEffectiveTheme } from "@/components/theme/useEffectiveTheme";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
@@ -25,6 +26,7 @@ import { Toast } from "@/components/ui/Toast";
 import { levelForXp, stageChanged, stageForLevel } from "@/lib/gamification/levels";
 import type { XpResult } from "@/lib/gamification/service";
 import type { ThemePreference } from "@/lib/gamification/themes";
+import { shortcutFor } from "@/lib/shortcuts";
 import { track } from "@/lib/telemetry";
 import { THEMES } from "@/themes";
 import {
@@ -57,9 +59,12 @@ import {
   unlockAudio,
 } from "./alerts";
 import { CycleSettingsDialog, type CycleSettings } from "./CycleSettingsDialog";
+import { DesktopPanel } from "./DesktopPanel";
 import { EndOfCycleDialog, type EndTopic } from "./EndOfCycleDialog";
 import { GlassTimer } from "./GlassTimer";
 import { PauseDialog } from "./PauseDialog";
+import { PomodoroControls } from "./PomodoroControls";
+import { useWide } from "./useWide";
 
 export type PomodoroTopic = {
   id: string;
@@ -67,6 +72,8 @@ export type PomodoroTopic = {
   /** Páginas previstas para este ciclo e o intervalo ("p. 68–74"). */
   predictedPages: number;
   predictedLabel: string | null;
+  /** Painel do computador: "p. 120–131 · cerca de 2 pomodoros". */
+  detail: string | null;
 };
 
 export type PomodoroProps = {
@@ -204,6 +211,11 @@ export function PomodoroScreen({
   const [sound, setSound] = useState(soundEnabled);
   const handling = useRef(false);
   const timerRef = useRef(timer);
+  // Computador (≥ 1024px): cena larga, painel à esquerda e atalhos Espaço/F.
+  const wide = useWide();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [fullscreen, setFullscreen] = useState(false);
+  const shortcutRef = useRef<(e: KeyboardEvent) => void>(() => {});
 
   const absorbXp = useCallback(
     (res: XpResult | null) => {
@@ -359,6 +371,24 @@ export function PomodoroScreen({
     document.title = `${formatTimer(remainingSec(timer, now))} · ${label} · Pomar`;
   }, [timer, now]);
   useEffect(() => () => void (document.title = "Pomar"), []);
+
+  // Tela cheia: o estado vem do navegador (Esc sai, como em qualquer página). Ao sair
+  // da tela do pomodoro, a tela cheia acaba junto.
+  useEffect(() => {
+    const update = () => setFullscreen(document.fullscreenElement !== null);
+    document.addEventListener("fullscreenchange", update);
+    return () => {
+      document.removeEventListener("fullscreenchange", update);
+      if (document.fullscreenElement) void document.exitFullscreen().catch(() => {});
+    };
+  }, []);
+
+  // Atalhos (lib/shortcuts.ts): o ouvinte é um só; a ação usa o estado mais recente.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => shortcutRef.current(e);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   // Ações ------------------------------------------------------------------------
 
@@ -528,6 +558,44 @@ export function PomodoroScreen({
     }
   }
 
+  function toggleFullscreen() {
+    if (document.fullscreenElement) {
+      void document.exitFullscreen().catch(() => {});
+    } else {
+      void rootRef.current?.requestFullscreen?.().catch(() => {
+        // Navegador sem permissão para tela cheia: nada muda.
+      });
+    }
+  }
+
+  // Espaço passa pelo mesmo caminho do botão Pausar (abre o nudge, §4.5) ou do
+  // Continuar; F alterna a tela cheia. Nada disso vale com um diálogo aberto.
+  useEffect(() => {
+    shortcutRef.current = (e: KeyboardEvent) => {
+      const target = e.target instanceof HTMLElement ? e.target : null;
+      const action = shortcutFor(
+        { ...pickKeys(e), target },
+        {
+          wide,
+          dialogOpen:
+            dialog !== "none" ||
+            celebration !== null ||
+            document.querySelector('dialog[open], [aria-modal="true"]') !== null,
+        },
+      );
+      if (!action) return;
+      e.preventDefault();
+      if (action === "fullscreen") {
+        toggleFullscreen();
+        return;
+      }
+      const cur = timerRef.current;
+      if (cur.phase !== "focus") return;
+      if (cur.status === "running") onPause();
+      else if (cur.status === "paused") onResume();
+    };
+  });
+
   // Tela ---------------------------------------------------------------------------
 
   const t = timer;
@@ -546,147 +614,166 @@ export function PomodoroScreen({
   const mm = Math.floor(remaining / 60);
   const ss = remaining % 60;
 
+  const controls = (variant: "sheet" | "panel") => (
+    <PomodoroControls
+      variant={variant}
+      isFocus={isFocus}
+      status={t.status}
+      pauseDialogOpen={dialog === "pause"}
+      busy={busy}
+      error={error}
+      askNotif={askNotif}
+      onStart={onStart}
+      onPause={onPause}
+      onEnd={() => setDialog("cancel")}
+      onResume={onResume}
+      onRetry={() => void finalizeFocus(t, 0)}
+      onSkipBreak={onSkipBreak}
+      onAllowNotifications={onAllowNotifications}
+      onDismissNotifications={() => {
+        markNotificationAsked();
+        setAskNotif(false);
+      }}
+    />
+  );
+  const srLabel = `${label}: ${mm} ${mm === 1 ? "minuto" : "minutos"} e ${ss} segundos restantes`;
+  const stage = stageForLevel(levelForXp(xpTotal));
+
   return (
     <div
+      ref={rootRef}
       data-theme={theme}
       className="fixed inset-0 z-40 overflow-hidden bg-[var(--scene-sky-bottom)]"
     >
-      <Scene
-        theme={sceneTheme}
-        stage={stageForLevel(levelForXp(xpTotal))}
-        progress={sceneProgress}
-        harvested={harvested && isFocus}
-        withTimer
-      />
-
-      <div className="max-w-app relative mx-auto flex h-full w-full flex-col">
-        <div className="flex items-center justify-between px-3 pt-3">
-          <Link
-            href={backHref}
-            aria-label={subject ? `Voltar para ${subject.title}` : "Voltar para o início"}
-            className="grid size-11 place-items-center rounded-full bg-[var(--glass-fill)] text-[var(--scene-ink)]"
-          >
-            <ChevronLeft size={26} aria-hidden />
-          </Link>
-          {t.status === "ready" && (
-            <button
-              type="button"
-              onClick={() => setDialog("settings")}
-              aria-label="Ajustar ciclo"
-              className="grid size-11 place-items-center rounded-full bg-[var(--glass-fill)] text-[var(--scene-ink)]"
-            >
-              <SlidersHorizontal size={22} aria-hidden />
-            </button>
-          )}
-        </div>
-
-        <div className="flex justify-center pt-[clamp(16px,6vh,72px)]">
-          <GlassTimer
-            halo={THEMES[sceneTheme].layout.timer}
-            label={label}
-            seconds={remaining}
-            srLabel={`${label}: ${mm} ${mm === 1 ? "minuto" : "minutos"} e ${ss} segundos restantes`}
+      {wide ? (
+        <>
+          <WideScene
+            theme={sceneTheme}
+            stage={stage}
+            progress={sceneProgress}
+            harvested={harvested && isFocus}
           />
-        </div>
 
-        <div className="mt-auto rounded-t-[28px] bg-[var(--scene-sheet)] px-4 pt-[18px] pb-[max(28px,env(safe-area-inset-bottom))] text-[var(--scene-ink)] shadow-[0_-8px_24px_var(--glass-shade)]">
-          <div className="flex flex-col items-center gap-3">
-            <p className="text-center font-extrabold">
-              {subject ? subject.title : "Sessão livre"}
-              {topic ? ` · ${topic.title}` : ""}
-            </p>
-            <div
-              className="flex gap-2"
-              aria-label={`Ciclo ${dots} de ${LONG_BREAK_EVERY} antes do descanso longo`}
+          <div className="absolute inset-x-8 top-6 flex items-center justify-between">
+            <Link
+              href="/inicio"
+              className="pc-glass inline-flex min-h-12 items-center gap-2 rounded-full pr-[18px] pl-3 text-[15px] font-extrabold text-[var(--pc-ink)]"
             >
-              {Array.from({ length: LONG_BREAK_EVERY }, (_, i) => (
-                <span
-                  key={i}
-                  aria-hidden
-                  className={`size-2.5 rounded-full ${i < dots ? "bg-[var(--scene-fruit-ripe)]" : "bg-[var(--scene-sheet-border)] opacity-40"}`}
-                />
-              ))}
-            </div>
-
-            {askNotif && isFocus && t.status === "running" && (
-              <div className="flex w-full items-start gap-3 rounded-md bg-[var(--surface-200)] p-3">
-                <BellRing
-                  size={20}
-                  aria-hidden
-                  className="mt-0.5 shrink-0 text-[var(--scene-sheet-action)]"
-                />
-                <div className="flex flex-1 flex-col gap-2">
-                  <p className="text-small">
-                    Quer que eu avise quando o ciclo terminar, mesmo em outra aba?
-                  </p>
-                  <div className="flex gap-2">
-                    <Button size="sm" onClick={onAllowNotifications}>
-                      Avisar
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => {
-                        markNotificationAsked();
-                        setAskNotif(false);
-                      }}
-                    >
-                      Agora não
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {error && (
-              <p
-                role="alert"
-                className="text-small w-full rounded-md bg-[var(--fruit-soft)] px-3 py-2 text-[var(--ink)]"
+              <ChevronLeft size={22} aria-hidden />
+              Início
+            </Link>
+            <div className="flex gap-2.5">
+              {t.status === "ready" && (
+                <button
+                  type="button"
+                  onClick={() => setDialog("settings")}
+                  aria-label="Ajustar ciclo"
+                  className="pc-glass grid size-12 place-items-center rounded-full text-[var(--pc-ink)]"
+                >
+                  <SlidersHorizontal size={22} aria-hidden />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={toggleFullscreen}
+                aria-label={fullscreen ? "Sair da tela cheia" : "Tela cheia"}
+                aria-keyshortcuts="F"
+                className="pc-glass grid size-12 place-items-center rounded-full text-[var(--pc-ink)]"
               >
-                {error}
-              </p>
-            )}
-
-            <div className="flex w-full gap-2">
-              {isFocus && t.status === "ready" && (
-                <Button size="lg" className="flex-1" onClick={onStart} disabled={busy}>
-                  {busy ? "Começando…" : "Começar foco"}
-                </Button>
-              )}
-              {isFocus && t.status === "running" && (
-                <>
-                  <SheetButton kind="secondary" onClick={onPause}>
-                    Pausar
-                  </SheetButton>
-                  <SheetButton kind="ghost" onClick={() => setDialog("cancel")}>
-                    Encerrar
-                  </SheetButton>
-                </>
-              )}
-              {isFocus && t.status === "paused" && dialog !== "pause" && (
-                <>
-                  <Button size="lg" className="flex-1" onClick={onResume}>
-                    Continuar
-                  </Button>
-                  <SheetButton kind="ghost" onClick={() => setDialog("cancel")}>
-                    Encerrar
-                  </SheetButton>
-                </>
-              )}
-              {isFocus && t.status === "finished" && error && (
-                <Button size="lg" className="flex-1" onClick={() => void finalizeFocus(t, 0)}>
-                  Tentar de novo
-                </Button>
-              )}
-              {!isFocus && (
-                <SheetButton kind="secondary" onClick={onSkipBreak}>
-                  Pular descanso
-                </SheetButton>
-              )}
+                {fullscreen ? (
+                  <Minimize size={22} aria-hidden />
+                ) : (
+                  <Maximize size={22} aria-hidden />
+                )}
+              </button>
             </div>
           </div>
-        </div>
-      </div>
+
+          <div className="absolute top-[clamp(88px,14.7vh,132px)] left-16 flex flex-col items-start gap-3 xl:left-[120px]">
+            <DesktopPanel
+              chip={!isFocus ? "Descanso" : t.status === "paused" ? "Pausa" : "Foco"}
+              seconds={remaining}
+              srLabel={srLabel}
+              cyclesDone={dots}
+              currentCycle={isFocus ? dots + 1 : null}
+              showRipening={isFocus}
+              ripening={sceneProgress}
+              fruit={THEMES[sceneTheme].fruit}
+              subjectTitle={subject?.title ?? null}
+              topicTitle={topic?.title ?? null}
+              topicDetail={topic?.detail ?? null}
+            >
+              {controls("panel")}
+            </DesktopPanel>
+            <p className="pc-glass rounded-full px-2.5 py-1 text-xs font-extrabold text-[var(--pc-ink)]">
+              Espaço pausa · F tela cheia
+            </p>
+          </div>
+        </>
+      ) : (
+        <>
+          <Scene
+            theme={sceneTheme}
+            stage={stage}
+            progress={sceneProgress}
+            harvested={harvested && isFocus}
+            withTimer
+          />
+
+          <div className="max-w-app relative mx-auto flex h-full w-full flex-col">
+            <div className="flex items-center justify-between px-3 pt-3">
+              <Link
+                href={backHref}
+                aria-label={subject ? `Voltar para ${subject.title}` : "Voltar para o início"}
+                className="grid size-11 place-items-center rounded-full bg-[var(--glass-fill)] text-[var(--scene-ink)]"
+              >
+                <ChevronLeft size={26} aria-hidden />
+              </Link>
+              {t.status === "ready" && (
+                <button
+                  type="button"
+                  onClick={() => setDialog("settings")}
+                  aria-label="Ajustar ciclo"
+                  className="grid size-11 place-items-center rounded-full bg-[var(--glass-fill)] text-[var(--scene-ink)]"
+                >
+                  <SlidersHorizontal size={22} aria-hidden />
+                </button>
+              )}
+            </div>
+
+            <div className="flex justify-center pt-[clamp(16px,6vh,72px)]">
+              <GlassTimer
+                halo={THEMES[sceneTheme].layout.timer}
+                label={label}
+                seconds={remaining}
+                srLabel={srLabel}
+              />
+            </div>
+
+            <div className="mt-auto rounded-t-[28px] bg-[var(--scene-sheet)] px-4 pt-[18px] pb-[max(28px,env(safe-area-inset-bottom))] text-[var(--scene-ink)] shadow-[0_-8px_24px_var(--glass-shade)]">
+              <div className="flex flex-col items-center gap-3">
+                <p className="text-center font-extrabold">
+                  {subject ? subject.title : "Sessão livre"}
+                  {topic ? ` · ${topic.title}` : ""}
+                </p>
+                <div
+                  className="flex gap-2"
+                  aria-label={`Ciclo ${dots} de ${LONG_BREAK_EVERY} antes do descanso longo`}
+                >
+                  {Array.from({ length: LONG_BREAK_EVERY }, (_, i) => (
+                    <span
+                      key={i}
+                      aria-hidden
+                      className={`size-2.5 rounded-full ${i < dots ? "bg-[var(--scene-fruit-ripe)]" : "bg-[var(--scene-sheet-border)] opacity-40"}`}
+                    />
+                  ))}
+                </div>
+                {controls("sheet")}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       <PauseDialog
         open={dialog === "pause"}
@@ -767,27 +854,8 @@ export function PomodoroScreen({
   );
 }
 
-/** Botões da folha do pomodoro, com as cores da cena (referencias/08). */
-function SheetButton({
-  kind,
-  onClick,
-  children,
-}: {
-  kind: "secondary" | "ghost";
-  onClick: () => void;
-  children: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`min-h-12 rounded-md font-extrabold text-[var(--scene-sheet-action)] ${
-        kind === "secondary"
-          ? "flex-1 border-2 border-[var(--scene-sheet-border)] bg-[var(--surface-200)]"
-          : "px-5"
-      }`}
-    >
-      {children}
-    </button>
-  );
+/** Campos do evento de teclado que os atalhos usam (lib/shortcuts.ts). */
+function pickKeys(e: KeyboardEvent) {
+  const { key, code, repeat, altKey, ctrlKey, metaKey, shiftKey } = e;
+  return { key, code, repeat, altKey, ctrlKey, metaKey, shiftKey };
 }
