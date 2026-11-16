@@ -1,16 +1,13 @@
 /**
- * Fluxo do onboarding (telas.md › Fluxo do onboarding, DESIGN §9.2): conta nova →
- * boas-vindas → quiz (8 perguntas) → perfil → Feira (nada marcado) → 1ª disciplina do
- * catálogo → calibração → 1º pomodoro → fim do ciclo → primeiro fruto → Início.
- *
- * A conta é criada pela API, que dispara o mesmo gatilho do cadastro (perfil, coorte
- * sorteada e `signup_completed`). O formulário de cadastro mandaria um e-mail de
- * confirmação de verdade, e o Supabase limita esses envios. O tempo do 1º foco é
- * adiantado no banco, como nos outros testes do pomodoro.
+ * Fluxo do onboarding (telas.md › Fluxo do onboarding, DESIGN §9.2): cadastro pelo
+ * formulário → boas-vindas → quiz (8 perguntas) → perfil → Feira (nada marcado) → 1ª
+ * disciplina do catálogo → calibração → 1º pomodoro → fim do ciclo → primeiro fruto →
+ * Início. A confirmação de e-mail está desligada (DECISOES 07/11), então o cadastro já
+ * entra. O tempo do 1º foco é adiantado no banco, como nos outros testes do pomodoro.
  */
 import { expect, test } from "@playwright/test";
 import { randomUUID } from "node:crypto";
-import { apagarContas, db, entrar, eventos, ok, type Conta } from "./apoio";
+import { apagarContas, db, eventos, ok, type Conta } from "./apoio";
 
 test.describe.configure({ mode: "serial" });
 
@@ -20,28 +17,26 @@ test.afterAll(async () => {
   await apagarContas([c]);
 });
 
-test("conta nova chega sozinha ao primeiro fruto e ao Início", async ({
-  page,
-  context,
-  baseURL,
-}) => {
+test("cadastro pelo formulário chega sozinho ao primeiro fruto e ao Início", async ({ page }) => {
   test.setTimeout(150_000);
   const email = `e2e.${Date.now().toString(36)}.onb@example.com`;
   const password = randomUUID();
-  const created = ok(
-    "criar conta",
-    await db().auth.admin.createUser({
-      email,
-      password,
-      email_confirm: true,
-      user_metadata: { display_name: "Onboarding E2E", timezone: "America/Maceio" },
-    }),
-  );
-  c = { id: created.user!.id, email, password, apelido: "" };
+
+  // Cadastro pelo formulário (tela de cadastro → Início → onboarding).
+  await page.goto("/cadastro");
+  await page.getByLabel("Como podemos te chamar?").fill("Onboarding E2E");
+  await page.getByLabel("E-mail").fill(email);
+  await page.getByLabel("Senha").fill(password);
+  await page.getByRole("button", { name: "Criar conta" }).click();
+  await expect(page).toHaveURL(/\/onboarding$/, { timeout: 20_000 });
+
+  const { data: lista } = await db().auth.admin.listUsers({ page: 1, perPage: 200 });
+  const user = lista.users.find((u) => u.email === email);
+  expect(user, "conta criada pelo cadastro").toBeDefined();
+  c = { id: user!.id, email, password, apelido: "" };
+  // Conta de teste: fica fora das métricas (o selo de demo não aparece no onboarding).
   ok("demo", await db().from("profiles").update({ is_demo: true }).eq("id", c.id));
   expect(await eventos(c, "signup_completed")).toBe(1);
-
-  await entrar(context, c, baseURL!);
 
   // Até terminar, o Início leva ao passo atual.
   await page.goto("/inicio");
