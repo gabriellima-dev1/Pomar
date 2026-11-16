@@ -160,7 +160,15 @@ test("B dá parabéns (uma vez só) e A vê a faixa", async ({ browser, baseURL 
 
 test("perfil público abre sem login; privado não mostra nada", async ({ page }) => {
   await page.goto(`/perfil/${a.apelido}`);
-  await expect(page.getByRole("heading", { name: `@${a.apelido}` })).toBeVisible();
+  const titulo = page.getByRole("heading", { name: `@${a.apelido}` });
+  await expect(titulo).toBeVisible();
+  // O apelido sobe sobre a cena e precisa ficar na frente dela (nada por cima).
+  const caixa = (await titulo.boundingBox())!;
+  const noTopo = await page.evaluate(
+    ([x, y]) => document.elementFromPoint(x!, y!)?.closest("h1")?.textContent ?? null,
+    [caixa.x + 12, caixa.y + 3],
+  );
+  expect(noTopo).toBe(`@${a.apelido}`);
   await expect(page.getByRole("link", { name: "Entrar para seguir" })).toBeVisible();
   await expect(page.getByText(`Terminou o capítulo 1 de ${TITULO}`)).toBeVisible();
 
