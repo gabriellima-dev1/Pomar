@@ -52,7 +52,7 @@ export function canNotify(): boolean {
 
 /** Notifica só com a aba oculta: com ela visível, o próprio app mostra o fim do ciclo. */
 export function notify(type: NotificationType, title: string, body: string): boolean {
-  if (!canNotify() || document.visibilityState === "visible") return false;
+  if (!canNotify() || !cycleAlertsEnabled() || document.visibilityState === "visible") return false;
   try {
     const n = new Notification(title, { body, tag: `pomar-${type}`, icon: "/favicon.ico" });
     void track("notification_shown", { type });
@@ -91,6 +91,9 @@ export function blinkTitle(message: string): () => void {
 
 const SOUND_KEY = "pomar:som";
 const NOTIF_KEY = "pomar:notificacao-perguntada";
+const ALERTS_KEY = "pomar:aviso-fim";
+/** Evento disparado nesta aba quando uma preferência muda (o `storage` só vem das outras). */
+const PREFS_EVENT = "pomar:preferencias";
 
 function read(key: string): string | null {
   try {
@@ -106,6 +109,19 @@ function write(key: string, value: string): void {
   } catch {
     // Armazenamento bloqueado: a preferência vale só nesta visita.
   }
+  window.dispatchEvent(new Event(PREFS_EVENT));
+}
+
+/** Para `useSyncExternalStore`: avisa quando som, aviso ou permissão mudam. */
+export function subscribePrefs(onChange: () => void): () => void {
+  window.addEventListener("storage", onChange);
+  window.addEventListener(PREFS_EVENT, onChange);
+  window.addEventListener("focus", onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(PREFS_EVENT, onChange);
+    window.removeEventListener("focus", onChange);
+  };
 }
 
 export function soundEnabled(): boolean {
@@ -128,4 +144,25 @@ export function shouldAskNotification(): boolean {
 
 export function markNotificationAsked(): void {
   write(NOTIF_KEY, "1");
+}
+
+/**
+ * "Aviso de fim do ciclo" (Configurações, telas.md › 31): ligado por padrão, mas só
+ * aparece com a permissão do navegador. Desligar aqui cala o aviso mesmo com permissão.
+ */
+export function cycleAlertsEnabled(): boolean {
+  return read(ALERTS_KEY) !== "nao";
+}
+
+export function setCycleAlertsEnabled(on: boolean): void {
+  write(ALERTS_KEY, on ? "sim" : "nao");
+}
+
+export type NotificationState = "sem-suporte" | "pedir" | "permitido" | "bloqueado";
+
+/** Estado da permissão de notificação do navegador. */
+export function notificationState(): NotificationState {
+  if (typeof window === "undefined" || !("Notification" in window)) return "sem-suporte";
+  const p = Notification.permission;
+  return p === "granted" ? "permitido" : p === "denied" ? "bloqueado" : "pedir";
 }

@@ -1,32 +1,66 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AtSign, LogOut, Timer } from "lucide-react";
-import { redoQuiz } from "@/app/(onboarding)/onboarding/actions";
+import { LogOut } from "lucide-react";
 import { SubmitButton } from "@/components/forms/fields";
-import { LeagueChoice } from "@/components/league/LeagueChoice";
-import { ProfileIcon } from "@/components/onboarding/ProfileIcon";
-import { buttonClasses } from "@/components/ui/Button";
-import { cardClasses } from "@/components/ui/Card";
+import { RowLink, RowStatic, SettingsSection } from "@/components/settings/rows";
+import {
+  AlertRow,
+  CycleRow,
+  DeleteAccount,
+  ExperimentCard,
+  ExportCard,
+  FeiraRow,
+  NameRow,
+  PublicProfileRow,
+  SoundRow,
+} from "@/components/settings/SettingsControls";
 import { Notice } from "@/components/ui/Notice";
 import { TopBar } from "@/components/ui/TopBar";
 import { getAccount } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
-import { PROFILE_LABEL, PROFILE_SUMMARY } from "@/lib/bartle";
+import { PROFILE_LABEL } from "@/lib/bartle";
+import { formatPace } from "@/lib/estimates";
+import { parseThemePreference } from "@/lib/gamification/themes";
+import { DIVISION_LABEL } from "@/lib/league/divisions";
 import { getLeagueView } from "@/lib/league/queries";
+import { loginMethodLabel } from "@/lib/settings";
+import { createClient } from "@/lib/supabase/server";
+import { THEMES } from "@/themes";
 import { signOut } from "../actions";
 
 export const metadata: Metadata = { title: "Configurações" };
 
 /**
- * Configurações mínimas da Fase 4: perfil de Bartle (trocar ou refazer, DESIGN §6.8),
- * apelido e perfil público (Fase 5), Feira (opt-in, §6.6) e sair da conta. O resto
- * (tema, exportar, excluir) vem na Fase 6.
+ * Configurações completas (referencias/31, DESIGN §10): Conta, Estudo, Jogo e
+ * Privacidade e dados, com Sair e Excluir conta no fim. Nada escondido em submenus.
  */
 export default async function ConfiguracoesPage({ searchParams }: PageProps<"/configuracoes">) {
   const user = await requireUser();
   const query = await searchParams;
-  const [account, league] = await Promise.all([getAccount(user.id), getLeagueView(user.id)]);
-  const profile = account.bartle;
+  const supabase = await createClient();
+  const [account, league, { data: p }, { data: auth }] = await Promise.all([
+    getAccount(user.id),
+    getLeagueView(user.id),
+    supabase
+      .from("profiles")
+      .select("display_name, focus_min, break_min, long_break_min, min_per_page, theme")
+      .eq("id", user.id)
+      .maybeSingle(),
+    supabase.auth.getUser(),
+  ]);
+
+  const provider = auth.user?.app_metadata?.provider as string | undefined;
+  const theme = parseThemePreference(p?.theme);
+  const themeSummary =
+    theme === "auto"
+      ? "Automático · Noturno com o modo escuro do aparelho"
+      : `${THEMES[theme].name} · modo escuro desligado`;
+  const feiraSummary =
+    league.optIn === true
+      ? `Participando · Feira de ${DIVISION_LABEL[league.division]}`
+      : league.optIn === false
+        ? "Fora da Feira"
+        : "Ainda não escolheu";
 
   return (
     <section className="flex flex-col gap-6">
@@ -39,117 +73,88 @@ export default async function ConfiguracoesPage({ searchParams }: PageProps<"/co
       {query.perfil && <Notice>Perfil salvo! O destaque do Início já mudou.</Notice>}
       {query.feira && <Notice>Escolha da Feira salva.</Notice>}
       {query.apelido && <Notice>Apelido salvo.</Notice>}
+      {query.experimento && (
+        <Notice>Você saiu do experimento e agora vê todas as recompensas.</Notice>
+      )}
 
-      <section aria-labelledby="perfil" className={`${cardClasses} flex flex-col gap-4 p-5`}>
-        <h2 id="perfil" className="text-heading">
-          Seu perfil de estudo
-        </h2>
-        {profile ? (
-          <div className="flex items-center gap-4">
-            <ProfileIcon profile={profile} size={56} />
-            <div className="flex min-w-0 flex-col">
-              <span className="font-extrabold">{PROFILE_LABEL[profile]}</span>
-              <span className="text-small text-ink-muted">
-                Destaque no Início: {PROFILE_SUMMARY[profile].toLowerCase()}
-              </span>
-            </div>
-          </div>
-        ) : (
-          <p className="text-ink-muted">
-            Você ainda não fez o quiz. Ele muda só o card de destaque do Início.
-          </p>
-        )}
-        <div className="flex flex-col gap-2">
-          {profile ? (
-            <>
-              <Link href="/onboarding/perfil" className={buttonClasses("secondary", "md")}>
-                Ver meu perfil
-              </Link>
-              <Link
-                href="/onboarding/perfil?escolher=1"
-                className={buttonClasses("secondary", "md")}
-              >
-                Escolher outro perfil
-              </Link>
-              <form action={redoQuiz} className="flex flex-col">
-                <SubmitButton variant="ghost" pendingText="Abrindo…">
-                  Refazer o quiz
-                </SubmitButton>
-              </form>
-            </>
-          ) : (
-            <Link href="/onboarding/quiz" className={buttonClasses("secondary", "md")}>
-              Fazer o quiz
-            </Link>
-          )}
-        </div>
-      </section>
-
-      <section aria-labelledby="apelido" className={`${cardClasses} flex flex-col gap-4 p-5`}>
-        <div className="flex flex-col gap-1">
-          <h2 id="apelido" className="text-heading">
-            Apelido e perfil público
-          </h2>
-          <p className="text-ink-muted">
-            {league.username ? (
-              <>
-                Você aparece como{" "}
-                <strong className="text-ink font-extrabold">@{league.username}</strong>. Perfil
-                público:{" "}
-                <strong className="text-ink font-extrabold">
-                  {league.publicProfile ? "sim" : "não"}
-                </strong>
-                .
-              </>
-            ) : (
-              "Você ainda não escolheu um apelido. Ele aparece na Feira e entre amigos; seu nome e seu e-mail ficam privados."
-            )}
-          </p>
-        </div>
-        <Link
+      <SettingsSection id="conta" title="Conta">
+        <NameRow name={p?.display_name ?? null} />
+        <RowLink
           href="/liga/apelido?depois=/configuracoes"
-          className="bg-surface-300 flex min-h-14 items-center gap-3 rounded-lg px-4 py-3 font-extrabold"
-        >
-          <AtSign size={22} aria-hidden className="text-primary shrink-0" />
-          {league.username ? "Mudar apelido ou perfil público" : "Escolher apelido"}
-        </Link>
-      </section>
-
-      <section aria-labelledby="feira" className={`${cardClasses} flex flex-col gap-4 p-5`}>
-        <div className="flex flex-col gap-1">
-          <h2 id="feira" className="text-heading">
-            Feira
-          </h2>
-          <p className="text-ink-muted">
-            Ranking semanal com quem estuda um tempo parecido. Só aparecem o seu apelido e o seu XP
-            da semana.
-          </p>
-        </div>
-        <LeagueChoice
-          context="configuracoes"
-          initial={account.leagueOptIn}
-          submitLabel="Salvar escolha"
+          label="Apelido"
+          value={league.username ? `@${league.username}` : "Escolher apelido"}
         />
+        <PublicProfileRow username={league.username} initial={league.publicProfile} />
+        <RowStatic
+          label="E-mail"
+          value={`${user.email ?? "sem e-mail"} · ${loginMethodLabel(provider)}`}
+        />
+      </SettingsSection>
+
+      <SettingsSection id="estudo" title="Estudo">
+        <CycleRow
+          settings={{
+            focus: p?.focus_min ?? 25,
+            shortBreak: p?.break_min ?? 5,
+            longBreak: p?.long_break_min ?? 15,
+          }}
+        />
+        <RowLink
+          href="/calibrar"
+          label="Ritmo de leitura padrão"
+          value={
+            p?.min_per_page
+              ? `${formatPace(Number(p.min_per_page))} por página`
+              : "Ainda não calibrado"
+          }
+        />
+        <SoundRow />
+        <AlertRow />
+      </SettingsSection>
+
+      <SettingsSection id="jogo" title="Jogo">
+        <RowLink
+          href="/onboarding/perfil"
+          label="Perfil de jogador"
+          value={
+            account.bartle
+              ? `${PROFILE_LABEL[account.bartle]} · trocar ou refazer o quiz`
+              : "Fazer o quiz (muda só o destaque do Início)"
+          }
+        />
+        <RowLink href="/conquistas?aba=temas" label="Tema" value={themeSummary} />
+        <FeiraRow optIn={league.optIn} summary={feiraSummary} />
+      </SettingsSection>
+
+      <section aria-labelledby="dados" className="flex flex-col gap-3">
+        <h2 id="dados" className="text-caption text-ink-muted px-1">
+          Privacidade e dados
+        </h2>
+        <ExperimentCard group={account.experiment} />
+        <ExportCard />
+        <p className="flex flex-wrap gap-x-6 gap-y-2 px-1">
+          <Link href="/privacidade" className="text-primary-strong font-extrabold underline">
+            Política de privacidade
+          </Link>
+          <Link href="/transparencia" className="text-primary-strong font-extrabold underline">
+            Transparência
+          </Link>
+        </p>
       </section>
 
-      <section aria-labelledby="conta" className={`${cardClasses} flex flex-col gap-3 p-5`}>
-        <h2 id="conta" className="text-heading">
-          Conta
-        </h2>
-        <Link
-          href="/calibrar"
-          className="bg-surface-300 flex min-h-14 items-center gap-3 rounded-lg px-4 py-3 font-extrabold"
-        >
-          <Timer size={22} aria-hidden className="text-primary shrink-0" />
-          Meu ritmo de leitura
-        </Link>
+      <div className="flex flex-col gap-3">
         <form action={signOut} className="flex flex-col">
-          <SubmitButton variant="secondary" pendingText="Saindo…">
+          <SubmitButton variant="secondary" size="lg" pendingText="Saindo…">
             <LogOut size={20} aria-hidden />
             Sair da conta
           </SubmitButton>
         </form>
-      </section>
+        <DeleteAccount username={league.username} />
+      </div>
+
+      <p className="text-small text-ink-muted text-center">
+        Pomar · projeto da disciplina Computação Persuasiva · UFAL
+      </p>
     </section>
   );
 }

@@ -199,9 +199,9 @@ describe("previsão de término (Fase 2)", () => {
 
 describe("topicDetail (painel do pomodoro no computador)", () => {
   it("livro: intervalo de páginas e pomodoros", () => {
-    expect(
-      topicDetail({ page_start: 120, page_end: 131 }, { minPerPage: 4, focusMin: 25 }),
-    ).toBe("p. 120–131 · cerca de 2 pomodoros");
+    expect(topicDetail({ page_start: 120, page_end: 131 }, { minPerPage: 4, focusMin: 25 })).toBe(
+      "p. 120–131 · cerca de 2 pomodoros",
+    );
     expect(topicDetail({ page_start: 7, page_end: 7 }, { minPerPage: 3, focusMin: 25 })).toBe(
       "p. 7 · cerca de 1 pomodoro",
     );
