@@ -76,7 +76,7 @@ function AchieverCard({ xp, history, today, goal }: HighlightData) {
         <h2 id="destaque" className="text-heading">
           Rumo ao nível {p.level + 1}
         </h2>
-        <span className="text-small text-reward-mark font-extrabold tabular-nums">
+        <span className="text-small text-reward-ink font-extrabold tabular-nums">
           {xp} / {xpForLevel(p.level + 1)} XP
         </span>
       </div>

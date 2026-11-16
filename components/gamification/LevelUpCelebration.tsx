@@ -81,7 +81,7 @@ export function LevelUpCelebration({
           <div className="border-line flex flex-col gap-2 rounded-lg border-2 p-4">
             <div className="flex items-baseline justify-between gap-2">
               <span className="font-extrabold">Rumo ao nível {p.level + 1}</span>
-              <span className="text-reward-mark font-extrabold">
+              <span className="text-reward-ink font-extrabold">
                 {xp.toLocaleString("pt-BR")} XP
               </span>
             </div>
