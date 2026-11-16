@@ -2,7 +2,7 @@
  * Fluxo principal do pomodoro e checagens adiadas para os testes ponta a ponta:
  * - o "fruto de ontem" aparece no primeiro acesso depois de um dia de estudo (#33);
  * - a cena anima (e para com "reduzir movimento") — Fase 3, adiada em 11/11;
- * - no computador a cena ocupa a tela toda (#29);
+ * - no tablet a cena ocupa a tela toda (#29; no computador, pomodoro-desktop.spec.ts);
  * - pausar não pune; o fim do ciclo registra páginas e dá XP no servidor.
  */
 import { expect, test } from "@playwright/test";
@@ -103,12 +103,15 @@ test("a cena do pomodoro anima e para com reduzir movimento", async ({ browser, 
   await parada.close();
 });
 
-test("no computador a cena ocupa a largura toda", async ({ browser, baseURL }) => {
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+test("no tablet a cena de celular se estende pela largura toda", async ({ browser, baseURL }) => {
+  // 768–1023px: a cena de celular com as cópias dos lados. A partir de 1024px entra a
+  // cena larga própria (e2e/pomodoro-desktop.spec.ts).
+  const ctx = await browser.newContext({ viewport: { width: 1000, height: 600 } });
   await entrar(ctx, c, baseURL!);
   const page = await ctx.newPage();
   await page.goto(`/pomodoro?disciplina=${disciplina.subjectId}`);
   await expect(page.getByRole("button", { name: "Começar foco" })).toBeVisible();
+  await expect(page.locator("svg[data-cena-larga]")).toHaveCount(0);
   await expect
     .poll(() =>
       page.evaluate(() => {
