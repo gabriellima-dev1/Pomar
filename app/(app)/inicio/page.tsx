@@ -16,6 +16,7 @@ import { focusSummary } from "@/lib/focus-summary";
 import { getLeagueView } from "@/lib/league/queries";
 import { whenLabel } from "@/lib/social/feed";
 import { getFriendsFeed, getReceivedReactions } from "@/lib/social/queries";
+import { masteryCounts, masteryMode } from "@/lib/gamification/mastery";
 import { daysAway } from "@/lib/gamification/present";
 import { getBadgeHistory, getGameProfile } from "@/lib/gamification/queries";
 import { homeLine } from "@/lib/mascot/lines";
@@ -88,6 +89,8 @@ export default async function InicioPage() {
     ? null
     : homeLine({ daysAway: away ?? 0, freezeUsed: game.freezeUsed, streak: game.streak });
 
+  const mastery = masteryMode(game.level);
+  const mastered = masteryCounts(all);
   const { hour, dateLabel } = localParts(new Date(), profile.timezone);
   const empty = subjects.length === 0;
   const hello = empty ? "Olá" : greeting(hour);
@@ -109,8 +112,13 @@ export default async function InicioPage() {
 
         <div className="flex flex-wrap gap-2">
           <StatChip kind="ofensiva" value={game.streak} freezes={game.freezes} />
+          {/* Nível 10+: destaque para o que a pessoa domina; o XP fica discreto (DESIGN §3). */}
+          {mastery && <StatChip kind="topicos" value={mastered.topics} />}
+          {mastery && mastered.chapters > 0 && (
+            <StatChip kind="capitulos" value={mastered.chapters} />
+          )}
           {/* Coorte B (DESIGN §9.4): sem XP e nível visíveis. */}
-          {rewards && game.xp > 0 && <StatChip kind="xp" value={game.xp} />}
+          {rewards && game.xp > 0 && <StatChip kind="xp" value={game.xp} muted={mastery} />}
           {rewards && <StatChip kind="nivel" value={game.level} />}
         </div>
       </div>
