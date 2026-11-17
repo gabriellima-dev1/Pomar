@@ -19,6 +19,7 @@ const LOGADO = (id: string) => [
   "/disciplinas",
   `/disciplinas/${id}`,
   `/pomodoro?disciplina=${id}`,
+  "/pomodoro", // Foco vazio (37/37b)
   "/conquistas",
   "/conquistas?aba=temas",
   "/liga",

@@ -222,14 +222,24 @@ const PASSOS: Passo[] = [
     titulo: "Início",
     acao: "Fechou a celebração.",
     regra:
-      "Destaque do perfil Conquistador: rumo ao próximo nível, meta do dia e colheita da semana. O card da disciplina leva ao próximo tópico em 1 toque (DESIGN §4.4 e §6.8).",
+      'Início como painel (telas.md › 36/36b): "Continuar estudando" com a última disciplina e o próximo tópico, nível e meta (o destaque do Conquistador), fruto de ontem e "Sua semana". A lista de disciplinas fica só em Disciplinas.',
     url: () => "/inicio",
+  },
+  {
+    persona: "carla",
+    id: "foco-vazio",
+    titulo: "Foco sem disciplina",
+    acao: "Tocou em Foco no menu, sem ciclo em andamento.",
+    regra:
+      'O Foco abre a sessão em andamento; sem ela, "Nenhuma disciplina selecionada", com "Escolher disciplina" e o link da sessão livre. O menu não aparece no Foco; a saída é o botão Início (37/37b).',
+    url: () => "/pomodoro",
+    visivel: true,
   },
   {
     persona: "carla",
     id: "disciplina",
     titulo: "Disciplina",
-    acao: "Tocou no card de Algoritmos.",
+    acao: 'Tocou em "Trocar disciplina" e abriu Algoritmos.',
     regra:
       "O próximo tópico é sempre o primeiro não concluído, na ordem do livro. O tópico só fica concluído quando a pessoa marca (aqui ou no fim do ciclo).",
     decisoes: [
@@ -241,7 +251,7 @@ const PASSOS: Passo[] = [
     persona: "carla",
     id: "pomodoro-pronto",
     titulo: "Pomodoro pronto",
-    acao: "Tocou em Começar pomodoro.",
+    acao: 'Tocou em "Começar" no card "Continuar estudando".',
     regra: "Padrão 25/5/15, ajustável de 5 em 5 (DESIGN §4.5). A cena muda com o tema e o nível.",
     url: () => `/pomodoro?disciplina=${carlaSubject}`,
     visivel: true,
@@ -254,6 +264,17 @@ const PASSOS: Passo[] = [
     regra:
       "O cronômetro usa os horários de início e pausa: continua com a aba oculta e sobrevive a recarregar. O fruto amadurece com o progresso.",
     url: () => "/pomodoro",
+    visivel: true,
+    antes: () => cicloRodando("carla", 10),
+  },
+  {
+    persona: "carla",
+    id: "menu-foco-rodando",
+    titulo: "Item Foco com o tempo",
+    acao: "Saiu do Foco pelo botão Início.",
+    regra:
+      'Sair do Foco não pausa. O item Foco mostra o tempo que falta (calculado da sessão no servidor), "Pausado" quando parado e "Colher" se o foco acabar fora do Foco (39/39b).',
+    url: () => "/inicio",
     visivel: true,
     antes: () => cicloRodando("carla", 10),
   },
@@ -325,7 +346,7 @@ const PASSOS: Passo[] = [
     persona: "carla",
     id: "estatisticas-semana",
     titulo: "Estatísticas · Semana",
-    acao: "Abriu Estatísticas.",
+    acao: 'Tocou em "Ver todas as estatísticas" no card "Sua semana".',
     regra:
       "Tudo no fuso da pessoa e só com ciclos concluídos; iguais para as duas coortes (§4.6, DECISOES 11/11).",
     url: () => "/estatisticas",

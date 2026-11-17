@@ -1,17 +1,14 @@
 import Link from "next/link";
-import { BarChart3, Sparkles, Users } from "lucide-react";
+import { Clock, Sparkles, Users } from "lucide-react";
 import { dismissLeagueInvite, setLeagueChoice } from "@/app/(onboarding)/onboarding/actions";
 import { BadgeDisc } from "@/components/gamification/BadgeDisc";
 import { SubmitButton } from "@/components/forms/fields";
 import { DivisionDisc, DivisionMedal } from "@/components/league/Divisions";
-import { ProgressBar } from "@/components/ui/Progress";
 import { cardClasses } from "@/components/ui/Card";
 import type { Account } from "@/lib/account";
 import { formatMinutes, type FocusSummary } from "@/lib/focus-summary";
 import { BADGES, badgeInfo } from "@/lib/gamification/catalog";
-import { TIER_LABEL, tierForDays } from "@/lib/gamification/harvest";
-import { progressToNext, xpForLevel } from "@/lib/gamification/levels";
-import { badgesThisWeek, type BadgeDay } from "@/lib/gamification/present";
+import type { BadgeDay } from "@/lib/gamification/present";
 import { DIVISION_LABEL } from "@/lib/league/divisions";
 import { chaseLine } from "@/lib/league/present";
 import type { LeagueView } from "@/lib/league/queries";
@@ -24,8 +21,8 @@ export type HighlightData = {
   history: readonly BadgeDay[];
   today: string;
   focus: FocusSummary;
-  /** Disciplina com meta diária, na ordem do Início (a primeira vale). */
-  goal: { title: string; target: number; done: number } | null;
+  /** Início da faixa de 2 h com mais foco nos últimos 30 dias (Explorador, tela 21). */
+  bestHour: number | null;
   /** Feira da pessoa (só carregada para o Competidor). */
   league?: LeagueView | null;
   /** Social (só carregado para o Socializador). */
@@ -37,7 +34,7 @@ export type HighlightData = {
 
 const card = `${cardClasses} flex flex-col gap-4 p-5`;
 
-function MiniStat({ label, value, note }: { label: string; value: string; note?: string }) {
+export function MiniStat({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
     <div className="bg-surface-100 flex flex-1 flex-col gap-0.5 rounded-md px-4 py-3">
       <span className="text-caption text-ink-muted">{label}</span>
@@ -66,38 +63,7 @@ function FocusCard({ focus }: { focus: FocusSummary }) {
   );
 }
 
-function AchieverCard({ xp, history, today, goal }: HighlightData) {
-  const p = progressToNext(xp);
-  const week = badgesThisWeek(today, history);
-  const tier = tierForDays(week);
-  return (
-    <section aria-labelledby="destaque" className={card}>
-      <div className="flex items-baseline justify-between gap-3">
-        <h2 id="destaque" className="text-heading">
-          Rumo ao nível {p.level + 1}
-        </h2>
-        <span className="text-small text-reward-ink font-extrabold tabular-nums">
-          {xp} / {xpForLevel(p.level + 1)} XP
-        </span>
-      </div>
-      <ProgressBar
-        percent={p.ratio * 100}
-        color="var(--reward)"
-        label={`Faltam ${p.remaining} XP para o nível ${p.level + 1}`}
-      />
-      <div className="flex gap-3">
-        {goal && <MiniStat label="Meta de hoje" value={`${goal.done} de ${goal.target}`} />}
-        <MiniStat
-          label="Colheita"
-          value={`${week} de 7`}
-          note={tier ? TIER_LABEL[tier] : undefined}
-        />
-      </div>
-    </section>
-  );
-}
-
-function ExplorerCard({ history, focus }: HighlightData) {
+function ExplorerCard({ history, bestHour }: HighlightData) {
   const owned = new Set(history.map((b) => b.code));
   // Até 4 discos: obtidos primeiro (mais recentes), depois cadeados (referencias/21).
   const recent = [...history]
@@ -138,11 +104,17 @@ function ExplorerCard({ history, focus }: HighlightData) {
         ))}
       </ul>
       <p className="bg-surface-100 flex items-center gap-3 rounded-md px-4 py-3">
-        <BarChart3 size={24} aria-hidden className="text-primary shrink-0" />
-        <span>
-          Minutos de foco nesta semana:{" "}
-          <strong className="font-extrabold">{formatMinutes(focus.weekMin)}</strong>
-        </span>
+        <Clock size={24} aria-hidden className="text-primary shrink-0" />
+        {bestHour === null ? (
+          <span>Conclua alguns pomodoros e eu descubro o seu melhor horário de foco.</span>
+        ) : (
+          <span>
+            Seu melhor horário de foco:{" "}
+            <strong className="font-extrabold">
+              {bestHour}h–{bestHour + 2}h
+            </strong>
+          </span>
+        )}
       </p>
     </section>
   );
@@ -341,14 +313,16 @@ function QuizInvite() {
 
 /**
  * Card de destaque do Início conforme o perfil de Bartle (DESIGN §6.8, telas.md › 21),
- * com a Feira da Fase 5 no Competidor. Coorte B: Conquistador
- * e Explorador viram o resumo neutro do foco.
+ * com a Feira da Fase 5 no Competidor. Coorte B: Conquistador e Explorador viram o
+ * resumo neutro do foco. Coorte A: o Conquistador não tem destaque, porque o card de
+ * nível e meta (LevelCard) já é o dele (telas.md › Início como painel).
  */
 export function ProfileHighlight(data: HighlightData) {
   const { account } = data;
   switch (account.bartle) {
     case "conquistador":
-      return account.rewards ? <AchieverCard {...data} /> : <FocusCard focus={data.focus} />;
+      // Coorte A: o card "Rumo ao nível" do Início já é o destaque dele (DECISOES 17/11).
+      return account.rewards ? null : <FocusCard focus={data.focus} />;
     case "explorador":
       return account.rewards ? <ExplorerCard {...data} /> : <FocusCard focus={data.focus} />;
     case "competidor":

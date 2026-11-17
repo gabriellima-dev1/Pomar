@@ -65,6 +65,20 @@ function revalidateStudy(subjectId: string | null) {
   if (subjectId) revalidatePath(`/disciplinas/${subjectId}`);
 }
 
+/** Foco em andamento no servidor (item Foco do menu, ao voltar para a aba). */
+export async function getRunningFocus(): Promise<SessionRow | null> {
+  await requireUser();
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("pomodoro_sessions")
+    .select(
+      "id, subject_id, topic_id, planned_focus_sec, started_at, paused_sec, paused_at, pauses, status",
+    )
+    .eq("status", "running")
+    .maybeSingle();
+  return data ? pick(data) : null;
+}
+
 export async function startPomodoro(
   subjectId: string | null,
   topicId: string | null,

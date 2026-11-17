@@ -1,3 +1,4 @@
+import { FocusStatusProvider } from "@/components/focus/FocusStatusProvider";
 import { RewardsQueue } from "@/components/gamification/RewardsQueue";
 import { TrackOnMount } from "@/components/telemetry/TrackOnMount";
 import { themeScript } from "@/components/theme/script";
@@ -14,6 +15,24 @@ import {
   getUnlockedThemes,
 } from "@/lib/gamification/queries";
 import { getPendingWeekResult } from "@/lib/league/queries";
+import { createClient } from "@/lib/supabase/server";
+import type { SessionRow } from "./pomodoro/actions";
+
+/**
+ * Foco em andamento (item Foco do menu, telas.md › Foco no menu), com a hora da leitura
+ * para o 1º quadro ser igual no servidor e no navegador. RLS: só o da pessoa.
+ */
+async function getRunningSession(): Promise<{ row: SessionRow | null; at: number }> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("pomodoro_sessions")
+    .select(
+      "id, subject_id, topic_id, planned_focus_sec, started_at, paused_sec, paused_at, pauses, status",
+    )
+    .eq("status", "running")
+    .maybeSingle();
+  return { row: data ?? null, at: Date.now() };
+}
 
 export default async function AppLayout({ children }: LayoutProps<"/">) {
   const user = await requireUser();
@@ -22,12 +41,13 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
   // por requisição e antes de qualquer leitura de jogo (lib/gamification/queries.ts).
   await closeDaysOnce();
 
-  const [profile, history, themes, account, leagueResult] = await Promise.all([
+  const [profile, history, themes, account, leagueResult, running] = await Promise.all([
     getGameProfile(user.id),
     getBadgeHistory(),
     getUnlockedThemes(),
     getAccount(user.id),
     getPendingWeekResult(),
+    getRunningSession(),
   ]);
   const recent = history.filter((b) => b.day >= addDays(profile.today, -60));
   const unseenBadges = recent.filter((b) => !b.seen);
@@ -45,31 +65,33 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
   ].join("|");
 
   return (
-    <div className="flex flex-1 flex-col">
-      {/* Tema antes da primeira pintura; ThemeSync mantém nas navegações. */}
-      <script dangerouslySetInnerHTML={{ __html: themeScript(profile.theme) }} />
-      <ThemeSync theme={profile.theme} />
-      <TrackOnMount event="app_opened" once="session" />
-      <SideNav />
-      {/* Celular: coluna de 480px · tablet: até 720px · computador: até 1080px ao lado da barra. */}
-      <div className="flex flex-1 flex-col lg:pl-60">
-        <main className="max-w-app mx-auto flex w-full flex-1 flex-col px-4 pt-4 pb-36 md:max-w-[720px] lg:max-w-[1080px] lg:px-10 lg:pt-10 lg:pb-16">
-          {children}
-        </main>
+    <FocusStatusProvider initial={running.row} renderedAt={running.at}>
+      <div className="flex flex-1 flex-col">
+        {/* Tema antes da primeira pintura; ThemeSync mantém nas navegações. */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript(profile.theme) }} />
+        <ThemeSync theme={profile.theme} />
+        <TrackOnMount event="app_opened" once="session" />
+        <SideNav />
+        {/* Celular: coluna de 480px · tablet: até 720px · computador: até 1080px ao lado da barra. */}
+        <div className="flex flex-1 flex-col lg:pl-60">
+          <main className="max-w-app mx-auto flex w-full flex-1 flex-col px-4 pt-4 pb-36 md:max-w-[720px] lg:max-w-[1080px] lg:px-10 lg:pt-10 lg:pb-16">
+            {children}
+          </main>
+        </div>
+        <BottomNav />
+        <RewardsQueue
+          key={queueKey}
+          badges={rewardsEnabled ? unseenBadges : []}
+          history={recent}
+          themes={rewardsEnabled ? unseenThemes : []}
+          levelFrom={rewardsEnabled ? levelFrom : profile.level}
+          levelTo={profile.level}
+          xp={profile.xp}
+          today={profile.today}
+          theme={profile.theme}
+          leagueResult={leagueResult}
+        />
       </div>
-      <BottomNav />
-      <RewardsQueue
-        key={queueKey}
-        badges={rewardsEnabled ? unseenBadges : []}
-        history={recent}
-        themes={rewardsEnabled ? unseenThemes : []}
-        levelFrom={rewardsEnabled ? levelFrom : profile.level}
-        levelTo={profile.level}
-        xp={profile.xp}
-        today={profile.today}
-        theme={profile.theme}
-        leagueResult={leagueResult}
-      />
-    </div>
+    </FocusStatusProvider>
   );
 }

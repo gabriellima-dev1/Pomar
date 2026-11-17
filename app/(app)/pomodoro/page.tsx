@@ -29,8 +29,9 @@ function predicted(
 }
 
 /**
- * Pomodoro (referencias/08-pomodoro-classico.png). Abre parado no tópico pedido
- * ou no próximo da disciplina. Um ciclo em andamento no servidor tem prioridade.
+ * Foco (referencias/08, 35, 37 e 38). Abre parado no tópico pedido ou no próximo da
+ * disciplina; um ciclo em andamento no servidor tem prioridade. Sem ciclo, sem
+ * disciplina e sem `?livre=1` (sessão livre), mostra "Nenhuma disciplina selecionada".
  */
 export default async function PomodoroPage({ searchParams }: PageProps<"/pomodoro">) {
   const user = await requireUser();
@@ -56,6 +57,7 @@ export default async function PomodoroPage({ searchParams }: PageProps<"/pomodor
 
   const subjectParam = typeof query.disciplina === "string" ? query.disciplina : null;
   const topicParam = typeof query.topico === "string" ? query.topico : null;
+  const free = query.livre === "1";
   const subjectId = running
     ? running.subject_id
     : subjectParam && isUuid(subjectParam)
@@ -96,9 +98,11 @@ export default async function PomodoroPage({ searchParams }: PageProps<"/pomodor
     };
   }
 
+  const empty = !running && !subject && !free;
+
   return (
     <PomodoroLoader
-      key={`${subject?.id ?? "livre"}:${topic?.id ?? ""}`}
+      key={`${empty ? "vazio" : (subject?.id ?? "livre")}:${topic?.id ?? ""}`}
       subject={subject ? { id: subject.id, title: subject.title } : null}
       topic={topic}
       settings={settings}
@@ -108,6 +112,7 @@ export default async function PomodoroPage({ searchParams }: PageProps<"/pomodor
       theme={parseThemePreference(profile?.theme)}
       xp={profile?.xp_total ?? 0}
       rewards={account.rewards}
+      empty={empty}
     />
   );
 }

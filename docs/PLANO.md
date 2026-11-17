@@ -156,15 +156,15 @@ Correções achadas no uso real em 16 e 17/11 (DECISOES 16/11 e 17/11). Vêm ant
 
 ### Fase 6B — Foco no menu e Início como painel (17–20/11)
 Decisão da dupla em 17/11 (telas.md › "Foco no menu e Início como painel", referências 36 a 39). Precisa estar em produção antes do congelamento de 23/11.
-- [ ] Menu do celular: Início · Disciplinas · **Foco** (centro, com destaque) · Liga · Conquistas; Estatísticas sai da barra do celular
-- [ ] Barra lateral do computador com 6 destinos (Foco entre Disciplinas e Conquistas)
-- [ ] Item Foco com o tempo restante (rodando) ou "Pausado", em todas as telas, calculado da sessão do servidor; atualiza só com a aba visível
-- [ ] Foco = `/pomodoro`: abre a sessão em andamento; sem sessão nem disciplina, mostra só a cena e "Nenhuma disciplina selecionada" (37/37b)
-- [ ] Menu oculto no Foco; botão "Início" no canto superior esquerdo em todos os estados; no celular ele substitui a seta que voltava para a disciplina (38)
-- [ ] Início como painel (36/36b): "Continuar estudando" (última disciplina + próximo tópico + Começar + Trocar disciplina), nível e meta, fruto de ontem, destaque do perfil, "Sua semana" com link para Estatísticas; a lista de disciplinas sai do Início
-- [ ] Estados do Início: sem disciplinas (01b) e onboarding passo 5 (card "Falta 1 passo" no lugar de "Continuar estudando")
-- [ ] Testes: e2e do menu (celular e computador), do Foco vazio, do tempo no item Foco ao sair do pomodoro e do novo Início; atualizar os testes que dependiam da lista de disciplinas no Início
-- [ ] Atualizar o protótipo de fluxo de telas (design, no chat) e a galeria de fluxos (`docs/fluxos`) com as telas novas
+- [x] Menu do celular: Início · Disciplinas · **Foco** (centro, com destaque) · Liga · Conquistas; Estatísticas sai da barra do celular (Estatísticas ganham "← Início" e mantêm a barra com Início marcado, 39c)
+- [x] Barra lateral do computador com 6 destinos (Foco entre Disciplinas e Conquistas); some no Foco
+- [x] Item Foco com o tempo restante (rodando), "Pausado" ou "Colher" (foco terminado fora do Foco, 39b), em todas as telas, calculado da sessão do servidor; atualiza só com a aba visível — `lib/focus-status.ts` (testes) e `components/focus/`
+- [x] Foco = `/pomodoro`: abre a sessão em andamento; sem sessão nem disciplina, mostra a cena e "Nenhuma disciplina selecionada" com "Escolher disciplina" e "Estudar sem disciplina" (37/37b)
+- [x] Menu oculto no Foco; botão "Início" no canto superior esquerdo em todos os estados; no celular ele substitui a seta que voltava para a disciplina (38)
+- [x] Início como painel (36/36b): "Continuar estudando" (última disciplina + sigla 39d + próximo tópico + Começar + Trocar disciplina), nível e meta, fruto de ontem, destaque do perfil, "Sua semana" com link para Estatísticas; a lista de disciplinas sai do Início
+- [x] Estados do Início: sem disciplinas (01b) e onboarding passo 5 (card "Falta 1 passo" no lugar de "Continuar estudando")
+- [x] Testes: e2e do menu (celular e computador), do Foco vazio, do tempo no item Foco ao sair do pomodoro e do novo Início — `e2e/foco-menu.spec.ts` (7 testes); axe no Foco vazio; contraste AA das cores novas em `lib/design/contrast.test.ts`; suíte inteira 56/56 em 17/11
+- [ ] Atualizar o protótipo de fluxo de telas (design, no chat) e a galeria de fluxos (`docs/fluxos`) com as telas novas — **capturas refeitas em 17/11** (`scripts/fluxos/capturar.ts`: Foco vazio, item Foco com o tempo, Início como painel; 33 telas). Falta publicar a galeria e atualizar o protótipo no chat
 
 **Aceite:** no celular e no computador, dá para ir de qualquer menu ao Foco e voltar ao Início sem encerrar o pomodoro; o item Foco mostra o tempo enquanto o ciclo roda e "Pausado" quando parado; sem disciplina, o Foco mostra só "Nenhuma disciplina selecionada" e o botão Início; o Início não lista disciplinas e leva às Estatísticas pelo card "Sua semana".
 

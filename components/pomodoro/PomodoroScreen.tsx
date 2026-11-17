@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, Maximize, Minimize, SlidersHorizontal } from "lucide-react";
+import { Maximize, Minimize, SlidersHorizontal } from "lucide-react";
 import {
   answerPaceSuggestion,
   cancelPomodoro,
@@ -16,6 +15,7 @@ import {
   type SessionRow,
 } from "@/app/(app)/pomodoro/actions";
 import { markLevelSeen } from "@/app/(app)/conquistas/actions";
+import { useFocusPublisher } from "@/components/focus/FocusStatusProvider";
 import { LevelUpCelebration } from "@/components/gamification/LevelUpCelebration";
 import { Scene } from "@/components/scenes/Scene";
 import { WideScene } from "@/components/scenes/WideScene";
@@ -23,6 +23,7 @@ import { useEffectiveTheme } from "@/components/theme/useEffectiveTheme";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
 import { Toast } from "@/components/ui/Toast";
+import { sessionFromTimer } from "@/lib/focus-status";
 import { levelForXp, stageChanged, stageForLevel } from "@/lib/gamification/levels";
 import type { XpResult } from "@/lib/gamification/service";
 import type { ThemePreference } from "@/lib/gamification/themes";
@@ -50,6 +51,7 @@ import {
 } from "@/lib/timer";
 import {
   blinkTitle,
+  claimCycleAlert,
   markNotificationAsked,
   notify,
   playChime,
@@ -61,7 +63,9 @@ import {
 import { CycleSettingsDialog, type CycleSettings } from "./CycleSettingsDialog";
 import { DesktopPanel } from "./DesktopPanel";
 import { EndOfCycleDialog, type EndTopic } from "./EndOfCycleDialog";
+import { FocusEmpty } from "./FocusEmpty";
 import { GlassTimer } from "./GlassTimer";
+import { HomePill } from "./HomePill";
 import { PauseDialog } from "./PauseDialog";
 import { PomodoroControls } from "./PomodoroControls";
 import { useWide } from "./useWide";
@@ -92,6 +96,11 @@ export type PomodoroProps = {
   xp: number;
   /** Coorte B (DESIGN §9.4): sem XP e sem celebração de nível visíveis. */
   rewards: boolean;
+  /**
+   * Sem sessão, sem disciplina e sem pedir a sessão livre: o Foco mostra "Nenhuma
+   * disciplina selecionada" (37), a não ser que haja um descanso neste aparelho.
+   */
+  empty: boolean;
 };
 
 type DialogName = "none" | "settings" | "pause" | "cancel" | "end";
@@ -167,8 +176,10 @@ export function PomodoroScreen({
   theme,
   xp,
   rewards,
+  empty,
 }: PomodoroProps) {
   const router = useRouter();
+  const publishFocus = useFocusPublisher();
   const sceneTheme = useEffectiveTheme(theme);
   const [xpTotal, setXpTotal] = useState(xp);
   // Subida de nível do ciclo (ou do tópico concluído): mostrada depois da folha 07.
@@ -186,10 +197,23 @@ export function PomodoroScreen({
   const [settings, setSettings] = useState(initialSettings);
   const [timer, setTimer] = useState<TimerState>(() =>
     initialTimer(
-      { subject, topic, settings: initialSettings, pace, today, running, theme, xp, rewards },
+      {
+        subject,
+        topic,
+        settings: initialSettings,
+        pace,
+        today,
+        running,
+        theme,
+        xp,
+        rewards,
+        empty,
+      },
       ctx,
     ),
   );
+  // Foco vazio só se nada estiver em andamento neste aparelho (decidido na criação).
+  const [emptyMode] = useState(() => empty && timer.phase === "focus" && timer.status === "ready");
   const [now, setNow] = useState(() => Date.now());
   const [dialog, setDialog] = useState<DialogName>("none");
   const [busy, setBusy] = useState(false);
@@ -232,11 +256,16 @@ export function PomodoroScreen({
     [rewards],
   );
 
-  const update = useCallback((t: TimerState) => {
-    timerRef.current = t;
-    setTimer(t);
-    saveState(t);
-  }, []);
+  // Cada mudança vai também para o item Foco do menu (só o foco; o descanso não).
+  const update = useCallback(
+    (t: TimerState) => {
+      timerRef.current = t;
+      setTimer(t);
+      saveState(t);
+      publishFocus(sessionFromTimer(t));
+    },
+    [publishFocus],
+  );
 
   // Pergunta ao servidor (90%, frutos de hoje) e abre o fim do ciclo.
   const finalizeFocus = useCallback(
@@ -272,7 +301,8 @@ export function PomodoroScreen({
     (t: TimerState, alert: boolean) => {
       update(finish(t));
       setHarvested(true);
-      if (alert) {
+      // O aviso toca uma vez por ciclo: se o menu já avisou fora do Foco, aqui não repete.
+      if (alert && t.sessionId && claimCycleAlert(t.sessionId)) {
         if (soundEnabled()) playChime();
         const focusMin = Math.round(t.plannedSec / 60);
         const shown = notify(
@@ -323,8 +353,12 @@ export function PomodoroScreen({
       const params = new URLSearchParams({ disciplina: t.subjectId });
       if (t.topicId) params.set("topico", t.topicId);
       router.replace(`/pomodoro?${params.toString()}`);
+    } else if (empty && t.phase !== "focus" && t.status !== "ready" && t.subjectId) {
+      // Item Foco durante um descanso (39b): abre o descanso na disciplina dele.
+      router.replace(`/pomodoro?disciplina=${t.subjectId}`);
     }
     saveState(t);
+    publishFocus(sessionFromTimer(t));
     if (t.phase === "focus" && t.status === "finished") void finalizeFocus(t, 0);
     // Só na montagem.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -607,7 +641,6 @@ export function PomodoroScreen({
   const dots = isFocus
     ? t.cyclesDone % LONG_BREAK_EVERY
     : t.cyclesDone % LONG_BREAK_EVERY || LONG_BREAK_EVERY;
-  const backHref = subject ? `/disciplinas/${subject.id}` : "/inicio";
   const endTopic: EndTopic | null = topic
     ? { title: topic.title, predictedLabel: topic.predictedLabel }
     : null;
@@ -639,6 +672,10 @@ export function PomodoroScreen({
   const srLabel = `${label}: ${mm} ${mm === 1 ? "minuto" : "minutos"} e ${ss} segundos restantes`;
   const stage = stageForLevel(levelForXp(xpTotal));
 
+  if (emptyMode) {
+    return <FocusEmpty wide={wide} theme={theme} sceneTheme={sceneTheme} stage={stage} />;
+  }
+
   return (
     <div
       ref={rootRef}
@@ -655,13 +692,7 @@ export function PomodoroScreen({
           />
 
           <div className="absolute inset-x-8 top-6 flex items-center justify-between">
-            <Link
-              href="/inicio"
-              className="pc-glass inline-flex min-h-12 items-center gap-2 rounded-full pr-[18px] pl-3 text-[15px] font-extrabold text-[var(--pc-ink)]"
-            >
-              <ChevronLeft size={22} aria-hidden />
-              Início
-            </Link>
+            <HomePill />
             <div className="flex gap-2.5">
               {t.status === "ready" && (
                 <button
@@ -722,13 +753,7 @@ export function PomodoroScreen({
 
           <div className="max-w-app relative mx-auto flex h-full w-full flex-col">
             <div className="flex items-center justify-between px-3 pt-3">
-              <Link
-                href={backHref}
-                aria-label={subject ? `Voltar para ${subject.title}` : "Voltar para o início"}
-                className="grid size-11 place-items-center rounded-full bg-[var(--glass-fill)] text-[var(--scene-ink)]"
-              >
-                <ChevronLeft size={26} aria-hidden />
-              </Link>
+              <HomePill />
               {t.status === "ready" && (
                 <button
                   type="button"

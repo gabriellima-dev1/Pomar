@@ -40,6 +40,22 @@ export function playChime(): void {
   }
 }
 
+const ALERTED_KEY = "pomar:aviso-tocado";
+
+/**
+ * O aviso de fim do foco toca uma vez por ciclo, seja no Foco ou pelo item Foco do menu
+ * (telas.md › 39b). Devolve `true` só na primeira chamada para essa sessão.
+ */
+export function claimCycleAlert(sessionId: string): boolean {
+  try {
+    if (window.sessionStorage.getItem(ALERTED_KEY) === sessionId) return false;
+    window.sessionStorage.setItem(ALERTED_KEY, sessionId);
+  } catch {
+    // Sem sessionStorage: no pior caso, o aviso toca de novo ao abrir o Foco.
+  }
+  return true;
+}
+
 export type NotificationType = "cycle_end" | "break_end";
 
 export function canNotify(): boolean {

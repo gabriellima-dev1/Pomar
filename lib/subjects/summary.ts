@@ -88,3 +88,26 @@ export function bookInitials(authors: string | null | undefined): string {
     .toUpperCase();
   return initials || "?";
 }
+
+const ACRONYM_SKIP = new Set(["de", "da", "do", "das", "dos", "e"]);
+
+/**
+ * Sigla do selo da disciplina (telas.md › Início como painel, 39d), gerada do título:
+ * com 2 ou mais palavras (sem de/da/do/das/dos/e), as iniciais de até 3; com uma, as 3
+ * primeiras letras. Maiúsculas, com acento. "Estruturas de Dados" → "ED", "Algoritmos" → "ALG".
+ */
+export function subjectAcronym(title: string): string {
+  const words = title.match(/[\p{L}\p{N}]+/gu) ?? [];
+  const kept = words.filter((w) => !ACRONYM_SKIP.has(w.toLocaleLowerCase("pt-BR")));
+  const use = kept.length > 0 ? kept : words;
+  const raw =
+    use.length === 0
+      ? "?"
+      : use.length === 1
+        ? Array.from(use[0]!).slice(0, 3).join("")
+        : use
+            .slice(0, 3)
+            .map((w) => Array.from(w)[0])
+            .join("");
+  return raw.toLocaleUpperCase("pt-BR");
+}
