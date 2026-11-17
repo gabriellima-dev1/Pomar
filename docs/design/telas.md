@@ -185,9 +185,10 @@ Prancheta no Claude: **"Pomar — telas da Fase 4"**. Referências `15` a `22`. 
 
 ### Fluxo do onboarding
 Depois do cadastro (e do 1º login com Google): **boas-vindas (16) → quiz (17) → perfil (18) → Feira (19) → nova disciplina (03, catálogo por padrão) → calibração (04) → 1º pomodoro (08) → fim do ciclo (07) → primeiro fruto (20) → Início**.
-- O progresso fica salvo no perfil (`onboarding_step`); se a pessoa sair, volta de onde parou. Até terminar, `/inicio` redireciona para o passo atual.
+- O progresso fica salvo no perfil (`onboarding_step`); se a pessoa sair, volta de onde parou. **Até criar a 1ª disciplina** (passos boas-vindas → calibração), `/inicio` redireciona para o passo atual.
+- **A partir do 1º pomodoro (passo 5), nada mais prende (revisão de 17/11):** o "Início" do pomodoro no computador e a seta de voltar no celular funcionam; `/inicio` abre normalmente, com a `BottomNav` e a barra lateral, e mostra no topo, no lugar do destaque do perfil, o card **"Falta 1 passo"**: título "Colha seu primeiro fruto", texto "Um pomodoro em {disciplina} e o seu pomar começa a crescer.", botão primário "Começar" (abre `/pomodoro?disciplina=…`). Ao terminar o 1º pomodoro, segue para o primeiro fruto (20) como antes. No passo "primeiro fruto", `/inicio` ainda leva à tela 20, que já tem a saída "Ir para o meu pomar".
 - Nas telas 03 e 04 dentro do onboarding, o rótulo vira "Passo 3 de 5" e "Passo 4 de 5"; o 1º pomodoro é o passo 5.
-- A `BottomNav` fica oculta durante o onboarding.
+- A `BottomNav` fica oculta durante o onboarding, **até a 1ª disciplina existir**; do passo 5 em diante ela aparece.
 
 ### 16 · Boas-vindas (`referencias/16-onboarding-boas-vindas.png`)
 - Faixa de cena Campo (300px) com Seu Tomás 140px sorrindo; "Oi, {nome}! Eu sou o Seu Tomás."; frase; lista dos 5 passos (o atual com número em `--primary`); "Vamos lá".
