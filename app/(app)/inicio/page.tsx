@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Plus, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
 import { YesterdayFruitCard } from "@/components/gamification/YesterdayFruitCard";
+import { ContinueCard } from "@/components/home/ContinueCard";
 import { FirstFruitCard } from "@/components/home/FirstFruitCard";
+import { LevelCard } from "@/components/home/LevelCard";
 import { ProfileHighlight } from "@/components/home/ProfileHighlight";
+import { WeekCard } from "@/components/home/WeekCard";
 import { SeuTomas } from "@/components/mascot/SeuTomas";
-import { SubjectCard } from "@/components/subjects/SubjectCard";
 import { buttonClasses } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { MascotBubble } from "@/components/ui/MascotBubble";
@@ -23,6 +25,8 @@ import { daysAway } from "@/lib/gamification/present";
 import { getBadgeHistory, getGameProfile } from "@/lib/gamification/queries";
 import { homeLine } from "@/lib/mascot/lines";
 import { homeRedirect } from "@/lib/onboarding";
+import { getCompletedSessions } from "@/lib/stats/queries";
+import { bestHours, focusBars, focusSummary as periodSummary, periodFor } from "@/lib/stats/stats";
 import {
   getHomeProfile,
   getPreferences,
@@ -58,12 +62,16 @@ export default async function InicioPage() {
     listSubjects(),
     getRecentFocusSessions(),
   ]);
+  const tz = profile.timezone;
+  const today = game.today;
   const socializer = account.bartle === "socializador";
-  const [history, league, feed, received] = await Promise.all([
-    getStudyHistory(profile.timezone),
+  const [history, league, feed, received, sessions] = await Promise.all([
+    getStudyHistory(tz),
     account.bartle === "competidor" ? getLeagueView(user.id) : Promise.resolve(null),
     socializer ? getFriendsFeed() : Promise.resolve([]),
     socializer ? getReceivedReactions() : Promise.resolve([]),
+    // Sua semana e o melhor horário do Explorador (últimos 30 dias).
+    getCompletedSessions(addDays(today, -29), tz),
   ]);
   const social = socializer
     ? {
@@ -73,14 +81,13 @@ export default async function InicioPage() {
           username: f.username,
           type: f.type,
           payload: f.payload,
-          when: whenLabel(f.at, new Date(), profile.timezone),
+          when: whenLabel(f.at, new Date(), tz),
         })),
       }
     : null;
   const subjects = sortByLastStudied(all, history);
-  const today = game.today;
   const rewards = account.rewards;
-  const focus = focusSummary(recent, profile.timezone, today);
+  const focus = focusSummary(recent, tz, today);
   const goalSubject = subjects.find((s) => s.daily_goal);
   const goal = goalSubject?.daily_goal
     ? {
@@ -89,6 +96,10 @@ export default async function InicioPage() {
         done: focus.todayBySubject.get(goalSubject.id) ?? 0,
       }
     : null;
+  const week = periodFor("semana", today);
+  const weekSummary = periodSummary(sessions, week, tz);
+  const weekBars = focusBars(sessions, week, tz, today);
+  const best = bestHours(sessions, tz, today);
   // Fruto ainda não revelado na fila do layout (mesma janela de 60 dias).
   const pendingFruit = badges.some((b) => !b.seen && b.day >= addDays(today, -60));
   const away = daysAway(badges, today);
@@ -98,125 +109,87 @@ export default async function InicioPage() {
 
   const mastery = masteryMode(game.level);
   const mastered = masteryCounts(all);
-  const { hour, dateLabel } = localParts(new Date(), profile.timezone);
+  const { hour, dateLabel } = localParts(new Date(), tz);
   const empty = subjects.length === 0;
   const firstFruit =
     account.step === "pomodoro" ? all.find((s) => s.id === firstSubjectId) : undefined;
+  const current = subjects[0];
   const hello = empty ? "Olá" : greeting(hour);
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Computador: saudação à esquerda e chips à direita (referencias/22). */}
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        <header className="flex items-start justify-between gap-3 pt-2 lg:pt-0">
-          <div className="flex flex-col gap-1">
-            <p className="text-small text-ink-muted">{dateLabel}</p>
-            <h1 className="font-display text-[28px] leading-9 font-semibold">
-              {hello}
-              {profile.name ? `, ${profile.name}` : ""}
-            </h1>
+      <header className="flex items-start justify-between gap-3 pt-2 lg:pt-0">
+        <div className="flex flex-col gap-1">
+          <p className="text-small text-ink-muted">{dateLabel}</p>
+          <h1 className="font-display text-[28px] leading-9 font-semibold lg:text-[34px] lg:leading-10">
+            {hello}
+            {profile.name ? `, ${profile.name}` : ""}
+          </h1>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <StatChip kind="ofensiva" value={game.streak} freezes={game.freezes} />
+            {/* Nível 10+: destaque para o que a pessoa domina; o XP fica discreto (DESIGN §3). */}
+            {mastery && <StatChip kind="topicos" value={mastered.topics} />}
+            {mastery && mastered.chapters > 0 && (
+              <StatChip kind="capitulos" value={mastered.chapters} />
+            )}
+            {/* Coorte B (DESIGN §9.4): sem XP e nível visíveis. */}
+            {rewards && game.xp > 0 && <StatChip kind="xp" value={game.xp} muted={mastery} />}
+            {rewards && <StatChip kind="nivel" value={game.level} />}
           </div>
-          {!empty && <SeuTomas size={52} className="shrink-0 lg:hidden" />}
-        </header>
-
-        <div className="flex flex-wrap gap-2">
-          <StatChip kind="ofensiva" value={game.streak} freezes={game.freezes} />
-          {/* Nível 10+: destaque para o que a pessoa domina; o XP fica discreto (DESIGN §3). */}
-          {mastery && <StatChip kind="topicos" value={mastered.topics} />}
-          {mastery && mastered.chapters > 0 && (
-            <StatChip kind="capitulos" value={mastered.chapters} />
-          )}
-          {/* Coorte B (DESIGN §9.4): sem XP e nível visíveis. */}
-          {rewards && game.xp > 0 && <StatChip kind="xp" value={game.xp} muted={mastery} />}
-          {rewards && <StatChip kind="nivel" value={game.level} />}
         </div>
-      </div>
+        {!empty && <SeuTomas size={52} className="shrink-0" />}
+      </header>
 
       {line && <MascotBubble>{line}</MascotBubble>}
-      {!empty && (
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
-          {firstFruit ? (
-            <FirstFruitCard subject={firstFruit} />
-          ) : (
+
+      {/* Painel (telas.md › Início como painel, 36 e 36b). Celular: uma coluna, na ordem
+          do design; computador: à esquerda Continuar e Sua semana, à direita nível,
+          fruto de ontem e destaque. As colunas são `contents` no celular para a ordem
+          valer entre elas. */}
+      <div className="flex flex-col gap-5 lg:grid lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-start">
+        <div className="contents lg:flex lg:flex-col lg:gap-5">
+          <div className="order-1 flex flex-col gap-5">
+            {empty ? (
+              <EmptyStart />
+            ) : firstFruit ? (
+              <FirstFruitCard subject={firstFruit} />
+            ) : current ? (
+              <ContinueCard
+                subject={current}
+                globalPace={prefs.globalPace}
+                focusMin={prefs.focusMin}
+              />
+            ) : null}
+          </div>
+          <div className="order-5">
+            <WeekCard summary={weekSummary} bars={weekBars} />
+          </div>
+        </div>
+        <div className="contents lg:flex lg:flex-col lg:gap-5">
+          {rewards && (
+            <div className="order-2">
+              <LevelCard xp={game.xp} history={badges} today={today} goal={goal} />
+            </div>
+          )}
+          {rewards && (
+            <div className="order-3 empty:hidden">
+              <YesterdayFruitCard history={badges} today={today} pending={pendingFruit} />
+            </div>
+          )}
+          <div className="order-4 empty:hidden">
             <ProfileHighlight
               account={account}
               xp={game.xp}
               history={badges}
               today={today}
               focus={focus}
-              goal={goal}
+              bestHour={best.start}
               league={league}
               social={social}
             />
-          )}
-          {rewards && <YesterdayFruitCard history={badges} today={today} pending={pendingFruit} />}
-        </div>
-      )}
-
-      {empty ? (
-        <>
-          <EmptyState
-            title="Seu pomar ainda está vazio"
-            action={
-              <Link href="/disciplinas/nova" className={buttonClasses("primary", "lg")}>
-                Criar minha primeira disciplina
-              </Link>
-            }
-          >
-            Escolha um livro do catálogo ou monte sua lista de capítulos. Eu calculo quanto tempo
-            falta.
-          </EmptyState>
-          <section aria-labelledby="como-funciona" className="flex flex-col gap-4">
-            <h2 id="como-funciona" className="text-caption text-ink-muted">
-              Como funciona
-            </h2>
-            <ol className="flex flex-col gap-4">
-              {STEPS.map((step, i) => (
-                <li key={step.strong} className="flex items-center gap-4">
-                  <span
-                    aria-hidden
-                    className="bg-primary-soft text-primary-strong font-display grid size-11 shrink-0 place-items-center rounded-full text-lg font-semibold"
-                  >
-                    {i + 1}
-                  </span>
-                  <p>
-                    <strong className="font-extrabold">{step.strong}</strong>
-                    {step.rest}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </section>
-        </>
-      ) : (
-        <section aria-labelledby="suas-disciplinas" className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <h2 id="suas-disciplinas" className="text-heading">
-              Suas disciplinas
-            </h2>
-            <Link
-              href="/disciplinas/nova"
-              className="text-primary inline-flex min-h-11 items-center gap-1 px-1 font-extrabold"
-            >
-              <Plus size={22} aria-hidden />
-              Nova
-              <span className="sr-only"> disciplina</span>
-            </Link>
           </div>
-          <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-4 lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
-            {subjects.map((s) => (
-              <li key={s.id}>
-                <SubjectCard
-                  subject={s}
-                  globalPace={prefs.globalPace}
-                  history={history.get(s.id)}
-                  today={today}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+        </div>
+      </div>
 
       {/* No celular, as Configurações ficam no fim do Início (no computador, na barra lateral). */}
       <Link
@@ -227,5 +200,44 @@ export default async function InicioPage() {
         Configurações
       </Link>
     </div>
+  );
+}
+
+/** Sem disciplinas (01b): no lugar de "Continuar estudando". */
+function EmptyStart() {
+  return (
+    <>
+      <EmptyState
+        title="Seu pomar ainda está vazio"
+        action={
+          <Link href="/disciplinas/nova" className={buttonClasses("primary", "lg")}>
+            Criar minha primeira disciplina
+          </Link>
+        }
+      >
+        Escolha um livro do catálogo ou monte sua lista de capítulos. Eu calculo quanto tempo falta.
+      </EmptyState>
+      <section aria-labelledby="como-funciona" className="flex flex-col gap-4">
+        <h2 id="como-funciona" className="text-caption text-ink-muted">
+          Como funciona
+        </h2>
+        <ol className="flex flex-col gap-4">
+          {STEPS.map((step, i) => (
+            <li key={step.strong} className="flex items-center gap-4">
+              <span
+                aria-hidden
+                className="bg-primary-soft text-primary-strong font-display grid size-11 shrink-0 place-items-center rounded-full text-lg font-semibold"
+              >
+                {i + 1}
+              </span>
+              <p>
+                <strong className="font-extrabold">{step.strong}</strong>
+                {step.rest}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </>
   );
 }

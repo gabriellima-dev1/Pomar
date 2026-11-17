@@ -110,6 +110,16 @@ export default async function EstatisticasPage({ searchParams }: PageProps<"/est
 
   return (
     <section className="flex flex-col gap-5">
+      {/* Celular: abertas pelo card "Sua semana" do Início (39c); no computador, na barra lateral. */}
+      <div className="-mb-3 lg:hidden">
+        <Link
+          href="/inicio"
+          className="text-primary inline-flex min-h-11 items-center gap-1 pr-2 font-extrabold"
+        >
+          <ChevronLeft size={24} aria-hidden />
+          Início
+        </Link>
+      </div>
       <h1 className="text-display pt-2">Estatísticas</h1>
       <SegmentedNav
         label="Período"
