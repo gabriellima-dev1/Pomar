@@ -146,7 +146,7 @@ const NAO_FAZEMOS = [
 const container = "mx-auto w-full max-w-[1200px] px-6";
 const anchor = "text-primary-strong min-h-11 content-center font-extrabold";
 
-type Quadro = { kind: "visitante" } | { kind: "A" | "B" } | { kind: "saiu" } | { kind: "legado" };
+type Quadro = { kind: "visitante" } | { kind: "A" | "B" } | { kind: "saiu" } | { kind: "fora" };
 
 async function quadroDoGrupo(): Promise<Quadro> {
   const user = await getCurrentUser();
@@ -154,12 +154,12 @@ async function quadroDoGrupo(): Promise<Quadro> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("user_cohorts")
-    .select("cohort, legacy, left_at")
+    .select("cohort, left_at")
     .eq("user_id", user.id)
     .maybeSingle();
   if (data?.left_at) return { kind: "saiu" };
   const group = experimentGroup(data);
-  return group === "fora" ? { kind: "legado" } : { kind: group };
+  return group === "fora" ? { kind: "fora" } : { kind: group };
 }
 
 /**
@@ -373,10 +373,9 @@ function QuadroDoGrupo({ quadro }: { quadro: Quadro }) {
       titulo: "Você saiu do experimento",
       texto: "Você saiu do experimento e agora vê todas as recompensas.",
     },
-    legado: {
+    fora: {
       titulo: "Você está fora do experimento",
-      texto:
-        "Sua conta é de antes do sorteio, então não entra na comparação. Você vê todas as recompensas.",
+      texto: "Sua conta não entra na comparação entre os grupos. Você vê todas as recompensas.",
     },
   };
   const { titulo, texto } = textos[quadro.kind];

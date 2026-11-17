@@ -2,7 +2,7 @@
  * Transparência (tela 33, DESIGN §10) e o limite prometido no card "XP, níveis e a árvore":
  * - visitante vê as 12 técnicas, "O que não fazemos" e "Entre para ver em qual grupo";
  * - grupo B vê o próprio grupo e sai do experimento por aqui;
- * - conta antiga aparece fora do experimento;
+ * - conta antiga (de antes do sorteio) entra no experimento como grupo A;
  * - a partir do nível 10, o Início destaca os tópicos concluídos e o XP fica discreto.
  */
 import { expect, test } from "@playwright/test";
@@ -63,11 +63,11 @@ test("grupo B vê o próprio grupo e sai do experimento pela Transparência", as
   expect(data?.left_at).not.toBeNull();
 });
 
-test("conta antiga aparece fora do experimento", async ({ page, context, baseURL }) => {
+test("conta antiga entra no experimento como grupo A", async ({ page, context, baseURL }) => {
   await entrar(context, antiga, baseURL!);
   await page.goto("/transparencia");
-  await expect(page.getByRole("heading", { name: "Você está fora do experimento" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Sair do experimento" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Você está no grupo A" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Sair do experimento" })).toBeVisible();
 });
 
 test("a partir do nível 10 o Início destaca a maestria e o XP fica discreto", async ({

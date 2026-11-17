@@ -19,7 +19,7 @@ export type AdminPerson = {
   createdAt: string;
   isDemo: boolean;
   cohort: "A" | "B" | null;
-  /** No experimento = sorteado, não é conta antiga e não saiu. */
+  /** No experimento = tem coorte e não saiu. */
   inExperiment: boolean;
 };
 

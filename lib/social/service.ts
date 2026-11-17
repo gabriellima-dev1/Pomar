@@ -46,11 +46,7 @@ export async function recordFeed(
 /** A pessoa vê recompensas (coorte A)? Mesma regra de lib/account.ts, pela chave secreta. */
 export async function rewardsFor(admin: AdminClient, userId: string): Promise<boolean> {
   const [{ data: cohortRow }, { data: flag }] = await Promise.all([
-    admin
-      .from("user_cohorts")
-      .select("cohort, legacy, left_at")
-      .eq("user_id", userId)
-      .maybeSingle(),
+    admin.from("user_cohorts").select("cohort, left_at").eq("user_id", userId).maybeSingle(),
     admin
       .from("feature_flags")
       .select("enabled, rollout")

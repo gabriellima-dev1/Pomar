@@ -30,7 +30,7 @@ export type Account = {
   /** null = ainda não escolheu (sem pré-marcação, §6.6). */
   leagueOptIn: boolean | null;
   leagueInviteDismissed: boolean;
-  /** Grupo do experimento (§9.4); "fora" = conta antiga ou saiu do experimento. */
+  /** Grupo do experimento (§9.4); "fora" = saiu do experimento (ou sem coorte). */
   experiment: ExperimentGroup;
   /** Coorte B (§9.4) não vê XP, emblemas e colheitas. */
   rewards: boolean;
@@ -46,11 +46,7 @@ export const getAccount = cache(async (userId: string): Promise<Account> => {
       )
       .eq("id", userId)
       .maybeSingle(),
-    supabase
-      .from("user_cohorts")
-      .select("cohort, legacy, left_at")
-      .eq("user_id", userId)
-      .maybeSingle(),
+    supabase.from("user_cohorts").select("cohort, left_at").eq("user_id", userId).maybeSingle(),
     supabase
       .from("feature_flags")
       .select("enabled, rollout")

@@ -28,10 +28,10 @@ describe("coortes (DESIGN §9.4)", () => {
     expect(parseCohort("C")).toBeNull();
   });
 
-  it("quem saiu do experimento ou é conta antiga fica fora e vê as recompensas", () => {
+  it("quem saiu do experimento fica fora e vê as recompensas; conta antiga entra", () => {
     expect(experimentGroup({ cohort: "B" })).toBe("B");
     expect(experimentGroup({ cohort: "B", left_at: "2026-11-20T10:00:00Z" })).toBe("fora");
-    expect(experimentGroup({ cohort: "A", legacy: true })).toBe("fora");
+    expect(experimentGroup({ cohort: "A" })).toBe("A");
     expect(experimentGroup(null)).toBe("fora");
     expect(
       rewardsEnabled(rewardsCohort(experimentGroup({ cohort: "B", left_at: "x" })), flag),

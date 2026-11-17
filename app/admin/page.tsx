@@ -242,7 +242,7 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
               </table>
             </div>
             <p className="text-small text-ink-muted font-semibold">
-              Quem saiu do experimento e as contas anteriores à Fase 4 ficam fora da comparação.
+              Quem saiu do experimento fica fora da comparação.
             </p>
           </section>
 

@@ -292,7 +292,7 @@ export function FeiraRow({ optIn, summary }: { optIn: boolean | null; summary: s
 // PRIVACIDADE E DADOS ---------------------------------------------------------------
 
 /**
- * Card do experimento (telas.md › 31): some para quem está fora (conta antiga ou já saiu).
+ * Card do experimento (telas.md › 31): some para quem está fora (já saiu ou sem coorte).
  * Sair pede uma confirmação simples.
  */
 export function ExperimentCard({ group }: { group: ExperimentGroup }) {

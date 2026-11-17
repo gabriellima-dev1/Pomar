@@ -26,7 +26,7 @@ export async function loadAdminData(): Promise<{ people: AdminPerson[]; events: 
 
   const [{ data: profiles, error: pErr }, { data: cohorts, error: cErr }] = await Promise.all([
     admin.from("profiles").select("id, timezone, created_at, is_demo"),
-    admin.from("user_cohorts").select("user_id, cohort, legacy, left_at"),
+    admin.from("user_cohorts").select("user_id, cohort, left_at"),
   ]);
   if (pErr || cErr) throw new Error(`Painel: ${pErr?.message ?? cErr?.message}`);
   const cohortOf = new Map((cohorts ?? []).map((c) => [c.user_id, c]));
