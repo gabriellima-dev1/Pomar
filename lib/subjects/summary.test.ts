@@ -3,6 +3,7 @@ import {
   bookInitials,
   chapterLabel,
   compactDuration,
+  subjectAcronym,
   greeting,
   localParts,
   nextTopic,
@@ -84,5 +85,24 @@ describe("catálogo", () => {
     ).toBe("CLRS");
     expect(bookInitials("Ian Sommerville")).toBe("S");
     expect(bookInitials("")).toBe("?");
+  });
+});
+
+describe("subjectAcronym (39d)", () => {
+  it.each([
+    ["Algoritmos", "ALG"],
+    ["Estruturas de Dados", "ED"],
+    ["Projeto e Análise de Algoritmos", "PAA"],
+    ["Redes de Computadores", "RC"],
+    ["Engenharia de Software", "ES"],
+    ["Cálculo 2", "C2"],
+    ["Curso de React Native do Zero", "CRN"],
+    ["Álgebra Linear", "ÁL"],
+    ["álgebra", "ÁLG"],
+    ["Física: Mecânica (2026)", "FM2"],
+    ["De", "DE"],
+    ["  ", "?"],
+  ])("%s → %s", (title, sigla) => {
+    expect(subjectAcronym(title)).toBe(sigla);
   });
 });
