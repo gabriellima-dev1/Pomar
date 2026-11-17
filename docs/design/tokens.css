@@ -39,6 +39,7 @@
   --reward: #f2b632;
   --on-reward: #2a2118;
   --reward-mark: #a87300;
+  --reward-ink: #7a5300;
   --medal-bronze: #d9965a;
   --medal-bronze-edge: #b0703a;
   --medal-bronze-ink: #8a5a2b;
@@ -170,6 +171,7 @@
   --reward: #f5c85c;
   --on-reward: #231a08;
   --reward-mark: #f5c85c;
+  --reward-ink: #f5c85c;
   --medal-bronze: #d9965a;
   --medal-bronze-edge: #b0703a;
   --medal-bronze-ink: #e0a874;
@@ -301,6 +303,7 @@
   --reward: #f2c14e;
   --on-reward: #241a06;
   --reward-mark: #f2c14e;
+  --reward-ink: #f2c14e;
   --medal-bronze: #d9965a;
   --medal-bronze-edge: #b0703a;
   --medal-bronze-ink: #e0a874;
@@ -432,6 +435,7 @@
   --reward: #d9a420;
   --on-reward: #1d2a22;
   --reward-mark: #94700c;
+  --reward-ink: #735600;
   --medal-bronze: #d9965a;
   --medal-bronze-edge: #b0703a;
   --medal-bronze-ink: #8a5a2b;
@@ -565,6 +569,7 @@
     --reward: #f5c85c;
     --on-reward: #231a08;
     --reward-mark: #f5c85c;
+    --reward-ink: #f5c85c;
     --medal-bronze: #d9965a;
     --medal-bronze-edge: #b0703a;
     --medal-bronze-ink: #e0a874;

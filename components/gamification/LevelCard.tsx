@@ -19,7 +19,7 @@ export function LevelCard({ xp }: { xp: number }) {
               · {STAGE_LABEL[stage]}
             </span>
           </p>
-          <p className="text-reward-mark font-extrabold">{xp.toLocaleString("pt-BR")} XP</p>
+          <p className="text-reward-ink font-extrabold">{xp.toLocaleString("pt-BR")} XP</p>
         </div>
         <ProgressBar
           percent={p.ratio * 100}

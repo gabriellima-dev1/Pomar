@@ -1,0 +1,284 @@
+{
+  "slug": "teoria-da-computacao-sipser",
+  "title": "Introdução à Teoria da Computação",
+  "authors": ["Michael Sipser"],
+  "edition": "2ª ed.",
+  "publisher": "Thomson Learning",
+  "year": 2007,
+  "isbn": "978-85-221-0499-4",
+  "total_pages": null,
+  "verified": false,
+  "source_note": "Capítulos, seções e páginas do sumário da 2ª ed. em inglês (Thomson Course Technology, 2006), conferidos numa digitalização da página de conteúdo. O total de páginas da edição em português não foi encontrado: as páginas são as da edição em inglês (estimativa). Títulos traduzidos por nós (podem diferir da tradução oficial).",
+  "chapters": [
+    {
+      "title": "0. Introdução",
+      "topics": [
+        {
+          "title": "0.1 Autômatos, computabilidade e complexidade",
+          "page_start": 1,
+          "page_end": 2
+        },
+        {
+          "title": "0.2 Noções e terminologia matemáticas",
+          "page_start": 3,
+          "page_end": 16
+        },
+        {
+          "title": "0.3 Definições, teoremas e provas",
+          "page_start": 17,
+          "page_end": 20
+        },
+        {
+          "title": "0.4 Tipos de prova",
+          "page_start": 21,
+          "page_end": 30
+        }
+      ]
+    },
+    {
+      "title": "1. Linguagens regulares",
+      "topics": [
+        {
+          "title": "1.1 Autômatos finitos",
+          "page_start": 31,
+          "page_end": 46
+        },
+        {
+          "title": "1.2 Não determinismo",
+          "page_start": 47,
+          "page_end": 62
+        },
+        {
+          "title": "1.3 Expressões regulares",
+          "page_start": 63,
+          "page_end": 76
+        },
+        {
+          "title": "1.4 Linguagens não regulares",
+          "page_start": 77,
+          "page_end": 98
+        }
+      ]
+    },
+    {
+      "title": "2. Linguagens livres do contexto",
+      "topics": [
+        {
+          "title": "2.1 Gramáticas livres do contexto",
+          "page_start": 99,
+          "page_end": 108
+        },
+        {
+          "title": "2.2 Autômatos com pilha",
+          "page_start": 109,
+          "page_end": 122
+        },
+        {
+          "title": "2.3 Linguagens não livres do contexto",
+          "page_start": 123,
+          "page_end": 136
+        }
+      ]
+    },
+    {
+      "title": "3. A tese de Church-Turing",
+      "topics": [
+        {
+          "title": "3.1 Máquinas de Turing",
+          "page_start": 137,
+          "page_end": 147
+        },
+        {
+          "title": "3.2 Variantes de máquinas de Turing",
+          "page_start": 148,
+          "page_end": 153
+        },
+        {
+          "title": "3.3 A definição de algoritmo",
+          "page_start": 154,
+          "page_end": 164
+        }
+      ]
+    },
+    {
+      "title": "4. Decidibilidade",
+      "topics": [
+        {
+          "title": "4.1 Linguagens decidíveis",
+          "page_start": 165,
+          "page_end": 172
+        },
+        {
+          "title": "4.2 O problema da parada",
+          "page_start": 173,
+          "page_end": 186
+        }
+      ]
+    },
+    {
+      "title": "5. Redutibilidade",
+      "topics": [
+        {
+          "title": "5.1 Problemas indecidíveis da teoria das linguagens",
+          "page_start": 187,
+          "page_end": 198
+        },
+        {
+          "title": "5.2 Um problema indecidível simples",
+          "page_start": 199,
+          "page_end": 205
+        },
+        {
+          "title": "5.3 Redutibilidade por mapeamento",
+          "page_start": 206,
+          "page_end": 216
+        }
+      ]
+    },
+    {
+      "title": "6. Tópicos avançados em teoria da computabilidade",
+      "topics": [
+        {
+          "title": "6.1 O teorema da recursão",
+          "page_start": 217,
+          "page_end": 223
+        },
+        {
+          "title": "6.2 Decidibilidade de teorias lógicas",
+          "page_start": 224,
+          "page_end": 231
+        },
+        {
+          "title": "6.3 Turing-redutibilidade",
+          "page_start": 232,
+          "page_end": 232
+        },
+        {
+          "title": "6.4 Uma definição de informação",
+          "page_start": 233,
+          "page_end": 246
+        }
+      ]
+    },
+    {
+      "title": "7. Complexidade de tempo",
+      "topics": [
+        {
+          "title": "7.1 Medindo complexidade",
+          "page_start": 247,
+          "page_end": 255
+        },
+        {
+          "title": "7.2 A classe P",
+          "page_start": 256,
+          "page_end": 263
+        },
+        {
+          "title": "7.3 A classe NP",
+          "page_start": 264,
+          "page_end": 270
+        },
+        {
+          "title": "7.4 NP-completude",
+          "page_start": 271,
+          "page_end": 282
+        },
+        {
+          "title": "7.5 Problemas NP-completos adicionais",
+          "page_start": 283,
+          "page_end": 302
+        }
+      ]
+    },
+    {
+      "title": "8. Complexidade de espaço",
+      "topics": [
+        {
+          "title": "8.1 O teorema de Savitch",
+          "page_start": 303,
+          "page_end": 307
+        },
+        {
+          "title": "8.2 A classe PSPACE",
+          "page_start": 308,
+          "page_end": 308
+        },
+        {
+          "title": "8.3 PSPACE-completude",
+          "page_start": 309,
+          "page_end": 319
+        },
+        {
+          "title": "8.4 As classes L e NL",
+          "page_start": 320,
+          "page_end": 322
+        },
+        {
+          "title": "8.5 NL-completude",
+          "page_start": 323,
+          "page_end": 325
+        },
+        {
+          "title": "8.6 NL é igual a coNL",
+          "page_start": 326,
+          "page_end": 334
+        }
+      ]
+    },
+    {
+      "title": "9. Intratabilidade",
+      "topics": [
+        {
+          "title": "9.1 Teoremas de hierarquia",
+          "page_start": 335,
+          "page_end": 347
+        },
+        {
+          "title": "9.2 Relativização",
+          "page_start": 348,
+          "page_end": 350
+        },
+        {
+          "title": "9.3 Complexidade de circuitos",
+          "page_start": 351,
+          "page_end": 364
+        }
+      ]
+    },
+    {
+      "title": "10. Tópicos avançados em teoria da complexidade",
+      "topics": [
+        {
+          "title": "10.1 Algoritmos de aproximação",
+          "page_start": 365,
+          "page_end": 367
+        },
+        {
+          "title": "10.2 Algoritmos probabilísticos",
+          "page_start": 368,
+          "page_end": 379
+        },
+        {
+          "title": "10.3 Alternância",
+          "page_start": 380,
+          "page_end": 386
+        },
+        {
+          "title": "10.4 Sistemas de prova interativa",
+          "page_start": 387,
+          "page_end": 398
+        },
+        {
+          "title": "10.5 Computação paralela",
+          "page_start": 399,
+          "page_end": 404
+        },
+        {
+          "title": "10.6 Criptografia",
+          "page_start": 405,
+          "page_end": 414
+        }
+      ]
+    }
+  ]
+}

@@ -757,6 +757,7 @@ export function PomodoroScreen({
                   {topic ? ` · ${topic.title}` : ""}
                 </p>
                 <div
+                  role="img"
                   className="flex gap-2"
                   aria-label={`Ciclo ${dots} de ${LONG_BREAK_EVERY} antes do descanso longo`}
                 >

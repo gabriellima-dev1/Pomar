@@ -135,17 +135,17 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 **Aceite:** dois usuários de teste se seguem e veem as conquistas um do outro; o fechamento da liga, rodado manualmente, promove e rebaixa corretamente; uma playlist importada vira disciplina com durações. — **verificado por testes automáticos em 12/11 (`npm run test:e2e`, 16 testes, contas de teste criadas e apagadas a cada rodada): social e YouTube passaram também contra a produção (`E2E_BASE_URL`); o fechamento da Feira passou no build local, numa semana fictícia, pela mesma rota do cron (a opção de fechar uma semana específica entra em produção com o PR dos testes). RLS: `supabase/tests/rls_fase5.sql` (36 testes). Falta só conferir a virada automática do cron na segunda, 16/11.**
 
 ### Fase 6 — Telemetria, ética e acabamento (21–23/11)
-- [ ] Painel `/admin`: DAU, MAU, stickiness, funil com drop-off, retenção D1/D7, aceite do nudge, comparação de coortes, filtro sem demos
-- [ ] Página `/transparencia` (técnicas usadas + experimento de coortes + sair do experimento)
-- [ ] Configurações: exportar dados (JSON) e excluir conta (1 clique + confirmação)
-- [ ] Seed de usuários demo (com selo) para popular ligas na apresentação
-- [ ] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular
-- [ ] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11 — **em andamento:** suíte em `e2e/` (login, pomodoro, animações com e sem "reduzir movimento", fruto de ontem, Feira, social, YouTube); falta o fluxo do onboarding (cadastro → 1º pomodoro)
+- [x] Painel `/admin`: DAU, MAU, stickiness, funil com drop-off, retenção D1/D7, aceite do nudge, comparação de coortes, filtro sem demos — PR `fase-6-admin` (cálculo em `lib/admin/metrics.ts` com testes; 404 para quem não é admin; e2e `e2e/admin.spec.ts`)
+- [x] Página `/transparencia` (técnicas usadas + experimento de coortes + sair do experimento) — PR `fase-6-transparencia` (tela 33; junto, o destaque de maestria a partir do nível 10 que a página promete; e2e `e2e/transparencia.spec.ts`)
+- [x] Configurações: exportar dados (JSON) e excluir conta (1 clique + confirmação) — PR `fase-6-configuracoes` (tela 31 completa, sair do experimento, `GET /api/export`, exclusão com cascata e telemetria anonimizada; RLS em `supabase/tests/rls_fase6.sql`, 8 testes; e2e `e2e/configuracoes.spec.ts`)
+- [x] Seed de usuários demo (com selo) para popular ligas na apresentação — PR `fase-6-demo` (`npm run demo:seed -- --confirmo`; testado na produção em 15/11 e apagado em seguida; **rodar antes da virada de segunda, 23/11**, para as contas entrarem na Feira da semana da apresentação, e de novo na véspera para o XP da semana aparecer no ranking)
+- [x] Acessibilidade básica (contraste, foco de teclado, `prefers-reduced-motion`), responsivo no celular — PR `fase-6-acessibilidade` (axe sem violações nas telas principais em 390/1440px, Clássico e Noturno; `--reward-ink` para o texto de XP; perfil público com o apelido atrás da cena corrigido)
+- [x] Teste ponta a ponta do fluxo principal (Playwright) — incluir a checagem das animações das cenas e das revelações da Fase 3 (`document.getAnimations()` + capturas em sequência), adiada em 11/11 — suíte em `e2e/` (login, onboarding até o primeiro fruto, pomodoro no celular e no computador, animações com e sem "reduzir movimento", fruto de ontem, Feira, social, YouTube, configurações, transparência, admin, acessibilidade)
 - [ ] Correções a partir do uso real dos colegas
 - [x] **Pomodoro no computador** (design revisto em 12/11): cena larga por tema em vez das cópias espelhadas, painel de 440px com cronômetro e controles à esquerda, árvore do tema à direita, atalhos Espaço e F — telas.md › "Pomodoro no computador" e referências 35 — PR `fase-6-pomodoro-desktop` (contraste AA em `lib/design/contrast.test.ts`; e2e `e2e/pomodoro-desktop.spec.ts` com os 4 temas em 1440×900 e os atalhos)
 - [ ] **23/11: congelamento de funcionalidades**
 
-**Aceite:** o checklist de ética do `DESIGN.md` §10 está todo atendido; o admin mostra os números reais do beta.
+**Aceite:** o checklist de ética do `DESIGN.md` §10 está todo atendido; o admin mostra os números reais do beta. — **checklist conferido item por item em 15/11 (9 de 9 atendidos, incluindo o pomodoro no computador; resultado no PR #45). O admin já mostra os números reais (com e sem contas demo). Falta: publicar os PRs #40–#45 e conferir no preview/produção; "Correções a partir do uso real dos colegas" segue aberta até 23/11.**
 
 ### Fase 7 — Relatório, slides e ensaio (23–26/11)
 - [ ] Exportar do `/admin` os números finais e gráficos do funil

@@ -1,0 +1,434 @@
+{
+  "slug": "matematica-discreta-rosen",
+  "title": "Matemática Discreta e suas Aplicações",
+  "authors": ["Kenneth H. Rosen"],
+  "edition": "6ª ed.",
+  "publisher": "McGraw-Hill",
+  "year": 2009,
+  "isbn": null,
+  "total_pages": null,
+  "verified": false,
+  "source_note": "Capítulos e seções do sumário oficial da 6ª ed. em inglês (McGraw-Hill, 2007; site da editora). Nenhuma página foi encontrada: as seções foram distribuídas igualmente em cerca de 840 p. de conteúdo (estimativa grosseira, conferir tudo). Editora, ano, ISBN e total de páginas da edição em português a confirmar. Títulos traduzidos por nós (podem diferir da tradução oficial).",
+  "chapters": [
+    {
+      "title": "1. Os fundamentos: lógica e demonstrações",
+      "topics": [
+        {
+          "title": "1.1 Lógica proposicional",
+          "page_start": 1,
+          "page_end": 12
+        },
+        {
+          "title": "1.2 Equivalências proposicionais",
+          "page_start": 13,
+          "page_end": 24
+        },
+        {
+          "title": "1.3 Predicados e quantificadores",
+          "page_start": 25,
+          "page_end": 35
+        },
+        {
+          "title": "1.4 Quantificadores aninhados",
+          "page_start": 36,
+          "page_end": 47
+        },
+        {
+          "title": "1.5 Regras de inferência",
+          "page_start": 48,
+          "page_end": 59
+        },
+        {
+          "title": "1.6 Introdução às demonstrações",
+          "page_start": 60,
+          "page_end": 71
+        },
+        {
+          "title": "1.7 Métodos e estratégias de demonstração",
+          "page_start": 72,
+          "page_end": 83
+        }
+      ]
+    },
+    {
+      "title": "2. Estruturas básicas: conjuntos, funções, sequências e somatórios",
+      "topics": [
+        {
+          "title": "2.1 Conjuntos",
+          "page_start": 84,
+          "page_end": 95
+        },
+        {
+          "title": "2.2 Operações com conjuntos",
+          "page_start": 96,
+          "page_end": 106
+        },
+        {
+          "title": "2.3 Funções",
+          "page_start": 107,
+          "page_end": 118
+        },
+        {
+          "title": "2.4 Sequências e somatórios",
+          "page_start": 119,
+          "page_end": 130
+        }
+      ]
+    },
+    {
+      "title": "3. Os fundamentos: algoritmos, os inteiros e matrizes",
+      "topics": [
+        {
+          "title": "3.1 Algoritmos",
+          "page_start": 131,
+          "page_end": 142
+        },
+        {
+          "title": "3.2 O crescimento de funções",
+          "page_start": 143,
+          "page_end": 154
+        },
+        {
+          "title": "3.3 Complexidade de algoritmos",
+          "page_start": 155,
+          "page_end": 166
+        },
+        {
+          "title": "3.4 Os inteiros e a divisão",
+          "page_start": 167,
+          "page_end": 177
+        },
+        {
+          "title": "3.5 Primos e máximo divisor comum",
+          "page_start": 178,
+          "page_end": 189
+        },
+        {
+          "title": "3.6 Inteiros e algoritmos",
+          "page_start": 190,
+          "page_end": 201
+        },
+        {
+          "title": "3.7 Aplicações da teoria dos números",
+          "page_start": 202,
+          "page_end": 213
+        },
+        {
+          "title": "3.8 Matrizes",
+          "page_start": 214,
+          "page_end": 225
+        }
+      ]
+    },
+    {
+      "title": "4. Indução e recursão",
+      "topics": [
+        {
+          "title": "4.1 Indução matemática",
+          "page_start": 226,
+          "page_end": 237
+        },
+        {
+          "title": "4.2 Indução forte e boa ordenação",
+          "page_start": 238,
+          "page_end": 248
+        },
+        {
+          "title": "4.3 Definições recursivas e indução estrutural",
+          "page_start": 249,
+          "page_end": 260
+        },
+        {
+          "title": "4.4 Algoritmos recursivos",
+          "page_start": 261,
+          "page_end": 272
+        },
+        {
+          "title": "4.5 Correção de programas",
+          "page_start": 273,
+          "page_end": 284
+        }
+      ]
+    },
+    {
+      "title": "5. Contagem",
+      "topics": [
+        {
+          "title": "5.1 Princípios básicos de contagem",
+          "page_start": 285,
+          "page_end": 296
+        },
+        {
+          "title": "5.2 O princípio da casa dos pombos",
+          "page_start": 297,
+          "page_end": 308
+        },
+        {
+          "title": "5.3 Permutações e combinações",
+          "page_start": 309,
+          "page_end": 319
+        },
+        {
+          "title": "5.4 Coeficientes binomiais",
+          "page_start": 320,
+          "page_end": 331
+        },
+        {
+          "title": "5.5 Permutações e combinações generalizadas",
+          "page_start": 332,
+          "page_end": 343
+        },
+        {
+          "title": "5.6 Gerando permutações e combinações",
+          "page_start": 344,
+          "page_end": 355
+        }
+      ]
+    },
+    {
+      "title": "6. Probabilidade discreta",
+      "topics": [
+        {
+          "title": "6.1 Introdução à probabilidade discreta",
+          "page_start": 356,
+          "page_end": 367
+        },
+        {
+          "title": "6.2 Teoria da probabilidade",
+          "page_start": 368,
+          "page_end": 379
+        },
+        {
+          "title": "6.3 Teorema de Bayes",
+          "page_start": 380,
+          "page_end": 390
+        },
+        {
+          "title": "6.4 Valor esperado e variância",
+          "page_start": 391,
+          "page_end": 402
+        }
+      ]
+    },
+    {
+      "title": "7. Técnicas avançadas de contagem",
+      "topics": [
+        {
+          "title": "7.1 Relações de recorrência",
+          "page_start": 403,
+          "page_end": 414
+        },
+        {
+          "title": "7.2 Resolvendo relações de recorrência lineares",
+          "page_start": 415,
+          "page_end": 426
+        },
+        {
+          "title": "7.3 Algoritmos de divisão e conquista e relações de recorrência",
+          "page_start": 427,
+          "page_end": 438
+        },
+        {
+          "title": "7.4 Funções geradoras",
+          "page_start": 439,
+          "page_end": 450
+        },
+        {
+          "title": "7.5 Inclusão-exclusão",
+          "page_start": 451,
+          "page_end": 461
+        },
+        {
+          "title": "7.6 Aplicações da inclusão-exclusão",
+          "page_start": 462,
+          "page_end": 473
+        }
+      ]
+    },
+    {
+      "title": "8. Relações",
+      "topics": [
+        {
+          "title": "8.1 Relações e suas propriedades",
+          "page_start": 474,
+          "page_end": 485
+        },
+        {
+          "title": "8.2 Relações n-árias e suas aplicações",
+          "page_start": 486,
+          "page_end": 497
+        },
+        {
+          "title": "8.3 Representando relações",
+          "page_start": 498,
+          "page_end": 509
+        },
+        {
+          "title": "8.4 Fechos de relações",
+          "page_start": 510,
+          "page_end": 521
+        },
+        {
+          "title": "8.5 Relações de equivalência",
+          "page_start": 522,
+          "page_end": 532
+        },
+        {
+          "title": "8.6 Ordens parciais",
+          "page_start": 533,
+          "page_end": 544
+        }
+      ]
+    },
+    {
+      "title": "9. Grafos",
+      "topics": [
+        {
+          "title": "9.1 Grafos e modelos de grafos",
+          "page_start": 545,
+          "page_end": 556
+        },
+        {
+          "title": "9.2 Terminologia de grafos e tipos especiais de grafos",
+          "page_start": 557,
+          "page_end": 568
+        },
+        {
+          "title": "9.3 Representando grafos e isomorfismo de grafos",
+          "page_start": 569,
+          "page_end": 580
+        },
+        {
+          "title": "9.4 Conectividade",
+          "page_start": 581,
+          "page_end": 592
+        },
+        {
+          "title": "9.5 Caminhos de Euler e de Hamilton",
+          "page_start": 593,
+          "page_end": 603
+        },
+        {
+          "title": "9.6 Problemas de caminho mínimo",
+          "page_start": 604,
+          "page_end": 615
+        },
+        {
+          "title": "9.7 Grafos planares",
+          "page_start": 616,
+          "page_end": 627
+        },
+        {
+          "title": "9.8 Coloração de grafos",
+          "page_start": 628,
+          "page_end": 639
+        }
+      ]
+    },
+    {
+      "title": "10. Árvores",
+      "topics": [
+        {
+          "title": "10.1 Introdução às árvores",
+          "page_start": 640,
+          "page_end": 651
+        },
+        {
+          "title": "10.2 Aplicações de árvores",
+          "page_start": 652,
+          "page_end": 663
+        },
+        {
+          "title": "10.3 Percurso em árvores",
+          "page_start": 664,
+          "page_end": 674
+        },
+        {
+          "title": "10.4 Árvores geradoras",
+          "page_start": 675,
+          "page_end": 686
+        },
+        {
+          "title": "10.5 Árvores geradoras mínimas",
+          "page_start": 687,
+          "page_end": 698
+        }
+      ]
+    },
+    {
+      "title": "11. Álgebra booleana",
+      "topics": [
+        {
+          "title": "11.1 Funções booleanas",
+          "page_start": 699,
+          "page_end": 710
+        },
+        {
+          "title": "11.2 Representando funções booleanas",
+          "page_start": 711,
+          "page_end": 722
+        },
+        {
+          "title": "11.3 Portas lógicas",
+          "page_start": 723,
+          "page_end": 734
+        },
+        {
+          "title": "11.4 Minimização de circuitos",
+          "page_start": 735,
+          "page_end": 745
+        }
+      ]
+    },
+    {
+      "title": "12. Modelagem computacional",
+      "topics": [
+        {
+          "title": "12.1 Linguagens e gramáticas",
+          "page_start": 746,
+          "page_end": 757
+        },
+        {
+          "title": "12.2 Máquinas de estados finitos com saída",
+          "page_start": 758,
+          "page_end": 769
+        },
+        {
+          "title": "12.3 Máquinas de estados finitos sem saída",
+          "page_start": 770,
+          "page_end": 781
+        },
+        {
+          "title": "12.4 Reconhecimento de linguagens",
+          "page_start": 782,
+          "page_end": 793
+        },
+        {
+          "title": "12.5 Máquinas de Turing",
+          "page_start": 794,
+          "page_end": 805
+        }
+      ]
+    },
+    {
+      "title": "Apêndices",
+      "topics": [
+        {
+          "title": "A.1 Axiomas para os números reais e os inteiros positivos",
+          "page_start": 806,
+          "page_end": 816
+        },
+        {
+          "title": "A.2 Funções exponenciais e logarítmicas",
+          "page_start": 817,
+          "page_end": 828
+        },
+        {
+          "title": "A.3 Pseudocódigo",
+          "page_start": 829,
+          "page_end": 840
+        }
+      ]
+    }
+  ]
+}

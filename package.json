@@ -20,6 +20,7 @@
     "demo:week": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/gamification-demo.ts",
     "league:close": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/league-close.ts",
     "demo:league": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/league-demo.ts",
+    "demo:seed": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --conditions=react-server --import ./scripts/alias-hooks.mjs --env-file=.env.local scripts/demo-seed.ts",
     "fluxos:preparar": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/fluxos/preparar.ts",
     "fluxos:capturar": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file=.env.local scripts/fluxos/capturar.ts",
     "fluxos:galeria": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/fluxos/galeria.ts",
@@ -36,6 +37,7 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.64.1",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^22.20.5",

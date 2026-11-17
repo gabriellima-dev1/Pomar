@@ -714,16 +714,22 @@ export type Database = {
         Row: {
           assigned_at: string
           cohort: string
+          left_at: string | null
+          legacy: boolean
           user_id: string
         }
         Insert: {
           assigned_at?: string
           cohort: string
+          left_at?: string | null
+          legacy?: boolean
           user_id: string
         }
         Update: {
           assigned_at?: string
           cohort?: string
+          left_at?: string | null
+          legacy?: boolean
           user_id?: string
         }
         Relationships: []
@@ -1002,6 +1008,7 @@ export type Database = {
           xp: number
         }[]
       }
+      leave_experiment: { Args: never; Returns: undefined }
       log_pomodoro_pages: {
         Args: { p_finish_topic?: boolean; p_id: string; p_pages: number }
         Returns: {

@@ -4,6 +4,7 @@ import { Check, Sprout, Timer } from "lucide-react";
 import { BadgeDisc } from "@/components/gamification/BadgeDisc";
 import { HarvestMedal } from "@/components/gamification/HarvestMedal";
 import { SeuTomas } from "@/components/mascot/SeuTomas";
+import { DeletedAccountToast } from "@/components/settings/DeletedAccountToast";
 import { GlassTimer } from "@/components/pomodoro/GlassTimer";
 import { Scene } from "@/components/scenes/Scene";
 import { TrackOnMount } from "@/components/telemetry/TrackOnMount";
@@ -74,6 +75,7 @@ export default async function LandingPage() {
   return (
     <div data-theme="classico" className="bg-surface-100 text-ink flex flex-1 flex-col">
       <TrackOnMount event="landing_viewed" />
+      <DeletedAccountToast />
 
       <header className={`${container} flex flex-wrap items-center gap-x-6 gap-y-3 py-5`}>
         <Link href="/" className="mr-auto flex items-center gap-2">

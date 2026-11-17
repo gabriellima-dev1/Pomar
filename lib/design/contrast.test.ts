@@ -72,3 +72,9 @@ describe.each(THEMES)("painel do pomodoro no computador · %s (AA)", (theme) => 
     );
   });
 });
+
+describe.each(THEMES)("texto de XP (reward-ink) · %s (AA)", (theme) => {
+  it.each(["surface-100", "surface-200", "surface-300"])("sobre %s ≥ 4,5", (bg) => {
+    expect(contrastRatio(tok("reward-ink", theme), tok(bg, theme))).toBeGreaterThanOrEqual(4.5);
+  });
+});

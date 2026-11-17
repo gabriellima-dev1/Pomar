@@ -29,6 +29,7 @@
   --color-reward: var(--reward);
   --color-on-reward: var(--on-reward);
   --color-reward-mark: var(--reward-mark);
+  --color-reward-ink: var(--reward-ink);
   --color-focus-ring: var(--focus-ring);
   --color-danger: var(--danger);
   --color-scrim: var(--scrim);

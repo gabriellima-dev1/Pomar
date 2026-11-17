@@ -103,7 +103,8 @@ export default async function PerfilPage({ params }: PageProps<"/perfil/[apelido
         </div>
       </div>
 
-      <div className="-mt-16 flex flex-col gap-5 px-4">
+      {/* `relative`: o bloco sobe sobre a cena (posicionada) e precisa ficar na frente dela. */}
+      <div className="relative -mt-16 flex flex-col gap-5 px-4">
         <div className="flex items-end gap-4">
           <span className="border-surface-100 rounded-full border-4">
             <Avatar username={profile.username} size={84} />

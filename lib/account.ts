@@ -8,7 +8,12 @@ import {
   type BartleProfile,
   type Scores,
 } from "@/lib/bartle";
-import { parseCohort, rewardsEnabled, type Cohort } from "@/lib/cohorts";
+import {
+  experimentGroup,
+  rewardsCohort,
+  rewardsEnabled,
+  type ExperimentGroup,
+} from "@/lib/cohorts";
 import { parseStep, type OnboardingStep } from "@/lib/onboarding";
 import { createClient } from "@/lib/supabase/server";
 
@@ -25,7 +30,8 @@ export type Account = {
   /** null = ainda não escolheu (sem pré-marcação, §6.6). */
   leagueOptIn: boolean | null;
   leagueInviteDismissed: boolean;
-  cohort: Cohort | null;
+  /** Grupo do experimento (§9.4); "fora" = saiu do experimento (ou sem coorte). */
+  experiment: ExperimentGroup;
   /** Coorte B (§9.4) não vê XP, emblemas e colheitas. */
   rewards: boolean;
 };
@@ -40,14 +46,14 @@ export const getAccount = cache(async (userId: string): Promise<Account> => {
       )
       .eq("id", userId)
       .maybeSingle(),
-    supabase.from("user_cohorts").select("cohort").eq("user_id", userId).maybeSingle(),
+    supabase.from("user_cohorts").select("cohort, left_at").eq("user_id", userId).maybeSingle(),
     supabase
       .from("feature_flags")
       .select("enabled, rollout")
       .eq("key", "rewards_enabled")
       .maybeSingle(),
   ]);
-  const cohort = parseCohort(cohortRow?.cohort);
+  const experiment = experimentGroup(cohortRow);
   return {
     name: p?.display_name?.split(" ")[0] ?? null,
     step: parseStep(p?.onboarding_step),
@@ -56,8 +62,8 @@ export const getAccount = cache(async (userId: string): Promise<Account> => {
     answers: parseAnswers(p?.bartle_answers),
     leagueOptIn: p?.league_opt_in ?? null,
     leagueInviteDismissed: p?.league_invite_dismissed_at != null,
-    cohort,
-    rewards: rewardsEnabled(cohort, flag ?? null),
+    experiment,
+    rewards: rewardsEnabled(rewardsCohort(experiment), flag ?? null),
   };
 });
 
