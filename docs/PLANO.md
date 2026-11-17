@@ -149,10 +149,10 @@ Usar o recurso de **design do Claude** no chat (claude.ai), não no Claude Code:
 
 ### Fase 6A — Sem telas presas (17/11)
 Correções achadas no uso real em 16 e 17/11 (DECISOES 16/11 e 17/11). Vêm antes da 6B porque a 6B mexe nas mesmas telas.
-- [ ] **Revelações sem armadilha** (design revisto em 16/11): a fila de recompensas não abre ao sair do pomodoro e o fruto de ontem ganha o botão Fechar (X), que adia sem perder — telas.md › "12 · Fruto de ontem" e referência 12
-- [ ] **1º pomodoro sem armadilha** (design revisto em 17/11): do passo 5 do onboarding em diante, o Início abre normalmente com o card "Falta 1 passo", em vez de redirecionar de volta ao pomodoro — telas.md › "Fluxo do onboarding"
+- [x] **Revelações sem armadilha** (design revisto em 16/11): a fila de recompensas não abre ao sair do pomodoro e o fruto de ontem ganha o botão Fechar (X), que adia sem perder — telas.md › "12 · Fruto de ontem" e referência 12
+- [x] **1º pomodoro sem armadilha** (design revisto em 17/11): do passo 5 do onboarding em diante, o Início abre normalmente com o card "Falta 1 passo", em vez de redirecionar de volta ao pomodoro — telas.md › "Fluxo do onboarding"
 
-**Aceite:** com uma conta de teste com fruto pendente, sair do pomodoro pelo Início leva ao Início sem a revelação por cima, o X da revelação adia e o fruto volta ao recarregar; uma conta no passo 5 do onboarding sai do pomodoro, vê o card "Falta 1 passo", navega pelos menus e volta pelo "Começar". Tudo coberto no e2e.
+**Aceite:** com uma conta de teste com fruto pendente, sair do pomodoro pelo Início leva ao Início sem a revelação por cima, o X da revelação adia e o fruto volta ao recarregar; uma conta no passo 5 do onboarding sai do pomodoro, vê o card "Falta 1 passo", navega pelos menus e volta pelo "Começar". Tudo coberto no e2e. — **coberto em `e2e/sem-telas-presas.spec.ts` (5 testes; suíte inteira 49/49 em 17/11). Falta conferir no preview.**
 
 ### Fase 6B — Foco no menu e Início como painel (17–20/11)
 Decisão da dupla em 17/11 (telas.md › "Foco no menu e Início como painel", referências 36 a 39). Precisa estar em produção antes do congelamento de 23/11.
