@@ -46,6 +46,7 @@ Fonte aprovada pela dupla em 09/11/2026. Referências no Claude: design system *
 ## Telas
 
 ### 01 · Início (`referencias/01-inicio.png`)
+> **Substituída pela 36 (Início como painel) na Fase 6B.** Ver "Foco no menu e Início como painel".
 - Cabeçalho: data (`small`, `--ink-muted`), "Boa noite, {nome}" em Fredoka 28px (bom dia/boa tarde/boa noite pelo fuso do usuário), Seu Tomás 52px à direita.
 - Chips: ofensiva, XP, nível.
 - Card "FRUTO DE ONTEM": emblema 52px, nome, 7 bolinhas da colheita da semana (`--fruit` = dia com emblema) + "Colheita da semana: N de 7". Some se ainda não houver emblema.
@@ -186,7 +187,7 @@ Prancheta no Claude: **"Pomar — telas da Fase 4"**. Referências `15` a `22`. 
 ### Fluxo do onboarding
 Depois do cadastro (e do 1º login com Google): **boas-vindas (16) → quiz (17) → perfil (18) → Feira (19) → nova disciplina (03, catálogo por padrão) → calibração (04) → 1º pomodoro (08) → fim do ciclo (07) → primeiro fruto (20) → Início**.
 - O progresso fica salvo no perfil (`onboarding_step`); se a pessoa sair, volta de onde parou. **Até criar a 1ª disciplina** (passos boas-vindas → calibração), `/inicio` redireciona para o passo atual.
-- **A partir do 1º pomodoro (passo 5), nada mais prende (revisão de 17/11):** o "Início" do pomodoro no computador e a seta de voltar no celular funcionam; `/inicio` abre normalmente, com a `BottomNav` e a barra lateral, e mostra no topo, no lugar do destaque do perfil, o card **"Falta 1 passo"**: título "Colha seu primeiro fruto", texto "Um pomodoro em {disciplina} e o seu pomar começa a crescer.", botão primário "Começar" (abre `/pomodoro?disciplina=…`). Ao terminar o 1º pomodoro, segue para o primeiro fruto (20) como antes. No passo "primeiro fruto", `/inicio` ainda leva à tela 20, que já tem a saída "Ir para o meu pomar".
+- **A partir do 1º pomodoro (passo 5), nada mais prende (revisão de 17/11):** o "Início" do pomodoro no computador e a seta de voltar no celular funcionam; `/inicio` abre normalmente, com a `BottomNav` e a barra lateral, e mostra no topo, no lugar do destaque do perfil (na Fase 6B: no lugar de "Continuar estudando"), o card **"Falta 1 passo"**: título "Colha seu primeiro fruto", texto "Um pomodoro em {disciplina} e o seu pomar começa a crescer.", botão primário "Começar" (abre `/pomodoro?disciplina=…`). Ao terminar o 1º pomodoro, segue para o primeiro fruto (20) como antes. No passo "primeiro fruto", `/inicio` ainda leva à tela 20, que já tem a saída "Ir para o meu pomar".
 - Nas telas 03 e 04 dentro do onboarding, o rótulo vira "Passo 3 de 5" e "Passo 4 de 5"; o 1º pomodoro é o passo 5.
 - A `BottomNav` fica oculta durante o onboarding, **até a 1ª disciplina existir**; do passo 5 em diante ela aparece.
 
@@ -228,8 +229,8 @@ Depois do cadastro (e do 1º login com Google): **boas-vindas (16) → quiz (17)
 Referências: `22-inicio-desktop.png` (1440px) e `22b-inicio-tablet.png` (900px). O celular continua sendo a base; acima dele:
 - **< 768px:** como está (coluna única, `BottomNav`).
 - **768–1023px:** coluna de conteúdo até 720px centralizada; cards de disciplina em 2 colunas; `BottomNav` continua.
-- **≥ 1024px:** `BottomNav` vira **barra lateral fixa** de 240px (`--surface-200`, borda direita `--line`): logo no topo, os 5 destinos (item ativo `--primary-soft` + `--primary-strong`, altura 48px) e "Configurações" no pé. Conteúdo com até 1080px e padding 40px.
-- **Início:** cabeçalho com saudação à esquerda e chips à direita; destaque do perfil + fruto de ontem lado a lado (`auto-fit, minmax(320px, 1fr)`); disciplinas em grade `auto-fill, minmax(300px, 1fr)`.
+- **≥ 1024px:** `BottomNav` vira **barra lateral fixa** de 240px (`--surface-200`, borda direita `--line`): logo no topo, os 5 destinos (item ativo `--primary-soft` + `--primary-strong`, altura 48px) e "Configurações" no pé. Conteúdo com até 1080px e padding 40px. Na Fase 6B a barra lateral passa a ter 6 destinos (com Foco) e o celular troca Estatísticas por Foco.
+- **Início:** painel em duas colunas (36b), ver "Foco no menu e Início como painel". (Antes da Fase 6B: cabeçalho com saudação à esquerda e chips à direita; destaque do perfil + fruto de ontem lado a lado; disciplinas em grade.)
 - **Folhas inferiores** (ajustar ciclo, fim do ciclo, pausa, celebrações) viram **diálogos centralizados** de até 480px com `--radius-lg` nos 4 cantos.
 - **Conquistas:** álbum em 4–6 colunas; card de nível ao lado das abas.
 - **Disciplina:** lista de capítulos à esquerda e mini-cards (páginas, ritmo, término) numa coluna à direita de 320px.
@@ -359,6 +360,33 @@ Referências: `35-pomodoro-desktop-classico.png`, `35-pomodoro-desktop-noturno.p
 - **Espaço:** pausa/retoma (abre o mesmo fluxo do botão Pausar, inclusive o nudge da pausa).
 - **F:** entra/sai da tela cheia (`requestFullscreen` no contêiner da tela; o botão muda para "Sair da tela cheia"). Esc sai, como no navegador.
 - Os atalhos aparecem na pílula e nos `aria-keyshortcuts` dos botões.
+
+## Foco no menu e Início como painel (revisão de 17/11, Fase 6B)
+
+Referências: `36-inicio-painel.png` e `36b-inicio-painel-desktop.png` (Início), `37-foco-vazio.png` e `37b-foco-vazio-desktop.png` (Foco sem disciplina), `38-foco-celular.png` (Foco rodando no celular) e `39-menu-foco.png` (estados do item Foco no menu). Pranchas no canvas "Pomar — Foco e pomodoro no computador". Substitui o Início com a lista de disciplinas (01 e 22) e o caminho "card da disciplina → pomodoro como tela solta".
+
+**Menu**
+- **Celular (`BottomNav`):** Início · Disciplinas · **Foco** · Liga · Conquistas. Foco fica no centro: círculo de 58px em `--primary`, ícone de cronômetro branco, borda de 4px na cor do fundo e sombra `0 4px 0 --primary-strong`, subindo 22px acima da barra; rótulo "Foco" embaixo. **Estatísticas sai da barra do celular** e passa a ser aberta pelo card "Sua semana" do Início.
+- **Computador (`SideNav`):** Início · Disciplinas · **Foco** · Conquistas · Liga · Estatísticas, e Configurações no pé.
+- **Com pomodoro rodando**, o item Foco mostra o tempo que falta, em qualquer tela do app: no celular, "18:42" dentro do círculo e um anel de progresso do ciclo em `--reward`; no computador, um selo `--fruit-soft` com ponto `--fruit` e "18:42" à direita do rótulo. **Pausado:** círculo claro com o tempo parado e o rótulo "Pausado" (celular); selo neutro "Pausado" (computador). O tempo é calculado a partir da sessão salva no servidor e continua contando fora do Foco; o item atualiza 1×/s só enquanto a aba está visível. Leitor de tela: `aria-label="Foco, 18 minutos restantes"` (ou "Foco, pausado").
+
+**Foco (rota `/pomodoro`)**
+- Toque no item Foco abre: (1) a sessão em andamento (foco, pausa ou descanso), se houver; senão (2) **"Nenhuma disciplina selecionada"**: só a cena do tema, sem cronômetro, com o texto numa pílula de vidro (celular, 37) ou no lugar do painel (computador, 37b). Nada mais na tela além do botão Início.
+- "Começar" (no card "Continuar estudando", na disciplina ou na lista de Disciplinas) abre `/pomodoro?disciplina=…` com o cronômetro pronto, como hoje (08/35).
+- **O menu não aparece no Foco.** A saída é o botão **"Início"** (pílula de vidro, chevron + texto) no canto superior esquerdo, em todos os estados, inclusive sem disciplina: computador como na 35; **celular agora também vai para o Início** (38), no lugar da seta que voltava para a disciplina. O botão de ajustes continua no canto direito (só com o ciclo parado).
+- Sair do Foco não pausa nem encerra: o tempo continua e aparece no item Foco do menu.
+
+**Início como painel (36, 36b)**
+- De cima para baixo (celular) ou em duas colunas (computador: à esquerda "Continuar estudando" e "Sua semana"; à direita nível/meta, fruto de ontem e destaque do perfil):
+  1. Cabeçalho como hoje (data, saudação, chips de ofensiva, XP e nível, Seu Tomás).
+  2. **Continuar estudando:** card em `--primary` com a disciplina estudada por último (selo com a sigla na cor da disciplina, título, livro · progresso · prova), o próximo tópico (páginas e estimativa), botão **"Começar"** (abre o Foco nesse tópico) e link **"Trocar disciplina"** (abre Disciplinas).
+  3. Nível e meta (barra até o próximo nível, "Meta de hoje N de M", "Colheita N de 7").
+  4. Fruto de ontem (como hoje; com fruto pendente, "Toque para colher").
+  5. Destaque do perfil (21).
+  6. **Sua semana:** tempo de foco, pomodoros e dias estudados, barras dos 7 dias e o link **"Ver todas as estatísticas"** (abre a 29).
+- **A lista de disciplinas sai do Início**; fica só na aba Disciplinas (que já existe), com o "Começar" de cada card levando ao Foco.
+- **Sem disciplinas:** o Início mostra o estado vazio da 01b no lugar de "Continuar estudando".
+- **Onboarding (passo 5):** no lugar de "Continuar estudando", o card **"Falta 1 passo · Colha seu primeiro fruto"** com "Começar" (abre o Foco na disciplina criada). Ver "Fluxo do onboarding".
 
 ## Design completo
 Todas as telas do DESIGN §11 estão desenhadas (ondas 1 a 5). Telas novas que surgirem seguem os componentes acima.
