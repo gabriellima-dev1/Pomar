@@ -363,15 +363,17 @@ Referências: `35-pomodoro-desktop-classico.png`, `35-pomodoro-desktop-noturno.p
 
 ## Foco no menu e Início como painel (revisão de 17/11, Fase 6B)
 
-Referências: `36-inicio-painel.png` e `36b-inicio-painel-desktop.png` (Início), `37-foco-vazio.png` e `37b-foco-vazio-desktop.png` (Foco sem disciplina), `38-foco-celular.png` (Foco rodando no celular) e `39-menu-foco.png` (estados do item Foco no menu). Pranchas no canvas "Pomar — Foco e pomodoro no computador". Substitui o Início com a lista de disciplinas (01 e 22) e o caminho "card da disciplina → pomodoro como tela solta".
+Referências: `36-inicio-painel.png` e `36b-inicio-painel-desktop.png` (Início), `37-foco-vazio.png` e `37b-foco-vazio-desktop.png` (Foco sem disciplina), `38-foco-celular.png` (Foco rodando no celular) e `39-menu-foco.png` (estados do item Foco no menu). Pranchas no canvas "Pomar — Foco e pomodoro no computador". Substitui o Início com a lista de disciplinas (01 e 22) e o caminho "card da disciplina → pomodoro como tela solta". Estados decididos em 17/11: `39b-foco-colher.png` (foco terminou fora do Foco), `39c-estatisticas-celular.png` (topo das Estatísticas no celular) e `39d-sigla-selo.png` (sigla do selo).
 
 **Menu**
 - **Celular (`BottomNav`):** Início · Disciplinas · **Foco** · Liga · Conquistas. Foco fica no centro: círculo de 58px em `--primary`, ícone de cronômetro branco, borda de 4px na cor do fundo e sombra `0 4px 0 --primary-strong`, subindo 22px acima da barra; rótulo "Foco" embaixo. **Estatísticas sai da barra do celular** e passa a ser aberta pelo card "Sua semana" do Início.
 - **Computador (`SideNav`):** Início · Disciplinas · **Foco** · Conquistas · Liga · Estatísticas, e Configurações no pé.
 - **Com pomodoro rodando**, o item Foco mostra o tempo que falta, em qualquer tela do app: no celular, "18:42" dentro do círculo e um anel de progresso do ciclo em `--reward`; no computador, um selo `--fruit-soft` com ponto `--fruit` e "18:42" à direita do rótulo. **Pausado:** círculo claro com o tempo parado e o rótulo "Pausado" (celular); selo neutro "Pausado" (computador). O tempo é calculado a partir da sessão salva no servidor e continua contando fora do Foco; o item atualiza 1×/s só enquanto a aba está visível. Leitor de tela: `aria-label="Foco, 18 minutos restantes"` (ou "Foco, pausado").
+- **Foco terminou fora do Foco (39b):** o item troca o tempo pelo fruto maduro e o rótulo **"Colher"**; no celular o círculo fica em `--fruit-soft` com anel cheio em `--fruit`, no computador o selo `--fruit-soft` mostra o fruto e "Colher". O aviso de fim que a pessoa pediu toca uma vez; nada insiste depois. Tocar no item abre a folha de fim do ciclo (07). Leitor de tela: "Foco, fruto pronto para colher".
+- **Durante o descanso:** o item fica no estado normal (sem tempo), em todos os aparelhos, porque o descanso só existe no aparelho onde começou. Tocar nele abre o descanso nesse aparelho.
 
 **Foco (rota `/pomodoro`)**
-- Toque no item Foco abre: (1) a sessão em andamento (foco, pausa ou descanso), se houver; senão (2) **"Nenhuma disciplina selecionada"**: só a cena do tema, sem cronômetro, com o texto numa pílula de vidro (celular, 37) ou no lugar do painel (computador, 37b). Nada mais na tela além do botão Início.
+- Toque no item Foco abre: (1) a sessão em andamento (foco, pausa ou descanso), se houver; senão (2) **"Nenhuma disciplina selecionada"** (37/37b): a cena do tema, sem cronômetro, e um card de vidro com o texto, o botão primário **"Escolher disciplina"** (abre a aba Disciplinas) e o link discreto **"Estudar sem disciplina"** (começa uma sessão livre, sem tópico nem páginas, como hoje). Fora isso, só o botão Início.
 - "Começar" (no card "Continuar estudando", na disciplina ou na lista de Disciplinas) abre `/pomodoro?disciplina=…` com o cronômetro pronto, como hoje (08/35).
 - **O menu não aparece no Foco.** A saída é o botão **"Início"** (pílula de vidro, chevron + texto) no canto superior esquerdo, em todos os estados, inclusive sem disciplina: computador como na 35; **celular agora também vai para o Início** (38), no lugar da seta que voltava para a disciplina. O botão de ajustes continua no canto direito (só com o ciclo parado).
 - Sair do Foco não pausa nem encerra: o tempo continua e aparece no item Foco do menu.
@@ -380,13 +382,17 @@ Referências: `36-inicio-painel.png` e `36b-inicio-painel-desktop.png` (Início)
 - De cima para baixo (celular) ou em duas colunas (computador: à esquerda "Continuar estudando" e "Sua semana"; à direita nível/meta, fruto de ontem e destaque do perfil):
   1. Cabeçalho como hoje (data, saudação, chips de ofensiva, XP e nível, Seu Tomás).
   2. **Continuar estudando:** card em `--primary` com a disciplina estudada por último (selo com a sigla na cor da disciplina, título, livro · progresso · prova), o próximo tópico (páginas e estimativa), botão **"Começar"** (abre o Foco nesse tópico) e link **"Trocar disciplina"** (abre Disciplinas).
-  3. Nível e meta (barra até o próximo nível, "Meta de hoje N de M", "Colheita N de 7").
+     - **Sigla do selo (39d):** gerada do título, sem campo novo. Com 2 ou mais palavras, ignorando "de", "da", "do", "das", "dos" e "e": as iniciais de até 3 delas ("Estruturas de Dados" → ED, "Projeto e Análise de Algoritmos" → PAA). Com uma palavra: as 3 primeiras letras ("Algoritmos" → ALG). Sempre em maiúsculas, com acento. Texto branco ou `--ink`, o que der contraste AA com a cor da disciplina.
+  3. Nível e meta (barra até o próximo nível, "Meta de hoje N de M", "Colheita N de 7"). **Coorte B:** o card não aparece, como hoje (nem a meta sozinha).
   4. Fruto de ontem (como hoje; com fruto pendente, "Toque para colher").
-  5. Destaque do perfil (21).
+  5. Destaque do perfil, **o mesmo da 21**: Explorador = "Seu álbum: N de 11" com "Ver álbum" e o melhor horário de foco; Competidor = posição na Feira; Socializador = quem você segue. **O Conquistador não tem destaque**, porque o card "Rumo ao nível" (item 3) já é o dele. Não há card de livros novos.
   6. **Sua semana:** tempo de foco, pomodoros e dias estudados, barras dos 7 dias e o link **"Ver todas as estatísticas"** (abre a 29).
 - **A lista de disciplinas sai do Início**; fica só na aba Disciplinas (que já existe), com o "Começar" de cada card levando ao Foco.
 - **Sem disciplinas:** o Início mostra o estado vazio da 01b no lugar de "Continuar estudando".
 - **Onboarding (passo 5):** no lugar de "Continuar estudando", o card **"Falta 1 passo · Colha seu primeiro fruto"** com "Começar" (abre o Foco na disciplina criada). Ver "Fluxo do onboarding".
+
+**Estatísticas no celular (39c)**
+- Abertas pelo card "Sua semana". A tela mantém a barra inferior, com **Início marcado**, e ganha o link **"← Início"** no topo, acima do título. O conteúdo segue a 29. No computador nada muda (Estatísticas está na barra lateral).
 
 ## Design completo
 Todas as telas do DESIGN §11 estão desenhadas (ondas 1 a 5). Telas novas que surgirem seguem os componentes acima.
