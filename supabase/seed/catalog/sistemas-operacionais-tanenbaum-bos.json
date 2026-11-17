@@ -1,0 +1,614 @@
+{
+  "slug": "sistemas-operacionais-tanenbaum-bos",
+  "title": "Sistemas Operacionais Modernos",
+  "authors": ["Andrew S. Tanenbaum", "Herbert Bos"],
+  "edition": "4ª ed.",
+  "publisher": "Pearson",
+  "year": 2016,
+  "isbn": "978-85-430-0567-6",
+  "total_pages": null,
+  "verified": false,
+  "source_note": "Capítulos e seções da 4ª ed. em inglês (Pearson, 2015), conferidos com o sumário do InformIT (editora); páginas de uma cópia da página de conteúdo publicada na web. O total de páginas da edição em português não foi encontrado: as páginas são as da edição em inglês (estimativa). O capítulo 13 (lista de leitura e bibliografia) não foi incluído. Seções que começam na mesma página viram um tópico só. Títulos traduzidos por nós (podem diferir da tradução oficial).",
+  "chapters": [
+    {
+      "title": "1. Introdução",
+      "topics": [
+        {
+          "title": "1.1 O que é um sistema operacional?",
+          "page_start": 1,
+          "page_end": 5
+        },
+        {
+          "title": "1.2 História dos sistemas operacionais",
+          "page_start": 6,
+          "page_end": 19
+        },
+        {
+          "title": "1.3 Revisão sobre hardware de computadores",
+          "page_start": 20,
+          "page_end": 34
+        },
+        {
+          "title": "1.4 O zoológico dos sistemas operacionais",
+          "page_start": 35,
+          "page_end": 37
+        },
+        {
+          "title": "1.5 Conceitos de sistemas operacionais",
+          "page_start": 38,
+          "page_end": 49
+        },
+        {
+          "title": "1.6 Chamadas de sistema",
+          "page_start": 50,
+          "page_end": 61
+        },
+        {
+          "title": "1.7 Estrutura de sistemas operacionais",
+          "page_start": 62,
+          "page_end": 72
+        },
+        {
+          "title": "1.8 O mundo de acordo com a linguagem C",
+          "page_start": 73,
+          "page_end": 76
+        },
+        {
+          "title": "1.9 Pesquisas em sistemas operacionais",
+          "page_start": 77,
+          "page_end": 77
+        },
+        {
+          "title": "1.10 Esboço do restante do livro",
+          "page_start": 78,
+          "page_end": 78
+        },
+        {
+          "title": "1.11 Unidades métricas",
+          "page_start": 79,
+          "page_end": 79
+        },
+        {
+          "title": "1.12 Resumo",
+          "page_start": 80,
+          "page_end": 84
+        }
+      ]
+    },
+    {
+      "title": "2. Processos e threads",
+      "topics": [
+        {
+          "title": "2.1 Processos",
+          "page_start": 85,
+          "page_end": 96
+        },
+        {
+          "title": "2.2 Threads",
+          "page_start": 97,
+          "page_end": 118
+        },
+        {
+          "title": "2.3 Comunicação entre processos",
+          "page_start": 119,
+          "page_end": 147
+        },
+        {
+          "title": "2.4 Escalonamento",
+          "page_start": 148,
+          "page_end": 166
+        },
+        {
+          "title": "2.5 Problemas clássicos de IPC",
+          "page_start": 167,
+          "page_end": 171
+        },
+        {
+          "title": "2.6 Pesquisas sobre processos e threads",
+          "page_start": 172,
+          "page_end": 172
+        },
+        {
+          "title": "2.7 Resumo",
+          "page_start": 173,
+          "page_end": 180
+        }
+      ]
+    },
+    {
+      "title": "3. Gerenciamento de memória",
+      "topics": [
+        {
+          "title": "3.1 Sem abstração de memória",
+          "page_start": 181,
+          "page_end": 184
+        },
+        {
+          "title": "3.2 Uma abstração de memória: espaços de endereçamento",
+          "page_start": 185,
+          "page_end": 193
+        },
+        {
+          "title": "3.3 Memória virtual",
+          "page_start": 194,
+          "page_end": 208
+        },
+        {
+          "title": "3.4 Algoritmos de substituição de páginas",
+          "page_start": 209,
+          "page_end": 221
+        },
+        {
+          "title": "3.5 Questões de projeto para sistemas de paginação",
+          "page_start": 222,
+          "page_end": 232
+        },
+        {
+          "title": "3.6 Questões de implementação",
+          "page_start": 233,
+          "page_end": 239
+        },
+        {
+          "title": "3.7 Segmentação",
+          "page_start": 240,
+          "page_end": 251
+        },
+        {
+          "title": "3.8 Pesquisas sobre gerenciamento de memória",
+          "page_start": 252,
+          "page_end": 252
+        },
+        {
+          "title": "3.9 Resumo",
+          "page_start": 253,
+          "page_end": 262
+        }
+      ]
+    },
+    {
+      "title": "4. Sistemas de arquivos",
+      "topics": [
+        {
+          "title": "4.1 Arquivos",
+          "page_start": 263,
+          "page_end": 275
+        },
+        {
+          "title": "4.2 Diretórios",
+          "page_start": 276,
+          "page_end": 280
+        },
+        {
+          "title": "4.3 Implementação do sistema de arquivos",
+          "page_start": 281,
+          "page_end": 298
+        },
+        {
+          "title": "4.4 Gerenciamento e otimização de sistemas de arquivos",
+          "page_start": 299,
+          "page_end": 319
+        },
+        {
+          "title": "4.5 Exemplos de sistemas de arquivos",
+          "page_start": 320,
+          "page_end": 330
+        },
+        {
+          "title": "4.6 Pesquisas sobre sistemas de arquivos",
+          "page_start": 331,
+          "page_end": 331
+        },
+        {
+          "title": "4.7 Resumo",
+          "page_start": 332,
+          "page_end": 336
+        }
+      ]
+    },
+    {
+      "title": "5. Entrada/saída",
+      "topics": [
+        {
+          "title": "5.1 Princípios do hardware de E/S",
+          "page_start": 337,
+          "page_end": 350
+        },
+        {
+          "title": "5.2 Princípios do software de E/S",
+          "page_start": 351,
+          "page_end": 355
+        },
+        {
+          "title": "5.3 Camadas do software de E/S",
+          "page_start": 356,
+          "page_end": 368
+        },
+        {
+          "title": "5.4 Discos",
+          "page_start": 369,
+          "page_end": 387
+        },
+        {
+          "title": "5.5 Relógios",
+          "page_start": 388,
+          "page_end": 393
+        },
+        {
+          "title": "5.6 Interfaces com o usuário: teclado, mouse, monitor",
+          "page_start": 394,
+          "page_end": 415
+        },
+        {
+          "title": "5.7 Clientes magros",
+          "page_start": 416,
+          "page_end": 416
+        },
+        {
+          "title": "5.8 Gerenciamento de energia",
+          "page_start": 417,
+          "page_end": 425
+        },
+        {
+          "title": "5.9 Pesquisas sobre entrada/saída",
+          "page_start": 426,
+          "page_end": 427
+        },
+        {
+          "title": "5.10 Resumo",
+          "page_start": 428,
+          "page_end": 434
+        }
+      ]
+    },
+    {
+      "title": "6. Impasses",
+      "topics": [
+        {
+          "title": "6.1 Recursos",
+          "page_start": 435,
+          "page_end": 437
+        },
+        {
+          "title": "6.2 Introdução aos impasses",
+          "page_start": 438,
+          "page_end": 442
+        },
+        {
+          "title": "6.3 O algoritmo do avestruz · 6.4 Detecção e recuperação de impasses",
+          "page_start": 443,
+          "page_end": 449
+        },
+        {
+          "title": "6.5 Evitando impasses",
+          "page_start": 450,
+          "page_end": 455
+        },
+        {
+          "title": "6.6 Prevenção de impasses",
+          "page_start": 456,
+          "page_end": 457
+        },
+        {
+          "title": "6.7 Outras questões",
+          "page_start": 458,
+          "page_end": 463
+        },
+        {
+          "title": "6.8 Pesquisas sobre impasses · 6.9 Resumo",
+          "page_start": 464,
+          "page_end": 470
+        }
+      ]
+    },
+    {
+      "title": "7. Virtualização e a nuvem",
+      "topics": [
+        {
+          "title": "7.1 História",
+          "page_start": 471,
+          "page_end": 473
+        },
+        {
+          "title": "7.2 Requisitos para a virtualização",
+          "page_start": 474,
+          "page_end": 476
+        },
+        {
+          "title": "7.3 Hipervisores tipo 1 e tipo 2",
+          "page_start": 477,
+          "page_end": 477
+        },
+        {
+          "title": "7.4 Técnicas para virtualização eficiente",
+          "page_start": 478,
+          "page_end": 482
+        },
+        {
+          "title": "7.5 Hipervisores são micronúcleos bem-feitos?",
+          "page_start": 483,
+          "page_end": 485
+        },
+        {
+          "title": "7.6 Virtualização da memória",
+          "page_start": 486,
+          "page_end": 489
+        },
+        {
+          "title": "7.7 Virtualização de E/S",
+          "page_start": 490,
+          "page_end": 492
+        },
+        {
+          "title": "7.8 Aplicações virtuais",
+          "page_start": 493,
+          "page_end": 493
+        },
+        {
+          "title": "7.9 Máquinas virtuais em CPUs com múltiplos núcleos · 7.10 Questões de licenciamento",
+          "page_start": 494,
+          "page_end": 494
+        },
+        {
+          "title": "7.11 Nuvens",
+          "page_start": 495,
+          "page_end": 497
+        },
+        {
+          "title": "7.12 Estudo de caso: VMware",
+          "page_start": 498,
+          "page_end": 513
+        },
+        {
+          "title": "7.13 Pesquisas sobre virtualização e a nuvem",
+          "page_start": 514,
+          "page_end": 516
+        }
+      ]
+    },
+    {
+      "title": "8. Sistemas com múltiplos processadores",
+      "topics": [
+        {
+          "title": "8.1 Multiprocessadores",
+          "page_start": 517,
+          "page_end": 543
+        },
+        {
+          "title": "8.2 Multicomputadores",
+          "page_start": 544,
+          "page_end": 565
+        },
+        {
+          "title": "8.3 Sistemas distribuídos",
+          "page_start": 566,
+          "page_end": 586
+        },
+        {
+          "title": "8.4 Pesquisas sobre sistemas com múltiplos processadores",
+          "page_start": 587,
+          "page_end": 587
+        },
+        {
+          "title": "8.5 Resumo",
+          "page_start": 588,
+          "page_end": 592
+        }
+      ]
+    },
+    {
+      "title": "9. Segurança",
+      "topics": [
+        {
+          "title": "9.1 O ambiente de segurança",
+          "page_start": 593,
+          "page_end": 598
+        },
+        {
+          "title": "9.2 Segurança de sistemas operacionais",
+          "page_start": 599,
+          "page_end": 601
+        },
+        {
+          "title": "9.3 Controlando o acesso aos recursos",
+          "page_start": 602,
+          "page_end": 610
+        },
+        {
+          "title": "9.4 Modelos formais de sistemas seguros",
+          "page_start": 611,
+          "page_end": 618
+        },
+        {
+          "title": "9.5 Noções básicas de criptografia",
+          "page_start": 619,
+          "page_end": 625
+        },
+        {
+          "title": "9.6 Autenticação",
+          "page_start": 626,
+          "page_end": 638
+        },
+        {
+          "title": "9.7 Explorando software",
+          "page_start": 639,
+          "page_end": 656
+        },
+        {
+          "title": "9.8 Ataques internos",
+          "page_start": 657,
+          "page_end": 659
+        },
+        {
+          "title": "9.9 Malware",
+          "page_start": 660,
+          "page_end": 683
+        },
+        {
+          "title": "9.10 Defesas",
+          "page_start": 684,
+          "page_end": 702
+        },
+        {
+          "title": "9.11 Pesquisas sobre segurança",
+          "page_start": 703,
+          "page_end": 703
+        },
+        {
+          "title": "9.12 Resumo",
+          "page_start": 704,
+          "page_end": 712
+        }
+      ]
+    },
+    {
+      "title": "10. Estudo de caso 1: UNIX, Linux e Android",
+      "topics": [
+        {
+          "title": "10.1 História do UNIX e do Linux",
+          "page_start": 713,
+          "page_end": 722
+        },
+        {
+          "title": "10.2 Visão geral do Linux",
+          "page_start": 723,
+          "page_end": 732
+        },
+        {
+          "title": "10.3 Processos no Linux",
+          "page_start": 733,
+          "page_end": 752
+        },
+        {
+          "title": "10.4 Gerenciamento de memória no Linux",
+          "page_start": 753,
+          "page_end": 766
+        },
+        {
+          "title": "10.5 Entrada/saída no Linux",
+          "page_start": 767,
+          "page_end": 774
+        },
+        {
+          "title": "10.6 O sistema de arquivos do Linux",
+          "page_start": 775,
+          "page_end": 797
+        },
+        {
+          "title": "10.7 Segurança no Linux",
+          "page_start": 798,
+          "page_end": 801
+        },
+        {
+          "title": "10.8 Android",
+          "page_start": 802,
+          "page_end": 847
+        },
+        {
+          "title": "10.9 Resumo",
+          "page_start": 848,
+          "page_end": 856
+        }
+      ]
+    },
+    {
+      "title": "11. Estudo de caso 2: Windows 8",
+      "topics": [
+        {
+          "title": "11.1 História do Windows até o Windows 8.1",
+          "page_start": 857,
+          "page_end": 863
+        },
+        {
+          "title": "11.2 Programando o Windows",
+          "page_start": 864,
+          "page_end": 876
+        },
+        {
+          "title": "11.3 Estrutura do sistema",
+          "page_start": 877,
+          "page_end": 907
+        },
+        {
+          "title": "11.4 Processos e threads no Windows",
+          "page_start": 908,
+          "page_end": 926
+        },
+        {
+          "title": "11.5 Gerenciamento de memória",
+          "page_start": 927,
+          "page_end": 941
+        },
+        {
+          "title": "11.6 Caching no Windows",
+          "page_start": 942,
+          "page_end": 942
+        },
+        {
+          "title": "11.7 Entrada/saída no Windows",
+          "page_start": 943,
+          "page_end": 951
+        },
+        {
+          "title": "11.8 O sistema de arquivos NTFS",
+          "page_start": 952,
+          "page_end": 963
+        },
+        {
+          "title": "11.9 Gerenciamento de energia no Windows",
+          "page_start": 964,
+          "page_end": 965
+        },
+        {
+          "title": "11.10 Segurança no Windows 8",
+          "page_start": 966,
+          "page_end": 974
+        },
+        {
+          "title": "11.11 Resumo",
+          "page_start": 975,
+          "page_end": 980
+        }
+      ]
+    },
+    {
+      "title": "12. Projeto de sistemas operacionais",
+      "topics": [
+        {
+          "title": "12.1 A natureza do problema de projeto",
+          "page_start": 981,
+          "page_end": 984
+        },
+        {
+          "title": "12.2 Projeto de interface",
+          "page_start": 985,
+          "page_end": 992
+        },
+        {
+          "title": "12.3 Implementação",
+          "page_start": 993,
+          "page_end": 1009
+        },
+        {
+          "title": "12.4 Desempenho",
+          "page_start": 1010,
+          "page_end": 1017
+        },
+        {
+          "title": "12.5 Gerenciamento de projeto",
+          "page_start": 1018,
+          "page_end": 1021
+        },
+        {
+          "title": "12.6 Tendências no projeto de sistemas operacionais",
+          "page_start": 1022,
+          "page_end": 1026
+        },
+        {
+          "title": "12.7 Resumo",
+          "page_start": 1027,
+          "page_end": 1030
+        }
+      ]
+    }
+  ]
+}

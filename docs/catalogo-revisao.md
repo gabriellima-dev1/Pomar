@@ -15,7 +15,7 @@ Enquanto um livro não for conferido, o app mostra o aviso **“páginas aproxim
 
 ## Resumo
 
-8 livros, 831 tópicos.
+12 livros, 1139 tópicos.
 
 | Livro | Edição | Capítulos | Tópicos | Páginas somadas | Status |
 |---|---|---|---|---|---|
@@ -23,10 +23,14 @@ Enquanto um livro não for conferido, o app mostra o aviso **“páginas aproxim
 | Sistema de Banco de Dados | 7ª ed., GEN LTC, 2020 | 26 | 196 | 960 | a conferir |
 | Compiladores: Princípios, Técnicas e Ferramentas | 2ª ed., Pearson Addison-Wesley, 2008 | 14 | 106 | 620 | a conferir |
 | Engenharia de Software | 10ª ed., Pearson, 2019 | 25 | 106 | 740 | a conferir |
+| Matemática Discreta e suas Aplicações | 6ª ed., McGraw-Hill, 2009 | 13 | 71 | 840 | a conferir |
+| Organização e Projeto de Computadores: a interface hardware/software | 5ª ed., Elsevier, 2017 | 6 | 86 | 504 | a conferir |
 | Processamento Digital de Imagens | 3ª ed., Pearson Prentice Hall, 2010 | 12 | 79 | 600 | a conferir |
 | Redes de Computadores e a Internet: uma abordagem top-down | 8ª ed., Bookman, 2021 | 8 | 57 | 595 | a conferir |
 | Redes de Computadores | 6ª ed., Bookman, 2021 | 8 | 64 | 600 | a conferir |
 | Sistemas Distribuídos: Princípios e Paradigmas | 2ª ed., Pearson Prentice Hall, 2007 | 13 | 74 | 390 | a conferir |
+| Sistemas Operacionais Modernos | 4ª ed., Pearson, 2016 | 12 | 108 | 1030 | a conferir |
+| Introdução à Teoria da Computação | 2ª ed., Thomson Learning, 2007 | 11 | 43 | 414 | a conferir |
 
 ## Fora do seed por enquanto
 
@@ -1375,6 +1379,324 @@ Enquanto um livro não for conferido, o app mostra o aviso **“páginas aproxim
 
 ---
 
+## Matemática Discreta e suas Aplicações
+
+- **Autores:** Kenneth H. Rosen
+- **Edição:** 6ª ed., McGraw-Hill, 2009
+- **ISBN:** a confirmar
+- **Total de páginas:** a confirmar
+- **Arquivo:** `supabase/seed/catalog/matematica-discreta-rosen.json`
+- **Origem do sumário:** Capítulos e seções do sumário oficial da 6ª ed. em inglês (McGraw-Hill, 2007; site da editora). Nenhuma página foi encontrada: as seções foram distribuídas igualmente em cerca de 840 p. de conteúdo (estimativa grosseira, conferir tudo). Editora, ano, ISBN e total de páginas da edição em português a confirmar. Títulos traduzidos por nós (podem diferir da tradução oficial).
+
+- [ ] Edição e total de páginas conferem
+- [ ] Livro conferido
+
+### 1. Os fundamentos: lógica e demonstrações (pp. 1–83)
+
+- [ ] Capítulo conferido · 83 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 1.1 Lógica proposicional | 1 | 12 | 12 |  |
+| 1.2 Equivalências proposicionais | 13 | 24 | 12 |  |
+| 1.3 Predicados e quantificadores | 25 | 35 | 11 |  |
+| 1.4 Quantificadores aninhados | 36 | 47 | 12 |  |
+| 1.5 Regras de inferência | 48 | 59 | 12 |  |
+| 1.6 Introdução às demonstrações | 60 | 71 | 12 |  |
+| 1.7 Métodos e estratégias de demonstração | 72 | 83 | 12 |  |
+
+### 2. Estruturas básicas: conjuntos, funções, sequências e somatórios (pp. 84–130)
+
+- [ ] Capítulo conferido · 47 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 2.1 Conjuntos | 84 | 95 | 12 |  |
+| 2.2 Operações com conjuntos | 96 | 106 | 11 |  |
+| 2.3 Funções | 107 | 118 | 12 |  |
+| 2.4 Sequências e somatórios | 119 | 130 | 12 |  |
+
+### 3. Os fundamentos: algoritmos, os inteiros e matrizes (pp. 131–225)
+
+- [ ] Capítulo conferido · 95 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 3.1 Algoritmos | 131 | 142 | 12 |  |
+| 3.2 O crescimento de funções | 143 | 154 | 12 |  |
+| 3.3 Complexidade de algoritmos | 155 | 166 | 12 |  |
+| 3.4 Os inteiros e a divisão | 167 | 177 | 11 |  |
+| 3.5 Primos e máximo divisor comum | 178 | 189 | 12 |  |
+| 3.6 Inteiros e algoritmos | 190 | 201 | 12 |  |
+| 3.7 Aplicações da teoria dos números | 202 | 213 | 12 |  |
+| 3.8 Matrizes | 214 | 225 | 12 |  |
+
+### 4. Indução e recursão (pp. 226–284)
+
+- [ ] Capítulo conferido · 59 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 4.1 Indução matemática | 226 | 237 | 12 |  |
+| 4.2 Indução forte e boa ordenação | 238 | 248 | 11 |  |
+| 4.3 Definições recursivas e indução estrutural | 249 | 260 | 12 |  |
+| 4.4 Algoritmos recursivos | 261 | 272 | 12 |  |
+| 4.5 Correção de programas | 273 | 284 | 12 |  |
+
+### 5. Contagem (pp. 285–355)
+
+- [ ] Capítulo conferido · 71 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 5.1 Princípios básicos de contagem | 285 | 296 | 12 |  |
+| 5.2 O princípio da casa dos pombos | 297 | 308 | 12 |  |
+| 5.3 Permutações e combinações | 309 | 319 | 11 |  |
+| 5.4 Coeficientes binomiais | 320 | 331 | 12 |  |
+| 5.5 Permutações e combinações generalizadas | 332 | 343 | 12 |  |
+| 5.6 Gerando permutações e combinações | 344 | 355 | 12 |  |
+
+### 6. Probabilidade discreta (pp. 356–402)
+
+- [ ] Capítulo conferido · 47 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 6.1 Introdução à probabilidade discreta | 356 | 367 | 12 |  |
+| 6.2 Teoria da probabilidade | 368 | 379 | 12 |  |
+| 6.3 Teorema de Bayes | 380 | 390 | 11 |  |
+| 6.4 Valor esperado e variância | 391 | 402 | 12 |  |
+
+### 7. Técnicas avançadas de contagem (pp. 403–473)
+
+- [ ] Capítulo conferido · 71 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 7.1 Relações de recorrência | 403 | 414 | 12 |  |
+| 7.2 Resolvendo relações de recorrência lineares | 415 | 426 | 12 |  |
+| 7.3 Algoritmos de divisão e conquista e relações de recorrência | 427 | 438 | 12 |  |
+| 7.4 Funções geradoras | 439 | 450 | 12 |  |
+| 7.5 Inclusão-exclusão | 451 | 461 | 11 |  |
+| 7.6 Aplicações da inclusão-exclusão | 462 | 473 | 12 |  |
+
+### 8. Relações (pp. 474–544)
+
+- [ ] Capítulo conferido · 71 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 8.1 Relações e suas propriedades | 474 | 485 | 12 |  |
+| 8.2 Relações n-árias e suas aplicações | 486 | 497 | 12 |  |
+| 8.3 Representando relações | 498 | 509 | 12 |  |
+| 8.4 Fechos de relações | 510 | 521 | 12 |  |
+| 8.5 Relações de equivalência | 522 | 532 | 11 |  |
+| 8.6 Ordens parciais | 533 | 544 | 12 |  |
+
+### 9. Grafos (pp. 545–639)
+
+- [ ] Capítulo conferido · 95 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 9.1 Grafos e modelos de grafos | 545 | 556 | 12 |  |
+| 9.2 Terminologia de grafos e tipos especiais de grafos | 557 | 568 | 12 |  |
+| 9.3 Representando grafos e isomorfismo de grafos | 569 | 580 | 12 |  |
+| 9.4 Conectividade | 581 | 592 | 12 |  |
+| 9.5 Caminhos de Euler e de Hamilton | 593 | 603 | 11 |  |
+| 9.6 Problemas de caminho mínimo | 604 | 615 | 12 |  |
+| 9.7 Grafos planares | 616 | 627 | 12 |  |
+| 9.8 Coloração de grafos | 628 | 639 | 12 |  |
+
+### 10. Árvores (pp. 640–698)
+
+- [ ] Capítulo conferido · 59 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 10.1 Introdução às árvores | 640 | 651 | 12 |  |
+| 10.2 Aplicações de árvores | 652 | 663 | 12 |  |
+| 10.3 Percurso em árvores | 664 | 674 | 11 |  |
+| 10.4 Árvores geradoras | 675 | 686 | 12 |  |
+| 10.5 Árvores geradoras mínimas | 687 | 698 | 12 |  |
+
+### 11. Álgebra booleana (pp. 699–745)
+
+- [ ] Capítulo conferido · 47 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 11.1 Funções booleanas | 699 | 710 | 12 |  |
+| 11.2 Representando funções booleanas | 711 | 722 | 12 |  |
+| 11.3 Portas lógicas | 723 | 734 | 12 |  |
+| 11.4 Minimização de circuitos | 735 | 745 | 11 |  |
+
+### 12. Modelagem computacional (pp. 746–805)
+
+- [ ] Capítulo conferido · 60 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 12.1 Linguagens e gramáticas | 746 | 757 | 12 |  |
+| 12.2 Máquinas de estados finitos com saída | 758 | 769 | 12 |  |
+| 12.3 Máquinas de estados finitos sem saída | 770 | 781 | 12 |  |
+| 12.4 Reconhecimento de linguagens | 782 | 793 | 12 |  |
+| 12.5 Máquinas de Turing | 794 | 805 | 12 |  |
+
+### Apêndices (pp. 806–840)
+
+- [ ] Capítulo conferido · 35 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| A.1 Axiomas para os números reais e os inteiros positivos | 806 | 816 | 11 |  |
+| A.2 Funções exponenciais e logarítmicas | 817 | 828 | 12 |  |
+| A.3 Pseudocódigo | 829 | 840 | 12 |  |
+
+---
+
+## Organização e Projeto de Computadores: a interface hardware/software
+
+- **Autores:** David A. Patterson, John L. Hennessy
+- **Edição:** 5ª ed., Elsevier, 2017
+- **ISBN:** 978-85-352-8793-6
+- **Total de páginas:** a confirmar
+- **Arquivo:** `supabase/seed/catalog/organizacao-computadores-patterson-hennessy.json`
+- **Origem do sumário:** Capítulos, seções, títulos e páginas do sumário da própria edição em português (Elsevier, 2017), publicado na loja da editora. Só a página final dos exercícios do capítulo 6 é estimada (504). Seções que começam na mesma página viram um tópico só. Apêndices A e B (numeração própria, A-1 e B-1) não incluídos.
+
+- [ ] Edição e total de páginas conferem
+- [ ] Livro conferido
+
+### 1. Abstrações e tecnologias computacionais (pp. 1–50)
+
+- [ ] Capítulo conferido · 50 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 1.1 Introdução | 1 | 7 | 7 |  |
+| 1.2 Oito grandes ideias sobre arquitetura de computadores | 8 | 9 | 2 |  |
+| 1.3 Por trás do programa | 10 | 12 | 3 |  |
+| 1.4 Sob as tampas | 13 | 19 | 7 |  |
+| 1.5 Tecnologias para construção de processadores e memórias | 20 | 23 | 4 |  |
+| 1.6 Desempenho | 24 | 33 | 10 |  |
+| 1.7 A barreira da potência | 34 | 35 | 2 |  |
+| 1.8 Mudança de mares: passando de processadores para multiprocessadores | 36 | 38 | 3 |  |
+| 1.9 Vida real: fabricação e benchmarking do Intel Core i7 | 39 | 40 | 2 |  |
+| 1.10 Falácias e armadilhas | 41 | 43 | 3 |  |
+| 1.11 Comentários finais | 44 | 44 | 1 |  |
+| 1.12 Exercícios | 45 | 50 | 6 |  |
+
+### 2. Instruções: a linguagem dos computadores (pp. 51–152)
+
+- [ ] Capítulo conferido · 102 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 2.1 Introdução | 51 | 53 | 3 |  |
+| 2.2 Operações do hardware do computador | 54 | 56 | 3 |  |
+| 2.3 Operandos do hardware do computador | 57 | 62 | 6 |  |
+| 2.4 Números com sinal e sem sinal | 63 | 68 | 6 |  |
+| 2.5 Representando instruções no computador | 69 | 74 | 6 |  |
+| 2.6 Operações lógicas | 75 | 77 | 3 |  |
+| 2.7 Instruções para tomada de decisões | 78 | 83 | 6 |  |
+| 2.8 Suporte a procedimentos no hardware do computador | 84 | 91 | 8 |  |
+| 2.9 Comunicando-se com as pessoas | 92 | 96 | 5 |  |
+| 2.10 Endereçamento no MIPS para operandos imediatos e endereços de 32 bits | 97 | 104 | 8 |  |
+| 2.11 Paralelismo e instruções: sincronização | 105 | 106 | 2 |  |
+| 2.12 Traduzindo e iniciando um programa | 107 | 114 | 8 |  |
+| 2.13 Um exemplo de ordenação em C para juntar tudo isso | 115 | 122 | 8 |  |
+| 2.14 Arrays versus ponteiros | 123 | 126 | 4 |  |
+| 2.15 Vida real: instruções ARMv7 (32 bits) | 127 | 129 | 3 |  |
+| 2.16 Vida real: instruções x86 | 130 | 137 | 8 |  |
+| 2.17 Vida real: instruções ARMv8 (64 bits) | 138 | 138 | 1 |  |
+| 2.18 Falácias e armadilhas | 139 | 140 | 2 |  |
+| 2.19 Comentários finais | 141 | 142 | 2 |  |
+| 2.20 Exercícios | 143 | 152 | 10 |  |
+
+### 3. Aritmética computacional (pp. 153–214)
+
+- [ ] Capítulo conferido · 62 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 3.1 Introdução | 153 | 154 | 2 |  |
+| 3.2 Adição e subtração | 155 | 158 | 4 |  |
+| 3.3 Multiplicação | 159 | 163 | 5 |  |
+| 3.4 Divisão | 164 | 170 | 7 |  |
+| 3.5 Ponto flutuante | 171 | 194 | 24 |  |
+| 3.6 Paralelismo e aritmética computacional: paralelismo subword | 195 | 196 | 2 |  |
+| 3.7 Vida real: extensões SIMD streaming e extensões avançadas de vetor no x86 | 197 | 197 | 1 |  |
+| 3.8 Mais rápido: paralelismo subword e multiplicação matricial | 198 | 201 | 4 |  |
+| 3.9 Falácias e armadilhas | 202 | 203 | 2 |  |
+| 3.10 Comentários finais | 204 | 207 | 4 |  |
+| 3.11 Exercícios | 208 | 214 | 7 |  |
+
+### 4. O processador (pp. 215–324)
+
+- [ ] Capítulo conferido · 110 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 4.1 Introdução | 215 | 219 | 5 |  |
+| 4.2 Convenções lógicas de projeto | 220 | 222 | 3 |  |
+| 4.3 Construindo um caminho de dados | 223 | 228 | 6 |  |
+| 4.4 Um esquema de implementação simples | 229 | 239 | 11 |  |
+| 4.5 Visão geral de pipelining | 240 | 251 | 12 |  |
+| 4.6 Caminho de dados e controle usando pipeline | 252 | 265 | 14 |  |
+| 4.7 Hazards de dados: forwarding versus stalls | 266 | 276 | 11 |  |
+| 4.8 Hazards de controle | 277 | 284 | 8 |  |
+| 4.9 Exceções | 285 | 289 | 5 |  |
+| 4.10 Paralelismo e paralelismo avançado em nível de instrução | 290 | 300 | 11 |  |
+| 4.11 Vida real: pipelines do ARM Cortex-A8 e Intel Core i7 | 301 | 306 | 6 |  |
+| 4.12 Mais rápido: paralelismo em nível de instrução e multiplicação matricial | 307 | 309 | 3 |  |
+| 4.13 Falácias e armadilhas | 310 | 310 | 1 |  |
+| 4.14 Comentários finais · 4.15 Exercícios | 311 | 324 | 14 |  |
+
+### 5. Grande e rápida: explorando a hierarquia de memória (pp. 325–436)
+
+- [ ] Capítulo conferido · 112 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 5.1 Introdução | 325 | 330 | 6 |  |
+| 5.2 Tecnologias de memória | 331 | 335 | 5 |  |
+| 5.3 Princípios básicos de cache | 336 | 348 | 13 |  |
+| 5.4 Medindo e melhorando o desempenho da cache | 349 | 365 | 17 |  |
+| 5.5 Hierarquia de memória estável | 366 | 370 | 5 |  |
+| 5.6 Máquinas virtuais | 371 | 373 | 3 |  |
+| 5.7 Memória virtual | 374 | 396 | 23 |  |
+| 5.8 Uma estrutura comum para hierarquias de memória | 397 | 402 | 6 |  |
+| 5.9 Usando uma máquina de estado finito para controlar uma cache simples | 403 | 406 | 4 |  |
+| 5.10 Paralelismo e hierarquias de memória: coerência de cache | 407 | 410 | 4 |  |
+| 5.11 Vida real: as hierarquias de memória ARM Cortex-A8 e Intel Core i7 | 411 | 414 | 4 |  |
+| 5.12 Mais rápido: bloqueio de cache e multiplicação matricial | 415 | 416 | 2 |  |
+| 5.13 Falácias e armadilhas | 417 | 420 | 4 |  |
+| 5.14 Comentários finais | 421 | 421 | 1 |  |
+| 5.15 Exercícios | 422 | 436 | 15 |  |
+
+### 6. Processadores paralelos do cliente à nuvem (pp. 437–504)
+
+- [ ] Capítulo conferido · 68 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 6.1 Introdução | 437 | 440 | 4 |  |
+| 6.2 A dificuldade de criar programas com processamento paralelo | 441 | 444 | 4 |  |
+| 6.3 SISD, MIMD, SIMD, SPMD e vetor | 445 | 450 | 6 |  |
+| 6.4 Multithreading do hardware | 451 | 453 | 3 |  |
+| 6.5 Multicore e outros multiprocessadores de memória compartilhada | 454 | 457 | 4 |  |
+| 6.6 Introdução às unidades de processamento de gráficos | 458 | 463 | 6 |  |
+| 6.7 Clusters, computadores em escala warehouse e outros multiprocessadores de passagem de mensagens | 464 | 467 | 4 |  |
+| 6.8 Introdução às topologias de rede multiprocessador | 468 | 470 | 3 |  |
+| 6.9 Benchmarks de multiprocessador e modelos de desempenho | 471 | 479 | 9 |  |
+| 6.10 Vida real: benchmarking e rooflines do Intel Core i7 960 e GPU NVIDIA Tesla | 480 | 483 | 4 |  |
+| 6.11 Mais rápido: processadores múltiplos e multiplicação matricial | 484 | 486 | 3 |  |
+| 6.12 Falácias e armadilhas | 487 | 487 | 1 |  |
+| 6.13 Comentários finais | 488 | 490 | 3 |  |
+| 6.14 Exercícios | 491 | 504 | 14 |  |
+
+---
+
 ## Processamento Digital de Imagens
 
 - **Autores:** Rafael C. Gonzalez, Richard E. Woods
@@ -1989,3 +2311,343 @@ Enquanto um livro não for conferido, o app mostra o aviso **“páginas aproxim
 | 13.7 Consistência e replicação | 381 | 383 | 3 |  |
 | 13.8 Tolerância a falha | 384 | 385 | 2 |  |
 | 13.9 Segurança | 386 | 390 | 5 |  |
+
+---
+
+## Sistemas Operacionais Modernos
+
+- **Autores:** Andrew S. Tanenbaum, Herbert Bos
+- **Edição:** 4ª ed., Pearson, 2016
+- **ISBN:** 978-85-430-0567-6
+- **Total de páginas:** a confirmar
+- **Arquivo:** `supabase/seed/catalog/sistemas-operacionais-tanenbaum-bos.json`
+- **Origem do sumário:** Capítulos e seções da 4ª ed. em inglês (Pearson, 2015), conferidos com o sumário do InformIT (editora); páginas de uma cópia da página de conteúdo publicada na web. O total de páginas da edição em português não foi encontrado: as páginas são as da edição em inglês (estimativa). O capítulo 13 (lista de leitura e bibliografia) não foi incluído. Seções que começam na mesma página viram um tópico só. Títulos traduzidos por nós (podem diferir da tradução oficial).
+
+- [ ] Edição e total de páginas conferem
+- [ ] Livro conferido
+
+### 1. Introdução (pp. 1–84)
+
+- [ ] Capítulo conferido · 84 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 1.1 O que é um sistema operacional? | 1 | 5 | 5 |  |
+| 1.2 História dos sistemas operacionais | 6 | 19 | 14 |  |
+| 1.3 Revisão sobre hardware de computadores | 20 | 34 | 15 |  |
+| 1.4 O zoológico dos sistemas operacionais | 35 | 37 | 3 |  |
+| 1.5 Conceitos de sistemas operacionais | 38 | 49 | 12 |  |
+| 1.6 Chamadas de sistema | 50 | 61 | 12 |  |
+| 1.7 Estrutura de sistemas operacionais | 62 | 72 | 11 |  |
+| 1.8 O mundo de acordo com a linguagem C | 73 | 76 | 4 |  |
+| 1.9 Pesquisas em sistemas operacionais | 77 | 77 | 1 |  |
+| 1.10 Esboço do restante do livro | 78 | 78 | 1 |  |
+| 1.11 Unidades métricas | 79 | 79 | 1 |  |
+| 1.12 Resumo | 80 | 84 | 5 |  |
+
+### 2. Processos e threads (pp. 85–180)
+
+- [ ] Capítulo conferido · 96 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 2.1 Processos | 85 | 96 | 12 |  |
+| 2.2 Threads | 97 | 118 | 22 |  |
+| 2.3 Comunicação entre processos | 119 | 147 | 29 |  |
+| 2.4 Escalonamento | 148 | 166 | 19 |  |
+| 2.5 Problemas clássicos de IPC | 167 | 171 | 5 |  |
+| 2.6 Pesquisas sobre processos e threads | 172 | 172 | 1 |  |
+| 2.7 Resumo | 173 | 180 | 8 |  |
+
+### 3. Gerenciamento de memória (pp. 181–262)
+
+- [ ] Capítulo conferido · 82 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 3.1 Sem abstração de memória | 181 | 184 | 4 |  |
+| 3.2 Uma abstração de memória: espaços de endereçamento | 185 | 193 | 9 |  |
+| 3.3 Memória virtual | 194 | 208 | 15 |  |
+| 3.4 Algoritmos de substituição de páginas | 209 | 221 | 13 |  |
+| 3.5 Questões de projeto para sistemas de paginação | 222 | 232 | 11 |  |
+| 3.6 Questões de implementação | 233 | 239 | 7 |  |
+| 3.7 Segmentação | 240 | 251 | 12 |  |
+| 3.8 Pesquisas sobre gerenciamento de memória | 252 | 252 | 1 |  |
+| 3.9 Resumo | 253 | 262 | 10 |  |
+
+### 4. Sistemas de arquivos (pp. 263–336)
+
+- [ ] Capítulo conferido · 74 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 4.1 Arquivos | 263 | 275 | 13 |  |
+| 4.2 Diretórios | 276 | 280 | 5 |  |
+| 4.3 Implementação do sistema de arquivos | 281 | 298 | 18 |  |
+| 4.4 Gerenciamento e otimização de sistemas de arquivos | 299 | 319 | 21 |  |
+| 4.5 Exemplos de sistemas de arquivos | 320 | 330 | 11 |  |
+| 4.6 Pesquisas sobre sistemas de arquivos | 331 | 331 | 1 |  |
+| 4.7 Resumo | 332 | 336 | 5 |  |
+
+### 5. Entrada/saída (pp. 337–434)
+
+- [ ] Capítulo conferido · 98 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 5.1 Princípios do hardware de E/S | 337 | 350 | 14 |  |
+| 5.2 Princípios do software de E/S | 351 | 355 | 5 |  |
+| 5.3 Camadas do software de E/S | 356 | 368 | 13 |  |
+| 5.4 Discos | 369 | 387 | 19 |  |
+| 5.5 Relógios | 388 | 393 | 6 |  |
+| 5.6 Interfaces com o usuário: teclado, mouse, monitor | 394 | 415 | 22 |  |
+| 5.7 Clientes magros | 416 | 416 | 1 |  |
+| 5.8 Gerenciamento de energia | 417 | 425 | 9 |  |
+| 5.9 Pesquisas sobre entrada/saída | 426 | 427 | 2 |  |
+| 5.10 Resumo | 428 | 434 | 7 |  |
+
+### 6. Impasses (pp. 435–470)
+
+- [ ] Capítulo conferido · 36 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 6.1 Recursos | 435 | 437 | 3 |  |
+| 6.2 Introdução aos impasses | 438 | 442 | 5 |  |
+| 6.3 O algoritmo do avestruz · 6.4 Detecção e recuperação de impasses | 443 | 449 | 7 |  |
+| 6.5 Evitando impasses | 450 | 455 | 6 |  |
+| 6.6 Prevenção de impasses | 456 | 457 | 2 |  |
+| 6.7 Outras questões | 458 | 463 | 6 |  |
+| 6.8 Pesquisas sobre impasses · 6.9 Resumo | 464 | 470 | 7 |  |
+
+### 7. Virtualização e a nuvem (pp. 471–516)
+
+- [ ] Capítulo conferido · 46 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 7.1 História | 471 | 473 | 3 |  |
+| 7.2 Requisitos para a virtualização | 474 | 476 | 3 |  |
+| 7.3 Hipervisores tipo 1 e tipo 2 | 477 | 477 | 1 |  |
+| 7.4 Técnicas para virtualização eficiente | 478 | 482 | 5 |  |
+| 7.5 Hipervisores são micronúcleos bem-feitos? | 483 | 485 | 3 |  |
+| 7.6 Virtualização da memória | 486 | 489 | 4 |  |
+| 7.7 Virtualização de E/S | 490 | 492 | 3 |  |
+| 7.8 Aplicações virtuais | 493 | 493 | 1 |  |
+| 7.9 Máquinas virtuais em CPUs com múltiplos núcleos · 7.10 Questões de licenciamento | 494 | 494 | 1 |  |
+| 7.11 Nuvens | 495 | 497 | 3 |  |
+| 7.12 Estudo de caso: VMware | 498 | 513 | 16 |  |
+| 7.13 Pesquisas sobre virtualização e a nuvem | 514 | 516 | 3 |  |
+
+### 8. Sistemas com múltiplos processadores (pp. 517–592)
+
+- [ ] Capítulo conferido · 76 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 8.1 Multiprocessadores | 517 | 543 | 27 |  |
+| 8.2 Multicomputadores | 544 | 565 | 22 |  |
+| 8.3 Sistemas distribuídos | 566 | 586 | 21 |  |
+| 8.4 Pesquisas sobre sistemas com múltiplos processadores | 587 | 587 | 1 |  |
+| 8.5 Resumo | 588 | 592 | 5 |  |
+
+### 9. Segurança (pp. 593–712)
+
+- [ ] Capítulo conferido · 120 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 9.1 O ambiente de segurança | 593 | 598 | 6 |  |
+| 9.2 Segurança de sistemas operacionais | 599 | 601 | 3 |  |
+| 9.3 Controlando o acesso aos recursos | 602 | 610 | 9 |  |
+| 9.4 Modelos formais de sistemas seguros | 611 | 618 | 8 |  |
+| 9.5 Noções básicas de criptografia | 619 | 625 | 7 |  |
+| 9.6 Autenticação | 626 | 638 | 13 |  |
+| 9.7 Explorando software | 639 | 656 | 18 |  |
+| 9.8 Ataques internos | 657 | 659 | 3 |  |
+| 9.9 Malware | 660 | 683 | 24 |  |
+| 9.10 Defesas | 684 | 702 | 19 |  |
+| 9.11 Pesquisas sobre segurança | 703 | 703 | 1 |  |
+| 9.12 Resumo | 704 | 712 | 9 |  |
+
+### 10. Estudo de caso 1: UNIX, Linux e Android (pp. 713–856)
+
+- [ ] Capítulo conferido · 144 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 10.1 História do UNIX e do Linux | 713 | 722 | 10 |  |
+| 10.2 Visão geral do Linux | 723 | 732 | 10 |  |
+| 10.3 Processos no Linux | 733 | 752 | 20 |  |
+| 10.4 Gerenciamento de memória no Linux | 753 | 766 | 14 |  |
+| 10.5 Entrada/saída no Linux | 767 | 774 | 8 |  |
+| 10.6 O sistema de arquivos do Linux | 775 | 797 | 23 |  |
+| 10.7 Segurança no Linux | 798 | 801 | 4 |  |
+| 10.8 Android | 802 | 847 | 46 |  |
+| 10.9 Resumo | 848 | 856 | 9 |  |
+
+### 11. Estudo de caso 2: Windows 8 (pp. 857–980)
+
+- [ ] Capítulo conferido · 124 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 11.1 História do Windows até o Windows 8.1 | 857 | 863 | 7 |  |
+| 11.2 Programando o Windows | 864 | 876 | 13 |  |
+| 11.3 Estrutura do sistema | 877 | 907 | 31 |  |
+| 11.4 Processos e threads no Windows | 908 | 926 | 19 |  |
+| 11.5 Gerenciamento de memória | 927 | 941 | 15 |  |
+| 11.6 Caching no Windows | 942 | 942 | 1 |  |
+| 11.7 Entrada/saída no Windows | 943 | 951 | 9 |  |
+| 11.8 O sistema de arquivos NTFS | 952 | 963 | 12 |  |
+| 11.9 Gerenciamento de energia no Windows | 964 | 965 | 2 |  |
+| 11.10 Segurança no Windows 8 | 966 | 974 | 9 |  |
+| 11.11 Resumo | 975 | 980 | 6 |  |
+
+### 12. Projeto de sistemas operacionais (pp. 981–1030)
+
+- [ ] Capítulo conferido · 50 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 12.1 A natureza do problema de projeto | 981 | 984 | 4 |  |
+| 12.2 Projeto de interface | 985 | 992 | 8 |  |
+| 12.3 Implementação | 993 | 1009 | 17 |  |
+| 12.4 Desempenho | 1010 | 1017 | 8 |  |
+| 12.5 Gerenciamento de projeto | 1018 | 1021 | 4 |  |
+| 12.6 Tendências no projeto de sistemas operacionais | 1022 | 1026 | 5 |  |
+| 12.7 Resumo | 1027 | 1030 | 4 |  |
+
+---
+
+## Introdução à Teoria da Computação
+
+- **Autores:** Michael Sipser
+- **Edição:** 2ª ed., Thomson Learning, 2007
+- **ISBN:** 978-85-221-0499-4
+- **Total de páginas:** a confirmar
+- **Arquivo:** `supabase/seed/catalog/teoria-da-computacao-sipser.json`
+- **Origem do sumário:** Capítulos, seções e páginas do sumário da 2ª ed. em inglês (Thomson Course Technology, 2006), conferidos numa digitalização da página de conteúdo. O total de páginas da edição em português não foi encontrado: as páginas são as da edição em inglês (estimativa). Títulos traduzidos por nós (podem diferir da tradução oficial).
+
+- [ ] Edição e total de páginas conferem
+- [ ] Livro conferido
+
+### 0. Introdução (pp. 1–30)
+
+- [ ] Capítulo conferido · 30 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 0.1 Autômatos, computabilidade e complexidade | 1 | 2 | 2 |  |
+| 0.2 Noções e terminologia matemáticas | 3 | 16 | 14 |  |
+| 0.3 Definições, teoremas e provas | 17 | 20 | 4 |  |
+| 0.4 Tipos de prova | 21 | 30 | 10 |  |
+
+### 1. Linguagens regulares (pp. 31–98)
+
+- [ ] Capítulo conferido · 68 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 1.1 Autômatos finitos | 31 | 46 | 16 |  |
+| 1.2 Não determinismo | 47 | 62 | 16 |  |
+| 1.3 Expressões regulares | 63 | 76 | 14 |  |
+| 1.4 Linguagens não regulares | 77 | 98 | 22 |  |
+
+### 2. Linguagens livres do contexto (pp. 99–136)
+
+- [ ] Capítulo conferido · 38 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 2.1 Gramáticas livres do contexto | 99 | 108 | 10 |  |
+| 2.2 Autômatos com pilha | 109 | 122 | 14 |  |
+| 2.3 Linguagens não livres do contexto | 123 | 136 | 14 |  |
+
+### 3. A tese de Church-Turing (pp. 137–164)
+
+- [ ] Capítulo conferido · 28 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 3.1 Máquinas de Turing | 137 | 147 | 11 |  |
+| 3.2 Variantes de máquinas de Turing | 148 | 153 | 6 |  |
+| 3.3 A definição de algoritmo | 154 | 164 | 11 |  |
+
+### 4. Decidibilidade (pp. 165–186)
+
+- [ ] Capítulo conferido · 22 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 4.1 Linguagens decidíveis | 165 | 172 | 8 |  |
+| 4.2 O problema da parada | 173 | 186 | 14 |  |
+
+### 5. Redutibilidade (pp. 187–216)
+
+- [ ] Capítulo conferido · 30 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 5.1 Problemas indecidíveis da teoria das linguagens | 187 | 198 | 12 |  |
+| 5.2 Um problema indecidível simples | 199 | 205 | 7 |  |
+| 5.3 Redutibilidade por mapeamento | 206 | 216 | 11 |  |
+
+### 6. Tópicos avançados em teoria da computabilidade (pp. 217–246)
+
+- [ ] Capítulo conferido · 30 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 6.1 O teorema da recursão | 217 | 223 | 7 |  |
+| 6.2 Decidibilidade de teorias lógicas | 224 | 231 | 8 |  |
+| 6.3 Turing-redutibilidade | 232 | 232 | 1 |  |
+| 6.4 Uma definição de informação | 233 | 246 | 14 |  |
+
+### 7. Complexidade de tempo (pp. 247–302)
+
+- [ ] Capítulo conferido · 56 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 7.1 Medindo complexidade | 247 | 255 | 9 |  |
+| 7.2 A classe P | 256 | 263 | 8 |  |
+| 7.3 A classe NP | 264 | 270 | 7 |  |
+| 7.4 NP-completude | 271 | 282 | 12 |  |
+| 7.5 Problemas NP-completos adicionais | 283 | 302 | 20 |  |
+
+### 8. Complexidade de espaço (pp. 303–334)
+
+- [ ] Capítulo conferido · 32 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 8.1 O teorema de Savitch | 303 | 307 | 5 |  |
+| 8.2 A classe PSPACE | 308 | 308 | 1 |  |
+| 8.3 PSPACE-completude | 309 | 319 | 11 |  |
+| 8.4 As classes L e NL | 320 | 322 | 3 |  |
+| 8.5 NL-completude | 323 | 325 | 3 |  |
+| 8.6 NL é igual a coNL | 326 | 334 | 9 |  |
+
+### 9. Intratabilidade (pp. 335–364)
+
+- [ ] Capítulo conferido · 30 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 9.1 Teoremas de hierarquia | 335 | 347 | 13 |  |
+| 9.2 Relativização | 348 | 350 | 3 |  |
+| 9.3 Complexidade de circuitos | 351 | 364 | 14 |  |
+
+### 10. Tópicos avançados em teoria da complexidade (pp. 365–414)
+
+- [ ] Capítulo conferido · 50 páginas
+
+| Tópico | Início | Fim | Págs. | Correção |
+|---|---|---|---|---|
+| 10.1 Algoritmos de aproximação | 365 | 367 | 3 |  |
+| 10.2 Algoritmos probabilísticos | 368 | 379 | 12 |  |
+| 10.3 Alternância | 380 | 386 | 7 |  |
+| 10.4 Sistemas de prova interativa | 387 | 398 | 12 |  |
+| 10.5 Computação paralela | 399 | 404 | 6 |  |
+| 10.6 Criptografia | 405 | 414 | 10 |  |

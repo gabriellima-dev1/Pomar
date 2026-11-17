@@ -1,0 +1,474 @@
+{
+  "slug": "organizacao-computadores-patterson-hennessy",
+  "title": "Organização e Projeto de Computadores: a interface hardware/software",
+  "authors": ["David A. Patterson", "John L. Hennessy"],
+  "edition": "5ª ed.",
+  "publisher": "Elsevier",
+  "year": 2017,
+  "isbn": "978-85-352-8793-6",
+  "total_pages": null,
+  "verified": false,
+  "source_note": "Capítulos, seções, títulos e páginas do sumário da própria edição em português (Elsevier, 2017), publicado na loja da editora. Só a página final dos exercícios do capítulo 6 é estimada (504). Seções que começam na mesma página viram um tópico só. Apêndices A e B (numeração própria, A-1 e B-1) não incluídos.",
+  "chapters": [
+    {
+      "title": "1. Abstrações e tecnologias computacionais",
+      "topics": [
+        {
+          "title": "1.1 Introdução",
+          "page_start": 1,
+          "page_end": 7
+        },
+        {
+          "title": "1.2 Oito grandes ideias sobre arquitetura de computadores",
+          "page_start": 8,
+          "page_end": 9
+        },
+        {
+          "title": "1.3 Por trás do programa",
+          "page_start": 10,
+          "page_end": 12
+        },
+        {
+          "title": "1.4 Sob as tampas",
+          "page_start": 13,
+          "page_end": 19
+        },
+        {
+          "title": "1.5 Tecnologias para construção de processadores e memórias",
+          "page_start": 20,
+          "page_end": 23
+        },
+        {
+          "title": "1.6 Desempenho",
+          "page_start": 24,
+          "page_end": 33
+        },
+        {
+          "title": "1.7 A barreira da potência",
+          "page_start": 34,
+          "page_end": 35
+        },
+        {
+          "title": "1.8 Mudança de mares: passando de processadores para multiprocessadores",
+          "page_start": 36,
+          "page_end": 38
+        },
+        {
+          "title": "1.9 Vida real: fabricação e benchmarking do Intel Core i7",
+          "page_start": 39,
+          "page_end": 40
+        },
+        {
+          "title": "1.10 Falácias e armadilhas",
+          "page_start": 41,
+          "page_end": 43
+        },
+        {
+          "title": "1.11 Comentários finais",
+          "page_start": 44,
+          "page_end": 44
+        },
+        {
+          "title": "1.12 Exercícios",
+          "page_start": 45,
+          "page_end": 50
+        }
+      ]
+    },
+    {
+      "title": "2. Instruções: a linguagem dos computadores",
+      "topics": [
+        {
+          "title": "2.1 Introdução",
+          "page_start": 51,
+          "page_end": 53
+        },
+        {
+          "title": "2.2 Operações do hardware do computador",
+          "page_start": 54,
+          "page_end": 56
+        },
+        {
+          "title": "2.3 Operandos do hardware do computador",
+          "page_start": 57,
+          "page_end": 62
+        },
+        {
+          "title": "2.4 Números com sinal e sem sinal",
+          "page_start": 63,
+          "page_end": 68
+        },
+        {
+          "title": "2.5 Representando instruções no computador",
+          "page_start": 69,
+          "page_end": 74
+        },
+        {
+          "title": "2.6 Operações lógicas",
+          "page_start": 75,
+          "page_end": 77
+        },
+        {
+          "title": "2.7 Instruções para tomada de decisões",
+          "page_start": 78,
+          "page_end": 83
+        },
+        {
+          "title": "2.8 Suporte a procedimentos no hardware do computador",
+          "page_start": 84,
+          "page_end": 91
+        },
+        {
+          "title": "2.9 Comunicando-se com as pessoas",
+          "page_start": 92,
+          "page_end": 96
+        },
+        {
+          "title": "2.10 Endereçamento no MIPS para operandos imediatos e endereços de 32 bits",
+          "page_start": 97,
+          "page_end": 104
+        },
+        {
+          "title": "2.11 Paralelismo e instruções: sincronização",
+          "page_start": 105,
+          "page_end": 106
+        },
+        {
+          "title": "2.12 Traduzindo e iniciando um programa",
+          "page_start": 107,
+          "page_end": 114
+        },
+        {
+          "title": "2.13 Um exemplo de ordenação em C para juntar tudo isso",
+          "page_start": 115,
+          "page_end": 122
+        },
+        {
+          "title": "2.14 Arrays versus ponteiros",
+          "page_start": 123,
+          "page_end": 126
+        },
+        {
+          "title": "2.15 Vida real: instruções ARMv7 (32 bits)",
+          "page_start": 127,
+          "page_end": 129
+        },
+        {
+          "title": "2.16 Vida real: instruções x86",
+          "page_start": 130,
+          "page_end": 137
+        },
+        {
+          "title": "2.17 Vida real: instruções ARMv8 (64 bits)",
+          "page_start": 138,
+          "page_end": 138
+        },
+        {
+          "title": "2.18 Falácias e armadilhas",
+          "page_start": 139,
+          "page_end": 140
+        },
+        {
+          "title": "2.19 Comentários finais",
+          "page_start": 141,
+          "page_end": 142
+        },
+        {
+          "title": "2.20 Exercícios",
+          "page_start": 143,
+          "page_end": 152
+        }
+      ]
+    },
+    {
+      "title": "3. Aritmética computacional",
+      "topics": [
+        {
+          "title": "3.1 Introdução",
+          "page_start": 153,
+          "page_end": 154
+        },
+        {
+          "title": "3.2 Adição e subtração",
+          "page_start": 155,
+          "page_end": 158
+        },
+        {
+          "title": "3.3 Multiplicação",
+          "page_start": 159,
+          "page_end": 163
+        },
+        {
+          "title": "3.4 Divisão",
+          "page_start": 164,
+          "page_end": 170
+        },
+        {
+          "title": "3.5 Ponto flutuante",
+          "page_start": 171,
+          "page_end": 194
+        },
+        {
+          "title": "3.6 Paralelismo e aritmética computacional: paralelismo subword",
+          "page_start": 195,
+          "page_end": 196
+        },
+        {
+          "title": "3.7 Vida real: extensões SIMD streaming e extensões avançadas de vetor no x86",
+          "page_start": 197,
+          "page_end": 197
+        },
+        {
+          "title": "3.8 Mais rápido: paralelismo subword e multiplicação matricial",
+          "page_start": 198,
+          "page_end": 201
+        },
+        {
+          "title": "3.9 Falácias e armadilhas",
+          "page_start": 202,
+          "page_end": 203
+        },
+        {
+          "title": "3.10 Comentários finais",
+          "page_start": 204,
+          "page_end": 207
+        },
+        {
+          "title": "3.11 Exercícios",
+          "page_start": 208,
+          "page_end": 214
+        }
+      ]
+    },
+    {
+      "title": "4. O processador",
+      "topics": [
+        {
+          "title": "4.1 Introdução",
+          "page_start": 215,
+          "page_end": 219
+        },
+        {
+          "title": "4.2 Convenções lógicas de projeto",
+          "page_start": 220,
+          "page_end": 222
+        },
+        {
+          "title": "4.3 Construindo um caminho de dados",
+          "page_start": 223,
+          "page_end": 228
+        },
+        {
+          "title": "4.4 Um esquema de implementação simples",
+          "page_start": 229,
+          "page_end": 239
+        },
+        {
+          "title": "4.5 Visão geral de pipelining",
+          "page_start": 240,
+          "page_end": 251
+        },
+        {
+          "title": "4.6 Caminho de dados e controle usando pipeline",
+          "page_start": 252,
+          "page_end": 265
+        },
+        {
+          "title": "4.7 Hazards de dados: forwarding versus stalls",
+          "page_start": 266,
+          "page_end": 276
+        },
+        {
+          "title": "4.8 Hazards de controle",
+          "page_start": 277,
+          "page_end": 284
+        },
+        {
+          "title": "4.9 Exceções",
+          "page_start": 285,
+          "page_end": 289
+        },
+        {
+          "title": "4.10 Paralelismo e paralelismo avançado em nível de instrução",
+          "page_start": 290,
+          "page_end": 300
+        },
+        {
+          "title": "4.11 Vida real: pipelines do ARM Cortex-A8 e Intel Core i7",
+          "page_start": 301,
+          "page_end": 306
+        },
+        {
+          "title": "4.12 Mais rápido: paralelismo em nível de instrução e multiplicação matricial",
+          "page_start": 307,
+          "page_end": 309
+        },
+        {
+          "title": "4.13 Falácias e armadilhas",
+          "page_start": 310,
+          "page_end": 310
+        },
+        {
+          "title": "4.14 Comentários finais · 4.15 Exercícios",
+          "page_start": 311,
+          "page_end": 324
+        }
+      ]
+    },
+    {
+      "title": "5. Grande e rápida: explorando a hierarquia de memória",
+      "topics": [
+        {
+          "title": "5.1 Introdução",
+          "page_start": 325,
+          "page_end": 330
+        },
+        {
+          "title": "5.2 Tecnologias de memória",
+          "page_start": 331,
+          "page_end": 335
+        },
+        {
+          "title": "5.3 Princípios básicos de cache",
+          "page_start": 336,
+          "page_end": 348
+        },
+        {
+          "title": "5.4 Medindo e melhorando o desempenho da cache",
+          "page_start": 349,
+          "page_end": 365
+        },
+        {
+          "title": "5.5 Hierarquia de memória estável",
+          "page_start": 366,
+          "page_end": 370
+        },
+        {
+          "title": "5.6 Máquinas virtuais",
+          "page_start": 371,
+          "page_end": 373
+        },
+        {
+          "title": "5.7 Memória virtual",
+          "page_start": 374,
+          "page_end": 396
+        },
+        {
+          "title": "5.8 Uma estrutura comum para hierarquias de memória",
+          "page_start": 397,
+          "page_end": 402
+        },
+        {
+          "title": "5.9 Usando uma máquina de estado finito para controlar uma cache simples",
+          "page_start": 403,
+          "page_end": 406
+        },
+        {
+          "title": "5.10 Paralelismo e hierarquias de memória: coerência de cache",
+          "page_start": 407,
+          "page_end": 410
+        },
+        {
+          "title": "5.11 Vida real: as hierarquias de memória ARM Cortex-A8 e Intel Core i7",
+          "page_start": 411,
+          "page_end": 414
+        },
+        {
+          "title": "5.12 Mais rápido: bloqueio de cache e multiplicação matricial",
+          "page_start": 415,
+          "page_end": 416
+        },
+        {
+          "title": "5.13 Falácias e armadilhas",
+          "page_start": 417,
+          "page_end": 420
+        },
+        {
+          "title": "5.14 Comentários finais",
+          "page_start": 421,
+          "page_end": 421
+        },
+        {
+          "title": "5.15 Exercícios",
+          "page_start": 422,
+          "page_end": 436
+        }
+      ]
+    },
+    {
+      "title": "6. Processadores paralelos do cliente à nuvem",
+      "topics": [
+        {
+          "title": "6.1 Introdução",
+          "page_start": 437,
+          "page_end": 440
+        },
+        {
+          "title": "6.2 A dificuldade de criar programas com processamento paralelo",
+          "page_start": 441,
+          "page_end": 444
+        },
+        {
+          "title": "6.3 SISD, MIMD, SIMD, SPMD e vetor",
+          "page_start": 445,
+          "page_end": 450
+        },
+        {
+          "title": "6.4 Multithreading do hardware",
+          "page_start": 451,
+          "page_end": 453
+        },
+        {
+          "title": "6.5 Multicore e outros multiprocessadores de memória compartilhada",
+          "page_start": 454,
+          "page_end": 457
+        },
+        {
+          "title": "6.6 Introdução às unidades de processamento de gráficos",
+          "page_start": 458,
+          "page_end": 463
+        },
+        {
+          "title": "6.7 Clusters, computadores em escala warehouse e outros multiprocessadores de passagem de mensagens",
+          "page_start": 464,
+          "page_end": 467
+        },
+        {
+          "title": "6.8 Introdução às topologias de rede multiprocessador",
+          "page_start": 468,
+          "page_end": 470
+        },
+        {
+          "title": "6.9 Benchmarks de multiprocessador e modelos de desempenho",
+          "page_start": 471,
+          "page_end": 479
+        },
+        {
+          "title": "6.10 Vida real: benchmarking e rooflines do Intel Core i7 960 e GPU NVIDIA Tesla",
+          "page_start": 480,
+          "page_end": 483
+        },
+        {
+          "title": "6.11 Mais rápido: processadores múltiplos e multiplicação matricial",
+          "page_start": 484,
+          "page_end": 486
+        },
+        {
+          "title": "6.12 Falácias e armadilhas",
+          "page_start": 487,
+          "page_end": 487
+        },
+        {
+          "title": "6.13 Comentários finais",
+          "page_start": 488,
+          "page_end": 490
+        },
+        {
+          "title": "6.14 Exercícios",
+          "page_start": 491,
+          "page_end": 504
+        }
+      ]
+    }
+  ]
+}
