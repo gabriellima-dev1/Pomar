@@ -8,6 +8,8 @@ import { expect, test, type Browser, type Page } from "@playwright/test";
 import { apagarContas, criarConta, criarDisciplina, db, entrar, ok, type Conta } from "./apoio";
 
 test.describe.configure({ mode: "serial" });
+// Cada teste audita até 20 páginas; contra a produção (E2E_BASE_URL) passa de 90 s.
+test.describe.configure({ timeout: 300_000 });
 
 let c: Conta;
 let disciplina: Awaited<ReturnType<typeof criarDisciplina>>;
@@ -52,7 +54,9 @@ async function rodar(browser: Browser, rotas: string[], logado: boolean, tema: s
     const page = await ctx.newPage();
     for (const rota of rotas) {
       await page.goto(rota);
-      await page.waitForLoadState("networkidle");
+      // "networkidle" nunca chega na produção (o Next pré-carrega os links da tela).
+      await page.waitForLoadState("load");
+      await page.waitForTimeout(500);
       falhas.push(...(await auditar(page, `${tema} · ${t.nome} · ${rota}`)));
     }
     await ctx.close();
