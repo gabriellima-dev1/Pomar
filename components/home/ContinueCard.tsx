@@ -74,18 +74,18 @@ export function ContinueCard({
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+      <div className="flex items-center gap-4 lg:gap-5">
         <Link
           href={pomodoroHref(subject.id, next?.id)}
           aria-label={next ? `Começar ${subject.title}: ${next.title}` : `Começar ${subject.title}`}
-          className="bg-surface-200 text-primary-strong inline-flex min-h-14 flex-1 items-center justify-center gap-2 rounded-lg px-6 text-lg font-extrabold shadow-[0_4px_0_var(--primary-strong)] active:translate-y-1 active:shadow-none motion-reduce:transition-none sm:flex-none"
+          className="bg-surface-200 text-primary-strong inline-flex min-h-14 min-w-0 flex-1 items-center justify-center gap-2 rounded-lg px-5 text-lg font-extrabold shadow-[0_4px_0_var(--primary-strong)] active:translate-y-1 active:shadow-none motion-reduce:transition-none lg:flex-none lg:px-6"
         >
           <Play size={20} aria-hidden fill="currentColor" strokeWidth={0} />
           Começar
         </Link>
         <Link
           href="/disciplinas"
-          className="inline-flex min-h-11 items-center gap-1.5 font-extrabold underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 shrink-0 items-center gap-1.5 font-extrabold underline-offset-4 hover:underline"
         >
           Trocar disciplina
           <ArrowRight size={20} aria-hidden />

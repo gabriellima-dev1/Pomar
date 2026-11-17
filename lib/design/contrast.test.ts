@@ -78,3 +78,29 @@ describe.each(THEMES)("texto de XP (reward-ink) · %s (AA)", (theme) => {
     expect(contrastRatio(tok("reward-ink", theme), tok(bg, theme))).toBeGreaterThanOrEqual(4.5);
   });
 });
+
+describe.each(THEMES)("Foco no menu e Início como painel · %s (AA)", (theme) => {
+  const pairs: [string, string, string][] = [
+    ["item Foco: tempo no círculo", "on-primary", "primary"],
+    ["item Foco pausado: tempo no círculo claro", "primary-strong", "surface-200"],
+    ['rótulo "Colher" na barra', "fruit", "surface-200"],
+    ['rótulo "Pausado" na barra', "ink-muted", "surface-200"],
+    ["selo do tempo e do Colher na barra lateral", "ink", "fruit-soft"],
+    ['selo "Pausado" na barra lateral', "ink-muted", "surface-300"],
+    ["Continuar estudando: texto", "on-primary", "primary"],
+    ["Continuar estudando: próximo tópico", "on-primary", "primary-strong"],
+    ['Continuar estudando: botão "Começar"', "primary-strong", "surface-200"],
+  ];
+  it.each(pairs)("%s ≥ 4,5", (_, fg, bg) => {
+    expect(contrastRatio(tok(fg, theme), tok(bg, theme))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(["tomate", "laranja", "mel", "folha", "menta", "ceu", "uva", "terra"])(
+    "sigla do selo sobre a cor %s ≥ 4,5",
+    (cor) => {
+      expect(
+        contrastRatio(tok("on-subject", theme), tok(`subject-${cor}`, theme)),
+      ).toBeGreaterThanOrEqual(4.5);
+    },
+  );
+});
