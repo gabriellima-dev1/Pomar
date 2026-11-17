@@ -1,6 +1,6 @@
 # Revisão das decisões pendentes (16/11/2026)
 
-`docs/DECISOES.md` tem **104 decisões pendentes**, tomadas pelo Claude Code como a opção mais simples e reversível. Esta lista as separa pelo que precisam de vocês. Para confirmar, troquem o status da linha em `DECISOES.md` para `aprovada` (ou escrevam o que muda). Quatro que já tinham sido substituídas viraram `superada`.
+`docs/DECISOES.md` tinha **104 decisões pendentes** em 16/11 (agora 102), tomadas pelo Claude Code como a opção mais simples e reversível. Esta lista as separa pelo que precisam de vocês. Para confirmar, troquem o status da linha em `DECISOES.md` para `aprovada` (ou escrevam o que muda). Quatro que já tinham sido substituídas viraram `superada`.
 
 Todas estão implementadas e funcionando; nenhuma bloqueia a entrega. A prioridade é pelo que aparece na apresentação ou no relatório.
 
@@ -17,11 +17,11 @@ Mudam números do relatório, o que a banca vê ou o que dizemos sobre ética.
 6. **10/11 · `ended_at` do ciclo** = início + pausas + foco planejado. Define o tempo de foco nas estatísticas.
 
 **Experimento (§9.4)**
-7. **15/11 · Contas antigas fora da comparação** (as 2 da dupla).
-8. **15/11 · Sair do experimento não tem volta.**
+7. ~~**15/11 · Contas antigas fora da comparação** (as 2 da dupla).~~ ✅ **Respondida (16/11):** não ficam fora; entram como grupo A.
+8. **15/11 · Sair do experimento não tem volta.** Em conversa (16/11): falta decidir se a saída pode ser desfeita.
 
 **Ética e dados reais (§10)**
-9. **08/11 · Páginas do catálogo convertidas proporcionalmente** da edição em inglês, com o selo de "páginas aproximadas". O relatório precisa dizer isso.
+9. ~~**08/11 · Páginas do catálogo convertidas proporcionalmente** da edição em inglês, com o selo de "páginas aproximadas".~~ ✅ **Respondida (16/11):** aprovada; não precisa ir para o relatório.
 10. **08/11 · Szwarcfiter fora do catálogo** até o sumário chegar (o catálogo tem 8 livros; o §7 pede 8 a 12).
 11. **15/11 · Exportar meus dados** inclui os próprios eventos de uso; de quem a pessoa segue, só os ids.
 
