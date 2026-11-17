@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   ONBOARDING_STEPS,
   canAdvance,
+  homeRedirect,
   isOnboarding,
   parseStep,
   pathForStep,
@@ -43,5 +44,16 @@ describe("onboarding", () => {
     expect(stepAfterSubject("catalog")).toBe("pomodoro");
     expect(stepAfterSubject("manual")).toBe("calibracao");
     expect(stepAfterSubject("youtube")).toBe("pomodoro");
+  });
+
+  it("o Início só prende antes da 1ª disciplina e no primeiro fruto", () => {
+    expect(homeRedirect("boas_vindas", null)).toBe("/onboarding");
+    expect(homeRedirect("feira", null)).toBe("/onboarding/feira");
+    expect(homeRedirect("disciplina", null)).toBe("/disciplinas/nova");
+    expect(homeRedirect("calibracao", "abc")).toBe("/disciplinas/abc/calibrar");
+    expect(homeRedirect("pomodoro", "abc")).toBeNull();
+    expect(homeRedirect("pomodoro", null)).toBe("/disciplinas/nova");
+    expect(homeRedirect("primeiro_fruto", "abc")).toBe("/onboarding/primeiro-fruto");
+    expect(homeRedirect("concluido", null)).toBeNull();
   });
 });

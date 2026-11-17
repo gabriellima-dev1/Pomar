@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Plus, Settings } from "lucide-react";
 import { YesterdayFruitCard } from "@/components/gamification/YesterdayFruitCard";
+import { FirstFruitCard } from "@/components/home/FirstFruitCard";
 import { ProfileHighlight } from "@/components/home/ProfileHighlight";
 import { SeuTomas } from "@/components/mascot/SeuTomas";
 import { SubjectCard } from "@/components/subjects/SubjectCard";
@@ -12,6 +13,7 @@ import { MascotBubble } from "@/components/ui/MascotBubble";
 import { StatChip } from "@/components/ui/StatChip";
 import { getAccount, latestSubjectId } from "@/lib/account";
 import { requireUser } from "@/lib/auth/session";
+import { addDays } from "@/lib/dates";
 import { focusSummary } from "@/lib/focus-summary";
 import { getLeagueView } from "@/lib/league/queries";
 import { whenLabel } from "@/lib/social/feed";
@@ -20,7 +22,7 @@ import { masteryCounts, masteryMode } from "@/lib/gamification/mastery";
 import { daysAway } from "@/lib/gamification/present";
 import { getBadgeHistory, getGameProfile } from "@/lib/gamification/queries";
 import { homeLine } from "@/lib/mascot/lines";
-import { isOnboarding, pathForStep } from "@/lib/onboarding";
+import { homeRedirect } from "@/lib/onboarding";
 import {
   getHomeProfile,
   getPreferences,
@@ -42,8 +44,11 @@ const STEPS = [
 export default async function InicioPage() {
   const user = await requireUser();
   const account = await getAccount(user.id);
-  // Até terminar o onboarding, o Início leva ao passo atual (telas.md › Fluxo do onboarding).
-  if (isOnboarding(account.step)) redirect(pathForStep(account.step, await latestSubjectId()));
+  // Onboarding: o Início só leva ao passo atual antes da 1ª disciplina e no "primeiro
+  // fruto"; no 1º pomodoro (passo 5) abre com o card "Falta 1 passo" (telas.md, 17/11).
+  const firstSubjectId = account.step === "concluido" ? null : await latestSubjectId();
+  const to = homeRedirect(account.step, firstSubjectId);
+  if (to) redirect(to);
 
   const [profile, game, badges, prefs, all, recent] = await Promise.all([
     getHomeProfile(user.id),
@@ -84,6 +89,8 @@ export default async function InicioPage() {
         done: focus.todayBySubject.get(goalSubject.id) ?? 0,
       }
     : null;
+  // Fruto ainda não revelado na fila do layout (mesma janela de 60 dias).
+  const pendingFruit = badges.some((b) => !b.seen && b.day >= addDays(today, -60));
   const away = daysAway(badges, today);
   const line = game.studiedToday
     ? null
@@ -93,6 +100,8 @@ export default async function InicioPage() {
   const mastered = masteryCounts(all);
   const { hour, dateLabel } = localParts(new Date(), profile.timezone);
   const empty = subjects.length === 0;
+  const firstFruit =
+    account.step === "pomodoro" ? all.find((s) => s.id === firstSubjectId) : undefined;
   const hello = empty ? "Olá" : greeting(hour);
 
   return (
@@ -126,17 +135,21 @@ export default async function InicioPage() {
       {line && <MascotBubble>{line}</MascotBubble>}
       {!empty && (
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
-          <ProfileHighlight
-            account={account}
-            xp={game.xp}
-            history={badges}
-            today={today}
-            focus={focus}
-            goal={goal}
-            league={league}
-            social={social}
-          />
-          {rewards && <YesterdayFruitCard history={badges} today={today} />}
+          {firstFruit ? (
+            <FirstFruitCard subject={firstFruit} />
+          ) : (
+            <ProfileHighlight
+              account={account}
+              xp={game.xp}
+              history={badges}
+              today={today}
+              focus={focus}
+              goal={goal}
+              league={league}
+              social={social}
+            />
+          )}
+          {rewards && <YesterdayFruitCard history={badges} today={today} pending={pendingFruit} />}
         </div>
       )}
 

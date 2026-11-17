@@ -106,3 +106,16 @@ export function stepAfterSubject(source: "catalog" | "manual" | "youtube"): Onbo
   // YouTube não tem calibração: o ritmo é a velocidade escolhida (telas.md › 30).
   return source === "manual" ? "calibracao" : "pomodoro";
 }
+
+/**
+ * Para onde o Início manda durante o onboarding, ou `null` se ele abre normalmente
+ * (telas.md › Fluxo do onboarding, revisão de 17/11). Até criar a 1ª disciplina, o
+ * Início leva ao passo atual; no 1º pomodoro (passo 5) nada mais prende e o Início
+ * abre com o card "Falta 1 passo"; no "primeiro fruto" ainda leva à tela 20.
+ */
+export function homeRedirect(step: OnboardingStep, subjectId: string | null): string | null {
+  if (step === "concluido") return null;
+  // Passo 5 sem disciplina (apagada) volta para a criação da disciplina.
+  if (step === "pomodoro" && subjectId) return null;
+  return pathForStep(step, subjectId);
+}
