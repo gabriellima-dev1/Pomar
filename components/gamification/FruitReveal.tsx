@@ -1,5 +1,7 @@
 "use client";
 
+import { X } from "lucide-react";
+import { useEffect } from "react";
 import { Scene } from "@/components/scenes/Scene";
 import { Button } from "@/components/ui/Button";
 import { badgeInfo, RARITY_LABEL, type Rarity } from "@/lib/gamification/catalog";
@@ -34,6 +36,8 @@ const PARTICLES: [number, number, string][] = [
 /**
  * "Seu fruto de ontem" (tela 12): revelação do emblema sorteado no fechamento do dia.
  * Cena ao fundo + véu; disco no estilo da raridade com raios e até 7 partículas.
+ * Fechar (X ou Esc) adia a fila sem marcar nada como visto; tocar no véu não fecha
+ * (revisão de 16/11).
  */
 export function FruitReveal({
   badge,
@@ -42,6 +46,7 @@ export function FruitReveal({
   theme,
   onHarvest,
   onAlbum,
+  onClose,
 }: {
   badge: BadgeDay;
   today: string;
@@ -50,7 +55,20 @@ export function FruitReveal({
   theme: ThemeCode;
   onHarvest: () => void;
   onAlbum: () => void;
+  /** Fechar e ver depois (X no canto ou Esc). */
+  onClose: () => void;
 }) {
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   const info = badgeInfo(badge.code);
   if (!info) return null;
   const week = weekStrip(
@@ -69,6 +87,15 @@ export function FruitReveal({
     >
       <Scene theme={theme} />
       <div aria-hidden className="bg-scrim absolute inset-0" />
+      {/* Mesmo círculo de vidro dos botões do pomodoro, no canto da tela. */}
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Fechar e ver depois"
+        className="fixed top-10 right-4 z-10 grid size-11 place-items-center rounded-full bg-[var(--glass-fill)] text-[var(--scene-ink)] backdrop-blur-md lg:top-6 lg:right-8"
+      >
+        <X size={26} aria-hidden />
+      </button>
       <div className="relative flex min-h-full items-center justify-center p-4">
         <div
           className={`bg-surface-200 shadow-dialog flex w-full max-w-[400px] flex-col items-center gap-4 rounded-[32px] px-6 py-8 text-center ${r.rise}`}

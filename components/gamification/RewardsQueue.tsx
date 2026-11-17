@@ -19,9 +19,17 @@ import type { WeekResult as LeagueResult } from "@/lib/league/queries";
 import { FruitReveal } from "./FruitReveal";
 import { LevelUpCelebration } from "./LevelUpCelebration";
 import { ThemeUnlocked } from "./ThemeUnlocked";
+import { registerRewardsQueue } from "./rewardsQueueSignal";
 
 /** Revelações mostradas por vez ao abrir o app (as mais antigas ficam só no álbum). */
 const MAX_REVEALS = 7;
+
+/**
+ * A pessoa fechou o fruto (X ou Esc) neste carregamento da página: a fila não reabre
+ * sozinha ao ser recriada (ex.: revalidação do layout), só no toque no cartão do Início
+ * ou ao recarregar o app. Só muda em eventos do navegador.
+ */
+let deferred = false;
 
 type Step =
   | { kind: "badge"; badge: BadgeDay }
@@ -36,6 +44,12 @@ type Step =
  * servidor; aqui só se mostra e marca como visto. A coorte B recebe só o resultado da
  * Feira (as listas de recompensa chegam vazias).
  * Fica de fora do pomodoro, que mostra o próprio nível depois do fim do ciclo.
+ *
+ * Quando abre (telas.md › 12, revisão de 16/11): a decisão é tomada ao montar, pela
+ * tela em que a pessoa está — no primeiro carregamento do app ou quando chega uma
+ * pendência nova (a chave do layout muda). No pomodoro ela nasce fechada, e navegar
+ * (inclusive sair do pomodoro) não a abre: espera a próxima abertura do app ou o toque
+ * no cartão "Fruto de ontem" do Início.
  */
 export function RewardsQueue({
   badges,
@@ -71,12 +85,26 @@ export function RewardsQueue({
     ...(levelTo > levelFrom ? [{ kind: "level", from: levelFrom, to: levelTo } as Step] : []),
     ...(leagueResult ? [{ kind: "league", result: leagueResult } as Step] : []),
   ]);
+  const [open, setOpen] = useState(() => !pathname.startsWith("/pomodoro") && !deferred);
   const [busy, startTransition] = useTransition();
 
   const current = steps[0];
   const advance = useCallback(() => setSteps((s) => s.slice(1)), []);
+  const hasFruit = steps.some((s) => s.kind === "badge");
 
-  if (pathname.startsWith("/pomodoro")) return null;
+  // Toque no cartão do Início: reabre a fila adiada (só se ainda houver fruto nela).
+  useEffect(
+    () =>
+      registerRewardsQueue(() => {
+        if (!hasFruit) return false;
+        deferred = false;
+        setOpen(true);
+        return true;
+      }),
+    [hasFruit],
+  );
+
+  if (!open || pathname.startsWith("/pomodoro")) return null;
 
   function seeAllBadges() {
     void markBadgesSeen(badges.map((b) => b.day));
@@ -92,11 +120,22 @@ export function RewardsQueue({
           history={history}
           theme={sceneTheme}
           onHarvest={() => {
-            const rest = steps.slice(1);
-            void markBadgesSeen(
-              rest.some((s) => s.kind === "badge") ? [current.badge.day] : badges.map((b) => b.day),
-            );
+            const last = !steps.slice(1).some((s) => s.kind === "badge");
             advance();
+            if (!last) {
+              void markBadgesSeen([current.badge.day]);
+              return;
+            }
+            // Último fruto: o cartão do Início deixa de mostrar "Toque para colher".
+            startTransition(async () => {
+              await markBadgesSeen(badges.map((b) => b.day));
+              router.refresh();
+            });
+          }}
+          onClose={() => {
+            // Adia a fila inteira sem marcar nada como visto.
+            deferred = true;
+            setOpen(false);
           }}
           onAlbum={() => {
             seeAllBadges();
