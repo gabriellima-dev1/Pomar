@@ -1,8 +1,17 @@
 # Revisão das decisões pendentes (16/11/2026)
 
-`docs/DECISOES.md` tinha **104 decisões pendentes** em 16/11 (agora 102), tomadas pelo Claude Code como a opção mais simples e reversível. Esta lista as separa pelo que precisam de vocês. Para confirmar, troquem o status da linha em `DECISOES.md` para `aprovada` (ou escrevam o que muda). Quatro que já tinham sido substituídas viraram `superada`.
+`docs/DECISOES.md` tinha **104 decisões pendentes** em 16/11, tomadas pelo Claude Code como a opção mais simples e reversível. Esta lista as separa pelo que precisam de vocês. Para confirmar, troquem o status da linha em `DECISOES.md` para `aprovada` (ou escrevam o que muda). Quatro que já tinham sido substituídas viraram `superada`.
 
 Todas estão implementadas e funcionando; nenhuma bloqueia a entrega. A prioridade é pelo que aparece na apresentação ou no relatório.
+
+## Resultado (16/11)
+
+A dupla revisou a lista: **todas as decisões ficaram como estavam** (aprovadas), com três exceções:
+- **7 · contas antigas:** entram no experimento como grupo A (nova decisão de 16/11).
+- **9 · páginas convertidas do catálogo:** aprovadas; não precisam ir para o relatório.
+- **10 · catálogo:** completado com 4 clássicos do curso (Tanenbaum & Bos, Patterson & Hennessy, Sipser, Rosen), chegando a 12 livros; a pendência do Szwarcfiter ficou superada.
+
+Não há mais decisões pendentes. A lista abaixo fica como registro da revisão.
 
 ## A · Confirmar antes de 23/11 (14 itens, 15 linhas)
 
@@ -18,11 +27,11 @@ Mudam números do relatório, o que a banca vê ou o que dizemos sobre ética.
 
 **Experimento (§9.4)**
 7. ~~**15/11 · Contas antigas fora da comparação** (as 2 da dupla).~~ ✅ **Respondida (16/11):** não ficam fora; entram como grupo A.
-8. **15/11 · Sair do experimento não tem volta.** Em conversa (16/11): falta decidir se a saída pode ser desfeita.
+8. ~~**15/11 · Sair do experimento não tem volta.**~~ ✅ **Respondida (16/11):** fica sem volta.
 
 **Ética e dados reais (§10)**
 9. ~~**08/11 · Páginas do catálogo convertidas proporcionalmente** da edição em inglês, com o selo de "páginas aproximadas".~~ ✅ **Respondida (16/11):** aprovada; não precisa ir para o relatório.
-10. **08/11 · Szwarcfiter fora do catálogo** até o sumário chegar (o catálogo tem 8 livros; o §7 pede 8 a 12).
+10. ~~**08/11 · Szwarcfiter fora do catálogo** até o sumário chegar (o catálogo tem 8 livros; o §7 pede 8 a 12).~~ ✅ **Respondida (16/11):** entram os livros mais conhecidos do curso; o catálogo vai a 12.
 11. **15/11 · Exportar meus dados** inclui os próprios eventos de uso; de quem a pessoa segue, só os ids.
 
 **Apresentação**
