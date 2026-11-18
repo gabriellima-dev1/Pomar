@@ -254,7 +254,15 @@ test("Início como painel: Continuar estudando, Sua semana e sem lista de discip
 
   const semana = page.getByRole("region", { name: "Sua semana" });
   await expect(semana).toContainText("pomodoros");
-  await semana.getByRole("link", { name: "Ver todas as estatísticas" }).click();
+  // Celular: "Ver tudo →" na mesma linha do título; o nome acessível contém o texto visível.
+  const verTudo = semana.getByRole("link", { name: "Ver tudo nas estatísticas", exact: true });
+  await expect(verTudo).toBeVisible();
+  const [titulo, link] = await Promise.all([
+    semana.getByRole("heading", { name: "Sua semana" }).boundingBox(),
+    verTudo.boundingBox(),
+  ]);
+  expect(Math.abs(titulo!.y + titulo!.height / 2 - (link!.y + link!.height / 2))).toBeLessThan(4);
+  await verTudo.click();
   await expect(page).toHaveURL(/\/estatisticas$/);
 
   // Estatísticas no celular (39c): "← Início" no topo e Início marcado na barra.

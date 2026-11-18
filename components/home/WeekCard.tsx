@@ -7,21 +7,28 @@ import { formatHM } from "@/lib/stats/stats";
 /**
  * "Sua semana" do Início (telas.md › Início como painel, item 6; 36 e 36b): tempo de
  * foco, pomodoros e dias estudados da semana (seg–dom, no fuso da pessoa), as barras
- * dos 7 dias e o link para as Estatísticas (29). Igual nas duas coortes.
+ * dos 7 dias e o link para as Estatísticas (29): "Ver tudo →" no celular (nome acessível
+ * "Ver tudo nas estatísticas") e "Ver todas as estatísticas →" no computador. Igual nas
+ * duas coortes.
  */
 export function WeekCard({ summary, bars }: { summary: FocusSummary; bars: Bar[] }) {
   const max = Math.max(1, ...bars.map((b) => b.minutes));
   return (
     <section aria-labelledby="sua-semana" className={`${cardClasses} flex flex-col gap-4 p-5`}>
-      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+      {/* Celular: "Ver tudo →" na mesma linha do título; computador: o texto longo (DECISOES 18/11). */}
+      <div className="flex items-center justify-between gap-3">
         <h2 id="sua-semana" className="text-heading">
           Sua semana
         </h2>
         <Link
           href="/estatisticas"
-          className="text-primary inline-flex min-h-11 items-center gap-1.5 font-extrabold underline-offset-4 hover:underline"
+          className="text-primary inline-flex min-h-11 shrink-0 items-center gap-1.5 font-extrabold underline-offset-4 hover:underline"
         >
-          Ver todas as estatísticas
+          {/* O nome acessível contém o texto visível (WCAG 2.5.3): "Ver tudo nas estatísticas". */}
+          <span className="lg:hidden">
+            Ver tudo<span className="sr-only"> nas estatísticas</span>
+          </span>
+          <span className="hidden lg:inline">Ver todas as estatísticas</span>
           <ArrowRight size={20} aria-hidden />
         </Link>
       </div>
