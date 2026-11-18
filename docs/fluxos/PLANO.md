@@ -1,7 +1,7 @@
 # Plano — fluxos de telas com casos de exemplo
 
 > Para a dupla decidir como as telas devem funcionar vendo o que a plataforma mostra de verdade, em situações concretas, e não em telas soltas.
-> Status: **primeira rodada gerada em 12/11** com Carla, Diego e Elisa (31 telas, celular e computador), sem tablet e sem os 4 temas (decisão da dupla em 12/11). Galeria privada: https://claude.ai/artifact/Kf1HJe1eZKncPjkLAz6znW
+> Status: **primeira rodada gerada em 12/11** com Carla, Diego e Elisa (31 telas, celular e computador), sem tablet e sem os 4 temas (decisão da dupla em 12/11). **Segunda rodada em 18/11** com a Fase 6B (33 telas: Foco vazio e item Foco com o tempo na Carla). O grupo da Feira do Diego é semanal: a cada semana nova, rodar `npm run demo:league -- fluxo.diego@example.com --confirmo` antes do `fluxos:preparar`. Galeria privada: https://claude.ai/artifact/Kf1HJe1eZKncPjkLAz6znW
 
 ## 1. O que vamos entregar
 

@@ -26,11 +26,17 @@ export function FocusEmpty({
   const card = (
     <section
       aria-labelledby="foco-vazio"
-      className={`pc-glass flex flex-col items-center gap-4 text-center text-[var(--pc-ink)] ${
-        wide ? "w-[440px] rounded-[32px] p-8" : "w-full rounded-[28px] px-6 py-7"
+      className={`pc-glass flex flex-col gap-4 text-[var(--pc-ink)] ${
+        wide
+          ? "w-[440px] items-stretch rounded-[32px] p-8"
+          : "w-full items-center rounded-[28px] px-6 py-7 text-center"
       }`}
     >
-      <h1 id="foco-vazio" className="font-display text-[26px] leading-8 font-semibold">
+      {/* Computador (37b): título à esquerda, maior; celular (37): centralizado. */}
+      <h1
+        id="foco-vazio"
+        className={`font-display font-semibold ${wide ? "text-[34px] leading-10" : "text-[26px] leading-8"}`}
+      >
         Nenhuma disciplina selecionada
       </h1>
       <Link href="/disciplinas" className={buttonClasses("primary", "lg", "w-full gap-2")}>
@@ -39,7 +45,7 @@ export function FocusEmpty({
       </Link>
       <Link
         href="/pomodoro?livre=1"
-        className="inline-flex min-h-11 items-center px-2 font-extrabold underline underline-offset-4"
+        className="inline-flex min-h-11 items-center self-center px-2 font-extrabold underline underline-offset-4"
       >
         Estudar sem disciplina
       </Link>
