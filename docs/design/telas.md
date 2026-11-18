@@ -392,7 +392,7 @@ Referências: `36-inicio-painel.png` e `36b-inicio-painel-desktop.png` (Início)
   4. Fruto de ontem (como hoje; com fruto pendente, "Toque para colher").
   5. Destaque do perfil, **o mesmo da 21**: Explorador = "Seu álbum: N de 11" com "Ver álbum" e o melhor horário de foco; Competidor = posição na Feira; Socializador = quem você segue. **O Conquistador não tem destaque**, porque o card "Rumo ao nível" (item 3) já é o dele. Não há card de livros novos.
      - **Explorador sem pomodoros nos últimos 30 dias (39e):** a linha do melhor horário vira "Conclua alguns pomodoros e eu descubro o seu melhor horário de foco."
-  6. **Sua semana:** tempo de foco no mesmo formato das Estatísticas ("3h 20min"), pomodoros e dias estudados, barras dos 7 dias e o link para a 29: **"Ver tudo →"** no celular, na mesma linha do título, com `aria-label="Ver todas as estatísticas"`; **"Ver todas as estatísticas →"** no computador.
+  6. **Sua semana:** tempo de foco no mesmo formato das Estatísticas ("3h 20min"), pomodoros e dias estudados, barras dos 7 dias e o link para a 29: **"Ver tudo →"** no celular, na mesma linha do título, com o nome acessível "Ver tudo nas estatísticas" (o complemento só para o leitor de tela; ver DECISOES 18/11); **"Ver todas as estatísticas →"** no computador.
 - **A lista de disciplinas sai do Início**; fica só na aba Disciplinas (que já existe), com o "Começar" de cada card levando ao Foco.
 - **Sem disciplinas:** o Início mostra o estado vazio da 01b no lugar de "Continuar estudando".
 - **Onboarding (passo 5):** no lugar de "Continuar estudando", o card **"Falta 1 passo · Colha seu primeiro fruto"** com "Começar" (abre o Foco na disciplina criada). Ver "Fluxo do onboarding".
